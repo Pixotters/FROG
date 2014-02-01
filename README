@@ -4,7 +4,16 @@
 
 ###Présentation brève
 
-Nous souhaitons développer un moteur de développement d'applications intéractives multimédia (orienté jeu, mais devrait être utilisable pour d'autres types de programme). Le but est de faciliter et accélérer la phase de développement en fournissant des composants redondants : on n'a pas envie de réécrire tout le temps du code. Ainsi, les utilisateurs pourront se concentrer sur les taches plus importantes, comme la conception ou les algorithmes spécifiques à l'application.  
+Nous souhaitons développer un moteur de développement d'applications intéractives multimédia (orienté jeu, mais devrait être utilisable pour d'autres types de programme). Le but est de faciliter et accélérer la phase de développement en fournissant des composants redondants : on n'a pas envie de réécrire tout le temps le même code. Ainsi, les utilisateurs pourront se concentrer sur les taches plus importantes, comme la conception ou les algorithmes spécifiques à l'application.  
+
+###Motivations
+
+Pourquoi vouloir développer notre propre moteur, et pas utiliser un moteur déjà existant ? Il y a plusieurs raisons : 
+* parmi les moteurs, beaucoup se basent sur la 3D : dans le cadre d'applications 2D, cela ajoute de la complexité d'utilisation inutile.  
+* parmi les moteurs, beaucoup sont disponibles pour windows seulement : le notre sera portable. 
+* certains sont drag & drop : nous n'aimons pas énormement cette approche, car elle peut parfois faire perdre beaucoup de temps (notamment si peu de raccourcis claviers sont proposés). 
+* la plupart sont fermés : on ne peut pas voir directement le code du moteur, pour le modifier à notre guise. Notre projet sera libre, et donc modifiable et extensible sans limite. 
+De plus, savoir utiliser un moteur est une compétence intéressante, mais connaître les mécaniques sous-jacentes l'est encore plus. 
 
 ###Détails
 
@@ -22,14 +31,14 @@ Les composants auquels on a pensé (soit par nous-même, soit par le biais de le
 ####Minimum syndical 
 Si nous ne parvenons pas à faire au moins ça, ce serait une monumentale déception.
 
-* **Gestion de la boucle** : le programme calcule la configuration courante (après avoir récupéré les éventuels entrées de l'utilisateur) et donne une représentation de cette configuration. Ceci est repété jusqu'à un moment déterminé (généralement, la fin du programme).  
+* **Gestion de la boucle** : le programme calcule la configuration courante (après avoir récupéré les éventuelles entrées de l'utilisateur) et donne une représentation de cette configuration. Ceci est repété jusqu'à un moment déterminé (généralement, la fin du programme).  
 * **Etats** : gestion des transitions entres états d'un même programme. Par exemple, le splashscreen, le menu principal, le menu d'options (...) sont autant d'états différents, accessibles ou non depuis certains autres états. Ceci fait un automate (implicite) qu'il faut gérer de manière efficace et en symbiose avec le reste des composants.  
 * **Ressources** : l'accès aux fichiers est une opération lourde, ainsi on veut les limiter le plus possible, par exemple en ne chargeant pas 2 fois le même fichier en mémoire. De plus, l'accès aux données d'un fichier qui n'a pas été chargé peut poser problème. Il faut gérer ça.  
-* **Gestion des entrées** : le principe d'une application intéractive, c'est que l'utilisateur intéragit avec le programme. Il faut donc implémenter ces moyens de communication. 
-* **Rendu** : en tous cas, un version minimale du rendu, permettant d'afficher la configuration courante de manière simple, avec des propriétés basiques et classiques comme la position, la rotation, l'échelle. Certaines fonctionnalités de rendu sont plus avancées.  
+* **Gestion des entrées** : le principe d'une application interactive, c'est que l'utilisateur intéragit avec le programme. Il faut donc implémenter ces moyens de communication, et permettre une personnalisation aisée. 
+* **Rendu** : en tous cas, une version minimale du rendu, permettant d'afficher la configuration courante de manière simple, avec des propriétés basiques et classiques comme la position, la rotation, l'échelle, la gestion de calques et de vue... Certaines fonctionnalités de rendu sont plus avancées.  
 
 ####Minimum désiré
-Nous serons relativement satisfaits si on a réussi à faire tout ceci, car ces composants permettent de faire déjà pas mal de choses.
+Nous serons relativement satisfaits si on a réussi à faire tout ceci, car ces composants permettent de faire déjà pas mal de choses. Ca n'aura pas été une totale perte de temps. 
 
 * **GUI** : une sorte de toolkit pour faire des menus facilement, et pour les intégrer au programme facilement.  
 * **Objects** : un modèle extensible d'objets, ainsi que quelques implémentations fournies (à déterminer).   
@@ -41,7 +50,7 @@ Nous serons relativement satisfaits si on a réussi à faire tout ceci, car ces 
 ####Composants pratiques
 Des fonctionnalités qu'il serait commode d'implémenter car elles se retrouvent souvent. 
 
-* **Collision/physique** : probablement la tache la plus longue, impliquant des algorithme de partionnement de l'espace, de tests de collision, de gestion de forces (gravité, vélocité, masse, ...). A noter qu'une version minimale est obligatoire (pour la GUI : le clic sur les boutons). 
+* **Collision/physique** : probablement la tache la plus longue, impliquant des algorithmes de partionnement de l'espace, de tests de collision, de gestion de forces (gravité, vélocité, masse, ...). A noter qu'une version minimale de la collision est obligatoire (pour la GUI : le clic sur les boutons). 
 * **Standardisation des cartes** : souvent dans les jeux, on affiche des cartes. Elles peuvent être représentées via des Tiles (élément carré ou hexagonal redondant), ou sous forme de graphe. 
 * **Inventaire** : Encore une fois, surtout quelque chose pour les jeux, mais pas seulement. Représente un ensemble d'éléments collectés pendant l'application. 
 * **Vues** : Raffinemment des "caméras", permettant de voir plusieurs endroits d'une scène (rendu d'un état) de différentes manières. 
@@ -59,11 +68,10 @@ Nous n'aurons probablement pas les connaissances ou le temps pour faire ces tach
 
 * **Data-driven** : dans l'idéal, proposer un design data-driven serait bien, car les composants seraient modifiable sans avoir à recompiler. Toutefois ceci se limite à quelques taches spécifiques. 
 * **Shaders** : altération du rendu avec des procedures.
-* **IA** : une IA protozoaire, ou en tous cas au moins un squelette sur lequel l'utilisateur pourrait greffer le code du comportement voulu. 
+* **IA** : une IA protozoaire, ou en tous cas au moins un squelette sur lequel l'utilisateur pourrait greffer le code du comportement voulu. On pense notamment à minmax, alpha-beta, les algorithmes de recherche d'arbre ou de graphe, ou des "modèles" pour des réseaux bayésiens ou agents à états.  
 * **Bases de données sur serveur** : récupération de données sur un serveur, par exemple les informations liées au compte d'un utilisateur, pour déterminer les droits d'accès à certaines parties du programme.
 * **Intégration aux réseaux sociaux** : Face au succès de jeux comme FarmVille ou CandyCrush, il semblerait que l'avenir se tourne vers les jeux dits "sociaux". Ainsi une intégration à Facebook serait un plus pour les utilisateurs interessés. 
 
 ###Détails d'implémentation
 
-Nous travailleronts en c++. Rien n'est encore bien fixé, mais nous utiliserons probablement une libraire (en tous cas au début) de haut niveau, SFML, afin d'avoir rapidement des retours sur la correction de ce qu'on fait. Le soucis c'est que SFML possède beaucoup de dépendances. Il faudra être le moins dépendant de la librairie possible, de façon à pouvoir en changer facilement bien sûr, mais aussi pour pouvoir s'en passer dans certaines parties, afin d'offrir une plus grande indépendance et modularité aux composants.  
-Nous développons tous deux sur Lubuntu
+Nous travaillerons en c++ avec une libraire de haut niveau, SFML, afin d'avoir rapidement des retours sur la correction de ce qu'on fait. Nous développons tous deux sur Lubuntu
