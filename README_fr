@@ -1,77 +1,205 @@
-﻿#Projet long de Nicolas Cailloux et Julien Sagot
+﻿#Projet FROG - Nicolas Cailloux et Julien Sagot
 
-##Moteur de développement
+## For Really Outstanding Games
 
-###Présentation brève
+### Présentation brève
 
-Nous souhaitons développer un moteur de développement d'applications intéractives multimédia (orienté jeu, mais devrait être utilisable pour d'autres types de programme). Le but est de faciliter et accélérer la phase de développement en fournissant des composants redondants : on n'a pas envie de réécrire tout le temps le même code. Ainsi, les utilisateurs pourront se concentrer sur les taches plus importantes, comme la conception ou les algorithmes spécifiques à l'application.  
+Nous souhaitons développer un moteur de développement d'applications, orienté
+jeu vidéo. Le but est de faciliter et accélérer la phase de développement en
+fournissant des composants redondants : on n'a pas envie de réécrire tout le
+temps le même code. Ainsi, les utilisateurs pourront se concentrer sur les
+taches plus importantes, comme la conception ou les algorithmes spécifiques à
+l'application. La librairie se basera sur SFML, de Laurent Gomila, et sera codée
+en C++, pour des développeurs C++.   
 
-###Motivations
+### Motivations
 
-Pourquoi vouloir développer notre propre moteur, et pas utiliser un moteur déjà existant ? Il y a plusieurs raisons : 
-* parmi les moteurs, beaucoup se basent sur la 3D : dans le cadre d'applications 2D, cela ajoute de la complexité d'utilisation inutile.  
-* parmi les moteurs, beaucoup sont disponibles pour windows seulement : le notre sera portable. 
-* certains sont drag & drop : nous n'aimons pas énormement cette approche, car elle peut parfois faire perdre beaucoup de temps (notamment si peu de raccourcis claviers sont proposés). 
-* la plupart sont fermés : on ne peut pas voir directement le code du moteur, pour le modifier à notre guise. Notre projet sera libre, et donc modifiable et extensible sans limite. 
-De plus, savoir utiliser un moteur est une compétence intéressante, mais connaître les mécaniques sous-jacentes l'est encore plus. 
+Il existe déjà plusieurs moteurs de développement. Pourquoi vouloir développer 
+le notre ?  
 
-###Détails
+* parmi les moteurs, beaucoup se basent sur la 3D : dans le cadre d'applications
+2D, cela ajoute de la complexité d'utilisation inutile.  
+* parmi les moteurs, beaucoup sont disponibles pour windows seulement : le notre
+se base sur une librairie portable et sera donc portable. 
+* certains sont drag & drop : nous n'aimons pas énormement cette approche, car 
+elle peut parfois faire perdre beaucoup de temps (notamment si peu de raccourcis
+ claviers sont proposés). 
+* la plupart sont fermés : on ne peut pas voir directement le code du moteur, 
+pour le modifier à notre guise. Notre projet sera libre, et donc modifiable et 
+extensible sans limite. 
+* Beaucoup de moteurs ou de logiciels de développement se limitent à un genre : 
+combat, jeu de rôle, de plate-forme. Nous aimerions faire quelque chose qui soit
+ utilisable dans le plus de situations possibles.  
+
+De plus, savoir utiliser un moteur est une compétence intéressante, mais 
+connaître les mécaniques sous-jacentes l'est encore plus.  
+
+### Détails 
+
 
 Les qualités recherchées pour le moteur sont :   
 
-* Simplicité : le but est d'accélérer le développement d'applications, en fournissant des composants "déjà prêt à l'utilisation", il ne faudrait donc pas gacher ça avec une difficulté d'utilisation freinante.  
-* Modularité : on devrait pouvoir utiliser chaque composant le plus indépendamment possible des autres. 
-* Extensibilité : on devrait pouvoir ajouter facilement d'autres composants dans le futur (ou simplement pour d'autres développeurs). 
-* Abstraction/généricité : le moteur devrait être suffisament générique pour pouvoir être utilisé dans le plus de programmes possibles (ceux-ci étant de type arbitrairement variés). 
+* Abstraction/généricité : le moteur devrait être suffisament générique pour 
+pouvoir être utilisé dans le plus de programmes possibles (ceux-ci étant de type
+arbitrairement variés). 
+* Simplicité : le but est d'accélérer le développement d'applications, en 
+fournissant des composants "déjà prêt à l'utilisation", il ne faudrait donc pas 
+gacher ça avec une difficulté d'utilisation rédibitoire.  
+* Modularité : on devrait pouvoir utiliser chaque composant le plus 
+indépendamment possible des autres. 
+* Extensibilité : on devrait pouvoir ajouter facilement d'autres composants dans
+ le futur (ou simplement pour d'autres développeurs). 
 
-###Fonctionnalités
+Les composants auquels on a pensé (soit par nous-même, soit par le biais de 
+lectures) sont décrits ci-après. Nous les avons classés selon l'importance 
+qu'ils ont, car si le temps manque, ce sera plus facile de déterminer ce dont on
+ peut se passer et ce qui est indispensable. Cela peut sembler long mais 
+plusieurs fonctionnalités sont en fait faciles et rapides à implémenter.  
 
-Les composants auquels on a pensé (soit par nous-même, soit par le biais de lectures) sont décrits ci-après. Nous les avons classés selon l'importance qu'ils ont, car si le temps manque, ce sera plus facile de déterminer ce dont on peut se passer et ce qui est indispensable. Cela peut sembler long mais plusieurs fonctionnalités sont en fait faciles et rapides à implémenter.  
+#### Minimum syndical 
 
-####Minimum syndical 
-Si nous ne parvenons pas à faire au moins ça, ce serait une monumentale déception.
+Si nous ne parvenons pas à faire au moins ça, ce serait une grande déception. 
 
-* **Gestion de la boucle** : le programme calcule la configuration courante (après avoir récupéré les éventuelles entrées de l'utilisateur) et donne une représentation de cette configuration. Ceci est repété jusqu'à un moment déterminé (généralement, la fin du programme).  
-* **Etats** : gestion des transitions entres états d'un même programme. Par exemple, le splashscreen, le menu principal, le menu d'options (...) sont autant d'états différents, accessibles ou non depuis certains autres états. Ceci fait un automate (implicite) qu'il faut gérer de manière efficace et en symbiose avec le reste des composants.  
-* **Ressources** : l'accès aux fichiers est une opération lourde, ainsi on veut les limiter le plus possible, par exemple en ne chargeant pas 2 fois le même fichier en mémoire. De plus, l'accès aux données d'un fichier qui n'a pas été chargé peut poser problème. Il faut gérer ça.  
-* **Gestion des entrées** : le principe d'une application interactive, c'est que l'utilisateur intéragit avec le programme. Il faut donc implémenter ces moyens de communication, et permettre une personnalisation aisée. 
-* **Rendu** : en tous cas, une version minimale du rendu, permettant d'afficher la configuration courante de manière simple, avec des propriétés basiques et classiques comme la position, la rotation, l'échelle, la gestion de calques et de vue... Certaines fonctionnalités de rendu sont plus avancées.  
+##### Gestion de la boucle 
 
-####Minimum désiré
-Nous serons relativement satisfaits si on a réussi à faire tout ceci, car ces composants permettent de faire déjà pas mal de choses. Ca n'aura pas été une totale perte de temps. 
+Le jeu se déroule dans une boucle : lecture des entrées, réaction aux inputs / 
+calcul de la logique de jeu, puis rendu graphique.  
+Il faut aussi gérer le temps : selon les machines, le nombre de cycles par 
+seconde peut varier grandement. Pour que l'exécution du jeu soit semblable sur 
+une machine dépassée et sur une machine haut de gamme récente, il faut amortir 
+le temps : ceci se fait via la gestion d'un *deltaTime* (temps écoulé depuis le 
+dernier cycle).
 
-* **GUI** : une sorte de toolkit pour faire des menus facilement, et pour les intégrer au programme facilement.  
-* **Objects** : un modèle extensible d'objets, ainsi que quelques implémentations fournies (à déterminer).   
-* **Animations** : l'affichage d'images faisant partie du rendu, il serait pratique de pouvoir les animer à travers le temps. 
-* **Graphe de scène** : faisant parti du rendu, permettant de hiérarchiser l'affichage.  
-* **Fichiers** : différent des ressources, car ils ne sont pas déterminés à l'avance, et sont aussi accédés en écriture. On pense notamment aux fichiers de configuration ou de sauvegarde. 
-* **Son** : simplement le jeu de sons/musiques.
+##### Machine à états
 
-####Composants pratiques
-Des fonctionnalités qu'il serait commode d'implémenter car elles se retrouvent souvent. 
+Ce qu'on appelle un état est une "phase" du jeu : le menu principal, le 
+splashscreen, une scène, le menu d'options (...) sont autant d'états différents.
+ Pour passer d'un état à un autre, il faut des transitions : ceci crée un 
+automate implicite pouvant être géré génériquement via un automate / un graphe.
 
-* **Collision/physique** : probablement la tache la plus longue, impliquant des algorithmes de partionnement de l'espace, de tests de collision, de gestion de forces (gravité, vélocité, masse, ...). A noter qu'une version minimale de la collision est obligatoire (pour la GUI : le clic sur les boutons). 
-* **Standardisation des cartes** : souvent dans les jeux, on affiche des cartes. Elles peuvent être représentées via des Tiles (élément carré ou hexagonal redondant), ou sous forme de graphe. 
-* **Inventaire** : Encore une fois, surtout quelque chose pour les jeux, mais pas seulement. Représente un ensemble d'éléments collectés pendant l'application. 
-* **Vues** : Raffinemment des "caméras", permettant de voir plusieurs endroits d'une scène (rendu d'un état) de différentes manières. 
+##### Fichiers 
 
-####Composants avancés
-Des fonctionnalités soit difficiles, soit longues à implémenter, qui seront ajoutées si on a pu faire tout le reste (ou, après le rendu officiel, si nous continuons le développement).
- 
-* **Culling** : optimisation consistant à calculer uniquement le rendu de la partie visible via les caméras.
-* **Réseau** : permettre la communication distante entre deux applications, sans avoir à mettre en place toute la longue mécanique sous-jacente. Aussi, la résolution de certains problèmes liés (compensation du lag). 
-* **Lumière/ombres** : pour l'amélioration du rendu.
- 
+L'accès aux fichiers est une opération lourde, on veut donc la limiter le plus 
+possible. Par exemple, si un fichier est chargé en mémoire, on ne veut pas le 
+charger une seconde fois. De même, l'accès aux ressources d'un fichier qui n'est
+ pas présent en mémoire peut poser problème : on peut vouloir s'assurer qu'un 
+fichier a bien été chargé.  
+Il est possible de faire une sorte de mémoïsation, sur les fichiers.
 
-####Composants très avancés 
-Nous n'aurons probablement pas les connaissances ou le temps pour faire ces taches, qui sont moins prioritaires. Nous les mettons pour le futur du projet.
+##### Gestion des entrées 
 
-* **Data-driven** : dans l'idéal, proposer un design data-driven serait bien, car les composants seraient modifiable sans avoir à recompiler. Toutefois ceci se limite à quelques taches spécifiques. 
-* **Shaders** : altération du rendu avec des procedures.
-* **IA** : une IA protozoaire, ou en tous cas au moins un squelette sur lequel l'utilisateur pourrait greffer le code du comportement voulu. On pense notamment à minmax, alpha-beta, les algorithmes de recherche d'arbre ou de graphe, ou des "modèles" pour des réseaux bayésiens ou agents à états.  
-* **Bases de données sur serveur** : récupération de données sur un serveur, par exemple les informations liées au compte d'un utilisateur, pour déterminer les droits d'accès à certaines parties du programme.
-* **Intégration aux réseaux sociaux** : Face au succès de jeux comme FarmVille ou CandyCrush, il semblerait que l'avenir se tourne vers les jeux dits "sociaux". Ainsi une intégration à Facebook serait un plus pour les utilisateurs interessés. 
+Dans un jeu, il faut une interaction avec l'utilisateur. Elle peut être faite 
+via le clavier, la souris, ou même un joystick. Chacune des entrées peut être 
+liée à une action, mais une action peut être provoquée par plusieurs entrées 
+(par exemple, par le clavier et la manette). Il faut donc gérer ces 
+correspondances, tout en permettant une personnalisation facile. On pense à une 
+table d'association entre action et touche(s).  
 
-###Détails d'implémentation
+##### Rendu 
 
-Nous travaillerons en c++ avec une libraire de haut niveau, SFML, afin d'avoir rapidement des retours sur la correction de ce qu'on fait. Nous développons tous deux sur Lubuntu
+La SFML embarque une gestion des fenetres et d'affichage des textures. Nous 
+voulons offrir un niveau plus élevé en proposant l'utilisation de calques, de 
+vues, mais aussi une gestion convenable des résolutions (pour que le placement 
+des éléments se fasse toujours de manière cohérente, quelle que soit la 
+configuration des utilisateurs).  
+
+#### Composants pratiques
+
+Nous serons relativement satisfaits si on a réussi à faire tout ceci, car ces 
+composants permettent de faire déjà pas mal de choses. Ca n'aura pas été une 
+totale perte de temps. 
+
+##### GUI toolkit 
+
+Les menus sont des éléments courants des jeux. On devrait pouvoir en créer le 
+plus facilement possible. A la manière de Swing, on devrait pouvoir créer,  
+assembler, et dessiner des composants de base comme des boutons, des containers,
+ des labels, des zones de texte... 
+
+##### Objets / Entités
+
+Grâce au polymorphisme, il est possible de regrouper dans une hiérarchie les 
+objets gérés par le moteur apparaissant au sein d'une scène dans une hiérarchie. 
+Ceux-ci seront traités de la même manière par le moteur, mais pourront avoir un 
+comportement supplémentaire.  
+Par exemple, un projectile et un ennemi sont deux entités distinctes : elles ne 
+se comportent pas de la même manière. Par contre, chacune est dessinée et mise à 
+jour par le moteur, selon des attributs communs (position, rotation, échelle...).
+ Dans l'idéal, les attributs des objets devraient pouvoir être chargés depuis un 
+fichier (afin de ne pas recompiler juste pour changer la taille d'un arbre) : 
+*data-driven design*, permettant une plus grande flexibilité (au détriment, 
+peut-être, de la fiabilité : que faire si le fichier est absent ? Utiliser des 
+valeurs par défaut ? Crasher ?). 
+
+##### Animations 
+
+Animer un elément visuel est une fonctionnalité essentielle. Nous pensons 
+utiliser des animations par "clip", extraits d'un *spritesheet*. Toutefois, il 
+fautdrait que l'utilisateur puisse créer son propre système d'animation, et donc 
+charger les spritesheet (et les convertir en animations) de manière extensible. 
+
+##### Graphe de scène 
+
+Permet de hiérarchiser les entités d'une scène : si on déplace un container, on 
+veut que le contenu se déplace avec ; si le chef d'une escouade bouge, ses 
+troufions doivent le suivre.  
+Ceci implique l'implémentation d'une gestion de coordonées relatives (à un parent
+ par exemple).  
+
+##### Son 
+
+Le son est géré de base dans la SFML, nous ne ferons donc que des surcouches pour
+en faciliter l'usage. 
+
+#### Composants avancés
+
+Des fonctionnalités qu'il serait commode d'implémenter car elles se retrouvent 
+souvent, mais nous n'aurons probablement pas le temps de toutes les faire.  
+
+##### Collision / physique 
+
+Probablement la tâche la plus longue, ce module met en oeuvre des algorithmes de 
+partitionnement de l'espace, de tests de collisions, de gestion de forces. 
+
+##### Vues 
+
+Amélioration des vues, en permettant des caméras multiples, de formes diverses. 
+On pense aussi mettre en place le *culling* (consistant à n'afficher que ce qui 
+est visible par une caméra, allégeant ainsi le rendu). 
+
+##### Tuiles 
+
+Les niveaux d'un jeu 2D sont souvent représentés par une *Tile Map*, une grille 
+de cases où chacune pointe vers une tuile, qui elle possède les propriétés telles
+ que le graphique, la possibilité de collision (...). Comme ce système est très 
+répandu, il faudrait inclure la création de niveau via des tuiles. Ceci implique 
+peut-être la création d'un éditeur de niveaux, ou une très grande génércité du 
+parseur : personnalisation de la taille des tuiles, du nombre de calques, des 
+propriétés des tuiles.  
+
+##### Ombres 
+
+La gestion des lumières et ombres permettrait un rendu bien plus agréable. 
+Plusieurs types de lumières sont utilisés fréquemment : par point, par direction,
+ lumière ambiante, ...  
+L'ombre sera simplement présente là où il n'y a pas de lumière, mais certaines 
+choses doivent être prises en compte : comment gérer les multiples sources 
+lumineuses ? Les ombres peuvent être douces, dures, portées, colorés ? 
+
+##### Réseau 
+
+Le jeu est ligne s'est aujourd'hui démocratisé. L'époque où les enfants 
+invitaient leurs amis pour jouer à 4 joueurs autour de la console est révolu : 
+maintenant ils jouent via internet. Se passer d'un module comme celui-ci entrave 
+une grosse partie de la jouabilité d'un titre.  
+Ainsi, quelques composants réseaux faciles à utiliser pourraient être mis en 
+place, comme un système clients / serveur. 
+
+##### IA 
+
+Une Intelligence Artificielle est bien entendu spécifique à l'application, mais 
+il existe des composants de base, ou des modèles : recherches aveugles, recherche
+ informées, minmax / alpha-beta, mais aussi graphe d'agents réactifs, ou réseaux
+bayésiens.  
+Il existe probablement un moyen de proposer un squelette de base pouvant répondre
+ à quelques besoins.
