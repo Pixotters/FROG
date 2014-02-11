@@ -119,7 +119,7 @@ assembler, et dessiner des composants de base comme des boutons, des containers,
 ##### Objets / Entités
 
 Grâce au polymorphisme, il est possible de regrouper dans une hiérarchie les 
-objets gérés par le moteur apparaissant au sein d'une scène dans une hiérarchie. 
+objets gérés par le moteur apparaissant au sein d'une scène. 
 Ceux-ci seront traités de la même manière par le moteur, mais pourront avoir un 
 comportement supplémentaire.  
 Par exemple, un projectile et un ennemi sont deux entités distinctes : elles ne 
@@ -135,7 +135,7 @@ valeurs par défaut ? Crasher ?).
 
 Animer un elément visuel est une fonctionnalité essentielle. Nous pensons 
 utiliser des animations par "clip", extraits d'un *spritesheet*. Toutefois, il 
-fautdrait que l'utilisateur puisse créer son propre système d'animation, et donc 
+faudrait que l'utilisateur puisse créer son propre système d'animation, et donc 
 charger les spritesheet (et les convertir en animations) de manière extensible. 
 
 ##### Graphe de scène 
