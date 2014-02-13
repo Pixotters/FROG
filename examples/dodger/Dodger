@@ -53,20 +53,58 @@ Summary:
 
 ==== Window ====
 
-<<<TODO>>>
+SFML provides a simple way to display a window : the class RenderWindow.  
+appwindow = new sf::RenderWindow( 
+          sf::VideoMode( <width>, <height> ), 
+          "title's string", 
+          <style> );  
+Of course, in the future, <width>, <height>, and <style> shoud be customisable 
+thanks to a configuration file.
 
 ==== Renderer ====
 
-<<<TODO>>>
+The renderer is linked to the Window. But SFML provides an other way : 
+RenderTarget, allowing to dissociate Window display and Rendering.  
+RenderTarget can draw objects that extend // sf::Drawable // simply with the 
+method // draw(mydrawableobject) //.  
+As simple shapes are provided by SFML, We can simply use these shapes as bounding 
+boxes to test collisions.
 
 ==== Inputs ====
 
-<<<TODO>>>
+Inputs are handled in a loop : 
+
+sf::Event event;
+while( <renderwindow>.pollEvent(event) )
+{
+  if(event.type == sf::Event::Closed)
+  {
+    // close the application (properly)  
+  }else if(event.type ==sf::Event::KeyPressed )
+  {
+    // search if the key is bound to a valid action
+  }
+  ...
+}
+
+Such loops must be redefined in the States.  
+We must think about how we associate inputs with actions : association list ?
+
 
 ==== Game loop ====
 
-<<<TODO>>>
+The game loop should be simple to implement : 
+
+void App::loop(){
+  if( <isrunning> )
+  {
+    <currentState>.handleinputs()
+    <currentState>.update()
+    <currentState>.render()
+  }
+}
 
 ==== Collision ====
 
-<<<TODO>>>
+Collision may be the "hardest" part. Especially for this kind of game, where 
+various shapes could collide. 
