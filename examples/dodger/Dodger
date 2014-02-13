@@ -1,0 +1,70 @@
+= Dodger game =
+
+Basic game meant to guide us determining the order of importance between 
+modules to implements. It will start with a very basic application and will be 
+improved over iterations.
+
+== Synopsis ==
+
+The player controls the mouse, and has to dodge as long as possible the shapes. 
+
+== First iteration ==
+
+=== Game scenario ===
+
+  # Player launches the game
+  # Window appears and render the scene
+    -- Random shapes appear, representing the "enemies"
+  # Player plays (until he dies)
+    -- Player uses mouse to move its circle
+    -- Enemies move in one direction only, but bounce against the borders
+    -- When two enemies collide, they destroy each other
+    -- If an enemy collides with the player, he loses. Time is the score. 
+
+=== Modules to implement ===
+
+To produce this game we need to:
+
+  - Open a window
+  - Render a simple scene
+    -- one panel
+    -- simple shapes
+       --- player : circle
+       --- enemies : squares, circles, (hexagons ?)
+  - Handle input
+    -- queue inputs
+    -- Game loop
+       --- react to inputs (during game loop)
+           ---- poll inputs
+           ---- process inputs
+       --- compute new situation
+           ---- move entities
+           ---- detect collision
+       --- render the new situation
+
+Summary:
+  - Window
+  - Renderer
+  - Inputs (mouse)
+  - Game loop
+  - Collision
+
+==== Window ====
+
+<<<TODO>>>
+
+==== Renderer ====
+
+<<<TODO>>>
+
+==== Inputs ====
+
+<<<TODO>>>
+
+==== Game loop ====
+
+<<<TODO>>>
+
+==== Collision ====
+
+<<<TODO>>>
