@@ -1,0 +1,70 @@
+= Cat and mouse game =
+
+Basic game meant to guide us determining the order of importance between 
+modules to implements. It will start with a very basic application and will be 
+improved over iterations.
+
+== Synopsis ==
+
+Cat must catch Mouse.
+
+== First iteration ==
+
+=== Game scenario ===
+
+  # Player launches the game
+  # Window appears and render the scene
+    -- Black lines represents wall
+    -- A blue circle represents the cat, a red one represents the mouse
+  # Player plays (until he win)
+    -- Player use arrows to move the cat
+    -- Mouse moves using random direction
+    -- Mouse can not go throught walls, cat neither
+    -- When the blue circle touch the red one, player win
+
+=== Modules to implement ===
+
+To produce this game we need to:
+
+  - Open a window
+  - Render a simple scene
+    -- one panel
+    -- simple shapes
+       --- circle
+       --- line (actually rectangle)
+  - Handle input
+    -- queue inputs
+    -- Game loop
+       --- react to inputs (during game loop)
+           ---- poll inputs
+           ---- process inputs
+       --- compute new situation
+           ---- move entities
+           ---- detect collision
+
+Summary:
+  - Window
+  - Renderer
+  - Inputs
+  - Game loop
+  - Collision
+
+==== Window ====
+
+<<<TODO>>>
+
+==== Renderer ====
+
+<<<TODO>>>
+
+==== Inputs ====
+
+<<<TODO>>>
+
+==== Game loop ====
+
+<<<TODO>>>
+
+==== Collision ====
+
+<<<TODO>>>
