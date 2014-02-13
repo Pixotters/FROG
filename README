@@ -45,11 +45,10 @@ Qualities wanted for the engine are:
 == Quality tests ==
 
 In order to determine if the library is a success, we will implements 2 games 
-of different kind sharing a lot of modules.
-
->>> I would like to reimplement [[https://github.com/Lasconik/LordzOfTheRing << 
-    Lasconik's LOTR game]] to provide a comparison between a game using FROG 
-    and the same game using it<<<
+of different kind sharing a lot of modules.  
+We would like to reimplement [[https://github.com/Lasconik/LordzOfTheRing << 
+Lasconik's LOTR game]] to provide a comparison between a game using FROG and 
+the same game using it
 
 == Features ==
 
@@ -71,7 +70,7 @@ different behaviour. The time has to be fixed, that's the idea of dealing with
 ==== State Machine ====
 
 What we are calling a state is a "phase" of the game: Main menu, Splash screen, 
-a scene, the Options menu (...) are different state. By passing from one to 
+a scene, the Options menu (...) are different states. By passing from one to 
 another, we create implicit transitions: this creates an implicit automaton 
 that can be handled in a generic way, so that the user will create his own 
 states that will be handled by the engine. 
@@ -79,25 +78,25 @@ states that will be handled by the engine.
 ==== Files / Resources ====
 
 Accessing a file is heavy: we want to limit these accesses as much as possible. 
-For instance, if a file has been loaded in the memory, there is no need to 
-reload it. We may also want to ensure a file has really been sucessfully loaded 
-before accessing the resources it contains.  It is possible to make some kind 
-of memoization on the files. >>>Need details about memoization<<<
+Either loading ressources at game scene creation, or using just-in-time 
+loading. In both cases, ressources will be kept in memory as long as possible. 
+Ressources may be ordered by priority to free some of then in situation of 
+need of memory.
 
 ==== Inputs ====
 
-A game needs its player to interact with it. Inputs can be sent by the keyboard, 
-the mouse, or the joystick. Each input can be associated to an action, but an 
+A game needs its player to interact with it. Inputs can be sent by the keyboard,
+ the mouse, or the joystick. Each input can be associated to an action, but an 
 action can be trigerred by several different inputs (for instance, one by the 
-keyboard and one by the joystick). Theses associations have to be handled, while 
-allowing an easy customisation.  
+keyboard and one by the joystick). Theses associations have to be handled, 
+while allowing an easy customisation.  
 We think about a table **action <-> input(s)**.  
 
 ==== Rendering ====
 
 SFML provides window displaying and textures drawing. We want to offer more, by 
-proposing layers, views, but also a correct resolution handler (elements have to 
-be positionned the same way, no matter the size of the window).  
+proposing layers, views, but also a correct resolution handler (elements have 
+to be positionned the same way, no matter the size of the window).  
 
 === Useful features === 
 
@@ -106,15 +105,15 @@ be positionned the same way, no matter the size of the window).
 Based on container/component model, we should be able to easily produce:
 
 - Windows
-- Dialog window
+- Dialog windows
 - Panels
 - Menus
 
 - Buttons
-- Text area
+- Text areas
 - Checkboxes
-- Choices list
-- Scroll bar
+- Choices lists
+- Scroll bars
 
 Frog will also provided few basics layout handlers:
 
@@ -122,11 +121,13 @@ Frog will also provided few basics layout handlers:
 - HResponsiveLayout: Fixed or relative height for each component
 - VResponsiveLayout: Fixed or relative width for each component
 
+We also think about customisable skins for GUIs.  
+
 ==== Objects / Entities ====
 
 Thanks to polymorphism, it is possible to group objects handled by the engine 
-that appear within a scene. Those are treated the same way by the engine, without 
-taking account of the differences.  
+that appear within a scene. Those are treated the same way by the engine, 
+without taking account of the differences.  
 
 //For instance, a projectile and an enemy are two distinct entities: they don't 
 behave the same way. But both are drawn, updated by the engine, depending on 
@@ -135,10 +136,7 @@ common attributs (position, rotation, scale, ...).//
 //The best will occur if we can offer game objects a data-driven design: their 
 attributes are loaded from a file, instead of being hard-coded. This reduces 
 the compilation time, offers more flexibility, but may cause reliability 
-problems: what if the file is missing? Should we use default values? Crash?//
->>> Even if it is not hard coded in source, it should be hardcoded in binaries. 
-    Otherwise, I think we are runnning a major security issue -> players could 
-    change any value for any field. It means no gain on compilation time. <<<
+problems: what if the file is missing? Should we use default values? Crash? //
 
 ==== Animations ====
 
@@ -147,7 +145,7 @@ animations, based on frames and spritesheets. However, the user should have
 the possibility to create his own animation system, so the engin should load 
 the spritesheets (and convert them in animations) in an extensive way. 
 
-==== Scene graphe ====
+==== Scene graph ====
 
 In order to class in a hierarchy the entities of a scene: if one moves a 
 container, he expects the content to be moved with it; if the chief of a team 
@@ -156,14 +154,30 @@ relative coordinate system (relative to a parent, for instance).
 
 === Advanced features ===
 
-==== Collision / Physics ====
+==== Collision / Basic Physics ====
 
 Probably the longest task, this module mobilises algorithms for space sorting, 
 collision testing, forces handling... These notions require mathematics, so as 
 developers we want to avoid them: once written, we will not have to worry about 
 maths. And so will the average user.  
->>> I think collision manager and physics manager are 2 different tasks, even if
-    the second needs the first <<<
+These two modules will be separated, even though physics module may need 
+collision module.  
+Collisions detection include techniques such as: 
+
+- Bounding boxes collisions  
+- Pixel Perfect collisions
+- BSP trees 
+- Quad trees  
+- Sweep and Prune  
+- Discret or Continuous collisions 
+
+Physics include concepts like:  
+
+- velocity  
+- acceleration  
+- mass
+- gravity  
+- bounces 
 
 ==== Views ====
 
@@ -175,22 +189,21 @@ can be viewed from a camera).
 
 2D games' levels are often represented as a Tile map: a grid of values pointing 
 to a tile, and this tile posseses the properties (such as the graphic, the 
-collision, the destructability, ...). As this system is really spread among game 
-developers, we should included tile mapped levels. It may imply the creation of 
-a map editor, or a very high generic parser that allows customizint tiles' 
-size, number of layers, tiles properties.
+collision, the destructability, ...). As this system is really spread among 
+game development, we should included tile mapped levels. It may imply the 
+creation of a map editor, or a very high generic parser that allows customizing 
+tiles' size, number of layers, tiles properties.  
 
->>>Need more details<<<
+=== Future work ===
 
 ==== Light / shadows ====
 
 Managing lights and shadows will result in a fancier render.  
-Many lights are frequently used: point light, directional light, ambient light... 
+Many lights are frequently used: point light, directional light, ambient light 
+and so on... 
 Shadows will be present where there is no light, but we have to think about 
-some things: how will we handle multiple light sources? Can shadows be soft? Hard? 
-Colorful?
-
->>>It could be realised as using an extra layer<<<
+some things: how will we handle multiple light sources? Can shadows be soft? 
+Hard? Colorful?
 
 ==== Network ====
 
