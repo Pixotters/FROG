@@ -40,6 +40,7 @@ To produce this game we need to:
        --- compute new situation
            ---- move entities
            ---- detect collision
+           ---- update the timer for the score
        --- render the new situation
 
 Summary:
@@ -47,6 +48,7 @@ Summary:
   - Renderer
   - Inputs (mouse)
   - Game loop
+  - Timer
   - Collision
 
 ==== Window ====
