@@ -14,13 +14,13 @@ Cat must catch Mouse.
 
   # Player launches the game
   # Window appears and render the scene
-    -- Black lines represents wall
+    -- Black lines represent walls
     -- A blue circle represents the cat, a red one represents the mouse
-  # Player plays (until he win)
-    -- Player use arrows to move the cat
+  # Player plays (until he wins)
+    -- Player uses arrows to move the cat
     -- Mouse moves using random direction
-    -- Mouse can not go throught walls, cat neither
-    -- When the blue circle touch the red one, player win
+    -- Mouse can not go through walls, cat neither
+    -- When the blue circle touches the red one, player wins
 
 === Modules to implement ===
 
@@ -41,11 +41,12 @@ To produce this game we need to:
        --- compute new situation
            ---- move entities
            ---- detect collision
+       --- render the new situation
 
 Summary:
   - Window
   - Renderer
-  - Inputs
+  - Inputs (keyboard)
   - Game loop
   - Collision
 
