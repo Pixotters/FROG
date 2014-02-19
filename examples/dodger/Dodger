@@ -6,20 +6,22 @@ improved over iterations.
 
 == Synopsis ==
 
-The player controls the mouse, and has to dodge as long as possible the shapes. 
+The player controls the mouse, and has to dodge red shapes while shooting blue shapes. 
 
 == First iteration ==
 
-=== Game scenario ===
+=== Game mechanics ===
 
   # Player launches the game
   # Window appears and render the scene
-    -- Random shapes appear, representing the "enemies"
-  # Player plays (until he dies)
+    -- Random shapes appear, representing the "enemies" and the "targets"
+  # Player plays (until he dies or time is up)
     -- Player uses mouse to move its circle
-    -- Enemies move in one direction only, but bounce against the borders
+    -- Mouse button allow to fire to destroy blue shapes, giving him points
+    -- Enemies move in one direction only[, but bounce against the borders ?]
     -- When two enemies collide, they destroy each other
-    -- If an enemy collides with the player, he loses. Time is the score. 
+    -- If the player collides with an ennemy, he loses 1 life, after 3 lifes he dies
+    -- If the timer falls to 0, the player wins and can enjoy his score.
 
 === Modules to implement ===
 
@@ -31,17 +33,17 @@ To produce this game we need to:
     -- simple shapes
        --- player : circle
        --- enemies : squares, circles, (hexagons ?)
-  - Handle input
-    -- queue inputs
-    -- Game loop
-       --- react to inputs (during game loop)
-           ---- poll inputs
-           ---- process inputs
-       --- compute new situation
-           ---- move entities
-           ---- detect collision
-           ---- update the timer for the score
-       --- render the new situation
+    -- drawing text (for the timer and lifes)
+  - Game loop
+    -- react to inputs
+        --- poll inputs
+        --- check if input is a valid action
+        --- process actions
+    -- compute new situation
+        --- move entities
+        --- detect collision
+        --- update the timer
+    -- render the new situation
 
 Summary:
   - Window
@@ -61,7 +63,8 @@ appwindow = new sf::RenderWindow(
           <style> );  
 ```
 Of course, in the future, <width>, <height>, and <style> shoud be customisable 
-thanks to a configuration file.
+thanks to a configuration file. This is why we should take care of resolutions, 
+by (for instance) normalizing distances (or giving the choice to the user).  
 
 ==== Renderer ====
 
@@ -70,7 +73,7 @@ RenderTarget, allowing to dissociate Window display and Rendering.
 RenderTarget can draw objects that extend // sf::Drawable // simply with the 
 method `` <rendertarget>.draw(mydrawableobject) ``.
 As simple shapes are provided by SFML, We can simply use these shapes as 
-bounding boxes to test collisions.
+bounding boxes to test collisions.  
 
 ==== Inputs ====
 
@@ -93,7 +96,10 @@ Such loops must be redefined in the States.
 We must think about how we associate inputs with actions : association list ? 
 I think maps could be a good solution : when a user triggers an input, we just 
 search in the map the associated action. 1 input can have only 1 action, but 1 
-action can be associated with several inputs.    
+action can be associated with several inputs.  
+However, we could offer a higher level by implementing an Event system : such 
+events could be "X collided", "Y moved", "A as been pressed". Thus, users may 
+not take care of SFML's input system.  
 
 ==== Game loop ====
 
@@ -122,4 +128,8 @@ For now, I think I will just add the //delta time// to the counter.
 ==== Collision ====
 
 Collision may be the "hardest" part. Especially for this kind of game, where 
-various shapes could collide. 
+various shapes could collide. In relation with waht I said in the //Input// 
+section, it may be possible to wrap collision in events. The collider engine 
+would compute all collisions, and send messages to concerned objects when they 
+collide with something.  
+For now, I think I will just test by hand.  
