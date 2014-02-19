@@ -1,3 +1,27 @@
-#13/2 JBY
+# 13/02
+ 
+## JBY
 réflexions sur la modularité. un schéma a été construit.
-pour la semaine suivante (le 20) spécification d'un jeu minimal (dans ses aspects graphiques : proposition un personnage controlé dans des murs avec un poursuivant), pour identifier les modules essentiels et envisager un calendrier de spécification sur les modules essentiels et ensuite un calendrier de réalisation.
+pour la semaine suivante (le 20) spécification d'un jeu minimal (dans ses 
+aspects graphiques : proposition un personnage controlé dans des murs avec un 
+poursuivant), pour identifier les modules essentiels et envisager un calendrier 
+de spécification sur les modules essentiels et ensuite un calendrier de 
+réalisation.
+
+# 20/02
+
+## L'équipe 
+Nous avons fait nos spécifications de jeu. Finalement nous ferons 1 petit jeu 
+chacun, de manière à mieux voir ce qui peut être factorisé.  
+Le jeu de Julien : jeu du chat et de la souris. Le joueur (chat) doit attraper 
+la souris qui se balade dans une pièce avec des murs. Jouable au clavier.  
+Le jeu de Nicolas : jeu de reflèxes, où le joueur doit éviter des objets tout 
+en tirant sur d'autres. Jouable à la souris.  
+Les spécifications sont disponibles dans le dossier *examples*. De grandes 
+questions se sont posées sur les évènements et collisions, à débattre.
+
+# 27/02
+
+# 06/02
+
+# 13/02
