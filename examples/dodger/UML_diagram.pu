@@ -1,0 +1,66 @@
+@startuml
+
+namespace sf {
+    interface Transformable{
+      vector2f position
+      vector2f scale
+      float rotation
+    }
+    interface Drawable{
+        draw()
+    }
+    class RenderTexure{
+        clear()
+        draw()
+    }   
+}
+
+class App << Singleton >>{
+      double timeElapsed      
+}
+
+class Scene{
+      double timer
+      void update()
+      void render()
+}
+
+abstract class Entity{
+      vector2f position
+      vector2f rotation
+      vector2f velocity
+      vector2f acceleration
+      void update()
+      void render()
+}
+
+abstract class Element{
+      unsigned short health
+}
+
+class Player{
+      unsigned short lifes
+      unsigned long score
+}
+
+abstract class PhysicObject{
+         sf::vector2f velocity
+}
+
+App o-- InputHandler
+App *-- Renderer
+Renderer *-- sf.RenderTexure
+App *-right- Scene
+Scene o-right- Entity
+Element -left-|> Entity
+Element --|> PhysicObject
+PhysicObject --|> sf.Transformable
+Target -left-|> Element
+Enemy -left-|> Element
+Player -left-|> Entity
+Bullet -left-|> Entity
+Scene --|> sf.Drawable
+Entity --|> sf.Transformable
+Entity --|> sf.Drawable
+
+@enduml
