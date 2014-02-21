@@ -6,7 +6,7 @@ OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 CXX=g++
 CXXFLAGS := -std=c++0x -Wall -Wextra -pedantic-errors -g
 INC=./include
-LIBDIR=
+LIBDIR=./lib
 LIBS := -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 
 
