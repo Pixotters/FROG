@@ -1,30 +1,16 @@
 #include "Renderer.hpp"
 
-#include "App.hpp"
+#include <iostream> // delete
 
-Renderer::Renderer()
+Renderer::Renderer(const unsigned int& w,
+                   const unsigned int& h)
 {
-  m_texture = new sf::RenderTexture;
-  m_texture->create(App::instance()->getConfig().getWindowWidth(), 
-                    App::instance()->getConfig().getWindowHeight()  );
+  create(w, h);
+  initialize();
 }
 
-Renderer::~Renderer()
+void Renderer::draw(sf::RenderTarget& rt, sf::RenderStates rs)
 {
-  delete m_texture;
-}
-
-sf::RenderTexture * Renderer::getTexture() const
-{
-  return m_texture;
-}
-
-void Renderer::clear(const sf::Color& c)
-{
-  m_texture->clear(c);
-}
-
-void Renderer::display()
-{
-  m_texture->display();
+  std::cerr << "Renderer draws in the window "<< &rt << std::endl;
+  rt.draw( sf::Sprite(getTexture() ), rs);
 }

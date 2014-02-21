@@ -16,7 +16,7 @@ class App : virtual public Singleton<App>{
   //// attributes ////
 private:
   // the current window where the app runs
-  sf::RenderWindow m_window;
+  sf::RenderWindow * m_window;
 
   // the config, loaded from a file
   Config m_config;
@@ -78,17 +78,22 @@ public:
   /*
     tells if the game is running
    */
-  bool isRunning()     const{  return m_isRunning;  };
+  bool isRunning() const{ return m_isRunning;  };
+
+  /*
+    returns the window, useful for drawing the renderer here.
+   */
+  sf::RenderWindow * getWindow() const{ return m_window; };
   
   /*
     returns the clock
    */
-  sf::Clock getClock() const{  return m_clock;      };
+  sf::Clock getClock() const{ return m_clock; };
   
   /*
     returns the config
    */
-  Config getConfig()   const{  return m_config;     };
+  Config getConfig() const{ return m_config; };
 
 };
 

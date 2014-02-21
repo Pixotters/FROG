@@ -3,33 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 
-class Renderer{
-
-  //// attributes ////
-protected:
-  sf::RenderTexture * m_texture;
-
-  //// operations ////
+class Renderer : virtual public sf::RenderTexture
+{
 public:
-  Renderer();
-
-  virtual ~Renderer();
-
-  /*
-    returns the renderer's texture, the "area" where it draws
-   */
-  sf::RenderTexture * getTexture() const;
-
-  /*
-    cleans all pixels of the texture to the given color
-   */
-  virtual void clear(const sf::Color& = sf::Color::Black);
-
-  /*
-    display the texture
-   */
-  virtual void display();
-
+  Renderer(const unsigned int& = 0, const unsigned int& = 0);
+  void draw(sf::RenderTarget&, sf::RenderStates = sf::RenderStates::Default);
 };
 
 #endif

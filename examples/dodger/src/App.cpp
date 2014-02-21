@@ -1,12 +1,14 @@
 #include "App.hpp"
 
+#include <iostream> // delete
+
 void App::init()
 {
-  m_window.create(sf::VideoMode(
-                                  m_config.getWindowWidth(), 
-                                  m_config.getWindowHeight() ),
-                    m_config.getTitle(), 
-                    sf::Style::Close);
+  m_window = new sf::RenderWindow(sf::VideoMode(
+                                                m_config.getWindowWidth(), 
+                                                m_config.getWindowHeight() ),
+                                  m_config.getTitle(), 
+                                  sf::Style::Close);
   m_state = new Scene;
   m_isRunning = true;
 }
@@ -37,7 +39,8 @@ void App::run()
 
 void App::exit()
 {
-  m_window.close();
+  m_window->close();
+  delete m_window;
 }
 
 void App::handleEvents()
@@ -63,9 +66,11 @@ void App::update(const sf::Time& dt)
 
 void App::render()
 {
-  m_window.clear();
-  m_state->draw(m_window, sf::RenderStates::Default);
-  m_window.display();
+  m_window->clear();
+  std::cerr << "App tells state to draw itself in "<< m_window << std::endl;
+  m_state->draw(*m_window, sf::RenderStates::Default);
+  std::cerr << "App displays "<< m_window << std::endl;  
+  m_window->display();
 }
 
 

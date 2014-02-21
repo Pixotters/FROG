@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+#include <iostream> // delete
+
 Player::Player(const unsigned short& l)
   : Entity()
 {
@@ -18,6 +20,8 @@ Player::~Player()
 
 void Player::update(const sf::Time& dt){
   setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y );
+  std::cerr << "PLAYER : updated position : "<< getPosition().x \
+            <<","<< getPosition().y << std::endl;
 }
 
 void Player::setLifes(const unsigned short& l)
@@ -64,6 +68,9 @@ void Player::removeScore(const unsigned long& s)
 
 void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
+  Entity::draw(rt, rs);
+  std::cerr << "Player draws in the renderer " << &rt << std::endl;
   m_boundingBox->setPosition( getPosition().x, getPosition().y );
-  rt.draw( *m_boundingBox );
+  //  rs.transform *= getTransform();
+  rt.draw( *m_boundingBox, rs );
 }

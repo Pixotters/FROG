@@ -13,21 +13,21 @@ protected:
 
   //// operations ////
 public : 
-  Entity() : sf::Transformable(), sf::Drawable(){  }
+  Entity();
 
-  virtual ~Entity(){ }
+  virtual ~Entity();
 
   /*
     Each entity belong to a scene, and has to be drawn via the Scene's Renderer. 
     This methods has to make the first argument rendering it. 
    */
-  virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
+  virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   /*
     Updates the entity, simple entities may not have code here, but if we want 
     to add behaviour to an entity, it is good to put it here. 
    */
-  virtual void update(const sf::Time&){ };
+  virtual void update(const sf::Time&);
   
 };
 

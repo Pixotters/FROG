@@ -3,6 +3,7 @@
 
 #include "State.hpp"
 #include "Entity.hpp"
+#include "Renderer.hpp"
 
 #include <list>
 
@@ -11,6 +12,7 @@ class Scene : virtual public State{
   //// attributes ////
 protected:
   std::list<Entity * > m_entities;
+  Renderer * m_renderer;
 
   //// operations ////
 public:
