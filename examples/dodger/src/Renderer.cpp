@@ -1,14 +1,14 @@
-#include "RenderingEngine.hpp"
+#include "Renderer.hpp"
 
 
-RenderingEngine::RenderingEngine()
+Renderer::Renderer()
 {
   m_target = new sf::RenderTexture;
   m_target.create(Config::instance.getWidth(), 
                   Config::instance.getHeight()  );
 }
 
-RenderingEngine::~RenderingEngine()
+Renderer::~Renderer()
 {
   delete m_target;
 }

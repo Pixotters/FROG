@@ -1,9 +1,9 @@
-#ifndef RENDERINGENGINE_HPP
-#define RENDERINGENGINE_HPP
+#ifndef RENDERER_HPP
+#define RENDERER_HPP
 
 #include <SFML/Graphics.hpp>
 
-class RenderingEngine{
+class Renderer{
 
   //// attributes ////
 protected:
@@ -11,9 +11,9 @@ protected:
 
   //// operations ////
 public:
-  RenderingEngine();
-  RenderingEngine(sf::RenderTarget *);
-  virtual ~RenderingEngine();
+  Renderer();
+  Renderer(sf::RenderTarget *);
+  virtual ~Renderer();
   void setTarget(sf::RenderTarget *);
   sf::RenderTarget * getTarget() const;
 
