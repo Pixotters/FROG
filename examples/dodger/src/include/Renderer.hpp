@@ -7,16 +7,14 @@ class Renderer{
 
   //// attributes ////
 protected:
-  sf::RenderTarget * m_target;
+  sf::RenderTexture * m_texture;
 
   //// operations ////
 public:
   Renderer();
-  Renderer(sf::RenderTarget *);
   virtual ~Renderer();
-  void setTarget(sf::RenderTarget *);
-  sf::RenderTarget * getTarget() const;
-
+  sf::RenderTexture * getTexture() const;
+  virtual void display();
 
 };
 

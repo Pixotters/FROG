@@ -1,14 +1,25 @@
 #include "Renderer.hpp"
 
+#include "App.hpp"
 
 Renderer::Renderer()
 {
-  m_target = new sf::RenderTexture;
-  m_target.create(Config::instance.getWidth(), 
-                  Config::instance.getHeight()  );
+  m_texture = new sf::RenderTexture;
+  m_texture->create(App::instance()->getConfig().getWindowWidth(), 
+                    App::instance()->getConfig().getWindowHeight()  );
 }
 
 Renderer::~Renderer()
 {
-  delete m_target;
+  delete m_texture;
+}
+
+sf::RenderTexture * Renderer::getTexture() const
+{
+  return m_texture;
+}
+
+void Renderer::display()
+{
+  m_texture->display();
 }
