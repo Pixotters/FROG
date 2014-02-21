@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-class State : virtual sf::Drawable{
+class State : virtual public sf::Drawable{
 
   //// attributes ////
 protected : 
@@ -12,9 +12,16 @@ protected :
 public :
   State();
   virtual ~State();
+
+  /*
+    computes the state's logic. 
+   */
   virtual void update(const sf::Time& dt) = 0;
-  virtual void draw(sf::RenderTarget&, 
-                    sf::RenderStates = sf::RenderStates::Default) const = 0;
+
+  /*
+    render's the state
+   */
+  virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
 
 };
 

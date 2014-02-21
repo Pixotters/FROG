@@ -1,9 +1,9 @@
 #include "Player.hpp"
 
-Player::Player(const unsigned short& lifes)
+Player::Player(const unsigned short& l)
   : Entity()
 {
-  m_lifes = lifes;
+  m_lifes = l;
   m_score = 0;
   static float rad = 64.0f;
   m_boundingBox = new sf::CircleShape(rad);
