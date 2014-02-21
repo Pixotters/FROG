@@ -40,7 +40,7 @@ $(PROGRAM):$(OBJECTS)
 	$(CXX) -c $(CXXFLAGS) -I$(INC) $<
 
 clean:
-	rm -f $(OBJECTS) *.d *~ *# *.gch
+	rm -f $(OBJECTS) *.d *.d.* *~ *# *.gch
 
 proper:clean
 	rm -f $(PROGRAM)
