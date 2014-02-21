@@ -13,9 +13,10 @@ protected:
 
   //// operations ////
 public : 
-  Entity();
-  virtual ~Entity();
+  Entity() : sf::Transformable(), sf::Drawable(){  }
+  virtual ~Entity(){ }
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const = 0;
+  virtual void update(const sf::Time&){ };
   
 };
 

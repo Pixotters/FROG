@@ -15,6 +15,7 @@ protected:
 public:
   Player(const unsigned short& = 3);
   virtual ~Player();
+  virtual void update(const sf::Time&);
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
   void setLifes(const unsigned short&);
   void addLife(const unsigned short& = 1);

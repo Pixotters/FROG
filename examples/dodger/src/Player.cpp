@@ -1,4 +1,4 @@
-#include "Player.cpp"
+#include "Player.hpp"
 
 Player::Player(const unsigned short& lifes)
   : Entity()
@@ -6,14 +6,18 @@ Player::Player(const unsigned short& lifes)
   m_lifes = lifes;
   m_score = 0;
   static float rad = 64.0f;
-  m_boundingBox = new CircleShape(rad);
-  circle.setFillColor(sf::Color::Green);
-  circle.setOrigin(rad/2.0f, rad/2.0f);
+  m_boundingBox = new sf::CircleShape(rad);
+  m_boundingBox->setFillColor(sf::Color::Green);
+  m_boundingBox->setOrigin(rad/2.0f, rad/2.0f);
 }
 
 Player::~Player()
 {
   delete m_boundingBox;
+}
+
+void Player::update(const sf::Time& dt){
+  setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y );
 }
 
 void Player::setLifes(const unsigned short& l)
@@ -49,17 +53,17 @@ void Player::addScore(const unsigned long& s)
 
 void Player::removeScore(const unsigned long& s)
 {
-  if(m_score < l)
+  if(m_score < s)
     {
       m_score = 0;
     }else
     {
-      m_score -= l;
+      m_score -= s;
     }
 }
 
 void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
-  m_boudingBox->setPosition( getPosition().x, getPosition().y );
-  rt.draw( m_boundingBox );
+  m_boundingBox->setPosition( getPosition().x, getPosition().y );
+  rt.draw( *m_boundingBox );
 }
