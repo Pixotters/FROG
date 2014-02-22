@@ -24,7 +24,7 @@ public:
     updates the player : currently, just changing its positions to the mouse's 
     position
    */
-  virtual void update(const sf::Time&);
+  virtual void update();
 
   /*
     draws the player : just its bounding box, created in the constructor to

@@ -24,6 +24,9 @@ private:
   // the program clock, can be useful
   sf::Clock m_clock;
 
+  // time elapsed since last frame
+  sf::Time m_deltaTime;
+
   // tells if the game is running (if we make loop)
   bool m_isRunning;
 
@@ -68,7 +71,7 @@ public:
   /*
     updates the current state
    */
-  void update(const sf::Time& dt);
+  void update();
   
   /*
     renders the current state
@@ -89,6 +92,11 @@ public:
     returns the clock
    */
   sf::Clock getClock() const{ return m_clock; };
+  
+  /*
+    returns the delta time : time elapsed since last frame
+   */
+  sf::Time getDeltaTime() const{ return m_deltaTime; };
   
   /*
     returns the config

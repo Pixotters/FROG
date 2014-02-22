@@ -18,7 +18,7 @@ void Entity::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 }
 
 
-void Entity::update(const sf::Time& t)
+void Entity::update()
 { 
 
 }

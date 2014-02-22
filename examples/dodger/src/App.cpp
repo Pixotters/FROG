@@ -15,24 +15,13 @@ void App::init()
 
 void App::run()
 {
-  sf::Clock t0; // time elapsed since the last looping
-  sf::Time t1 = sf::Time::Zero; // time elapsed since the last frame
+  sf::Clock t0; // clock for counting frame time
   float frameTime = 1.0f / m_fps;
   while(m_isRunning)
     {
-      /**      handleEvents();
-      t1 += t0.restart(); 
-      // it is possible that a frame could take a very long time to render
-      while( t1 > (frameTime) ) 
-        {
-          t1 -= frameTime;
-          handleEvents();
-          update(frameTime);
-        }
-      */
-      sf::Time dt = t0.restart();
+      m_deltaTime = t0.restart();
       handleEvents();
-      update(dt);
+      update();
       render();
     }
 }
@@ -59,17 +48,15 @@ void App::handleEvents()
         }*/
 }
 
-void App::update(const sf::Time& dt)
+void App::update()
 {
-  m_state->update(dt);
+  m_state->update();
 }
 
 void App::render()
 {
   m_window->clear();
-  std::cerr << "App tells state to draw itself in "<< m_window << std::endl;
   m_state->draw(*m_window, sf::RenderStates::Default);
-  std::cerr << "App displays "<< m_window << std::endl;  
   m_window->display();
 }
 
@@ -78,8 +65,10 @@ void App::render()
 
 
 int main(){
+  std::cout << "Starting game" << std::endl;
   App::instance()->init();
   App::instance()->run();
   App::instance()->exit();
+  std::cout << "Ended game properly" << std::endl;
 
 }

@@ -27,7 +27,7 @@ public :
     Updates the entity, simple entities may not have code here, but if we want 
     to add behaviour to an entity, it is good to put it here. 
    */
-  virtual void update(const sf::Time&);
+  virtual void update();
   
 };
 

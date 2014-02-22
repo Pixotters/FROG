@@ -28,11 +28,11 @@ void Scene::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
   State::draw(rt, rs);
 }
 
-void Scene::update(const sf::Time& dt)
+void Scene::update()
 {
   for(auto it = m_entities.begin(); it != m_entities.end(); ++it)
     {
-      (*it)->update(dt);
+      (*it)->update();
     }
 }
 

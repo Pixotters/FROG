@@ -18,7 +18,7 @@ Player::~Player()
   delete m_boundingBox;
 }
 
-void Player::update(const sf::Time& dt){
+void Player::update(){
   setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y );
   std::cerr << "PLAYER : updated position : "<< getPosition().x \
             <<","<< getPosition().y << std::endl;

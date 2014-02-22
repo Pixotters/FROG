@@ -33,7 +33,7 @@ public:
     updates the scene. eg updates all the scene's entities + some codes we may 
     want to add
    */
-  virtual void update(const sf::Time&);
+  virtual void update();
 
 };
 
