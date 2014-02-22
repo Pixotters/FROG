@@ -37,6 +37,11 @@ void Player::update(){
             << std::endl;
 }
 
+unsigned short Player::getLifes() const
+{
+  return m_lifes;
+}
+
 void Player::setLifes(const unsigned short& l)
 {
   m_lifes = l;
@@ -56,6 +61,11 @@ void Player::removeLife(const unsigned short& l)
     {
       m_lifes -= l;
     }
+}
+
+unsigned long Player::getScore() const
+{
+  return m_score;
 }
 
 void Player::setScore(const unsigned long& s)

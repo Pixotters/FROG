@@ -33,6 +33,11 @@ public:
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   /*
+    returns the number of lifes
+  */
+  unsigned short getLifes() const;
+
+  /*
     changes the number of lifes
    */
   void setLifes(const unsigned short&);
@@ -46,6 +51,11 @@ public:
     removes the given amount of lifes, with a check for 0.
    */
   void removeLife(const unsigned short& = 1);
+
+  /*
+    returns the current score
+   */
+  unsigned long getScore() const;
 
   /*
     changes the current score
