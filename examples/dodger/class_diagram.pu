@@ -7,60 +7,110 @@ namespace sf {
       float rotation
     }
     interface Drawable{
-        draw()
+        draw(RenderTarget, RenderStates)
     }
+    class RenderTarget
     class RenderTexure{
         clear()
-        draw()
+        draw(Drawable)
     }   
+    class RenderWindow{
+          clear()
+          draw(Drawable)
+          display()
+    }
 }
 
 class App << Singleton >>{
-      double timeElapsed      
+      -RenderWindow window
+      -Config config
+      -Clock clock
+      -Time deltaTime
+      -bool isRunning
+      -float fps
+      -StateManager stateManager
+     void init()
+     void run() 
+     void exit()
+     void update()
+     void render()
+     bool isRunning() 
+     RenderWindow getWindow()
+     Clock getClock()
+     Time getDeltaTime()
+     Config getConfig()
+     StateManager getStateManager()
+}
+
+class StateManager{
+      -stack<State> stateStack
+      void push(State *)
+      State * pop()
+      State * change(State *)
+      bool isEmpty()
+      void clear()
+      void update()
+      void render(RenderTarget)
+}
+
+abstract class State{
+      -Renderer renderer
+      update()
+}
+
+class Renderer{
+      draw(RenderTarget, RenderStates)
 }
 
 class Scene{
-      double timer
-      void update()
-      void render()
+      -list<Entity> entities
+      void drawEntities(RenderTarget, RenderState)
 }
 
 abstract class Entity{
-      vector2f position
-      vector2f rotation
-      vector2f velocity
-      vector2f acceleration
       void update()
-      void render()
 }
 
 abstract class Element{
-      unsigned short health
+      -unsigned short health
 }
 
 class Player{
-      unsigned short lifes
-      unsigned long score
+      -unsigned short lifes
+      -unsigned long score
+      -Shape boundingBox
+      unsigned short getLifes()
+      void setLife(unsigned short)
+      void addLifes(unsigned short)
+      void removeLifes(unsigned short)
+      unsigned long getScore()
+      void setScore(unsigned long)
+      void addScore(unsigned long)
+      void removeScore(unsigned long)
 }
 
 abstract class PhysicObject{
-         sf::vector2f velocity
+      -sf::vector2f velocity
 }
 
-App o-- InputHandler
-App *-- Renderer
-Renderer *-- sf.RenderTexure
-App *-right- Scene
+App *-- StateManager
+StateManager *-- State
+State --|> sf.Drawable
+State *-- Renderer
+Renderer --|> sf.RenderTexure
+Scene -left-|> State
 Scene o-right- Entity
-Element -left-|> Entity
-Element --|> PhysicObject
-PhysicObject --|> sf.Transformable
-Target -left-|> Element
-Enemy -left-|> Element
-Player -left-|> Entity
-Bullet -left-|> Entity
-Scene --|> sf.Drawable
 Entity --|> sf.Transformable
 Entity --|> sf.Drawable
+Player -left-|> Entity
+'Bullet -left-|> Entity
+'Element -left-|> Entity
+'Target -left-|> Element
+'Enemy -left-|> Element
+'App o-- InputHandler
+'Element --|> PhysicObject
+'PhysicObject --|> sf.Transformable
+sf.RenderWindow --|> sf.RenderTarget
+sf.RenderTexture --|> sf.RenderTarget
 
 @enduml
