@@ -8,7 +8,7 @@ State::State()
 
 State::~State()
 {
-
+  delete m_renderer;
 }
 
 void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const

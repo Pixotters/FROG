@@ -11,7 +11,11 @@ Scene::Scene()
 
 Scene::~Scene()
 {
-
+  for(auto it = m_entities.begin(); it != m_entities.end(); ++it)
+    {
+      delete(*it);
+    }
+  m_entities.clear();
 }
 
 void Scene::drawEntities(sf::RenderTarget& rt, sf::RenderStates rs) const
