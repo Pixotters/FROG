@@ -2,6 +2,8 @@
 
 #include <iostream> // delete
 
+#include "Scene.hpp"
+
 void App::init()
 {
   m_window = new sf::RenderWindow(sf::VideoMode(
@@ -9,7 +11,7 @@ void App::init()
                                                 m_config.getWindowHeight() ),
                                   m_config.getTitle(), 
                                   sf::Style::Close);
-  m_state = new Scene;
+  m_stateManager.push(new Scene() );
   m_isRunning = true;
 }
 
@@ -28,7 +30,10 @@ void App::run()
 
 void App::exit()
 {
+  m_window->clear();
   m_window->close();
+  State * s = m_stateManager.pop();
+  delete s;
   delete m_window;
 }
 
@@ -50,13 +55,13 @@ void App::handleEvents()
 
 void App::update()
 {
-  m_state->update();
+  m_stateManager.update();
 }
 
 void App::render()
 {
   m_window->clear();
-  m_state->draw(*m_window, sf::RenderStates::Default);
+  m_stateManager.render(*m_window);
   m_window->display();
 }
 
@@ -67,7 +72,9 @@ void App::render()
 int main(){
   std::cout << "Starting game" << std::endl;
   App::instance()->init();
+  std::cout << "Initialization successful. Running..." << std::endl;
   App::instance()->run();
+  std::cout << "Stopping game..." << std::endl;
   App::instance()->exit();
   std::cout << "Ended game properly" << std::endl;
 

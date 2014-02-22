@@ -2,8 +2,7 @@
 #define APP_HPP
 
 #include "Config.hpp"
-#include "Scene.hpp" //delete
-#include "State.hpp"
+#include "StateManager.hpp"
 #include "Singleton.hpp"
 //#include "InputManager.hpp"
 
@@ -34,7 +33,7 @@ private:
   const float m_fps = 60.0f;
 
   // the current state, must be replaced by a stateManager
-  State * m_state; 
+  StateManager m_stateManager;
 
   //// operations ////
 private:
@@ -102,6 +101,11 @@ public:
     returns the config
    */
   Config getConfig() const{ return m_config; };
+
+  /*
+    returns the state handler
+  */
+  StateManager getStateManager() const{ return m_stateManager; };
 
 };
 
