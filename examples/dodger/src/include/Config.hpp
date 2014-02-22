@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "SFML/Window.hpp"
+#include <SFML/Window.hpp>
 
 namespace Action{
 
