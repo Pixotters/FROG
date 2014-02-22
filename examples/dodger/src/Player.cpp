@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+#include "App.hpp"
+
 #include <iostream> // delete
 
 Player::Player(const unsigned short& l)
@@ -7,10 +9,12 @@ Player::Player(const unsigned short& l)
 {
   m_lifes = l;
   m_score = 0;
-  static float rad = 64.0f;
+  static float rad = 32.0f;
   m_boundingBox = new sf::CircleShape(rad);
-  m_boundingBox->setFillColor(sf::Color::Green);
-  m_boundingBox->setOrigin(rad/2.0f, rad/2.0f);
+  m_boundingBox->setFillColor(sf::Color::Blue);
+  m_boundingBox->setOutlineColor(sf::Color::White);
+  m_boundingBox->setOutlineThickness(3);
+  m_boundingBox->setOrigin(rad, rad);
 }
 
 Player::~Player()
@@ -19,9 +23,18 @@ Player::~Player()
 }
 
 void Player::update(){
-  setPosition(sf::Mouse::getPosition().x, sf::Mouse::getPosition().y );
-  std::cerr << "PLAYER : updated position : "<< getPosition().x \
-            <<","<< getPosition().y << std::endl;
+  unsigned int x = sf::Mouse::getPosition().x 
+    - App::instance()->getWindow()->getPosition().x;
+  unsigned int y = sf::Mouse::getPosition().y 
+    - App::instance()->getWindow()->getPosition().y;
+  setPosition(x, y );
+  sf::CircleShape * c = dynamic_cast<sf::CircleShape * >( m_boundingBox );
+  std::cerr << "PLAYER : updated position : " \
+            << getPosition().x <<","<< getPosition().y \
+            << "center : " << c->getOrigin().x << "," << c->getOrigin().y  \
+            << "center's pos : "<< c->getOrigin().x +sf::Mouse::getPosition().x \
+            << "," <<c->getOrigin().y + sf::Mouse::getPosition().y \
+            << std::endl;
 }
 
 void Player::setLifes(const unsigned short& l)
