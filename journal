@@ -43,11 +43,10 @@ questions se sont posées sur les évènements et collisions, à débattre.
   cette premiere iteration.
 
 == Notes ==
-e
-Julien sera au ski du 22/02 au 02/03 mais aura internet. Nous procederons 
-donc avec une sorte de //peer programming// adapte. Nicolas codera normalement. 
-Julien commentera le code chaque soir et ecrira les tests unitaires pour les 
-modules implementes.
+
+Julien sera au ski du 22/02 au 02/03. Nicolas codera normalement. Julien 
+commentera le code et ecrira les tests unitaires pour les modules 
+implementes.
 
 = 27/02 =
 
