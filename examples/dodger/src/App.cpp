@@ -34,18 +34,18 @@ void App::exit()
 
 void App::handleEvents()
 {
-  /*  sf::Event event
-    while(m_window.pollEvent(event) )
-      {
-        if(event.type == sf::Event::Closed)
-          {
-            exit();
-          }
-        Action::Type action = m_config.getAction(event);
-        if(action != Action::None){
-          state->addAction(action);
+  sf::Event event;
+  while(m_window->pollEvent(event) )
+    {
+      if(event.type == sf::Event::Closed)
+        {
+          m_isRunning = false;
         }
+      /*Action::Type action = m_config.getAction(event);
+        if(action != Action::None){
+        state->addAction(action);
         }*/
+    }
 }
 
 void App::update()
