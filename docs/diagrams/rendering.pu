@@ -1,0 +1,14 @@
+@startuml
+'participant App
+'participant StateManager
+'participant State
+'participant Entity
+'participant Renderer
+
+App -> StateManager: render in app's window ( = "rt")
+StateManager -> State: draw in "rt"
+State -> Entity: draw in state's renderer
+Entity -> Renderer: draw entity
+State -> Renderer: draw in "rt"
+App <- Renderer: draw in the window
+@enduml
