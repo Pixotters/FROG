@@ -1,12 +1,9 @@
 #include "Scene.hpp"
 
-#include "Player.hpp"
-
 
 Scene::Scene()
   : State()
 {
-  m_gameObjects.push_back(new Player);
 }
 
 Scene::~Scene()

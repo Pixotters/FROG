@@ -25,15 +25,18 @@ public:
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   /*
-    draws only the gameObjects in the renderer
-   */
-  virtual void drawEntities(sf::RenderTarget& rt, sf::RenderStates rs) const;
-
-  /*
     updates the scene. eg updates all the scene's gameObjects + some codes we may 
     want to add
    */
   virtual void update();
+
+protected:
+  
+  /*
+    draws only the gameObjects in the renderer
+   */
+  virtual void drawEntities(sf::RenderTarget& rt, sf::RenderStates rs) const;
+
 
 };
 

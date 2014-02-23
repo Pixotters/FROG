@@ -106,6 +106,7 @@ public:
     returns the state handler
   */
   StateManager getStateManager() const{ return m_stateManager; };
+  StateManager& getStateManager(){ return m_stateManager; };
 
 };
 

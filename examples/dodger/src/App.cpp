@@ -2,7 +2,7 @@
 
 #include <iostream> // delete
 
-#include "Scene.hpp"
+#include "StartState.hpp"
 
 void App::init()
 {
@@ -11,7 +11,7 @@ void App::init()
                                                 m_config.getWindowHeight() ),
                                   m_config.getTitle(), 
                                   sf::Style::Close);
-  m_stateManager.push(new Scene() );
+  m_stateManager.push(new StartState() );
   m_isRunning = true;
 }
 
