@@ -23,25 +23,27 @@ def creategameobject(filename, replacename):
     convert(filename, lines, replacename)
     
 def printusage():
-    print "Usage : add the name of your GameObject as argument"
+    print "Usage : add arguments as your GameObjects' names"
 
-def printwrongname():
-    print "C++ classes names can contain only letters, numbers and underscores."
+def printwrongname(s):
+    print s+""" is an invalid name : 
+C++ classes names can contain only letters, numbers and underscores."""
 
 def checkname(name):
     return ( name[0].isalpha() or name[0] == '_') \
-and name[1:].replace('_', '').isalnum()
+and (len(name) == 1 or name[1:].replace('_', '').isalnum()  )
 
 def main():
-    if len(sys.argv) != 2:
+    if len(sys.argv) < 2:
         printusage()
     else:
-        if checkname(sys.argv[1]):
-            go_name = sys.argv[1]
-            go_name = go_name[0].upper() + go_name[1:]
-            creategameobject(dummy+".cpp", go_name )
-            creategameobject(dummy+".hpp", go_name )    
-        else:
-            printwrongname()
+        for s in sys.argv[1:]:
+            if checkname(s):
+                go_name = s
+                go_name = go_name[0].upper() + go_name[1:]
+                creategameobject(dummy+".cpp", go_name )
+                creategameobject(dummy+".hpp", go_name )    
+            else:
+                printwrongname(s)
  
 main()
