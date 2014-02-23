@@ -63,11 +63,11 @@ class Renderer{
 }
 
 class Scene{
-      -list<Entity> entities
+      -list<GameObject> entities
       void drawEntities(RenderTarget, RenderState)
 }
 
-abstract class Entity{
+abstract class GameObject{
       void update()
 }
 
@@ -99,12 +99,12 @@ State --|> sf.Drawable
 State *-- Renderer
 Renderer --|> sf.RenderTexure
 Scene -left-|> State
-Scene o-right- Entity
-Entity --|> sf.Transformable
-Entity --|> sf.Drawable
-Player -left-|> Entity
-'Bullet -left-|> Entity
-'Element -left-|> Entity
+Scene o-right- GameObject
+GameObject --|> sf.Transformable
+GameObject --|> sf.Drawable
+Player -left-|> GameObject
+'Bullet -left-|> GameObject
+'Element -left-|> GameObject
 'Target -left-|> Element
 'Enemy -left-|> Element
 'App o-- InputHandler
