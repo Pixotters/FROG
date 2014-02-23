@@ -42,7 +42,7 @@ $(PROGRAM):$(OBJECTS)
 clean:
 	rm -f $(OBJECTS) *.d *.d.* *~ *# *.gch
 
-proper:clean
+proper:
 	rm -f $(PROGRAM)
 
 start:
