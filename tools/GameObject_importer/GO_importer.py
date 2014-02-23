@@ -1,3 +1,4 @@
+import sys
 
 dummy = "Dummy"
 
@@ -21,11 +22,16 @@ def creategameobject(filename, replacename):
     lines = getfilelines(filename)
     convert(filename, lines, replacename)
     
+def printusage():
+    print "Usage : add the name of your GameObject as argument"
 
 def main():
-    go_name = "myGo"
-    go_name = go_name[0].upper() + go_name[1:]
-    creategameobject(dummy+".cpp", go_name )
-    creategameobject(dummy+".hpp", go_name )    
+    if len(sys.argv) != 2:
+        printusage()
+    else:
+        go_name = sys.argv[1]
+        go_name = go_name[0].upper() + go_name[1:]
+        creategameobject(dummy+".cpp", go_name )
+        creategameobject(dummy+".hpp", go_name )    
  
 main()
