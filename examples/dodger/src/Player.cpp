@@ -5,7 +5,7 @@
 #include <iostream> // delete
 
 Player::Player(const unsigned short& l)
-  : Entity()
+  : GameObject()
 {
   m_lifes = l;
   m_score = 0;
@@ -91,9 +91,7 @@ void Player::removeScore(const unsigned long& s)
 
 void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
-  Entity::draw(rt, rs);
-  std::cerr << "Player draws in the renderer " << &rt << std::endl;
+  GameObject::draw(rt, rs);
   m_boundingBox->setPosition( getPosition().x, getPosition().y );
-  //  rs.transform *= getTransform();
   rt.draw( *m_boundingBox, rs );
 }

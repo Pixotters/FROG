@@ -6,21 +6,21 @@
 Scene::Scene()
   : State()
 {
-  m_entities.push_back(new Player);
+  m_gameObjects.push_back(new Player);
 }
 
 Scene::~Scene()
 {
-  for(auto it = m_entities.begin(); it != m_entities.end(); ++it)
+  for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
     {
       delete(*it);
     }
-  m_entities.clear();
+  m_gameObjects.clear();
 }
 
 void Scene::drawEntities(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
-  for(auto it = m_entities.begin(); it != m_entities.end(); ++it)
+  for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
     {
       (*it)->draw(*m_renderer, rs);
     }
@@ -34,7 +34,7 @@ void Scene::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 
 void Scene::update()
 {
-  for(auto it = m_entities.begin(); it != m_entities.end(); ++it)
+  for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
     {
       (*it)->update();
     }

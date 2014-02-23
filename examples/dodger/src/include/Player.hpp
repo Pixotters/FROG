@@ -1,9 +1,9 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "Entity.hpp"
+#include "GameObject.hpp"
 
-class Player : virtual public Entity{
+class Player : virtual public GameObject{
 
   //// attributes ////
 protected:
