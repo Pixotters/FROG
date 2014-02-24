@@ -1,15 +1,15 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
+#include "Transform.hpp"
+
 #include <SFML/Graphics.hpp>
 
-class GameObject : virtual public sf::Transformable, 
-               virtual public sf::Drawable
+class GameObject : virtual public sf::Drawable
 {
   //// attributes ////
 protected:
-  
-
+  Transform m_transform;
 
   //// operations ////
 public : 
@@ -29,6 +29,10 @@ public :
    */
   virtual void update();
   
+  Transform getTransform() const;
+  Transform& getTransform();
+  
+
 };
 
 #endif

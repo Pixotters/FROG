@@ -3,6 +3,8 @@
 
 #include "GameObject.hpp"
 
+#include "Transform.hpp"
+
 class Player : virtual public GameObject{
 
   //// attributes ////
