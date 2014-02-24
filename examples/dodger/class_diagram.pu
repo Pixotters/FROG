@@ -93,18 +93,26 @@ abstract class PhysicObject{
       -sf::vector2f velocity
 }
 
+abstract class Component{
+}
+
 App *-- StateManager
 StateManager *-- State
 State --|> sf.Drawable
 State *-- Renderer
 Renderer --|> sf.RenderTexure
 Scene -left-|> State
+Level --|> Scene
 Scene o-right- GameObject
-GameObject --|> sf.Transformable
 GameObject --|> sf.Drawable
 Player -left-|> GameObject
+Level o-- Player
+Component --o GameObject
+Component --o Component
+Transform --|> Component
+Physics --|> Component 
 'Bullet -left-|> GameObject
-'Element -left-|> GameObject
+Element -left-|> GameObject
 'Target -left-|> Element
 'Enemy -left-|> Element
 'App o-- InputHandler
