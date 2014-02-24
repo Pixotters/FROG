@@ -3,6 +3,8 @@
 #include "Player.hpp"
 #include "Element.hpp"
 
+#include "Random.hpp"
+
 #include <iostream> // delete
 
 Level::Level()
@@ -38,7 +40,7 @@ void Level::update()
   Scene::update();
   updateEnemies();
   sf::Time t = m_clock.getElapsedTime();
-  if( t.asSeconds() > 0.7f ){
+  if( t.asSeconds() > 0.4f ){
     spawn( );
     m_clock.restart();
   }
@@ -46,18 +48,11 @@ void Level::update()
 
 void Level::spawn()
 {
-  std::cout << "spawning"<<std::endl;
+  std::cout << "spawning "<< m_ennemies.size() <<std::endl;
   Element * e = new Element;
-  float t = m_clock.getElapsedTime().asSeconds();
-  int x = (int) (t*10000);
-  std::cout << "x = "<< x << " - t : "<<t<<std::endl;
-  float px = 800 * (float(x%100))/100.0f;
-  float vx = ((int)px)%2 == 0 ? -px/10 : px/10;
-  e->getTransform().setPosition(px, -50);
-  std::cout << "spawned at "<< px<< std::endl;
-  e->m_physics.addVelocity(sf::Vector2f(vx, 10.0f) );
+  e->getTransform().setPosition(Random::get(100, 700), -50);
+  e->m_physics.addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 7) ) );
   m_ennemies.push_back(e );
-  std::cout << "spawned"<<std::endl;
 }
 
 void Level::updateEnemies()
@@ -67,8 +62,9 @@ void Level::updateEnemies()
       (*it)->update();
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
-        //        delete (*it);
-        //        m_ennemies.erase(it);
+        delete (*it);
+        *it = nullptr;
       }
     }
+  m_ennemies.remove(nullptr);
 }

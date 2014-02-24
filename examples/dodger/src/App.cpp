@@ -1,4 +1,5 @@
 #include "App.hpp"
+#include "Random.hpp"
 
 #include <iostream> // delete
 
@@ -72,6 +73,7 @@ void App::render()
 int main(){
   std::cout << "Starting game" << std::endl;
   App::instance()->init();
+  Random::init();
   std::cout << "Initialization successful. Running..." << std::endl;
   App::instance()->run();
   std::cout << "Stopping game..." << std::endl;
