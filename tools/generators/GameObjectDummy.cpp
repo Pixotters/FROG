@@ -14,7 +14,7 @@ Dummy::~Dummy()
 /**
    Renders the Dummy. 
 */
-void Dummy::render(sf::RenderTarget& rt, sf::RenderStates rs) const
+void Dummy::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
   GameObject::render(rt, rs);
   // your code here
