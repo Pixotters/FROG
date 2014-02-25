@@ -15,6 +15,7 @@ protected:
 
 public:
   Physics m_physics;
+  sf::Shape * m_boundingBox;
 
   //// operations ////
 public:

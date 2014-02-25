@@ -9,7 +9,7 @@ Player::Player(const unsigned short& l)
 {
   m_lifes = l;
   m_score = 0;
-  static float rad = 32.0f;
+  static float rad = 24.0f;
   m_boundingBox = new sf::CircleShape(rad);
   m_boundingBox->setFillColor(sf::Color::Blue);
   m_boundingBox->setOutlineColor(sf::Color::White);

@@ -19,12 +19,8 @@ Element::~Element()
 void Element::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
   GameObject::draw(rt, rs);
-  // your code here
-  sf::CircleShape c(45);
-  c.setFillColor(sf::Color::Red);
-  c.setPosition(m_transform.getPosition() );
-  // replace here `appearence` with an sf::Drawable
-  rt.draw( c, rs);
+  m_boundingBox->setPosition(m_transform.getPosition() );
+  rt.draw( *m_boundingBox, rs);
 }
 
 /**
