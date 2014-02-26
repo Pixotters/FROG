@@ -74,9 +74,6 @@ void Level::spawnTarget()
                                         Random::get(-10, 10) / 10.f ) ); 
   e->m_physics.addAcceleration(  e->m_physics.getVelocity() / -100.0f );
   e->m_physics.addGrowth(sf::Vector2f(-0.005f, -0.005f) );
-  std::cout<< "target's velocity : "\
-           << e->m_physics.getVelocity().x <<","\
-           << e->m_physics.getVelocity().y <<std::endl;
   m_targets.push_back(e);
 }
 
