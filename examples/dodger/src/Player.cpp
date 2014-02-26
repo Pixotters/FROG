@@ -9,7 +9,7 @@ Player::Player(const unsigned short& l)
 {
   m_lifes = l;
   m_score = 0;
-  static float rad = 32.0f;
+  static float rad = 24.0f;
   m_boundingBox = new sf::CircleShape(rad);
   m_boundingBox->setFillColor(sf::Color::Blue);
   m_boundingBox->setOutlineColor(sf::Color::White);
@@ -27,10 +27,10 @@ void Player::update(){
     - App::instance()->getWindow()->getPosition().x;
   unsigned int y = sf::Mouse::getPosition().y 
     - App::instance()->getWindow()->getPosition().y;
-  setPosition(x, y );
+  m_transform.setPosition(x, y );
   sf::CircleShape * c = dynamic_cast<sf::CircleShape * >( m_boundingBox );
   std::cerr << "PLAYER : updated position : " \
-            << getPosition().x <<","<< getPosition().y \
+            << m_transform.getPosition().x <<","<< m_transform.getPosition().y \
             << "center : " << c->getOrigin().x << "," << c->getOrigin().y  \
             << "center's pos : "<< c->getOrigin().x +sf::Mouse::getPosition().x \
             << "," <<c->getOrigin().y + sf::Mouse::getPosition().y \
@@ -92,6 +92,7 @@ void Player::removeScore(const unsigned long& s)
 void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
   GameObject::draw(rt, rs);
-  m_boundingBox->setPosition( getPosition().x, getPosition().y );
+  m_boundingBox->setPosition( m_transform.getPosition().x, 
+                              m_transform.getPosition().y );
   rt.draw( *m_boundingBox, rs );
 }
