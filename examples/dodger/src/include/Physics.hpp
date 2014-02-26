@@ -37,7 +37,7 @@ public:
   void setAcceleration(const sf::Vector2f&);
   sf::Vector2f getAcceleration() const;
 
-  void setRotationAcceleration(const sf::Vector2f&);
+  void setRotationAcceleration(const float&);
   float getRotationAcceleration() const;
 
   void setGrowthAcceleration(const sf::Vector2f&);
@@ -67,9 +67,9 @@ public:
   /**
      adds value to growth force
    */
-  void addGrowth(const float&);
+  void addGrowth(const sf::Vector2f&);
 
-  void addGrowthAcceleration(const float&);
+  void addGrowthAcceleration(const sf::Vector2f&);
 
   
 };

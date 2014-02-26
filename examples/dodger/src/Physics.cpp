@@ -4,9 +4,9 @@
 
 
 Physics::Physics()
-  : Component()
+  : Component(), 
+    m_growth(sf::Vector2f(1, 1) )
 {
-
 }
 
 Physics::~Physics()
@@ -32,7 +32,7 @@ sf::Vector2f Physics::getVelocity() const{
 
 void Physics::setRotationForce(const float& value )
 {
-
+  m_rotationForce = value;
 }
 
 float Physics::getRotationForce() const{
@@ -60,9 +60,9 @@ sf::Vector2f Physics::getAcceleration() const{
 }
 
 
-void Physics::setRotationAcceleration(const sf::Vector2f& value )
+void Physics::setRotationAcceleration(const float& value )
 {
-
+  m_rotationAcc = value;
 }
 
 float Physics::getRotationAcceleration() const{
@@ -72,6 +72,7 @@ float Physics::getRotationAcceleration() const{
 
 void Physics::setGrowthAcceleration(const sf::Vector2f& value )
 {
+  m_growthAcc = value;
 }
 
 sf::Vector2f Physics::getGrowthAcceleration() const{
@@ -81,7 +82,7 @@ sf::Vector2f Physics::getGrowthAcceleration() const{
 
 void Physics::setMass(const double& value )
 {
-
+  m_mass = value;
 }
 
 double Physics::getMass() const{
@@ -90,7 +91,7 @@ double Physics::getMass() const{
 
 void Physics::addMass(const double& value )
 {
-
+  m_mass += value;
 }
 
 
@@ -117,27 +118,27 @@ void Physics::addAcceleration(const sf::Vector2f& value )
 */
 void Physics::addRotationForce(const float& value )
 {
-
+  m_rotationForce += value;
 }
 
 
 void Physics::addRotationAcceleration(const float& value )
 {
-
+  m_rotationAcc += value;
 }
 
 
 /**
    adds value to growth force
 */
-void Physics::addGrowth(const float& value )
+void Physics::addGrowth(const sf::Vector2f& values )
 {
-
+  m_growth += values;
 }
 
 
-void Physics::addGrowthAcceleration(const float& value )
+void Physics::addGrowthAcceleration(const sf::Vector2f& values )
 {
-
+  m_growthAcc += values;
 }
 

@@ -18,7 +18,7 @@ Level::Level()
       e->m_physics.addAcceleration(sf::Vector2f(-0.001f, -.01f) );
       m_gameObjects.push_back(e);
   */
- 
+  spawnEnemy();
 }
 
 Level::~Level()
@@ -59,7 +59,8 @@ void Level::spawnEnemy()
 {
   std::cout << "spawning enemy"<< m_ennemies.size() <<std::endl;
   Enemy * e = new Enemy;
-  e->getTransform().setPosition(Random::get(100, 700), -50);
+  e->getTransform().setPosition(Random::get(100, 700), 50);
+  e->m_physics.addRotationForce(5.0f);
   e->m_physics.addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 7) ) );
   m_ennemies.push_back(e );
 }
@@ -70,7 +71,9 @@ void Level::spawnTarget()
   Target * e = new Target;
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->m_physics.addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                                        Random::get(-10, 10) / 10.f ) );
+                                        Random::get(-10, 10) / 10.f ) ); 
+  e->m_physics.addAcceleration(  e->m_physics.getVelocity() / -100.0f );
+  e->m_physics.addGrowth(sf::Vector2f(-0.005f, -0.005f) );
   std::cout<< "target's velocity : "\
            << e->m_physics.getVelocity().x <<","\
            << e->m_physics.getVelocity().y <<std::endl;
@@ -79,6 +82,7 @@ void Level::spawnTarget()
 
 void Level::updateEnemies()
 {
+  
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       (*it)->update();
