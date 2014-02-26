@@ -1,20 +1,24 @@
+include ../Makefile.generic
+
+INC=../src
+LDFLAGS+= -lboost_unit_test_framework
+CXXFLAGS+= -DBOOST_TEST_DYN_LINK -I$(INC)
 TARGETS=test_player
-SRCDIR=../src
 
 all: $(TARGETS)
 
-test: $(TARGETS) $(addprefix run-,$(TARGETS))
+$(TARGETS):
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
-%: %.cpp
-	g++ -o $@ $^ -DBOOST_TEST_DYN_LINK -lboost_unit_test_framework
+#test_player: test_player.cpp Player.o
 
-run-%: %
-	-./$^ --output_format=XML --log_level=test_suite > $(^)-report.xml
+#run-%: %.test
+#	-./$< --output_format=XML --log_level=test_suite > $(<)-report.xml
 
-$(SRCDIR)/%.o:
-	make -C ../src $($@:$(SRCDIR)/%=%)
+clean: generic_clean
+	rm -f *-report.xml
 
-test_player: $(SRCDIR)/Player.o
+proper: clean
+	rm -f $(TARGETS)
 
-clean:
-	rm $(TARGETS) *-report.xml
+-include $(TARGETS:=.d)

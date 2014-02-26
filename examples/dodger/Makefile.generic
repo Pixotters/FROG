@@ -1,0 +1,20 @@
+CXX=g++
+CXXFLAGS+= -std=c++0x -Wall -Wextra -pedantic-errors -g
+LDFLAGS+= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+
+generic_show:
+	@echo "-compiler : $(CXX)"
+	@echo "-compiler options : $(CXXFLAGS)"
+	@echo "-linker flag : $(LDFLAGS)"
+
+%.d: %.cpp
+	@set -e; rm -f $@; \
+	$(CXX) $(CXXFLAGS) -M $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $<
+
+generic_clean:
+	rm -f *.o *.d *.d.* *~ *# *.gch
