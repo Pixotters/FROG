@@ -31,7 +31,7 @@ show:
 	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
 	rm -f $@.$$$$
 
-include $(SOURCES:.cpp=.d)
+-include $(SOURCES:.cpp=.d)
 
 $(PROGRAM):$(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -L$(LIBDIR) $(LIBS) -o $@ 
