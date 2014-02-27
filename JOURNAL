@@ -51,25 +51,27 @@ implementes.
 
 = 27/02 =
 
-Pour les tests unitaires, le choix c'est finalement porte sur la librairie 
+Pour les tests unitaires, le choix s'est finalement porte sur la librairie 
 Boost, qui offre un framework simple d'utilisation (utilisation de macro, 
 pas besoin d'heriter d'une classe test et de surcharger des fonctions, comme 
 certaines librairies), et est suffisament repandu pour pouvoir trouver de 
 l'aide et des tutoriaux facilement. Le framework de tests unitaires de 
-google etait aussi candidat mais n'a pas ete retenu.
+google etait aussi candidat mais n'a pas été retenu.
 
-Quelques tests unitaires triviaux ont ete ecrit pour la classe ``Player`` du 
-jeu //Dodger//, mais la premiere implementation rapide des classes du jeu 
-etant mal hierarchisee, impossible de compiler les tests a cause d'une 
-double definition de la fonction ``main``.
+Quelques tests unitaires triviaux ont été écrits pour la classe ``Player`` du 
+jeu //Dodger//, mais le makefile de test est incapable de trouver les sources : 
+est-ce que c'est "include ../Makefile.generic" qui ne marche pas ? 
 
-Une fois ce probleme regle, plus de tests suivront, et l'analyse de la 
+Une fois ce probleme reglé, plus de tests suivront, et l'analyse de la 
 couverture sera faite avec ``gcov`` de ``gcc``.
 
 == Objectifs pour la semaine suivante ==
 
+- Définir une fois pour toutes si on va utiliser des Component ou pas. Tout 
+  le reste en dépend. 
 - Travail sur la notion de rendu des objets, question en train d'etre 
-  debattue, et developpement du module. Integration a l'objet du renderer ? 
+  debattue, et developpement du module. Utilisation modulaire via un 
+  RenderingComponent ? 
   Utilisation d'une classe d'association pour objet/renderer ?
 
 = 06/02 =

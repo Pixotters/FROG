@@ -1,6 +1,6 @@
 include ../Makefile.generic
 
-INC=../src
+INC=../src/include
 LDFLAGS+= -lboost_unit_test_framework
 CXXFLAGS+= -DBOOST_TEST_DYN_LINK -I$(INC)
 TARGETS=test_player
