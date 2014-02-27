@@ -8,10 +8,7 @@ generic_show:
 	@echo "-linker flag : $(LDFLAGS)"
 
 %.d: %.cpp
-	@set -e; rm -f $@; \
-	$(CXX) $(CXXFLAGS) -M $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
+	$(CXX) $(CXXFLAGS) -M $< > $@
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $<
