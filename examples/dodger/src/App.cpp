@@ -12,6 +12,7 @@ void App::init()
                                                 m_config.getWindowHeight() ),
                                   m_config.getTitle(), 
                                   sf::Style::Close);
+  m_window->setPosition(sf::Vector2f(0,0) );
   m_stateManager.push(new StartState() );
   m_isRunning = true;
 }

@@ -47,12 +47,12 @@ public:
   /*
     add the given amount of lifes (no check for the unsigned shorts' ceiling)
    */
-  void addLife(const unsigned short& = 1);
+  void addLifes(const unsigned short& = 1);
 
   /*
     removes the given amount of lifes, with a check for 0.
    */
-  void removeLife(const unsigned short& = 1);
+  void removeLifes(const unsigned short& = 1);
 
   /*
     returns the current score

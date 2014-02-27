@@ -23,10 +23,8 @@ Player::~Player()
 }
 
 void Player::update(){
-  unsigned int x = sf::Mouse::getPosition().x 
-    - App::instance()->getWindow()->getPosition().x;
-  unsigned int y = sf::Mouse::getPosition().y 
-    - App::instance()->getWindow()->getPosition().y;
+  unsigned int x = sf::Mouse::getPosition().x;
+  unsigned int y = sf::Mouse::getPosition().y;
   m_transform.setPosition(x, y );
   sf::CircleShape * c = dynamic_cast<sf::CircleShape * >( m_boundingBox );
   std::cerr << "PLAYER : updated position : " \
@@ -47,12 +45,12 @@ void Player::setLifes(const unsigned short& l)
   m_lifes = l;
 }
 
-void Player::addLife(const unsigned short& l)
+void Player::addLifes(const unsigned short& l)
 {
   m_lifes += l;
 }
 
-void Player::removeLife(const unsigned short& l)
+void Player::removeLifes(const unsigned short& l)
 {
   if(m_lifes < l)
     {
