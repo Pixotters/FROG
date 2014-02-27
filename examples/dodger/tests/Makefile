@@ -10,10 +10,10 @@ all: $(TARGETS)
 $(TARGETS):
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
-#test_player: test_player.cpp Player.o
+test_player: test_player.cpp Player.o
 
-#run-%: %.test
-#	-./$< --output_format=XML --log_level=test_suite > $(<)-report.xml
+run-%: %.test
+	-./$< --output_format=XML --log_level=test_suite > $(<)-report.xml
 
 clean: generic_clean
 	rm -f *-report.xml
