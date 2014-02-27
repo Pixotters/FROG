@@ -27,20 +27,20 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( Player_removeLife )
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLife_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLifes_init_fixture, PlayerTester )
 {
     BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLife_default, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLifes_default, PlayerTester )
 {
-    p->removeLife();
+    p->removeLifes();
     BOOST_CHECK_EQUAL( p->getLifes(), 41);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLife_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLifes_int, PlayerTester )
 {
-    p->removeLife(42);
+    p->removeLifes(42);
     BOOST_CHECK_EQUAL( p->getLifes(), 42);
 }
 
@@ -53,22 +53,22 @@ BOOST_FIXTURE_TEST_CASE( Player_removeLife_int, PlayerTester )
 
 BOOST_AUTO_TEST_SUITE_END() // Player_removeLife
 
-BOOST_AUTO_TEST_SUITE( Player_addLife )
+BOOST_AUTO_TEST_SUITE( Player_addLifes )
 
-BOOST_FIXTURE_TEST_CASE( Player_addLife_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLifes_init_fixture, PlayerTester )
 {
     BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_addLife_default, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLifes_default, PlayerTester )
 {
-    p->addLife();
+    p->addLifes();
     BOOST_CHECK_EQUAL( p->getLifes(), 43);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_addLife_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLifes_int, PlayerTester )
 {
-    p->addLife(42);
+    p->addLifes(42);
     BOOST_CHECK_EQUAL( p->getLifes(), 84);
 }
 
@@ -80,14 +80,14 @@ BOOST_FIXTURE_TEST_CASE( Player_addLife_int, PlayerTester )
 BOOST_AUTO_TEST_SUITE_END() // Player_addLife
 
 
-BOOST_AUTO_TEST_SUITE( Player_setLife )
+BOOST_AUTO_TEST_SUITE( Player_setLifes )
 
-BOOST_FIXTURE_TEST_CASE( Player_setLife_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_setLifes_init_fixture, PlayerTester )
 {
     BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_setLife_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_setLifes_int, PlayerTester )
 {
     p->setLifes(1);
     BOOST_CHECK_EQUAL( p->getLifes(), 1);
