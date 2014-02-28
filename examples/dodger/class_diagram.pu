@@ -80,7 +80,7 @@ class Player{
       -unsigned long score
       -Shape boundingBox
       unsigned short getLifes()
-      void setLife(unsigned short)
+      void setLifes(unsigned short)
       void addLifes(unsigned short)
       void removeLifes(unsigned short)
       unsigned long getScore()
@@ -89,11 +89,24 @@ class Player{
       void removeScore(unsigned long)
 }
 
-abstract class PhysicObject{
-      -sf::vector2f velocity
-}
 
 abstract class Component{
+}
+
+class Physics{
+      -vector2f velocity
+      -float rotationForce
+      -vector2f growth
+      -vector2f acceleration
+      -float rotationAcceleration
+      -vector2f growthAcceleration
+      -double mass
+      void update()      
+}
+
+class PhysicEngine{
+      const float EARTH_GRAVITY
+      update(Physics *, GameObject *)
 }
 
 App *-- StateManager
@@ -110,11 +123,12 @@ Level o-- Player
 Component --o GameObject
 Component --o Component
 Transform --|> Component
+Transform --|> sf.Transformable
 Physics --|> Component 
 'Bullet -left-|> GameObject
 Element -left-|> GameObject
-'Target -left-|> Element
-'Enemy -left-|> Element
+Target --|> Element
+Enemy --|> Element
 'App o-- InputHandler
 'Element --|> PhysicObject
 'PhysicObject --|> sf.Transformable
