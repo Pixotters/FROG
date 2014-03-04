@@ -48,7 +48,7 @@ In order to determine if the library is a success, we will implements 2 games
 of different kind sharing a lot of modules.  
 We would like to reimplement [[https://github.com/Lasconik/LordzOfTheRing << 
 Lasconik's LOTR game]] to provide a comparison between a game using FROG and 
-the same game using it
+the same game that doesn't use it. 
 
 == Features ==
 
@@ -80,16 +80,16 @@ states that will be handled by the engine.
 Accessing a file is heavy: we want to limit these accesses as much as possible. 
 Either loading ressources at game scene creation, or using just-in-time 
 loading. In both cases, ressources will be kept in memory as long as possible. 
-Ressources may be ordered by priority to free some of then in situation of 
+Resources may be ordered by priority to free some of them in situations of 
 need of memory.
 
 ==== Inputs ====
 
-A game needs its player to interact with it. Inputs can be sent by the keyboard,
- the mouse, or the joystick. Each input can be associated to an action, but an 
-action can be trigerred by several different inputs (for instance, one by the 
-keyboard and one by the joystick). Theses associations have to be handled, 
-while allowing an easy customisation.  
+A game needs its player to interact with it. Inputs can be sent by the 
+keyboard, the mouse, or the joystick. Each input can be associated to an 
+action, but an action can be trigerred by several different inputs (for 
+instance, one by the keyboard and one by the joystick). Theses associations 
+have to be handled, while allowing an easy customisation.  
 We think about a table **action <-> input(s)**.  
 
 ==== Rendering ====
