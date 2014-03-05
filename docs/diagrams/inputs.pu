@@ -1,0 +1,31 @@
+@startuml
+
+'App -> Config : loadFromFile(config)
+'note right: creates a map of all possible inputs with default actions
+'Config -> App : config loaded
+App -> Controller : handleInputs(window)
+note right: Controller keeps a map of keys associated with actions
+
+App.window --> App.window
+activate App.window
+Controller -> App.window : pollEvent(event)
+App.window -> Controller : event read
+deactivate App.window
+activate Controller.actionQueue
+Controller -> Controller.actionQueue : add action associated to event
+note left: if an event is read
+deactivate Controller.actionQueue
+
+Scene -> Scene : pollActions
+activate Scene
+Controller -> Scene : performActions(actionQueue)
+note left: when all events have been polled
+
+Scene -> Controller.actionQueue : dequeue(a)
+activate Controller.actionQueue
+Controller.actionQueue -> Scene : returns Action a
+note right: perform Action a
+deactivate Controller.actionQueue
+deactivate Scene
+
+@enduml
