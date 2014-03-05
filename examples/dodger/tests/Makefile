@@ -18,6 +18,7 @@ run-%: %.test
 
 clean: generic_clean
 	rm -f *-report.xml
+	make -C ../src clean
 
 proper: clean
 	rm -f $(TARGETS)
