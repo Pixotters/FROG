@@ -9,14 +9,14 @@ class Player : virtual public GameObject{
 
   //// attributes ////
 protected:
-  unsigned short m_lifes;
+  unsigned short m_lives;
   unsigned long m_score;
   sf::Shape * m_boundingBox;
 
   //// operations ////
 public:
   /**
-     the parameter 'l' is the initial number of lifes a new player has
+     the parameter 'l' is the initial number of lives a new player has
    */
   Player(const unsigned short & l = 3);
 
@@ -35,24 +35,24 @@ public:
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   /*
-    returns the number of lifes
+    returns the number of lives
   */
-  unsigned short getLifes() const;
+  unsigned short getLives() const;
 
   /*
-    changes the number of lifes
+    changes the number of lives
    */
-  void setLifes(const unsigned short&);
+  void setLives(const unsigned short&);
 
   /*
-    add the given amount of lifes (no check for the unsigned shorts' ceiling)
+    add the given amount of lives (no check for the unsigned shorts' ceiling)
    */
-  void addLifes(const unsigned short& = 1);
+  void addLives(const unsigned short& = 1);
 
   /*
-    removes the given amount of lifes, with a check for 0.
+    removes the given amount of lives, with a check for 0.
    */
-  void removeLifes(const unsigned short& = 1);
+  void removeLives(const unsigned short& = 1);
 
   /*
     returns the current score

@@ -7,7 +7,7 @@
 Player::Player(const unsigned short& l)
   : GameObject()
 {
-  m_lifes = l;
+  m_lives = l;
   m_score = 0;
   static float rad = 24.0f;
   m_boundingBox = new sf::CircleShape(rad);
@@ -35,29 +35,29 @@ void Player::update(){
             << std::endl;
 }
 
-unsigned short Player::getLifes() const
+unsigned short Player::getLives() const
 {
-  return m_lifes;
+  return m_lives;
 }
 
-void Player::setLifes(const unsigned short& l)
+void Player::setLives(const unsigned short& l)
 {
-  m_lifes = l;
+  m_lives = l;
 }
 
-void Player::addLifes(const unsigned short& l)
+void Player::addLives(const unsigned short& l)
 {
-  m_lifes += l;
+  m_lives += l;
 }
 
-void Player::removeLifes(const unsigned short& l)
+void Player::removeLives(const unsigned short& l)
 {
-  if(m_lifes < l)
+  if(m_lives < l)
     {
-      m_lifes = 0;
+      m_lives = 0;
     }else
     {
-      m_lifes -= l;
+      m_lives -= l;
     }
 }
 
