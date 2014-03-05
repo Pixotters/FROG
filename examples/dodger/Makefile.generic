@@ -14,4 +14,4 @@ generic_show:
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 generic_clean:
-	rm -f *.o *.d *.d.* *~ *# *.gch
+	rm -f *.o *.d *.d.* *~ *# *.gch *.gcno *.gcda
