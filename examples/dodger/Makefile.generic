@@ -11,7 +11,7 @@ generic_show:
 	$(CXX) $(CXXFLAGS) -M $< > $@
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 generic_clean:
 	rm -f *.o *.d *.d.* *~ *# *.gch
