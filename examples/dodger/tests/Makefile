@@ -18,8 +18,15 @@ test_player: test_player.o ../src/Player.o ../src/GameObject.o \
 run-%: %
 	-./$< #--output_format=XML --log_level=test_suite > $(<)-report.xml
 
+cov: run
+	lcov --capture --no-external -d ../src/ --output-file coverage.info
+
+cov-report: cov
+	genhtml coverage.info --output-directory cov-report
+
 clean: generic_clean
-	rm -f *-report.xml
+	rm -f *-report.xml coverage.info
+	rm -rf cov-report
 	make -C ../src clean #FIXME: rebuild ../src/*.d whereas it should not
 
 proper: clean
