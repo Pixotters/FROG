@@ -10,7 +10,8 @@ all: $(TARGETS)
 $(TARGETS):
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
-test_player: test_player.cpp Player.o
+test_player: test_player.o ../src/Player.o ../src/GameObject.o \
+             ../src/Component.o
 
 run-%: %.test
 	-./$< --output_format=XML --log_level=test_suite > $(<)-report.xml
