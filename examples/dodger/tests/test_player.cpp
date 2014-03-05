@@ -46,7 +46,7 @@ BOOST_FIXTURE_TEST_CASE( Player_removeLives_int, PlayerTester )
 
 BOOST_FIXTURE_TEST_CASE( Player_removeLife_below_zero, PlayerTester )
 {
-    p->removeLife(43);
+    p->removeLives(43);
     BOOST_CHECK_EQUAL( p->getLives(), 0);
 }
 
