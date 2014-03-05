@@ -14,62 +14,61 @@ BOOST_AUTO_TEST_SUITE( Player_constructors )
 BOOST_AUTO_TEST_CASE( Player_defaultContructor )
 {
     Player p;
-    BOOST_CHECK_EQUAL( p.getLifes(), 3 );
+    BOOST_CHECK_EQUAL( p.getLives(), 3 );
 }
 
 BOOST_AUTO_TEST_CASE( Player_contructor )
 {
     Player p(42);
-    BOOST_CHECK_EQUAL( p.getLifes(), 42);
+    BOOST_CHECK_EQUAL( p.getLives(), 42);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( Player_removeLife )
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLifes_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLives_init_fixture, PlayerTester )
 {
-    BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
+    BOOST_REQUIRE_EQUAL( p->getLives(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLifes_default, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLives_default, PlayerTester )
 {
-    p->removeLifes();
-    BOOST_CHECK_EQUAL( p->getLifes(), 41);
+    p->removeLives();
+    BOOST_CHECK_EQUAL( p->getLives(), 41);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_removeLifes_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_removeLives_int, PlayerTester )
 {
-    p->removeLifes(42);
-    BOOST_CHECK_EQUAL( p->getLifes(), 42);
+    p->removeLives(42);
+    BOOST_CHECK_EQUAL( p->getLives(), 0);
 }
 
-/*
-  BOOST_FIXTURE_TEST_CASE( Player_removeLife_below_zero, PlayerTester )
-  {
-  p->removeLife(43);
-  }
-*/
+BOOST_FIXTURE_TEST_CASE( Player_removeLife_below_zero, PlayerTester )
+{
+    p->removeLives(43);
+    BOOST_CHECK_EQUAL( p->getLives(), 0);
+}
 
 BOOST_AUTO_TEST_SUITE_END() // Player_removeLife
 
-BOOST_AUTO_TEST_SUITE( Player_addLifes )
+BOOST_AUTO_TEST_SUITE( Player_addLives )
 
-BOOST_FIXTURE_TEST_CASE( Player_addLifes_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLives_init_fixture, PlayerTester )
 {
-    BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
+    BOOST_REQUIRE_EQUAL( p->getLives(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_addLifes_default, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLives_default, PlayerTester )
 {
-    p->addLifes();
-    BOOST_CHECK_EQUAL( p->getLifes(), 43);
+    p->addLives();
+    BOOST_CHECK_EQUAL( p->getLives(), 43);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_addLifes_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_addLives_int, PlayerTester )
 {
-    p->addLifes(42);
-    BOOST_CHECK_EQUAL( p->getLifes(), 84);
+    p->addLives(42);
+    BOOST_CHECK_EQUAL( p->getLives(), 84);
 }
 
 /*
@@ -80,17 +79,17 @@ BOOST_FIXTURE_TEST_CASE( Player_addLifes_int, PlayerTester )
 BOOST_AUTO_TEST_SUITE_END() // Player_addLife
 
 
-BOOST_AUTO_TEST_SUITE( Player_setLifes )
+BOOST_AUTO_TEST_SUITE( Player_setLives )
 
-BOOST_FIXTURE_TEST_CASE( Player_setLifes_init_fixture, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_setLives_init_fixture, PlayerTester )
 {
-    BOOST_REQUIRE_EQUAL( p->getLifes(), 42);
+    BOOST_REQUIRE_EQUAL( p->getLives(), 42);
 }
 
-BOOST_FIXTURE_TEST_CASE( Player_setLifes_int, PlayerTester )
+BOOST_FIXTURE_TEST_CASE( Player_setLives_int, PlayerTester )
 {
-    p->setLifes(1);
-    BOOST_CHECK_EQUAL( p->getLifes(), 1);
+    p->setLives(1);
+    BOOST_CHECK_EQUAL( p->getLives(), 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END() //Player_setLife
