@@ -127,7 +127,7 @@ void Level::handleActions(Controller * c)
     {
       Action * a = actions.front();
       
-      if(a->getName().compare("LEFT") == 0){
+      if(a->getName().compare(Action::LEFT) == 0){
         movePlayer(-4);
       }
       
