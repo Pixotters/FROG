@@ -3,7 +3,11 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
+#include "App.hpp"
+
 #include "Random.hpp"
+
+#include "MovePlayer.hpp"
 
 #include <iostream> // delete
 
@@ -18,6 +22,15 @@ Level::Level()
       e->m_physics.addAcceleration(sf::Vector2f(-0.001f, -.01f) );
       m_gameObjects.push_back(e);
   */
+  App::instance()->getController()->suscribeOneTime(sf::Keyboard::Q, 
+                                                   new MovePlayer(m_player, -4, 0) );  
+  App::instance()->getController()->suscribeOneTime(sf::Keyboard::D, 
+                                                   new MovePlayer(m_player, 4, 0) );
+  App::instance()->getController()->suscribeOneTime(sf::Keyboard::Z, 
+                                                    new MovePlayer(m_player, 0, -4) );
+App::instance()->getController()->suscribeOneTime(sf::Keyboard::S, 
+                                                  new MovePlayer(m_player, 0, 4) );
+
   spawnEnemy();
 }
 
@@ -126,7 +139,8 @@ void Level::handleActions(Controller * c)
   while(not actions.empty() )
     {
       Action * a = actions.front();
-      
+      a->execute();
+      /*      
       if(a->getName().compare("LEFT") == 0){
         movePlayer(-4);
       }
@@ -134,7 +148,7 @@ void Level::handleActions(Controller * c)
       if(a->getName().compare("RIGHT") == 0){
         movePlayer(4);
       }
-
+      */
       actions.pop();
     }
 }

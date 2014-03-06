@@ -9,13 +9,13 @@ Controller::Controller()
   sf::Event e;
   e.type = sf::Event::KeyPressed;
   e.key.code = sf::Keyboard::A;
-  suscribeOneTime(sf::Keyboard::A, new Action("LEFT") );
+  //  suscribeOneTime(sf::Keyboard::A, new Action("LEFT") );
   sf::Event e2;
   e2.type = sf::Event::KeyPressed;
   e2.key.code = sf::Keyboard::E;
-  suscribeOneTime(e2.key.code, new Action("RIGHT") );
+  /*  suscribeOneTime(e2.key.code, new Action("RIGHT") );
   suscribeRealTime(sf::Keyboard::D, new Action("RIGHT") );
-  suscribeRealTime(sf::Keyboard::Q, new Action("LEFT") );
+  suscribeRealTime(sf::Keyboard::Q, new Action("LEFT") );*/
 }
 
 Controller::~Controller()
@@ -45,8 +45,8 @@ void Controller::handleRealTime()
         {
           auto action = m_binding.find(k);
           if(action != m_binding.end() )
-            std::cout << "real-time action : "                  \
-                      << action->second->getName() << std::endl;
+            /*            std::cout << "real-time action : "            \
+                          << action->second->getName() << std::endl;*/
           m_actions.push( action->second );
         }
     }
@@ -63,8 +63,8 @@ void Controller::handleOneTime(sf::Window * w)
         }else if( event.type == sf::Event::KeyPressed){
         auto action = m_binding.find(event.key.code);
         if(action != m_binding.end() )
-          std::cout << "one-time action : "\
-                    << action->second->getName() << std::endl;
+          /*          std::cout << "one-time action : "         \
+                      << action->second->getName() << std::endl;*/
         m_actions.push( action->second );
       }
     

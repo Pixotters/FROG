@@ -111,6 +111,8 @@ public:
   StateManager getStateManager() const{ return m_stateManager; };
   StateManager& getStateManager(){ return m_stateManager; };
 
+  Controller * getController() { return m_controller; };
+
 };
 
 #endif
