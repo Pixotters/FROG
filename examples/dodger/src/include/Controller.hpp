@@ -12,7 +12,8 @@ class Controller
 {
   //// attributes ////
 protected:
-  std::map<sf::Keyboard::Key, Action *> m_binding;
+  std::map<sf::Keyboard::Key, Action *> m_RTbinding;
+  std::map<sf::Keyboard::Key, Action *> m_OTbinding;
   std::queue<Action * > m_actions;
   int m_mouseX;
   int m_mouseY;

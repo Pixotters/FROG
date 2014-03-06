@@ -43,10 +43,7 @@ void Controller::handleRealTime()
     
       if(sf::Keyboard::isKeyPressed(k) )
         {
-          auto action = m_binding.find(k);
-          if(action != m_binding.end() )
-            /*            std::cout << "real-time action : "            \
-                          << action->second->getName() << std::endl;*/
+          auto action = m_RTbinding.find(k);
           m_actions.push( action->second );
         }
     }
@@ -60,12 +57,11 @@ void Controller::handleOneTime(sf::Window * w)
       if( event.type ==  sf::Event::Closed )
         {
           App::instance()->exit();
-        }else if( event.type == sf::Event::KeyPressed){
-        auto action = m_binding.find(event.key.code);
-        if(action != m_binding.end() )
-          /*          std::cout << "one-time action : "         \
-                      << action->second->getName() << std::endl;*/
-        m_actions.push( action->second );
+        }else if( event.type == sf::Event::KeyReleased){
+        auto action = m_OTbinding.find(event.key.code);
+        if(action != m_OTbinding.end() ){         
+          m_actions.push( action->second );
+        }
       }
     
     }
@@ -75,12 +71,12 @@ void Controller::handleOneTime(sf::Window * w)
 
 void Controller::suscribeOneTime(const sf::Keyboard::Key& k, Action * a)
 {
-  m_binding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
+  m_OTbinding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
 }
 
 void Controller::suscribeRealTime(const sf::Keyboard::Key& k, Action * a)
 {
-  m_binding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
+  m_RTbinding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
 }
 
 void Controller::unsuscribeOneTime()

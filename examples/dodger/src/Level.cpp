@@ -22,15 +22,18 @@ Level::Level()
       e->m_physics.addAcceleration(sf::Vector2f(-0.001f, -.01f) );
       m_gameObjects.push_back(e);
   */
-  App::instance()->getController()->suscribeOneTime(sf::Keyboard::Q, 
-                                                   new MovePlayer(m_player, -4, 0) );  
-  App::instance()->getController()->suscribeOneTime(sf::Keyboard::D, 
-                                                   new MovePlayer(m_player, 4, 0) );
-  App::instance()->getController()->suscribeOneTime(sf::Keyboard::Z, 
-                                                    new MovePlayer(m_player, 0, -4) );
-App::instance()->getController()->suscribeOneTime(sf::Keyboard::S, 
-                                                  new MovePlayer(m_player, 0, 4) );
-
+  App::instance()->getController()
+    ->suscribeRealTime(sf::Keyboard::Q, 
+                      new MovePlayer(m_player, -4, 0) );  
+  App::instance()->getController()
+    ->suscribeRealTime(sf::Keyboard::D, 
+                      new MovePlayer(m_player, 4, 0) );
+  App::instance()->getController()
+    ->suscribeOneTime(sf::Keyboard::Z, 
+                      new MovePlayer(m_player, 0, -4) );
+  App::instance()->getController()
+    ->suscribeOneTime(sf::Keyboard::S, 
+                      new MovePlayer(m_player, 0, 4) );
   spawnEnemy();
 }
 
