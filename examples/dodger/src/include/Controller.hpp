@@ -27,8 +27,10 @@ public:
   virtual void handleInputs(sf::Window *);
   void suscribeOneTime(const sf::Keyboard::Key&, Action *);
   void suscribeRealTime(const sf::Keyboard::Key&, Action *);
-  void unsuscribeOneTime();
-  void unsuscribeRealTime();
+  void unsuscribeOneTime(const sf::Keyboard::Key&);
+  void unsuscribeRealTime(const sf::Keyboard::Key&);
+  void clearOneTime();
+  void clearRealTime();
   std::queue<Action *> getActions();
 private:
   void handleRealTime();
