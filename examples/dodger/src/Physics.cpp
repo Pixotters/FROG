@@ -42,7 +42,7 @@ float Physics::getRotationForce() const{
 
 void Physics::setGrowth(const sf::Vector2f& values )
 {
-  m_growth += values;
+  m_growth = values;
 }
 
 sf::Vector2f Physics::getGrowth() const{
