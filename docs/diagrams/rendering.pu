@@ -1,14 +1,8 @@
 @startuml
-'participant App
-'participant StateManager
-'participant State
-'participant GameObject
-'participant Renderer
 
-App -> StateManager: render in app's window ( = "rt")
-StateManager -> State: draw in "rt"
-State -> GameObject: draw in state's renderer
-GameObject -> Renderer: draw entity
-State -> Renderer: draw in "rt"
-App <- Renderer: draw in the window
+Scene o-- Renderer
+Scene o-- GameObject
+GameObject o-- RenderingComponent
+Renderer .. RenderingComponent : uses
+
 @enduml

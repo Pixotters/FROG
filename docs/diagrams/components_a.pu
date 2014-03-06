@@ -1,9 +1,20 @@
 @startuml
 
-Scene1 o-- GameObject
+class GameObject{
+      void addComponent(Component *)
+      void removeComponent(Component *)
+      void changeComponent(Component *)
+}
+
+
+Scene o-- GameObject
 GameObject o-- Component
 RenderingComponent --|> Component
 PhysicsComponent --|> Component
 LightEmitterComponent --|> Component
+
+note "keeps a list (or else) of components, \nthat be modified at any time" as CompStruct
+
+CompStruct .. GameObject
 
 @enduml
