@@ -8,6 +8,7 @@
 #include "Random.hpp"
 
 #include "MovePlayer.hpp"
+#include "Bomb.hpp"
 
 #include <iostream> // delete
 
@@ -34,6 +35,9 @@ Level::Level()
   App::instance()->getController()
     ->suscribeOneTime(sf::Keyboard::S, 
                       new MovePlayer(m_player, 0, 4) );
+  App::instance()->getController()
+    ->suscribeOneTime(sf::Keyboard::Space, 
+                      new Bomb(m_ennemies) );
   spawnEnemy();
 }
 
