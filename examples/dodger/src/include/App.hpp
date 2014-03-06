@@ -2,9 +2,9 @@
 #define APP_HPP
 
 #include "Config.hpp"
+#include "Controller.hpp"
 #include "StateManager.hpp"
 #include "Singleton.hpp"
-//#include "InputManager.hpp"
 
 #include <SFML/Window.hpp>
 
@@ -34,6 +34,9 @@ private:
 
   // the current state, must be replaced by a stateManager
   StateManager m_stateManager;
+
+  // filters the inputs and translates them into actions //
+  Controller * m_controller;
 
   //// operations ////
 private:
@@ -65,7 +68,7 @@ public:
   /*
     make the current state handle events
    */
-  void handleEvents();
+  void handleActions();
   
   /*
     updates the current state

@@ -10,6 +10,7 @@ Player::Player(const unsigned short& l)
   m_lives = l;
   m_score = 0;
   static float rad = 24.0f;
+  m_transform.setPosition(400, 560 );
   m_boundingBox = new sf::CircleShape(rad);
   m_boundingBox->setFillColor(sf::Color::Blue);
   m_boundingBox->setOutlineColor(sf::Color::White);
@@ -23,9 +24,10 @@ Player::~Player()
 }
 
 void Player::update(){
-  unsigned int x = sf::Mouse::getPosition().x;
-  unsigned int y = sf::Mouse::getPosition().y;
-  m_transform.setPosition(x, y );
+  //  unsigned int x = sf::Mouse::getPosition().x;
+  //  unsigned int y = sf::Mouse::getPosition().y;
+  //  unsigned int y = 550;
+  //  m_transform.setPosition(x, y );
   sf::CircleShape * c = dynamic_cast<sf::CircleShape * >( m_boundingBox );
   std::cerr << "PLAYER : updated position : " \
             << m_transform.getPosition().x <<","<< m_transform.getPosition().y \
@@ -94,3 +96,5 @@ void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
                               m_transform.getPosition().y );
   rt.draw( *m_boundingBox, rs );
 }
+
+

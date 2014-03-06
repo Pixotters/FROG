@@ -36,4 +36,3 @@ void Scene::update()
       (*it)->update();
     }
 }
-

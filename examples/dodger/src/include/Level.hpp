@@ -3,6 +3,7 @@
 
 #include "Scene.hpp"
 
+#include "Player.hpp"
 #include "Enemy.hpp"
 #include "Target.hpp"
 
@@ -13,6 +14,7 @@ class Level : virtual public Scene
   //// attributes ////
 protected:
   sf::Clock m_clock;
+  Player * m_player;
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
 
@@ -22,12 +24,14 @@ public:
   virtual ~Level();
   virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
+  virtual void handleActions(Controller *);
 
 private:
   void spawnEnemy();
   void spawnTarget();
   void updateEnemies();
   void updateTargets();
+  void movePlayer(const short&);
 };
 
 #endif

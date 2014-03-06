@@ -62,3 +62,11 @@ void StateManager::render(sf::RenderTarget& rt)
     }
 }
 
+void StateManager::handleActions(Controller * c)
+{
+  if( not m_stateStack.empty() )
+    {
+      m_stateStack.top()->handleActions(c);
+    }
+  
+}
