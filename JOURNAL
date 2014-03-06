@@ -3,87 +3,93 @@
 Les tests (mis en place avec //Boost//) fonctionnent, tout comme la couverture 
 de code (utilisant //g++// et //lcov//). 
 
-Le début de la gestion des inputs a été fait : on capte bien les inputs 
-clavier, qu'ils soient en temps réel ou en polling (évènements //one-time//). 
-Le système utilisé est un dérivé de //publisher/suscriber//, où le State peut 
-enregistrer les touches pour lesquelles il a un intérêt, en leur associant une 
+Le dÃ©but de la gestion des inputs a Ã©tÃ© fait : on capte bien les inputs 
+clavier, qu'ils soient en temps rÃ©el ou en polling (Ã©vÃ¨nements //one-time//). 
+Le systÃ¨me utilisÃ© est un dÃ©rivÃ© de //publisher/suscriber//, oÃ¹ le State peut 
+enregistrer les touches pour lesquelles il a un intÃ©rÃªt, en leur associant une 
 action. Le Controller va filter avec ces souscriptions, en envoyant les actions 
-déclenchées au State, via le StateManager. Toutefois, les actions sont pour 
-l'instant des string sur lesquelles il faut faire des comparaisons. 
+dÃ©clenchÃ©es au State, via le StateManager. 
+Les actions sont simplement des sous-classes de la classe abstraite Action, 
+devant redÃ©finir une mÃ©thode //execute//.
 
-Le système de Component a été adopté, sans toutefois être fixé sur 
-l'implémentation : deux propositions sont candidates, visibles dans les 
+Le systÃ¨me de Component a Ã©tÃ© adoptÃ©, sans toutefois Ãªtre fixÃ© sur 
+l'implÃ©mentation : deux propositions sont candidates, visibles dans les 
 diagrammes (components_a et components_b)
 
-Le système de rendu en découlant a été plus ou moins choisi, selon cette 
-implémentation. 
+Le systÃ¨me de rendu en dÃ©coulant a Ã©tÃ© plus ou moins choisi, selon cette 
+implÃ©mentation. 
 
-Un remaniement de la physique a aussi été fait en parallèle, mais non commité 
-car non-prioritaire : les forces ont été factorisées dans des classes 
-possédant deux vecteurs (force et accélération).  
+Un remaniement de la physique a aussi Ã©tÃ© fait en parallÃ¨le, mais non commitÃ© 
+car non-prioritaire : les forces ont Ã©tÃ© factorisÃ©es dans des classes 
+possÃ©dant deux vecteurs (force et accÃ©lÃ©ration).  
+
+== Objectifs de la semaine == 
+
+Julien commencera l'implÃ©mentation du moteur de collision. 
+Nicolas avancera sur la gestion des Ã©vÃ¨nements. 
 
 
 = 27/02 (Stefano) =
 
-Un prototype rapide du jeu Dodger a été effectué. Les fonctionnalités 
-implémentées sont : la GameLoop, la gestion des States, le système de 
+Un prototype rapide du jeu Dodger a Ã©tÃ© effectuÃ©. Les fonctionnalitÃ©s 
+implÃ©mentÃ©es sont : la GameLoop, la gestion des States, le systÃ¨me de 
 GameObject, une physique de base (forces de translation, de rotation, 
-de croissance avec leurs accélérations respectives).  
+de croissance avec leurs accÃ©lÃ©rations respectives).  
 
-Le professeur a suggéré que, même si le système de Component est déjà bien car 
-flexible, la physique soit factorisée ( 1 component par type de force ?). 
-Reste à voir si cela reste cohérent avec la gestion que fait la SFML des 
+Le professeur a suggÃ©rÃ© que, mÃªme si le systÃ¨me de Component est dÃ©jÃ  bien car 
+flexible, la physique soit factorisÃ©e ( 1 component par type de force ?). 
+Reste Ã  voir si cela reste cohÃ©rent avec la gestion que fait la SFML des 
 transformations. 
 
-Concernant le rendu, deux méthodes s'affrontent : 
+Concernant le rendu, deux mÃ©thodes s'affrontent : 
 - l'une utilise des Renderer par type d'objets et des listes d'associations
-- l'autre utilise un Component RenderingComponent à qui on fournit une 
-procédure de rendu. 
+- l'autre utilise un Component RenderingComponent Ã  qui on fournit une 
+procÃ©dure de rendu. 
 Dans les deux cas, le rendu n'est jamais fait directement par les objets ou la 
-scène, mais via un renderer global (géré par la scène). 
-Après l'entretien, Stefano a suggéré que la méthode avec Component est plus 
+scÃ¨ne, mais via un renderer global (gÃ©rÃ© par la scÃ¨ne). 
+AprÃ¨s l'entretien, Stefano a suggÃ©rÃ© que la mÃ©thode avec Component est plus 
 flexible, mais a aussi dit qu'il fallait bien s'assurer d'avoir besoin de cette 
-fléxibilité, et donc de définir des cas concrets pour les deux méthodes. 
+flÃ©xibilitÃ©, et donc de dÃ©finir des cas concrets pour les deux mÃ©thodes. 
 
-Pour les tests unitaires, le choix s'est finalement porté sur la librairie 
+Pour les tests unitaires, le choix s'est finalement portÃ© sur la librairie 
 Boost, qui offre un framework simple d'utilisation (utilisation de macro, 
-pas besoin d'hériter d'une classe test et de surcharger des fonctions, comme 
-certaines librairies), et est suffisament répandu pour pouvoir trouver de 
+pas besoin d'hÃ©riter d'une classe test et de surcharger des fonctions, comme 
+certaines librairies), et est suffisament rÃ©pandu pour pouvoir trouver de 
 l'aide et des tutoriaux facilement. Le framework de tests unitaires de 
-google etait aussi candidat mais n'a pas été retenu. 
+google etait aussi candidat mais n'a pas Ã©tÃ© retenu. 
 
-Quelques tests unitaires triviaux ont été écrits pour la classe ``Player`` du 
+Quelques tests unitaires triviaux ont Ã©tÃ© Ã©crits pour la classe ``Player`` du 
 jeu //Dodger//, mais le makefile de test est incapable de trouver les sources : 
 est-ce que c'est "include ../Makefile.generic" qui ne marche pas ? 
 
-Une fois ce probleme reglé, plus de tests suivront, et l'analyse de la 
+Une fois ce probleme reglÃ©, plus de tests suivront, et l'analyse de la 
 couverture sera faite avec ``gcov`` de ``gcc``. 
 
-Concernant les intéractions utilisateurs, il a été proposé par l'enseignant le 
+Concernant les intÃ©ractions utilisateurs, il a Ã©tÃ© proposÃ© par l'enseignant le 
 design pattern Publish/suscribe : 
-la fenêtre, par défaut, ignore tous les évènements, sauf si un controller lui 
-a dit "je suis intéressé par celui-ci".  
-Afin de ne pas avoir a créer un controller par objet, le pattern Chain of 
-Responsability a été proposé, afin que ce ne soit que la scène (ou plus haut) 
-qui s'enregistre auprès du publisher.
+la fenÃªtre, par dÃ©faut, ignore tous les Ã©vÃ¨nements, sauf si un controller lui 
+a dit "je suis intÃ©ressÃ© par celui-ci".  
+Afin de ne pas avoir a crÃ©er un controller par objet, le pattern Chain of 
+Responsability a Ã©tÃ© proposÃ©, afin que ce ne soit que la scÃ¨ne (ou plus haut) 
+qui s'enregistre auprÃ¨s du publisher.
 
 == Objectifs pour la semaine suivante ==
 
-- Définir une fois pour toutes si on va utiliser des Component ou pas. Tout 
-  le reste en dépend. 
-- Pour le débat de rendu des objets : 
+- DÃ©finir une fois pour toutes si on va utiliser des Component ou pas. Tout 
+  le reste en dÃ©pend. 
+- Pour le dÃ©bat de rendu des objets : 
   Utilisation modulaire via un RenderingComponent ? 
   Utilisation d'une classe d'association pour objet/renderer ?
   -> description de cas concrets d'utilisations afin de nous orienter. 
-- Peut-être une version primitive de gestion des inputs. 
-- Mettre à jour les spécifications avec ces changements. 
+- Peut-Ãªtre une version primitive de gestion des inputs. 
+- Mettre Ã  jour les spÃ©cifications avec ces changements. 
 
 
 
 
 = 20/02 //(Stefano)//=
 
-Nous avons ecrit les spécifications (de maniere informelle) de deux jeux 
+Nous avons ecrit les spÃ©cifications (de maniere informelle) de deux jeux 
 afin de voir de suite ce qui peut etre factorise et dessine un diagramme 
 temporel des differentes actions des modules pendant une //game loop//.
 
@@ -93,13 +99,13 @@ notre choix dans la semaine.
 
 Les deux jeux sont :
 # **Cat'n'mouse** : Le jeu du chat et de la souris. Le joueur (chat) doit 
-  attraper la souris qui se balade dans une pièce avec des murs. Se joue au 
+  attraper la souris qui se balade dans une piÃ¨ce avec des murs. Se joue au 
   clavier.  
-# Dodger : Jeu de reflèxes, où le joueur doit éviter des objets tout en 
-  tirant sur d'autres. Jouable à la souris.  
+# Dodger : Jeu de reflÃ¨xes, oÃ¹ le joueur doit Ã©viter des objets tout en 
+  tirant sur d'autres. Jouable Ã  la souris.  
 
-Les spécifications sont disponibles dans le dossier ``examples``. De grandes 
-questions se sont posées sur les évènements et collisions, à débattre.
+Les spÃ©cifications sont disponibles dans le dossier ``examples``. De grandes 
+questions se sont posÃ©es sur les Ã©vÃ¨nements et collisions, Ã  dÃ©battre.
 
 == Objectifs pour la semaine suivante ==
 
@@ -124,13 +130,13 @@ implementes.
 
 = 13/02 //(JBY)// =
 
-Réflexions sur la modularité. Un schéma a été construit.
+RÃ©flexions sur la modularitÃ©. Un schÃ©ma a Ã©tÃ© construit.
 
 == Objectifs pour la semaine suivante ==
 
-Pour la semaine du 20 spécification d'un jeu minimal (dans ses aspects 
-graphiques : proposition un personnage controlé dans des murs avec un 
+Pour la semaine du 20 spÃ©cification d'un jeu minimal (dans ses aspects 
+graphiques : proposition un personnage controlÃ© dans des murs avec un 
 poursuivant), pour identifier les modules essentiels et envisager un 
 calendrier 
-de spécification sur les modules essentiels et ensuite un calendrier de 
-réalisation.
+de spÃ©cification sur les modules essentiels et ensuite un calendrier de 
+rÃ©alisation.
