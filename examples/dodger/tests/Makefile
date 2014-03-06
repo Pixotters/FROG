@@ -3,7 +3,7 @@ include ../Makefile.generic
 INC=../src/include
 LDFLAGS+= -lboost_unit_test_framework --coverage
 CXXFLAGS+= -DBOOST_TEST_DYN_LINK --coverage -I$(INC)
-TARGETS=test_player
+TARGETS=test_player test_physics
 
 all: $(TARGETS) run
 
@@ -14,6 +14,7 @@ $(TARGETS):
 
 test_player: test_player.o ../src/Player.o ../src/GameObject.o \
              ../src/Component.o
+test_physics: test_physics.o ../src/Physics.o
 
 run-%: %
 	-./$< #--output_format=XML --log_level=test_suite > $(<)-report.xml
