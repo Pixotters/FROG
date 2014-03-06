@@ -1,0 +1,28 @@
+@startuml
+
+App *-- StateManager
+StateManager o-- State
+State <|-- Scene
+Scene *-- SceneGraph
+SceneGraph o-- GameObject
+GameObject o-- Component
+
+Scene o-- Renderer
+Scene o-- PhysicEngine
+Scene o-- CollisionEngine
+
+App *-- Config
+App *-- Controller
+Action .. State
+Controller .. State
+Controller o-- Action
+
+Component <|-- RenderingComponent
+RenderingComponent .. Renderer
+Component <|-- PhysicsComponent
+PhysicsComponent .. PhysicEngine
+Component <|-- ColliderComponent
+ColliderComponent .. CollisionEngine
+
+
+@enduml
