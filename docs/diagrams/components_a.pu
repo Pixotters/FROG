@@ -1,0 +1,9 @@
+@startuml
+
+Scene1 o-- GameObject
+GameObject o-- Component
+RenderingComponent --|> Component
+PhysicsComponent --|> Component
+LightEmitterComponent --|> Component
+
+@enduml
