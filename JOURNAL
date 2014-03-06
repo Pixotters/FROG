@@ -1,6 +1,26 @@
 = 06/02 =
 
+Les tests (mis en place avec //Boost//) fonctionnent, tout comme la couverture 
+de code (utilisant //g++// et //lcov//). 
 
+Le début de la gestion des inputs a été fait : on capte bien les inputs 
+clavier, qu'ils soient en temps réel ou en polling (évènements //one-time//). 
+Le système utilisé est un dérivé de //publisher/suscriber//, où le State peut 
+enregistrer les touches pour lesquelles il a un intérêt, en leur associant une 
+action. Le Controller va filter avec ces souscriptions, en envoyant les actions 
+déclenchées au State, via le StateManager. Toutefois, les actions sont pour 
+l'instant des string sur lesquelles il faut faire des comparaisons. 
+
+Le système de Component a été adopté, sans toutefois être fixé sur 
+l'implémentation : deux propositions sont candidates, visibles dans les 
+diagrammes (components_a et components_b)
+
+Le système de rendu en découlant a été plus ou moins choisi, selon cette 
+implémentation. 
+
+Un remaniement de la physique a aussi été fait en parallèle, mais non commité 
+car non-prioritaire : les forces ont été factorisées dans des classes 
+possédant deux vecteurs (force et accélération).  
 
 
 = 27/02 (Stefano) =
