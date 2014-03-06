@@ -17,3 +17,4 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
   m_renderer->draw(rt, rs);
   m_renderer->clear(sf::Color::Black);
 }
+

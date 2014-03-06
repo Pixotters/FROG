@@ -1,6 +1,7 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
+#include "Controller.hpp"
 #include "Renderer.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -26,6 +27,7 @@ public :
    */
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
+  virtual void handleActions(Controller *) = 0;
 };
 
 #endif

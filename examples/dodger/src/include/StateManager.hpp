@@ -1,6 +1,7 @@
 #ifndef STATEMANAGER_HPP
 #define STATEMANAGER_HPP
 
+#include "Controller.hpp"
 #include "State.hpp"
 #include <stack>
 
@@ -54,7 +55,11 @@ public:
    * @param rt Target where we have draw the state. 
    */ 
   virtual void render(sf::RenderTarget& rt);
-  
+
+  /**
+   * @brief Makes the scene react to actions detected (via a controller)
+   */
+  virtual void handleActions(Controller *);
 
 };
 

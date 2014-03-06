@@ -1,6 +1,5 @@
 #include "Level.hpp"
 
-#include "Player.hpp"
 #include "Enemy.hpp"
 #include "Target.hpp"
 
@@ -11,7 +10,8 @@
 Level::Level()
   : Scene()
 { 
-  m_gameObjects.push_back(new Player);
+  m_player = new Player;
+  m_gameObjects.push_back(m_player);
   /*  Element * e = new Element;
       e->getTransform().setPosition(100, 100);
       e->m_physics.addVelocity(sf::Vector2f(2, 1) );
@@ -23,7 +23,7 @@ Level::Level()
 
 Level::~Level()
 {
-
+  delete m_player;
 }
 
 void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
@@ -106,4 +106,42 @@ void Level::updateTargets()
       }
     }
   m_targets.remove(nullptr);
+}
+
+
+void Level::handleActions(Controller * c)
+{
+  /*
+    for(auto it = c->getOneTime().begin(); it != c->getOneTime().end(); ++it)
+    {
+    if(it->second.compare("LEFT") ){
+    movePlayer(-1);
+    }
+      
+    if(it->second.compare("RIGHT") ){
+    movePlayer(1);
+    }
+    }*/
+  auto actions = c->getActions();
+  while(not actions.empty() )
+    {
+      Action * a = actions.front();
+      
+      if(a->getName().compare(Action::LEFT) == 0){
+        movePlayer(-4);
+      }
+      
+      if(a->getName().compare("RIGHT") == 0){
+        movePlayer(4);
+      }
+
+      actions.pop();
+    }
+}
+
+
+void Level::movePlayer(const short& x)
+{
+  std::cout<<"moving player H : "<< x << std::endl;
+  m_player->getTransform().move(x, 0);
 }

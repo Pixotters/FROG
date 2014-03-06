@@ -13,6 +13,8 @@ void App::init()
                                   m_config.getTitle(), 
                                   sf::Style::Close);
   m_window->setPosition(sf::Vector2i(0,0) );
+  m_window->setKeyRepeatEnabled(false);
+  m_controller = new Controller();
   m_stateManager.push(new StartState() );
   m_isRunning = true;
 }
@@ -24,7 +26,8 @@ void App::run()
   while(m_isRunning)
     {
       m_deltaTime = t0.restart();
-      handleEvents();
+      m_controller->handleInputs(m_window);
+      handleActions();
       update();
       render();
     }
@@ -37,22 +40,25 @@ void App::exit()
   State * s = m_stateManager.pop();
   delete s;
   delete m_window;
+  delete m_controller;
 }
 
-void App::handleEvents()
+void App::handleActions()
 {
-  sf::Event event;
+  /**  sf::Event event;
   while(m_window->pollEvent(event) )
     {
       if(event.type == sf::Event::Closed)
         {
           m_isRunning = false;
         }
-      /*Action::Type action = m_config.getAction(event);
-        if(action != Action::None){
-        state->addAction(action);
-        }*/
+      // Action::Type action = m_config.getAction(event);
+      //  if(action != Action::None){
+      //  state->addAction(action);
+      //  }
     }
+*/
+  m_stateManager.handleActions( m_controller );
 }
 
 void App::update()

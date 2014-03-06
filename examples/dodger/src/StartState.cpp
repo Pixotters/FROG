@@ -35,3 +35,8 @@ void StartState::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
   std::cout << App::instance()->getClock().getElapsedTime().asSeconds() \
             << std::endl;
 }
+
+void StartState::handleActions(Controller * c)
+{
+
+}
