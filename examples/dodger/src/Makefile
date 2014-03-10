@@ -4,6 +4,7 @@ include ../Makefile.generic
 
 PROGRAM=Dodger
 SOURCES=$(wildcard *.cpp)
+#SOURCES=$(wildcard Input/*.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 INC=include

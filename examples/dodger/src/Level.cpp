@@ -3,6 +3,9 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
+#include "Input/Button.hpp"
+#include "Input/KeyboardButton.hpp"
+
 #include "App.hpp"
 
 #include "Random.hpp"
@@ -24,12 +27,14 @@ Level::Level()
       m_gameObjects.push_back(e);
   */
   App::instance()->getController()
-    ->suscribeRealTime(sf::Keyboard::Q, 
+    ->suscribeOneTime(new Input::KeyboardButton(sf::Keyboard::Q, 
+                                                 Input::Button::PRESSED), 
                       new MovePlayer(m_player, -4, 0) );  
   App::instance()->getController()
-    ->suscribeRealTime(sf::Keyboard::D, 
+    ->suscribeOneTime(new Input::KeyboardButton(sf::Keyboard::D, 
+                                                 Input::Button::RELEASED),
                       new MovePlayer(m_player, 4, 0) );
-  App::instance()->getController()
+  /*  App::instance()->getController()
     ->suscribeOneTime(sf::Keyboard::Z, 
                       new MovePlayer(m_player, 0, -4) );
   App::instance()->getController()
@@ -37,7 +42,7 @@ Level::Level()
                       new MovePlayer(m_player, 0, 4) );
   App::instance()->getController()
     ->suscribeOneTime(sf::Keyboard::Space, 
-                      new Bomb(m_ennemies) );
+    new Bomb(m_ennemies) );*/
   spawnEnemy();
 }
 
