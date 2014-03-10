@@ -129,7 +129,7 @@ void Level::updateTargets()
 }
 
 
-void Level::handleActions(Controller * c)
+void Level::handleCommands(Controller * c)
 {
   /*
     for(auto it = c->getOneTime().begin(); it != c->getOneTime().end(); ++it)
@@ -142,10 +142,10 @@ void Level::handleActions(Controller * c)
     movePlayer(1);
     }
     }*/
-  auto actions = c->getActions();
-  while(not actions.empty() )
+  auto commands = c->getCommands();
+  while(not commands.empty() )
     {
-      Action * a = actions.front();
+      Command * a = commands.front();
       a->execute();
       /*      
       if(a->getName().compare("LEFT") == 0){
@@ -156,7 +156,7 @@ void Level::handleActions(Controller * c)
         movePlayer(4);
       }
       */
-      actions.pop();
+      commands.pop();
     }
 }
 

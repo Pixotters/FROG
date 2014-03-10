@@ -24,7 +24,7 @@ public:
   virtual ~Level();
   virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
-  virtual void handleActions(Controller *);
+  virtual void handleCommands(Controller *);
 
 private:
   void spawnEnemy();

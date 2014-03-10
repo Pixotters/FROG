@@ -3,7 +3,7 @@
 MovePlayer::MovePlayer(Player * p, 
                        const short& x,
                        const short& y)
-  : Action(), m_player(p), m_x(x), m_y(y)
+  : Command(), m_player(p), m_x(x), m_y(y)
 {
 
 }

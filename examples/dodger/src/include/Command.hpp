@@ -1,17 +1,17 @@
-#ifndef ACTION_HPP
-#define ACTION_HPP
+#ifndef COMMAND_HPP
+#define COMMAND_HPP
 
 #include <string>
 
-class Action
+class Command
 {
   //// attributes ////
 protected:
 
   //// operations ////
 public:
-  Action();
-  virtual ~Action();
+  Command();
+  virtual ~Command();
   virtual bool execute() = 0;
 };
 

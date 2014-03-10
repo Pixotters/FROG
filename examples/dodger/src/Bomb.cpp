@@ -1,7 +1,7 @@
 #include "Bomb.hpp"
 
 Bomb::Bomb(std::list<Enemy *>& l)
-  : Action(), m_list(l)
+  : Command(), m_list(l)
 {
 }
 

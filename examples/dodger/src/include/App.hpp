@@ -35,7 +35,7 @@ private:
   // the current state, must be replaced by a stateManager
   StateManager m_stateManager;
 
-  // filters the inputs and translates them into actions //
+  // filters the inputs and translates them into commands //
   Controller * m_controller;
 
   //// operations ////
@@ -68,7 +68,7 @@ public:
   /*
     make the current state handle events
    */
-  void handleActions();
+  void handleCommands();
   
   /*
     updates the current state

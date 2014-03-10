@@ -36,7 +36,7 @@ void StartState::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
             << std::endl;
 }
 
-void StartState::handleActions(Controller * c)
+void StartState::handleCommands(Controller * c)
 {
 
 }

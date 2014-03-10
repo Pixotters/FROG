@@ -21,7 +21,7 @@ public:
 
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  virtual void handleActions(Controller *);
+  virtual void handleCommands(Controller *);
 
 };
 

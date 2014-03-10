@@ -27,7 +27,7 @@ void App::run()
     {
       m_deltaTime = t0.restart();
       m_controller->handleInputs(m_window);
-      handleActions();
+      handleCommands();
       update();
       render();
     }
@@ -43,7 +43,7 @@ void App::exit()
   delete m_controller;
 }
 
-void App::handleActions()
+void App::handleCommands()
 {
   /**  sf::Event event;
   while(m_window->pollEvent(event) )
@@ -52,13 +52,13 @@ void App::handleActions()
         {
           m_isRunning = false;
         }
-      // Action::Type action = m_config.getAction(event);
-      //  if(action != Action::None){
-      //  state->addAction(action);
+      // Command::Type command = m_config.getCommand(event);
+      //  if(command != Command::None){
+      //  state->addCommand(command);
       //  }
     }
 */
-  m_stateManager.handleActions( m_controller );
+  m_stateManager.handleCommands( m_controller );
 }
 
 void App::update()

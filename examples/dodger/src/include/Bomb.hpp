@@ -1,12 +1,12 @@
 #ifndef BOMB_HPP
 #define BOMB_HPP
 
-#include "Action.hpp"
+#include "Command.hpp"
 #include "Enemy.hpp"
 
 #include <list>
 
-class Bomb : virtual public Action
+class Bomb : virtual public Command
 {
   //// operations ////
 protected:

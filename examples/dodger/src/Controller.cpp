@@ -16,9 +16,9 @@ Controller::~Controller()
 
 void Controller::handleInputs(sf::Window * w)
 {
-  while(not m_actions.empty() )
+  while(not m_commands.empty() )
     {
-      m_actions.pop();
+      m_commands.pop();
     }
   handleOneTime(w);
   handleRealTime();
@@ -34,10 +34,10 @@ void Controller::handleRealTime()
     
       if(sf::Keyboard::isKeyPressed(k) )
         {
-          auto action = m_RTbinding.find(k);
-          if(action != m_RTbinding.end() )
+          auto command = m_RTbinding.find(k);
+          if(command != m_RTbinding.end() )
             {
-              m_actions.push( action->second );
+              m_commands.push( command->second );
             }
         }
     }
@@ -52,9 +52,9 @@ void Controller::handleOneTime(sf::Window * w)
         {
           App::instance()->exit();
         }else if( event.type == sf::Event::KeyReleased){
-        auto action = m_OTbinding.find(event.key.code);
-        if(action != m_OTbinding.end() ){         
-          m_actions.push( action->second );
+        auto command = m_OTbinding.find(event.key.code);
+        if(command != m_OTbinding.end() ){         
+          m_commands.push( command->second );
         }
       }
     
@@ -63,30 +63,30 @@ void Controller::handleOneTime(sf::Window * w)
 
 }
 
-void Controller::suscribeOneTime(const sf::Keyboard::Key& k, Action * a)
+void Controller::suscribeOneTime(const sf::Keyboard::Key& k, Command * a)
 {
-  m_OTbinding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
+  m_OTbinding.insert(std::pair<sf::Keyboard::Key, Command *>(k, a) );
 }
 
-void Controller::suscribeRealTime(const sf::Keyboard::Key& k, Action * a)
+void Controller::suscribeRealTime(const sf::Keyboard::Key& k, Command * a)
 {
-  m_RTbinding.insert(std::pair<sf::Keyboard::Key, Action *>(k, a) );
+  m_RTbinding.insert(std::pair<sf::Keyboard::Key, Command *>(k, a) );
 }
 
 void Controller::unsuscribeOneTime(const sf::Keyboard::Key& k)
 {
-  auto action = m_OTbinding.find(k);
-  if(action != m_OTbinding.end() ){
-    m_OTbinding.erase(action);
+  auto command = m_OTbinding.find(k);
+  if(command != m_OTbinding.end() ){
+    m_OTbinding.erase(command);
   }
   
 }
 
 void Controller::unsuscribeRealTime(const sf::Keyboard::Key& k)
 {
-  auto action = m_RTbinding.find(k);
-  if(action != m_RTbinding.end() ){
-    m_RTbinding.erase(action);
+  auto command = m_RTbinding.find(k);
+  if(command != m_RTbinding.end() ){
+    m_RTbinding.erase(command);
   }
 }
 
@@ -100,7 +100,7 @@ void Controller::clearRealTime()
   m_RTbinding.clear();
 }
 
-std::queue<Action *> Controller::getActions()
+std::queue<Command *> Controller::getCommands()
 {
-  return m_actions;
+  return m_commands;
 }

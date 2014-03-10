@@ -1,10 +1,10 @@
 #ifndef MOVEPLAYER_HPP
 #define MOVEPLAYER_HPP
 
-#include "Action.hpp"
+#include "Command.hpp"
 #include "Player.hpp"
 
-class MovePlayer : virtual public Action
+class MovePlayer : virtual public Command
 {
   //// attributes ////
 protected:
