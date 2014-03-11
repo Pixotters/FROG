@@ -30,10 +30,11 @@ Level::Level()
     ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z),
                new MovePlayer(m_player, 0, -8) );  
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S),
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S,
+                                         Input::Button::RELEASED),
                new MovePlayer(m_player, 0, 8) );
   App::instance()->getController()
-               ->suscribe(new Input::KeyboardButton(sf::Keyboard::Space),
+               ->suscribe(new Input::MouseButton(sf::Mouse::Left),
                           new Bomb(m_ennemies) );
   spawnEnemy();
 }
