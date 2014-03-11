@@ -1,0 +1,52 @@
+@startuml
+
+abstract class Input
+
+class Button{
+      Trigger getTrigger()
+}
+
+class MouseButton{
+      sf::Mouse::Button getButton()
+}
+
+class KeyboardButton{
+      sf::Keyboard:Key getButton()
+}
+
+class JoystickButton{
+      unsigned int getButton()
+}
+
+abstract class Command{
+      void execute()
+}
+
+class Controller{
+virtual void handleInputs(sf::Window *);
+void suscribeOneTime(Input *, Command *);
+void suscribeRealTime(Input *, Command *);
+void unsuscribeOneTime(Input *)
+void unsuscribeRealTime(Input *)
+void clearOneTime()
+void clearRealTime()
+std::queue<Command *> getCommands()
+void addCommand(Command *)
+
+}
+
+Button -up-|> Input
+JoystickButton -up-|> Button
+KeyboardButton -up-|> Button
+MouseButton -up-|> Button
+
+Input -left-o Controller
+Controller o-right- Command
+
+note "Trigger is an enum : PRESSED, RELEASED, CONTINUOUS" as tr
+tr .left. Button
+
+note "Controller holds maps [Input -> Command]" as map
+map .. Controller
+
+@enduml
