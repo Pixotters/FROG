@@ -14,7 +14,7 @@ void App::init()
                                   sf::Style::Close);
   m_window->setPosition(sf::Vector2i(0,0) );
   m_window->setKeyRepeatEnabled(false);
-  m_controller = new Controller();
+  m_controller = new Controller(m_window);
   m_stateManager.push(new StartState() );
   m_isRunning = true;
 }
@@ -26,7 +26,7 @@ void App::run()
   while(m_isRunning)
     {
       m_deltaTime = t0.restart();
-      m_controller->handleInputs(m_window);
+      m_controller->handleInputs();
       handleCommands();
       update();
       render();

@@ -13,6 +13,7 @@ namespace Input{
   public:
     Input(){};
     virtual ~Input(){};
+    virtual bool isContinuous() const = 0;
   };
 
 }

@@ -13,8 +13,7 @@ namespace Input{
     typedef enum{
       PRESSED,
       RELEASED,
-      CONTINUOUS,
-      TRIGGER_COUNT
+      CONTINUOUS
     } Trigger;
 
     //// attributes ////
@@ -26,7 +25,7 @@ namespace Input{
     Button(const Trigger&);
     virtual ~Button();
     Trigger getTrigger() const;
-
+    virtual bool isContinuous() const;
   };
 
 }

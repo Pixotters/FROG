@@ -18,4 +18,8 @@ namespace Input{
     return m_trigger;
   }
 
+  bool Button::isContinuous() const{
+    return (m_trigger == Button::CONTINUOUS);
+  }
+
 }

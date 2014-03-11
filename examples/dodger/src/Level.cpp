@@ -20,20 +20,18 @@ Level::Level()
 { 
   m_player = new Player;
   m_gameObjects.push_back(m_player);
-  /*  Element * e = new Element;
-      e->getTransform().setPosition(100, 100);
-      e->m_physics.addVelocity(sf::Vector2f(2, 1) );
-      e->m_physics.addAcceleration(sf::Vector2f(-0.001f, -.01f) );
-      m_gameObjects.push_back(e);
-  */
   App::instance()->getController()
-    ->suscribeOneTime(new Input::KeyboardButton(sf::Keyboard::Q, 
-                                                 Input::Button::PRESSED), 
-                      new MovePlayer(m_player, -4, 0) );  
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Q, 
+                                         Input::Button::CONTINUOUS), 
+               new MovePlayer(m_player, -4, 0) );  
   App::instance()->getController()
-    ->suscribeOneTime(new Input::KeyboardButton(sf::Keyboard::D, 
-                                                 Input::Button::RELEASED),
-                      new MovePlayer(m_player, 4, 0) );
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::D, 
+                                         Input::Button::CONTINUOUS),
+               new MovePlayer(m_player, 4, 0) );
+  App::instance()->getController()
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z, 
+                                      Input::Button::PRESSED),
+               new MovePlayer(m_player, 0, -8) );  
   /*  App::instance()->getController()
     ->suscribeOneTime(sf::Keyboard::Z, 
                       new MovePlayer(m_player, 0, -4) );
@@ -82,7 +80,7 @@ void Level::update()
 
 void Level::spawnEnemy()
 {
-  std::cout << "spawning enemy"<< m_ennemies.size() <<std::endl;
+  //  std::cout << "spawning enemy"<< m_ennemies.size() <<std::endl;
   Enemy * e = new Enemy;
   e->getTransform().setPosition(Random::get(100, 700), 50);
   e->m_physics.addRotationForce(5.0f);
@@ -92,7 +90,7 @@ void Level::spawnEnemy()
 
 void Level::spawnTarget()
 {
-  std::cout << "spawning target"<< m_targets.size() <<std::endl;
+  //  std::cout << "spawning target"<< m_targets.size() <<std::endl;
   Target * e = new Target;
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->m_physics.addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
@@ -168,6 +166,6 @@ void Level::handleCommands(Controller * c)
 
 void Level::movePlayer(const short& x)
 {
-  std::cout<<"moving player H : "<< x << std::endl;
+  //  std::cout<<"moving player H : "<< x << std::endl;
   m_player->getTransform().move(x, 0);
 }

@@ -21,7 +21,7 @@ void Random::init(){
   if(min < 0){
     return (res%(max-min) )+min;
   }else{
-  std::cout << "random : "<<(res%max)+min<<" in ["<<min<<':'<<max<<"]"<<std::endl;
+    //  std::cout << "random : "<<(res%max)+min<<" in ["<<min<<':'<<max<<"]"<<std::endl;
   return (res%max)+min;
   }
 }

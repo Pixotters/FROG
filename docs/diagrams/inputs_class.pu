@@ -2,7 +2,11 @@
 
 abstract class Input
 
-class Button{
+abstract class OneTime
+
+abstract class RealTime
+
+abstract class Button{
       Trigger getTrigger()
 }
 

@@ -24,30 +24,36 @@ protected:
   int m_mouseY;
   int m_deltaMouseX;
   int m_deltaMouseY;
+  sf::Window * m_window;
 
   //// operations ////
 public:
-  Controller();
+  Controller(sf::Window *);
   virtual ~Controller();
-  virtual void handleInputs(sf::Window *);
-  void suscribeOneTime(Input::Input *, Command *);
-  void suscribeRealTime(Input::Input *, Command *);
-  void unsuscribeOneTime(Input::Input *);
-  void unsuscribeRealTime(Input::Input *);
-  void clearOneTime();
-  void clearRealTime();
+  virtual void handleInputs();
+  void suscribe(Input::Input *, Command *);
+  void suscribeSimple(Input::Input *, Command *);
+  void suscribeContinuous(Input::Input *, Command *);
+  void unsuscribeSimple(Input::Input *);
+  void unsuscribeContinuous(Input::Input *);
+  void clearSimple();
+  void clearContinuous();
   std::queue<Command *> getCommands();
   void addCommand(Command *);
 
 private:
-  void handleRealTime();
-  void handleOneTime(sf::Window *);
-  void handleKeyboardButton(const sf::Keyboard::Key &, 
-                            const Input::Button::Trigger& );
-  void handleMouseButton(const sf::Mouse::Button &, 
-                         const Input::Button::Trigger& );
-  void handleJoystickButton(const unsigned int &, 
-                            const Input::Button::Trigger& );
+  void handleCont();
+  void handleContinuous(Input::Input *, Command *);
+  void handleContinuous(Input::KeyboardButton *, Command *);
+  void handleContinuous(Input::MouseButton *, Command *);
+  void handleContinuous(Input::JoystickButton *, Command *);
+  void handleSimple();
+  void handleButton(const sf::Keyboard::Key &, 
+                    const Input::Button::Trigger& );
+  void handleButton(const sf::Mouse::Button &, 
+                    const Input::Button::Trigger& );
+  void handleButton(const unsigned int &, 
+                    const Input::Button::Trigger& );
 };
 
 #endif
