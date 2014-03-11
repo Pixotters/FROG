@@ -2,6 +2,8 @@
 
 #include <stack>
 
+#include <iostream>
+
 StateManager::StateManager()
 {
 }
@@ -19,6 +21,7 @@ State * StateManager::pop()
 {
   if( m_stateStack.empty() )
     {
+      std::cerr << "Cannot pop a state : StateManager is empty" << std::endl;
       return nullptr; // TODO : throw exception ??
     }
   State * s = m_stateStack.top();

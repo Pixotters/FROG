@@ -45,19 +45,6 @@ void App::exit()
 
 void App::handleCommands()
 {
-  /**  sf::Event event;
-  while(m_window->pollEvent(event) )
-    {
-      if(event.type == sf::Event::Closed)
-        {
-          m_isRunning = false;
-        }
-      // Command::Type command = m_config.getCommand(event);
-      //  if(command != Command::None){
-      //  state->addCommand(command);
-      //  }
-    }
-*/
   m_stateManager.handleCommands( m_controller );
 }
 

@@ -6,7 +6,7 @@
 
 #include <SFML/Graphics/Text.hpp>
 
-#include <iostream> // delete
+#include <iostream>
 
 StartState::StartState()
   : State()
@@ -24,7 +24,6 @@ void StartState::update()
   float sec = App::instance()->getClock().getElapsedTime().asSeconds();
   if( sec > 3.0f )
     {
-      std::cout << "entering the level" << std::endl;
       App::instance()->getStateManager().change(new Level() );
     }
 }

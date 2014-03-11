@@ -2,7 +2,6 @@
 
 #include "App.hpp"
 
-#include <iostream> // delete
 
 Player::Player(const unsigned short& l)
   : GameObject()
@@ -24,17 +23,7 @@ Player::~Player()
 }
 
 void Player::update(){
-  //  unsigned int x = sf::Mouse::getPosition().x;
-  //  unsigned int y = sf::Mouse::getPosition().y;
-  //  unsigned int y = 550;
-  //  m_transform.setPosition(x, y );
-  sf::CircleShape * c = dynamic_cast<sf::CircleShape * >( m_boundingBox );
-  std::cerr << "PLAYER : updated position : " \
-            << m_transform.getPosition().x <<","<< m_transform.getPosition().y \
-            << "center : " << c->getOrigin().x << "," << c->getOrigin().y  \
-            << "center's pos : "<< c->getOrigin().x +sf::Mouse::getPosition().x \
-            << "," <<c->getOrigin().y + sf::Mouse::getPosition().y \
-            << std::endl;
+
 }
 
 unsigned short Player::getLives() const

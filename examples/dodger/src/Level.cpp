@@ -13,8 +13,6 @@
 #include "MovePlayer.hpp"
 #include "Bomb.hpp"
 
-#include <iostream> // delete
-
 Level::Level()
   : Scene()
 { 
@@ -29,18 +27,14 @@ Level::Level()
                                          Input::Button::CONTINUOUS),
                new MovePlayer(m_player, 4, 0) );
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z, 
-                                      Input::Button::PRESSED),
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z),
                new MovePlayer(m_player, 0, -8) );  
-  /*  App::instance()->getController()
-    ->suscribeOneTime(sf::Keyboard::Z, 
-                      new MovePlayer(m_player, 0, -4) );
   App::instance()->getController()
-    ->suscribeOneTime(sf::Keyboard::S, 
-                      new MovePlayer(m_player, 0, 4) );
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S),
+               new MovePlayer(m_player, 0, 8) );
   App::instance()->getController()
-    ->suscribeOneTime(sf::Keyboard::Space, 
-    new Bomb(m_ennemies) );*/
+               ->suscribe(new Input::KeyboardButton(sf::Keyboard::Space),
+                          new Bomb(m_ennemies) );
   spawnEnemy();
 }
 
@@ -80,7 +74,6 @@ void Level::update()
 
 void Level::spawnEnemy()
 {
-  //  std::cout << "spawning enemy"<< m_ennemies.size() <<std::endl;
   Enemy * e = new Enemy;
   e->getTransform().setPosition(Random::get(100, 700), 50);
   e->m_physics.addRotationForce(5.0f);
@@ -90,7 +83,6 @@ void Level::spawnEnemy()
 
 void Level::spawnTarget()
 {
-  //  std::cout << "spawning target"<< m_targets.size() <<std::endl;
   Target * e = new Target;
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->m_physics.addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
@@ -134,31 +126,11 @@ void Level::updateTargets()
 
 void Level::handleCommands(Controller * c)
 {
-  /*
-    for(auto it = c->getOneTime().begin(); it != c->getOneTime().end(); ++it)
-    {
-    if(it->second.compare("LEFT") ){
-    movePlayer(-1);
-    }
-      
-    if(it->second.compare("RIGHT") ){
-    movePlayer(1);
-    }
-    }*/
   auto commands = c->getCommands();
   while(not commands.empty() )
     {
       Command * a = commands.front();
       a->execute();
-      /*      
-      if(a->getName().compare("LEFT") == 0){
-        movePlayer(-4);
-      }
-      
-      if(a->getName().compare("RIGHT") == 0){
-        movePlayer(4);
-      }
-      */
       commands.pop();
     }
 }
@@ -166,6 +138,5 @@ void Level::handleCommands(Controller * c)
 
 void Level::movePlayer(const short& x)
 {
-  //  std::cout<<"moving player H : "<< x << std::endl;
   m_player->getTransform().move(x, 0);
 }

@@ -45,7 +45,7 @@ void Controller::handleContinuous(Input::Input * i, Command * c){
   else if( (jb = dynamic_cast<Input::JoystickButton *>(i) )  )
     handleContinuous(jb, c);
   else 
-    std::cerr << "unknown continuous input" << std::endl;
+    std::cerr << "Unknown continuous input at "<< i << std::endl;
 
 }
 

@@ -1,6 +1,5 @@
 #include "PhysicEngine.hpp"
 
-#include <iostream> // delete
 
 const float PhysicEngine::EARTH_GRAVITATION = 9.81f;
 
