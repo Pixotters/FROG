@@ -14,7 +14,8 @@ protected :
 
   //// operations ////
 public:
-  MouseButton(const sf::Mouse::Button&, const Button::Trigger&);
+  MouseButton(const sf::Mouse::Button&, 
+              const Button::Trigger& = Button::PRESSED);
   virtual ~MouseButton();
   sf::Mouse::Button getButton() const;
 };

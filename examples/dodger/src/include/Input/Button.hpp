@@ -22,7 +22,7 @@ namespace Input{
 
     //// operations ////
   public:
-    Button(const Trigger&);
+    Button(const Trigger& = Button::PRESSED);
     virtual ~Button();
     Trigger getTrigger() const;
     virtual bool isContinuous() const;

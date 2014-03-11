@@ -14,7 +14,8 @@ protected:
 
   //// operations ////
 public:
-  KeyboardButton(const sf::Keyboard::Key&, const Button::Trigger&);
+  KeyboardButton(const sf::Keyboard::Key&, 
+                 const Button::Trigger& = Button::PRESSED);
   virtual ~KeyboardButton();
   sf::Keyboard::Key getButton() const;
   

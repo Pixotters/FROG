@@ -16,7 +16,7 @@ protected :
   //// operations ////
 public:
   JoystickButton(const unsigned int&, 
-                 const Button::Trigger&,
+                 const Button::Trigger& = Button::PRESSED,
                  const unsigned int& = 0);
   virtual ~JoystickButton();
   unsigned int getButton() const;
