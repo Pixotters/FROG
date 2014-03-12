@@ -1,12 +1,12 @@
 @startuml
 
-abstract class Input
+abstract class Input{
+         virtual bool handle(Controller *)
+}
 
-abstract class OneTime
+abstract class ContinuousButton
 
-abstract class RealTime
-
-abstract class Button{
+abstract class SimpleButton{
       Trigger getTrigger()
 }
 
@@ -27,28 +27,28 @@ abstract class Command{
 }
 
 class Controller{
-virtual void handleInputs(sf::Window *);
-void suscribeOneTime(Input *, Command *);
-void suscribeRealTime(Input *, Command *);
-void unsuscribeOneTime(Input *)
-void unsuscribeRealTime(Input *)
-void clearOneTime()
-void clearRealTime()
+virtual void handle();
+void suscribe(Input *, Command *)
+void unsuscribe(Input *)
 std::queue<Command *> getCommands()
 void addCommand(Command *)
+bool handle(JoystickButton *)
+bool handle(KeyboardButton *)
+bool handle(MouseButton *)
 
 }
 
-Button -up-|> Input
-JoystickButton -up-|> Button
-KeyboardButton -up-|> Button
-MouseButton -up-|> Button
+SimpleButton -down-|> Input
+ContinuousButton -up-|> Input
+JoystickButton -up-|> ContinuousButton
+KeyboardButton -up-|> ContinuousButton
+MouseButton -up-|> ContinuousButton
 
 Input -left-o Controller
 Controller o-right- Command
 
 note "Trigger is an enum : PRESSED, RELEASED, CONTINUOUS" as tr
-tr .left. Button
+tr .left. SimpleButton
 
 note "Controller holds maps [Input -> Command]" as map
 map .. Controller
