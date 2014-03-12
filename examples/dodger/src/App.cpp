@@ -26,7 +26,7 @@ void App::run()
   while(m_isRunning)
     {
       m_deltaTime = t0.restart();
-      m_controller->handleInputs();
+      m_controller->handle();
       handleCommands();
       update();
       render();

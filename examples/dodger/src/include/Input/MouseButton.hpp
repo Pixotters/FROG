@@ -3,6 +3,8 @@
 
 #include "Button.hpp"
 
+class Controller;
+
 namespace Input{
 
 class MouseButton : virtual public Button
@@ -18,6 +20,7 @@ public:
               const Button::Trigger& = Button::PRESSED);
   virtual ~MouseButton();
   sf::Mouse::Button getButton() const;
+  bool handle(Controller *);
 };
 
 }

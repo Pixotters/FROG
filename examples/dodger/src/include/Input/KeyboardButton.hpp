@@ -3,6 +3,8 @@
 
 #include "Button.hpp"
 
+class Controller;
+
 namespace Input{
 
 class KeyboardButton : virtual public Button
@@ -18,7 +20,7 @@ public:
                  const Button::Trigger& = Button::PRESSED);
   virtual ~KeyboardButton();
   sf::Keyboard::Key getButton() const;
-  
+  virtual bool handle(Controller *);
 };
 
 }

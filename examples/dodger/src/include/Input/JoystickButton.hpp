@@ -3,6 +3,8 @@
 
 #include "Button.hpp"
 
+class Controller;
+
 namespace Input{
 
 class JoystickButton : virtual public Button
@@ -21,6 +23,8 @@ public:
   virtual ~JoystickButton();
   unsigned int getButton() const;
   unsigned int getID() const;
+  bool handle(Controller *);
+
 };
 
 }

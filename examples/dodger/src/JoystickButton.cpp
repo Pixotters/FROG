@@ -1,5 +1,7 @@
 #include "Input/JoystickButton.hpp"
 
+#include "Controller.hpp"
+
 namespace Input{
 
 
@@ -21,5 +23,11 @@ namespace Input{
   unsigned int JoystickButton::getID() const{
     return m_id;
   }
+
+  bool JoystickButton::handle(Controller * c)
+  {
+    return c->handle(this);
+  }
+
 
 }
