@@ -6,9 +6,8 @@ namespace Input{
 
 
   JoystickButton::JoystickButton(const unsigned int& b, 
-                                 const Button::Trigger& t,
                                  const unsigned int& i)
-    : Button(t), m_button(b), m_id(i) {
+    : Button(), m_button(b), m_id(i) {
 
   }
 

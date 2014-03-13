@@ -4,9 +4,8 @@
 
 namespace Input{
 
-  MouseButton::MouseButton(const sf::Mouse::Button& b, 
-                           const Button::Trigger& t)
-    : Button(t), m_button(b) {
+  MouseButton::MouseButton(const sf::Mouse::Button& b)
+    : Button(), m_button(b) {
 
   }
 

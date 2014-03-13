@@ -12,9 +12,4 @@ namespace Input{
   {
   }
 
-  bool Input::handle(Controller * c)
-  {
-    return c->handle(this);
-  }
-
 }

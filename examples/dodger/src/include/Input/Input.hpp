@@ -15,8 +15,7 @@ namespace Input{
   public:
     Input();
     virtual ~Input();
-    virtual bool isContinuous() const = 0;
-    virtual bool handle(Controller * c);
+    virtual bool handle(Controller * c) = 0;
   };
 
 }

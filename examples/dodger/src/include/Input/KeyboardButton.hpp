@@ -2,6 +2,7 @@
 #define INPUT_KEYBOARDBUTTON_HPP
 
 #include "Button.hpp"
+#include <SFML/Window/Event.hpp>
 
 class Controller;
 
@@ -16,8 +17,7 @@ protected:
 
   //// operations ////
 public:
-  KeyboardButton(const sf::Keyboard::Key&, 
-                 const Button::Trigger& = Button::PRESSED);
+  KeyboardButton(const sf::Keyboard::Key&);
   virtual ~KeyboardButton();
   sf::Keyboard::Key getButton() const;
   virtual bool handle(Controller *);

@@ -3,6 +3,8 @@
 
 #include "Button.hpp"
 
+#include <SFML/Window/Event.hpp>
+
 class Controller;
 
 namespace Input{
@@ -16,8 +18,7 @@ protected :
 
   //// operations ////
 public:
-  MouseButton(const sf::Mouse::Button&, 
-              const Button::Trigger& = Button::PRESSED);
+  MouseButton(const sf::Mouse::Button&);
   virtual ~MouseButton();
   sf::Mouse::Button getButton() const;
   bool handle(Controller *);

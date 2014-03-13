@@ -5,18 +5,20 @@
 #include "Input/KeyboardButton.hpp"
 #include "Input/MouseButton.hpp"
 #include "Input/JoystickButton.hpp"
+#include "Input/JoystickSimpleButton.hpp"
 
 #include <SFML/Window.hpp>
 
 #include <map>
 #include <queue>
+#include <list>
 
 class Controller
 {
   //// attributes ////
 protected:
   std::map< Input::Input *, Command * > m_binding;
-  std::queue< sf::Event > m_events;
+  std::list< sf::Event > m_events;
   std::queue<Command * > m_commands;
   int m_mouseX;
   int m_mouseY;
@@ -38,6 +40,7 @@ public:
   bool handle(Input::KeyboardButton *);
   bool handle(Input::MouseButton *);
   bool handle(Input::JoystickButton *);
+  bool handle(Input::JoystickSimpleButton *);
 };
 
 #endif

@@ -2,6 +2,8 @@
 #include "App.hpp"
 #include "Input/Input.hpp"
 
+#include "Input/SimpleButton.hpp"
+
 #include <iostream>
 
 Controller::Controller(sf::Window * w)
@@ -22,16 +24,15 @@ void Controller::handle()
       m_commands.pop();
     }
   sf::Event event;
+  m_events.clear();
   while(m_window->pollEvent(event) ){
-    m_events.push(event);
+    m_events.push_back(event);
   }
   auto end = m_binding.end();
   for(auto it = m_binding.begin(); it != end; ++it)
     {
-      std::cout << "have to handle an input" << std::endl;
       if (it->first->handle(this) )
         {
-          std::cout << "success" << std::endl;
           addCommand(it->second );
         }
     }
@@ -68,13 +69,11 @@ void Controller::addCommand(Command * c){
 
 bool Controller::handle(Input::Input * i)
 {
-  std::cerr << "Controller - handle : unknown input type"<< std::endl;
   return false;
 }
 
 bool Controller::handle(Input::KeyboardButton * b)
 {
-  std::cout << "Controller - handle : button "<< std::endl;
   return (sf::Keyboard::isKeyPressed(b->getButton() )  );
 }
 
@@ -87,6 +86,26 @@ bool Controller::handle(Input::JoystickButton * b)
 {
   return (sf::Joystick::isButtonPressed(b->getID(), b->getButton() )  );
 }
+
+bool Controller::handle(Input::JoystickSimpleButton * b)
+{
+  auto end = m_events.end();
+  sf::Event event;
+  for(auto it = m_events.begin(); it != end; ++it)
+    {
+      if ( 
+          ( (it->type == sf::Event::JoystickButtonPressed
+             && b->getTrigger() == Input::SimpleButton::PRESSED)
+            || (it->type == sf::Event::JoystickButtonReleased
+                && b->getTrigger() == Input::SimpleButton::RELEASED) )
+          && (it->joystickButton.button == b->getButton() )  )
+        {
+          m_events.erase(it);
+          return true;
+        }
+    }
+}
+
 
 /*
 void Controller::handleSimple()

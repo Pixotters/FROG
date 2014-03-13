@@ -4,9 +4,12 @@
 #include "Target.hpp"
 
 #include "Input/Button.hpp"
+#include "Input/SimpleButton.hpp"
 #include "Input/KeyboardButton.hpp"
 #include "Input/MouseButton.hpp"
 #include "Input/JoystickButton.hpp"
+#include "Input/JoystickSimpleButton.hpp"
+#include "Input/Xbox.hpp"
 
 #include "App.hpp"
 
@@ -21,27 +24,30 @@ Level::Level()
   m_player = new Player;
   m_gameObjects.push_back(m_player);
   auto moveleft = new MovePlayer(m_player, -4, 0);
+  auto moveright = new MovePlayer(m_player, 4, 0);
+  auto moveup = new MovePlayer(m_player, 0, -8);
+  auto movedown = new MovePlayer(m_player, 0, 8);
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Q, 
-                                         Input::Button::CONTINUOUS), 
-               moveleft );    
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Q), moveleft );    
   App::instance()->getController()
-    ->suscribe(new Input::JoystickButton(0, 
-                                         Input::Button::CONTINUOUS), 
-               moveleft );  
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::D), moveright );
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::D, 
-                                         Input::Button::CONTINUOUS),
-               new MovePlayer(m_player, 4, 0) );
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z), moveup );  
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z),
-               new MovePlayer(m_player, 0, -8) );  
+    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S),  movedown );
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S,
-                                         Input::Button::RELEASED),
-               new MovePlayer(m_player, 0, 8) );
+    ->suscribe(new Input::JoystickButton(XBOX::X), moveleft );    
+  App::instance()->getController()
+    ->suscribe(new Input::JoystickButton(XBOX::B), moveright );
+  App::instance()->getController()
+    ->suscribe(new Input::JoystickButton(XBOX::Y), moveup );    
+  App::instance()->getController()
+    ->suscribe(new Input::JoystickButton(XBOX::A), movedown );
   App::instance()->getController()
                ->suscribe(new Input::MouseButton(sf::Mouse::Left),
+                          new Bomb(m_ennemies) );
+  App::instance()->getController()
+    ->suscribe(new Input::JoystickSimpleButton(XBOX::HOME), 
                           new Bomb(m_ennemies) );
   spawnEnemy();
 }
