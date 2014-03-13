@@ -2,6 +2,8 @@
 #define SAPLIST_HPP 1
 
 #include <functional>
+#include <map>
+#include <typeinfo>
 #include "CollisionManager.hpp"
 
 struct AABB {
@@ -10,6 +12,8 @@ struct AABB {
      *  - second is y axis */
     struct EndPoint * min[2];
     struct EndPoint * max[2];
+
+    size_t typeId; /* Need to use std::type_info::hash_code() */
     void * owner;
 };
 
@@ -30,10 +34,29 @@ struct EndPoint {
     struct EndPoint * next;
 };
 
-class PairManager {
-public:
-    void addPair(const struct AABB &, const struct AABB &) {};
-    void removePair(const struct AABB &, const struct AABB &) {};
+/**
+ * Action manager stores actions to perform on collision or separation
+ * of two objects depending on their type
+ * It also stores default actions to execute if no specific action is
+ * defined for two types.
+ */
+struct ActionManager {
+
+    std::map < std::pair < size_t,size_t >,
+               std::pair < std::function < void (void *, void *) >,
+                           std::function < void (void *, void *) > > > actions;
+ 
+    std::function < void (void *, void *) >
+    onCollision(size_t t1, size_t t2) {
+        return this
+            ->actions[std::pair<size_t, size_t>(t1,t2)].first;
+    }
+    
+    std::function < void (void *, void *) >
+    onSeparation(size_t t1, size_t t2) {
+        return this
+            ->actions[std::pair<size_t, size_t>(t1,t2)].second;
+    }
 };
 
 class SAP : public CollisionManager<struct AABB> {
@@ -43,7 +66,7 @@ private:
     /** FIXME: use sentinels */
     struct EndPoint * xAxis;
     struct EndPoint * yAxis;
-    PairManager pm;
+    struct ActionManager actions;
 
     void swap(struct EndPoint * p1, struct EndPoint * p2) {
         p2->next->prev = p1;
@@ -68,8 +91,7 @@ private:
 
     void updateEndPoint(struct EndPoint * pt) {
         
-        //std::function<void(struct EndPoint * pt)> 
-        auto aux =
+         auto aux =
             [&pt, this]
             (std::function<struct EndPoint*(struct EndPoint*)>succ,
              std::function<bool(int,int)>loop_cond,
@@ -82,10 +104,14 @@ private:
                 this->swap(tmp, pt);
                 if (mustAdd(pt, tmp)) {
                     if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                        pm.addPair(*(pt->owner), *(tmp->owner));
+                    this->actions.onCollision
+                        (pt->owner->typeId, tmp->owner->typeId)
+                        (pt->owner->owner, tmp->owner->owner);
                     }
                 } else if (mustRm(pt, tmp)) {
-                    pm.removePair(*(pt->owner), *(tmp->owner));
+                    this->actions.onSeparation
+                        (pt->owner->typeId,tmp->owner->typeId)
+                        (pt->owner->owner, tmp->owner->owner);
                 }
             }
         };

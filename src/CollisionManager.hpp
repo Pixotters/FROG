@@ -7,11 +7,6 @@ template <typename AABB> class CollisionManager  {
 
     virtual void addObject(const AABB &) = 0;
 
-    /**
-     * update object position in list
-     * update pair manager
-     * do not update EndPoint values
-     */
     virtual void updateObject(const AABB &) = 0;
 
     virtual void removeObject(const AABB &) = 0;
