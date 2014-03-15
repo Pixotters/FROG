@@ -1,8 +1,16 @@
-DOXYGEN=doxygen
-DOXYFLAGS=
+.PHONY: doc test build clean
 
 doc:
-	$(DOXYGEN) $(DOXYFLAGS) docs/doxygen.conf
+	make -C docs/ doc
 
-clean-doc:
-	rm -rf docs/api/*
+test:
+	make -C tests/ test
+
+build:
+	make -C src/ build
+
+clean:
+	make -f Makefile.generic generic_clean
+	make -C docs/ clean
+	make -C tests/ clean
+	make -C src/ clean
