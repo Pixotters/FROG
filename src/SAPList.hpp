@@ -10,7 +10,7 @@
 class Collisionable {
 protected: int x, y, w, h;
 public: Collisionable(int x=0, int y=0, int w=0, int h=0) :
-    x(x), y(y), w(w), h(h){}
+    x(x), y(y), w(w), h(h) {}
 };
 
 class SAPList : public CollisionManager<Collisionable> {
@@ -48,7 +48,15 @@ class SAPList : public CollisionManager<Collisionable> {
 
         EndPoint (AABB* o,int v,bool m,EndPoint* p,EndPoint* n) : 
             owner(o), value(v), isMin(m), prev(p), next(n) {}
-        ~EndPoint () {}
+
+        /** When and EndPoint is destroyed, it updates prev and next */
+        ~EndPoint () {
+            if (this->prev != NULL) {
+                this->prev->next = this->next;
+            }
+            if (this->next != NULL)
+                this->next->prev = this->prev;
+        }
     };
 
 
@@ -145,6 +153,17 @@ public:
         xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
         yAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
         yAxis->next = new EndPoint(NULL, INT_MAX, false, yAxis, NULL);
+    }
+
+    ~SAPList () {
+
+        while (xAxis->next != NULL) {
+            delete xAxis->next;
+        } delete xAxis;
+
+        while (yAxis->next != NULL) {
+            delete yAxis->next;
+        } delete yAxis;
     }
 
     void addObject(const Collisionable &) {}
