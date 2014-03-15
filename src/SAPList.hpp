@@ -59,8 +59,7 @@ struct ActionManager {
     }
 };
 
-class SAP : public CollisionManager<struct AABB> {
-   
+class SAPList : public CollisionManager<struct AABB> {
 
 private:
     /** FIXME: use sentinels */
@@ -79,7 +78,7 @@ private:
     /* check on one axis */
     inline bool partialCollisionCheck(const struct AABB & b1,
                                       const struct AABB & b2,
-                                      char dim) {
+                                      int dim) {
         return (b1.max[dim] <= b2.max[dim] && b1.max[dim] >= b2.min[dim])
             || (b1.min[dim] >= b2.min[dim] && b1.max[dim] <= b2.max[dim]);
     }
@@ -124,7 +123,6 @@ public:
     void addObject(const struct AABB &) {}
     void updateObject(const struct AABB &) {}
     void removeObject(const struct AABB &) {}
-    int main () {};
 };
 
 #endif
