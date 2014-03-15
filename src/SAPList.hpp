@@ -4,70 +4,88 @@
 #include <functional>
 #include <map>
 #include <typeinfo>
+#include <climits>
 #include "CollisionManager.hpp"
 
-struct AABB {
-    /** min/max
-     *  - first is x axis
-     *  - second is y axis */
-    struct EndPoint * min[2];
-    struct EndPoint * max[2];
-
-    size_t typeId; /* Need to use std::type_info::hash_code() */
-    void * owner;
+class Collisionable {
+protected: int x, y, w, h;
+public: Collisionable(int x=0, int y=0, int w=0, int h=0) :
+    x(x), y(y), w(w), h(h){}
 };
 
-/**
- * TODO:
- * - Optimize merging isMin boolean into another member
- *   (as a flag)
- * - Using doubly-linked list could waste memory but is easier to implement
- *   than arrays.
- * - Implement pair manager
- */
-struct EndPoint {
-    struct AABB * owner;
-    int value;
-    bool isMin;
+class SAPList : public CollisionManager<Collisionable> {
 
-    struct EndPoint * prev;
-    struct EndPoint * next;
-};
+    class EndPoint;
 
-/**
- * Action manager stores actions to perform on collision or separation
- * of two objects depending on their type
- * It also stores default actions to execute if no specific action is
- * defined for two types.
- */
-struct ActionManager {
+    class AABB {
+    public:
+        /** min/max
+         *  - first is x axis
+         *  - second is y axis */
+        EndPoint * min[2];
+        EndPoint * max[2];
 
-    std::map < std::pair < size_t,size_t >,
-               std::pair < std::function < void (void *, void *) >,
-                           std::function < void (void *, void *) > > > actions;
+        size_t typeId; /* Need to use std::type_info::hash_code() */
+        void * owner;
+    };
+
+    /**
+     * TODO:
+     * - Optimize merging isMin boolean into another member
+     *   (as a flag)
+     * - Using doubly-linked list could waste memory but is easier to implement
+     *   than arrays.
+     * - Implement pair manager
+     */
+    class EndPoint {
+    public:
+        AABB * owner;
+        int value;
+        bool isMin;
+
+        EndPoint * prev;
+        EndPoint * next;
+
+        EndPoint (AABB* o,int v,bool m,EndPoint* p,EndPoint* n) : 
+            owner(o), value(v), isMin(m), prev(p), next(n) {}
+        ~EndPoint () {}
+    };
+
+
+    /**
+     * Action manager stores actions to perform on collision or separation
+     * of two objects depending on their type
+     * It also stores default actions to execute if no specific action is
+     * defined for two types.
+     */
+    class ActionManager {
+    public:
+        std::map < std::pair < size_t,size_t >,
+                   std::pair < std::function < void (void *, void *) >,
+                               std::function < void (void *, void *) > > > 
+        actions;
  
-    std::function < void (void *, void *) >
-    onCollision(size_t t1, size_t t2) {
-        return this
-            ->actions[std::pair<size_t, size_t>(t1,t2)].first;
-    }
+        std::function < void (void *, void *) >
+        onCollision(size_t t1, size_t t2) {
+            return this
+                ->actions[std::pair<size_t, size_t>(t1,t2)].first;
+        }
     
-    std::function < void (void *, void *) >
-    onSeparation(size_t t1, size_t t2) {
-        return this
-            ->actions[std::pair<size_t, size_t>(t1,t2)].second;
-    }
-};
+        std::function < void (void *, void *) >
+        onSeparation(size_t t1, size_t t2) {
+            return this
+                ->actions[std::pair<size_t, size_t>(t1,t2)].second;
+        }
+    };
 
-class SAPList : public CollisionManager<struct AABB> {
 
 private:
-    /** FIXME: use sentinels */
-    struct EndPoint * xAxis;
-    struct EndPoint * yAxis;
-    struct ActionManager actions;
 
-    void swap(struct EndPoint * p1, struct EndPoint * p2) {
+    EndPoint * xAxis;
+    EndPoint * yAxis;
+    ActionManager actions;
+
+    void swap(EndPoint * p1, EndPoint * p2) {
         p2->next->prev = p1;
         p1->next = p2->next;
         p1->prev->next = p2;
@@ -76,26 +94,26 @@ private:
     }
 
     /* check on one axis */
-    inline bool partialCollisionCheck(const struct AABB & b1,
-                                      const struct AABB & b2,
+    inline bool partialCollisionCheck(const AABB & b1,
+                                      const AABB & b2,
                                       int dim) {
         return (b1.max[dim] <= b2.max[dim] && b1.max[dim] >= b2.min[dim])
             || (b1.min[dim] >= b2.min[dim] && b1.max[dim] <= b2.max[dim]);
     }
 
-    bool collisionCheck(const struct AABB & b1, const struct AABB & b2) {
+    bool collisionCheck(const AABB & b1, const AABB & b2) {
         return partialCollisionCheck (b1, b2, 0)
             && partialCollisionCheck (b1, b2, 1);
     }
 
-    void updateEndPoint(struct EndPoint * pt) {
+    void updateEndPoint(EndPoint * pt) {
         
          auto aux =
             [&pt, this]
-            (std::function<struct EndPoint*(struct EndPoint*)>succ,
+            (std::function<EndPoint*(EndPoint*)>succ,
              std::function<bool(int,int)>loop_cond,
-             std::function<bool(struct EndPoint*,struct EndPoint*)>mustAdd,
-             std::function<bool(struct EndPoint*,struct EndPoint*)>mustRm) {
+             std::function<bool(EndPoint*,EndPoint*)>mustAdd,
+             std::function<bool(EndPoint*,EndPoint*)>mustRm) {
             
             EndPoint * tmp = succ(pt);
             
@@ -120,9 +138,18 @@ private:
     }
     
 public:
-    void addObject(const struct AABB &) {}
-    void updateObject(const struct AABB &) {}
-    void removeObject(const struct AABB &) {}
+
+    SAPList () {
+        /* not sure about the true/false values */
+        xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
+        xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
+        yAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
+        yAxis->next = new EndPoint(NULL, INT_MAX, false, yAxis, NULL);
+    }
+
+    void addObject(const Collisionable &) {}
+    void updateObject(const Collisionable &) {}
+    void removeObject(const Collisionable &) {}
 };
 
 #endif
