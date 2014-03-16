@@ -8,8 +8,10 @@
 #include "CollisionManager.hpp"
 
 class Collisionable {
-protected: int x, y, w, h;
-public: Collisionable(int x=0, int y=0, int w=0, int h=0) :
+    /* FIXME: use getters instead of public fields */
+public:
+    int x, y, w, h;
+    Collisionable(int x=0, int y=0, int w=0, int h=0) :
     x(x), y(y), w(w), h(h) {}
 };
 
@@ -27,6 +29,15 @@ class SAPList : public CollisionManager<Collisionable> {
 
         size_t typeId; /* Need to use std::type_info::hash_code() */
         void * owner;
+
+        AABB (int * minX, int minY, int maxX, int maxY, size_t t, void * o) :
+            typeId(t), owner(o) {
+            min[0] = minX;
+            min[1] = minY;
+            max[0] = maxX;
+            max[1] = maxY;
+        }
+
     };
 
     /**
@@ -68,17 +79,32 @@ class SAPList : public CollisionManager<Collisionable> {
      */
     class ActionManager {
     public:
+        /**
+         * action table stores 2 actions per types couple:
+         * - first is onCollision
+         * - second is onSeparation
+         */
         std::map < std::pair < size_t,size_t >,
                    std::pair < std::function < void (void *, void *) >,
                                std::function < void (void *, void *) > > > 
         actions;
  
+        /**
+         * @param t1 type id of first object
+         * @param t2 type id of second object
+         * @return function to call on t1/t2 collision
+         */
         std::function < void (void *, void *) >
         onCollision(size_t t1, size_t t2) {
             return this
                 ->actions[std::pair<size_t, size_t>(t1,t2)].first;
         }
-    
+
+        /**
+         * @param t1 type id of first object
+         * @param t2 type id of second object
+         * @return function to call on t1/t2 separation
+         */    
         std::function < void (void *, void *) >
         onSeparation(size_t t1, size_t t2) {
             return this
@@ -93,6 +119,7 @@ private:
     EndPoint * yAxis;
     ActionManager actions;
 
+    /** Swap two EndPoint * */
     void swap(EndPoint * p1, EndPoint * p2) {
         p2->next->prev = p1;
         p1->next = p2->next;
@@ -101,7 +128,7 @@ private:
         p2->next = p1;
     }
 
-    /* check on one axis */
+    /** A collision between two AABB on one axis */
     inline bool partialCollisionCheck(const AABB & b1,
                                       const AABB & b2,
                                       int dim) {
@@ -109,11 +136,33 @@ private:
             || (b1.min[dim] >= b2.min[dim] && b1.max[dim] <= b2.max[dim]);
     }
 
+    /**
+     * Check if two AABB collide using 2 axises
+     * @see partialCollisionCheck
+     */
     bool collisionCheck(const AABB & b1, const AABB & b2) {
         return partialCollisionCheck (b1, b2, 0)
             && partialCollisionCheck (b1, b2, 1);
     }
 
+
+    /** Create the AABB corresponding to a collisionable object
+     * @param c the object used to create the corresponding AABB
+     * @return a pointer to freshly heap-allocated AABB 
+     */
+    AABB * mk_AABB(const Collisionable & c) {
+        EndPoint * miX, * miY, * maX, * maY;
+
+        /* TODO: create EndPoints */
+
+        return new AABB(miX, miY, maX, maY, typeid(c).hash_code, (void *) c);
+    }
+
+
+    /** Update EndPoint place and call the appropriate function in case 
+     * of collision/separation
+     * @param pt the EndPoint to update
+     */
     void updateEndPoint(EndPoint * pt) {
         
          auto aux =
