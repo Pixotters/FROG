@@ -31,12 +31,12 @@ class SAPList : public CollisionManager<Collisionable> {
         size_t typeId; /* Need to use std::type_info::hash_code() */
         void * owner;
 
-        AABB (int * minX, int minY, int maxX, int maxY, size_t t, void * o) :
+        AABB (int minX, int minY, int maxX, int maxY, size_t t, void * o) :
             typeId(t), owner(o) {
-            min[0] = minX;
-            min[1] = minY;
-            max[0] = maxX;
-            max[1] = maxY;
+            min[0] = new EndPoint(this, minX, true);
+            min[1] = new EndPoint(this, minY, true);
+            max[0] = new EndPoint(this, maxX, false);
+            max[1] = new EndPoint(this, maxY, false);
         }
 
     };
@@ -52,13 +52,13 @@ class SAPList : public CollisionManager<Collisionable> {
     class EndPoint {
     public:
         AABB * owner;
-        int value;
+        int value; //FIXME: use a pointer?
         bool isMin;
 
         EndPoint * prev;
         EndPoint * next;
 
-        EndPoint (AABB* o,int v,bool m,EndPoint* p,EndPoint* n) : 
+        EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL) : 
             owner(o), value(v), isMin(m), prev(p), next(n) {}
 
         /** When and EndPoint is destroyed, it updates prev and next */
@@ -151,12 +151,10 @@ private:
      * @param c the object used to create the corresponding AABB
      * @return a pointer to freshly heap-allocated AABB 
      */
-    AABB * mk_AABB(const Collisionable & c) {
-        EndPoint * miX, * miY, * maX, * maY;
-
-        /* TODO: create EndPoints */
-
-        return new AABB(miX, miY, maX, maY, typeid(c).hash_code, (void *) c);
+    AABB * mk_AABB(Collisionable * c) {
+        return new AABB(c->getXMin(), c->getYMin(),
+                        c->getXMax(), c->getYMax(),
+                        typeid(c).hash_code(), (void *) c);
     }
 
 
