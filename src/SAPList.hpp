@@ -16,10 +16,21 @@ public:
     virtual ~Collisionable() {};
 };
 
-class SAPList : public CollisionManager<Collisionable> {
+class SAPList : virtual public CollisionManager<Collisionable> {
+
+public:
+    class ActionManager {
+    public:
+        virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
+        virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
+        virtual ~ActionManager() {};
+    };
 
 private:
+
+    /* BEGIN: private classes for SAPList collision manager */
     class EndPoint;
+    class AABB;
 
     class AABB {
     public:
@@ -29,17 +40,15 @@ private:
         EndPoint * min[2];
         EndPoint * max[2];
 
-        size_t typeId; /* Need to use std::type_info::hash_code() */
-        void * owner;
+        Collisionable * owner;
 
-        AABB (int minX, int minY, int maxX, int maxY, size_t t, void * o) :
-            typeId(t), owner(o) {
+        AABB (int minX, int minY, int maxX, int maxY, Collisionable * o) :
+            owner(o) {
             min[0] = new EndPoint(this, minX, true);
             min[1] = new EndPoint(this, minY, true);
             max[0] = new EndPoint(this, maxX, false);
             max[1] = new EndPoint(this, maxY, false);
         }
-
     };
 
     /**
@@ -72,72 +81,11 @@ private:
         }
     };
 
-
-    /**
-     * Action manager stores actions to perform on collision or separation
-     * of two objects depending on their type
-     * It also stores default actions to execute if no specific action is
-     * defined for two types.
-     */
-    class ActionManager {
-    public:
-        /**
-         * action table stores 2 actions per types couple:
-         * - first is onCollision
-         * - second is onSeparation
-         */
-        std::map < std::pair < size_t,size_t >,
-                   std::pair < std::function < void (void *, void *) >,
-                               std::function < void (void *, void *) > > > 
-        actions;
-
-
-        ActionManager () {}
-
-
-        /** Add an action to ActionManager
-         * @param t1 first object type (hashcode)
-         * @param t2 second  object type (hashcode)
-         * @param onCollision function to call on collision of t1 and t2
-         * @param onSeparation function to call on separation of t1 and t2
-         */
-        void addAction(size_t t1, size_t t2,
-                  std::function <void (void *, void *)> onCollision,
-                  std::function <void (void *, void *)> onSeparation) {
-            this->actions[std::pair < size_t, size_t > (t1,t2)] =
-                std::pair < std::function < void (void *, void *) >,
-                            std::function < void (void *, void *) > >
-                (onCollision, onSeparation);
-        } 
-        /**
-         * @param t1 type id of first object
-         * @param t2 type id of second object
-         * @return function to call on t1/t2 collision
-         */
-        std::function < void (void *, void *) >
-        onCollision(size_t t1, size_t t2) {
-            return this
-                ->actions[std::pair<size_t, size_t>(t1,t2)].first;
-        }
-
-        /**
-         * @param t1 type id of first object
-         * @param t2 type id of second object
-         * @return function to call on t1/t2 separation
-         */    
-        std::function < void (void *, void *) >
-        onSeparation(size_t t1, size_t t2) {
-            return this
-                ->actions[std::pair<size_t, size_t>(t1,t2)].second;
-        }
-    };
-
-
-private:
+    /* END: private classes for SAPList collision manager */
 
     EndPoint * xAxis;
     EndPoint * yAxis;
-    ActionManager actions;
+    ActionManager * actionManager;
 
     /** Swap two EndPoint * */
     void swap(EndPoint * p1, EndPoint * p2) {
@@ -173,7 +121,7 @@ private:
     AABB * mk_AABB(Collisionable * c) {
         return new AABB(c->getXMin(), c->getYMin(),
                         c->getXMax(), c->getYMax(),
-                        typeid(c).hash_code(), (void *) c);
+                        c);
     }
 
 
@@ -197,14 +145,12 @@ private:
                  this->swap(tmp, pt);
                  if (mustAdd(pt, tmp)) {
                      if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                         this->actions.onCollision
-                             (pt->owner->typeId, tmp->owner->typeId)
-                             (pt->owner->owner, tmp->owner->owner);
+                         this->actionManager->onCollision(pt->owner->owner,
+                                                          tmp->owner->owner);
                      }
                  } else if (mustRm(pt, tmp)) {
-                     this->actions.onSeparation
-                         (pt->owner->typeId,tmp->owner->typeId)
-                         (pt->owner->owner, tmp->owner->owner);
+                     this->actionManager->onSeparation(pt->owner->owner,
+                                                       tmp->owner->owner);
                  }
              }
          };
@@ -228,7 +174,8 @@ private:
     
 public:
 
-    SAPList () {
+    SAPList (ActionManager * am) {
+        this->actionManager = am;
         /* not sure about the true/false values */
         xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
         xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
