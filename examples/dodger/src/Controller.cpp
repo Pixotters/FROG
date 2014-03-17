@@ -20,7 +20,7 @@ Controller::~Controller()
 void Controller::handle()
 {
   sf::Event event;
-  m_events.clear();
+  //  m_events.clear();
   while(m_window->pollEvent(event) ){
     m_events.push_back(event);
   }
@@ -50,10 +50,48 @@ bool Controller::handle(Input::JoystickButton * b)
   return (sf::Joystick::isButtonPressed(b->getID(), b->getButton() )  );
 }
 
+bool Controller::handle(Input::KeyboardSimpleButton * b)
+{
+  auto end = m_events.end();
+  for(auto it = m_events.begin(); it != end; ++it)
+    {
+      if ( 
+          ( (it->type == sf::Event::KeyPressed
+             && b->getTrigger() == Input::SimpleButton::PRESSED)
+            || (it->type == sf::Event::KeyReleased
+                && b->getTrigger() == Input::SimpleButton::RELEASED) )
+          && (it->key.code == b->getButton() )  )
+        {
+          m_events.erase(it);
+          return true;
+        }
+    }
+  return false;
+}
+
+bool Controller::handle(Input::MouseSimpleButton * b)
+{
+  auto end = m_events.end();
+  for(auto it = m_events.begin(); it != end; ++it)
+    {
+      if ( 
+          ( (it->type == sf::Event::MouseButtonPressed
+             && b->getTrigger() == Input::SimpleButton::PRESSED)
+            || (it->type == sf::Event::MouseButtonReleased
+                && b->getTrigger() == Input::SimpleButton::RELEASED) )
+          && (it->mouseButton.button == b->getButton() )  )
+        {
+          m_events.erase(it);
+          return true;
+        }
+    }
+  return false;
+}
+
+
 bool Controller::handle(Input::JoystickSimpleButton * b)
 {
   auto end = m_events.end();
-  sf::Event event;
   for(auto it = m_events.begin(); it != end; ++it)
     {
       if ( 

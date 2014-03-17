@@ -32,9 +32,9 @@ Level::Level()
   App::instance()->getController()
     ->suscribe(new Input::KeyboardButton(sf::Keyboard::D), moveright );
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Z), moveup );  
+    ->suscribe(new Input::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::S),  movedown );
+    ->suscribe(new Input::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
   App::instance()->getController()
     ->suscribe(new Input::JoystickButton(XBOX::X), moveleft );    
   App::instance()->getController()
@@ -44,11 +44,14 @@ Level::Level()
   App::instance()->getController()
     ->suscribe(new Input::JoystickButton(XBOX::A), movedown );
   App::instance()->getController()
-               ->suscribe(new Input::MouseButton(sf::Mouse::Left),
-                          new Bomb(m_ennemies) );
+    ->suscribe(new Input::MouseButton(sf::Mouse::Left),
+               new Bomb(m_ennemies) );
+  App::instance()->getController()
+    ->suscribe(new Input::MouseSimpleButton(sf::Mouse::Right),
+               new Bomb(m_ennemies) );
   App::instance()->getController()
     ->suscribe(new Input::JoystickSimpleButton(XBOX::HOME), 
-                          new Bomb(m_ennemies) );
+               new Bomb(m_ennemies) );
   spawnEnemy();
 }
 

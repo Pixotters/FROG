@@ -1,3 +1,27 @@
+= 20/03 = 
+
+Le Controller a été abstrait : il y a maintenant une classe AbstractController 
+templatée pour les types d'input et d'output. Le Controlle actuel est donc 
+un AbstractController<Input, Command>. 
+
+= 13/03 =
+
+Le système de Controller a été amélioré, et marche désormais avec tous les 
+périphériques standard : clavier, souris, manette. Il ne reste plus qu'à 
+implémenter les différentes manières de traiter les inputs. On doit définir 
+des méthodes //handle(Input)// qui seront appelées correctement via un 
+Visitor, le C++ ne gérant par défaut le MultipleDispatch. 
+Un début de collision a été fait, se basant sur l'algorithme du 
+//Sweep&Prune//, implémenté via des listes doublement chainées. 
+
+== Objectifs de la semaine ==
+
+Julien veut faire une gestion de collision utilisable concrètement. 
+Nicolas veut finir la gestion des contrôles : il y a probablement un moyen 
+plus simple qu'utiliser un visitor. 
+Si l'avancée est rapide, on tentera la gestion de fichier intelligente. 
+
+
 = 06/02 =
 
 Les tests (mis en place avec //Boost//) fonctionnent, tout comme la couverture 
@@ -28,6 +52,7 @@ possédant deux vecteurs (force et accélération).
 Julien commencera l'implémentation du moteur de collision. 
 Nicolas avancera sur la gestion des évènements. 
 Si l'avancée est rapide, un début sur un rendu amélioré pourrait être fait.
+
 
 = 27/02 (Stefano) =
 
@@ -85,8 +110,6 @@ qui s'enregistre auprès du publisher.
 - Mettre à jour les spécifications avec ces changements. 
 
 
-
-
 = 20/02 //(Stefano)//=
 
 Nous avons ecrit les spécifications (de maniere informelle) de deux jeux 
@@ -126,8 +149,6 @@ commentera le code et ecrira les tests unitaires pour les modules
 implementes.
 
 
-
-
 = 13/02 //(JBY)// =
 
 Réflexions sur la modularité. Un schéma a été construit.
@@ -140,7 +161,3 @@ poursuivant), pour identifier les modules essentiels et envisager un
 calendrier 
 de spécification sur les modules essentiels et ensuite un calendrier de 
 réalisation.
-
-= 13/03 =
-
-Collision

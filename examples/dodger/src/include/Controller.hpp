@@ -6,6 +6,8 @@
 #include "Command.hpp"
 #include "Input/KeyboardButton.hpp"
 #include "Input/MouseButton.hpp"
+#include "Input/KeyboardSimpleButton.hpp"
+#include "Input/MouseSimpleButton.hpp"
 #include "Input/JoystickButton.hpp"
 #include "Input/JoystickSimpleButton.hpp"
 
@@ -35,6 +37,8 @@ public:
   bool handle(Input::KeyboardButton *);
   bool handle(Input::MouseButton *);
   bool handle(Input::JoystickButton *);
+  bool handle(Input::KeyboardSimpleButton *);
+  bool handle(Input::MouseSimpleButton *);
   bool handle(Input::JoystickSimpleButton *);
 };
 
