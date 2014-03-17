@@ -47,6 +47,8 @@ BOOST_AUTO_TEST_CASE ( CollisionableTester_constructors_default ) {
     BOOST_REQUIRE_EQUAL( c->w, 0 );
     BOOST_REQUIRE_EQUAL( c->h, 0 );
 
+    delete c;
+
 }
 
 BOOST_AUTO_TEST_CASE ( CollisionableTester_constructors_intialized ) {
@@ -57,6 +59,8 @@ BOOST_AUTO_TEST_CASE ( CollisionableTester_constructors_intialized ) {
     BOOST_REQUIRE_EQUAL( c->w, 12 );
     BOOST_REQUIRE_EQUAL( c->h, 13 );
 
+    delete c;
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -66,7 +70,29 @@ BOOST_AUTO_TEST_SUITE( SAPList_constructors )
 BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListTester )
 {
     BOOST_REQUIRE_EQUAL( cm->xAxis->next->prev, cm->xAxis );
-
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE( SAPList_mk_AABB )
+
+BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListTester )
+{
+
+    CollisionableTester * c = new CollisionableTester(10, 11, 12, 13);
+    SAPList::AABB * aabb = cm->mk_AABB(c);
+
+    BOOST_CHECK_EQUAL( aabb->min[0]->value, 10 );
+    BOOST_CHECK_EQUAL( aabb->min[1]->value, 11 );
+    BOOST_CHECK_EQUAL( aabb->max[0]->value, 10 + 12 );
+    BOOST_CHECK_EQUAL( aabb->max[1]->value, 11 + 13 );
+    BOOST_CHECK_EQUAL( aabb->typeId, typeid(c).hash_code() );
+    BOOST_CHECK_EQUAL( aabb->owner, c);
+
+    delete aabb;
+    delete c;
+    
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
