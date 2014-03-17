@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
+#include "AbstractController.hpp"
+
 #include "Command.hpp"
 #include "Input/KeyboardButton.hpp"
 #include "Input/MouseButton.hpp"
@@ -13,13 +15,11 @@
 #include <queue>
 #include <list>
 
-class Controller
+class Controller : virtual public AbstractController<Input::Input, Command>
 {
   //// attributes ////
 protected:
-  std::map< Input::Input *, Command * > m_binding;
   std::list< sf::Event > m_events;
-  std::queue<Command * > m_commands;
   int m_mouseX;
   int m_mouseY;
   int m_deltaMouseX;
@@ -31,11 +31,6 @@ public:
   Controller(sf::Window *);
   virtual ~Controller();
   virtual void handle();
-  void suscribe(Input::Input *, Command *);
-  void unsuscribe(Input::Input *);
-  void clear();
-  std::queue<Command *> getCommands();
-  void addCommand(Command *);
   bool handle(Input::Input *);
   bool handle(Input::KeyboardButton *);
   bool handle(Input::MouseButton *);

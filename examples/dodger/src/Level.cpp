@@ -140,7 +140,7 @@ void Level::updateTargets()
 
 void Level::handleCommands(Controller * c)
 {
-  auto commands = c->getCommands();
+  auto commands = c->getQueue();
   while(not commands.empty() )
     {
       Command * a = commands.front();

@@ -1,7 +1,10 @@
 #ifndef INPUT_INPUT_HPP
 #define INPUT_INPUT_HPP
 
-//#include "Controller.hpp"
+#include "AbstractController.hpp"
+#include "Command.hpp"
+
+
 class Controller;
 
 namespace Input{
@@ -15,7 +18,9 @@ namespace Input{
   public:
     Input();
     virtual ~Input();
-    virtual bool handle(Controller * c) = 0;
+    //    template <typename I, typename O>
+    bool handle(AbstractController<Input,Command> *);
+    virtual bool handle(Controller *);
   };
 
 }

@@ -19,51 +19,14 @@ Controller::~Controller()
 
 void Controller::handle()
 {
-  while(not m_commands.empty() )
-    {
-      m_commands.pop();
-    }
   sf::Event event;
   m_events.clear();
   while(m_window->pollEvent(event) ){
     m_events.push_back(event);
   }
-  auto end = m_binding.end();
-  for(auto it = m_binding.begin(); it != end; ++it)
-    {
-      if (it->first->handle(this) )
-        {
-          addCommand(it->second );
-        }
-    }
+  AbstractController::handle();
 }
 
-
-void Controller::suscribe(Input::Input * i, Command * a)
-{
-  m_binding.insert(std::pair<Input::Input *, Command *>(i, a) );
-}
-
-
-void Controller::unsuscribe(Input::Input * i)
-{
-
-}
-
-void Controller::clear()
-{
-  m_binding.clear();
-}
-
-
-std::queue<Command *> Controller::getCommands()
-{
-  return m_commands;
-}
-
-void Controller::addCommand(Command * c){
-  m_commands.push( c );
-}
 
 ////////// insert inputs after that ////
 
@@ -104,33 +67,8 @@ bool Controller::handle(Input::JoystickSimpleButton * b)
           return true;
         }
     }
+  return false;
 }
 
 
-/*
-void Controller::handleSimple()
-{
-  sf::Event event;
-  while( m_window -> pollEvent(event)  )
-    {
-      if( event.type ==  sf::Event::Closed )
-        {
-          App::instance()->exit();
-        }else if( event.type == sf::Event::KeyPressed ){
-        handleButton(event.key.code, Input::Button::PRESSED);        
-      }else if (event.type == sf::Event::KeyReleased ){
-        handleButton(event.key.code, Input::Button::RELEASED);
-      }else if(event.type == sf::Event::MouseButtonPressed ){
-        handleButton(event.mouseButton.button, Input::Button::PRESSED);
-      }else if(event.type == sf::Event::MouseButtonReleased){
-        handleButton(event.mouseButton.button, Input::Button::RELEASED);
-      }else if(event.type == sf::Event::JoystickButtonPressed ){
-        handleButton(event.joystickButton.button, Input::Button::PRESSED);
-      }else if(event.type == sf::Event::JoystickButtonReleased){
-        handleButton(event.joystickButton.button, Input::Button::RELEASED);
-      }
 
-    }
-    
-}
-*/
