@@ -1,0 +1,45 @@
+include ../Makefile.generic
+
+TEST_TARGETS=test_SAPList
+TEST_SRC_DIR=../src
+TEST_OUTPUT_DIR=cov-report
+
+LDFLAGS+= -lboost_unit_test_framework --coverage
+CXXFLAGS+= -DBOOST_TEST_DYN_LINK --coverage -I$(TEST_SRC_DIR)
+
+ifeq ($(MEMCHECK), no)
+  VALGRIND=
+else 
+ifeq ($(MEMCHECK), full)
+  VALGRIND=valgrind --leak-check=full
+else
+  VALGRIND=valgrind
+endif
+endif
+
+test: $(TEST_TARGETS) run cov cov-report
+
+run: $(addprefix run-, $(TEST_TARGETS))
+
+$(TEST_TARGETS):
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+run-%: %
+	-$(VALGRIND) ./$<
+
+cov: run
+	lcov --capture --no-external --directory $(TEST_SRC_DIR) --output-file coverage.info
+
+cov-report: cov
+	genhtml coverage.info --output-directory $(TEST_OUTPUT_DIR)
+
+clean: generic_clean
+	rm -f *-report.xml coverage.info
+	rm -rf $(TEST_OUTPUT_DIR)
+
+proper: clean
+	rm -f $(TEST_TARGETS)
+
+-include $(TEST_TARGETS:=.d)
+
+test_SAPList: test_SAPList.o $(TEST_SRC_DIR)/SAPList.o
