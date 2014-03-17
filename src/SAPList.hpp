@@ -19,6 +19,7 @@ protected:
 
 public:
     void * getBoundingBox() { return boundingBox; }
+    void setBoundingBox(void * b) { boundingBox = b; }
     virtual int getXMin() = 0;
     virtual int getYMin() = 0;
     virtual int getXMax() = 0;
@@ -67,11 +68,13 @@ private:
     
         /** When and EndPoint is destroyed, it updates prev and next */
         ~EndPoint () {
+            /*
             if (this->prev != NULL) {
                 this->prev->next = this->next;
             }
             if (this->next != NULL)
                 this->next->prev = this->prev;
+            */
         }
     };
     
@@ -173,6 +176,8 @@ private:
             return true;
         };
 
+        /* No collision detected on equality (<=/>=). */
+
         auto prev = [](EndPoint *p)
             { return p->prev;};
         auto prev_cond = [](int i1, int i2)
@@ -213,7 +218,7 @@ public:
     }
 
     ~SAPList () {
-
+        /*
         while (xAxis->next != NULL) {
             delete xAxis->next;
         } delete xAxis;
@@ -221,29 +226,37 @@ public:
         while (yAxis->next != NULL) {
             delete yAxis->next;
         } delete yAxis;
+        */
     }
 
     void addObject(Collisionable * c) {
 
+        /* create couple and insert after sentinel */
+
         AABB * aabb = this->mk_AABB(c);
+        c->setBoundingBox(aabb);
 
         aabb->min[0]->next = aabb->max[0];
         aabb->max[0]->prev = aabb->min[0];
-        aabb->max[0]->next = xAxis;
-        xAxis->prev = aabb->max[0];
+        aabb->min[0]->prev = xAxis;
+        aabb->max[0]->next = xAxis->next;
+        xAxis->next->prev = aabb->max[0];
+        xAxis->next = aabb->min[0];
 
         aabb->min[1]->next = aabb->max[1];
         aabb->max[1]->prev = aabb->min[1];
-        aabb->max[1]->next = yAxis;
-        yAxis->prev = aabb->max[1];
+        aabb->min[1]->prev = yAxis;
+        aabb->max[1]->next = yAxis->next;
+        yAxis->next->prev = aabb->max[1];
+        yAxis->next = aabb->min[1];
 
         updateObject(c);
     }
 
     void updateObject(Collisionable * c) {
         AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
-        updateAxis(aabb->min[1], aabb->max[1]);
         updateAxis(aabb->min[0], aabb->max[0]);
+        updateAxis(aabb->min[1], aabb->max[1]);
     }
 
     void removeObject(Collisionable * c) {
