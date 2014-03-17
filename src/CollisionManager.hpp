@@ -3,15 +3,15 @@
 
 /** Interface for collision managers */
 
-template <typename AABB> class CollisionManager  {
+template <typename Obj> class CollisionManager  {
 
 public:
 
-    virtual void addObject(const AABB &) = 0;
+    virtual void addObject(Obj *) = 0;
 
-    virtual void updateObject(const AABB &) = 0;
+    virtual void updateObject(Obj *) = 0;
 
-    virtual void removeObject(const AABB &) = 0;
+    virtual void removeObject(Obj *) = 0;
 
     virtual ~CollisionManager() {}
 
