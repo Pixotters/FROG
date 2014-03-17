@@ -89,7 +89,25 @@ class SAPList : public CollisionManager<Collisionable> {
                    std::pair < std::function < void (void *, void *) >,
                                std::function < void (void *, void *) > > > 
         actions;
- 
+
+
+        ActionManager () {}
+
+
+        /** Add an action to ActionManager
+         * @param t1 first object type (hashcode)
+         * @param t2 second  object type (hashcode)
+         * @param onCollision function to call on collision of t1 and t2
+         * @param onSeparation function to call on separation of t1 and t2
+         */
+        void addAction(size_t t1, size_t t2,
+                  std::function <void (void *, void *)> onCollision,
+                  std::function <void (void *, void *)> onSeparation) {
+            this->actions[std::pair < size_t, size_t > (t1,t2)] =
+                std::pair < std::function < void (void *, void *) >,
+                            std::function < void (void *, void *) > >
+                (onCollision, onSeparation);
+        } 
         /**
          * @param t1 type id of first object
          * @param t2 type id of second object
