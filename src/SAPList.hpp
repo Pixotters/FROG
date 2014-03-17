@@ -7,59 +7,64 @@
 #include <climits>
 #include "CollisionManager.hpp"
 
+class ActionManager;
+class Collisionable;
+class SAPList;
+
 class Collisionable {
-    /* FIXME: use getters instead of public fields */
+
+protected:
+    /* (void *) because AABB type is hidden */
+    void * boundingBox;
+
 public:
-    int x, y, w, h;
-    Collisionable(int x=0, int y=0, int w=0, int h=0) :
-    x(x), y(y), w(w), h(h) {}
+    void * getBoundingBox() { return boundingBox; }
+    virtual int getXMin() = 0;
+    virtual int getYMin() = 0;
+    virtual int getXMax() = 0;
+    virtual int getYMax() = 0;
+    virtual ~Collisionable() {};
 };
 
-class SAPList : public CollisionManager<Collisionable> {
+class ActionManager {
 
-    class EndPoint;
+public:
+    virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
+    virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
+    virtual ~ActionManager() {};
 
-    class AABB {
-    public:
-        /** min/max
-         *  - first is x axis
-         *  - second is y axis */
-        EndPoint * min[2];
-        EndPoint * max[2];
+};
 
-        size_t typeId; /* Need to use std::type_info::hash_code() */
-        void * owner;
+class SAPList : virtual public CollisionManager<Collisionable> {
 
-        AABB (int * minX, int minY, int maxX, int maxY, size_t t, void * o) :
-            typeId(t), owner(o) {
-            min[0] = minX;
-            min[1] = minY;
-            max[0] = maxX;
-            max[1] = maxY;
-        }
+private:
 
-    };
+    /* BEGIN: private classes for SAPList collision manager */
 
-    /**
-     * TODO:
-     * - Optimize merging isMin boolean into another member
-     *   (as a flag)
-     * - Using doubly-linked list could waste memory but is easier to implement
-     *   than arrays.
-     * - Implement pair manager
-     */
+    class AABB;
+
     class EndPoint {
+
+        /**
+         * TODO:
+         * - Optimize merging isMin boolean into another member
+         *   (as a flag)
+         * - Using doubly-linked list could waste memory but is easier to implement
+         *   than arrays.
+         * - Implement pair manager
+         */
+
     public:
+
         AABB * owner;
-        int value;
+        int value; //FIXME: use a pointer?
         bool isMin;
 
         EndPoint * prev;
         EndPoint * next;
-
-        EndPoint (AABB* o,int v,bool m,EndPoint* p,EndPoint* n) : 
+        EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL) : 
             owner(o), value(v), isMin(m), prev(p), next(n) {}
-
+    
         /** When and EndPoint is destroyed, it updates prev and next */
         ~EndPoint () {
             if (this->prev != NULL) {
@@ -69,55 +74,31 @@ class SAPList : public CollisionManager<Collisionable> {
                 this->next->prev = this->prev;
         }
     };
+    
+    class AABB {
 
-
-    /**
-     * Action manager stores actions to perform on collision or separation
-     * of two objects depending on their type
-     * It also stores default actions to execute if no specific action is
-     * defined for two types.
-     */
-    class ActionManager {
     public:
-        /**
-         * action table stores 2 actions per types couple:
-         * - first is onCollision
-         * - second is onSeparation
-         */
-        std::map < std::pair < size_t,size_t >,
-                   std::pair < std::function < void (void *, void *) >,
-                               std::function < void (void *, void *) > > > 
-        actions;
- 
-        /**
-         * @param t1 type id of first object
-         * @param t2 type id of second object
-         * @return function to call on t1/t2 collision
-         */
-        std::function < void (void *, void *) >
-        onCollision(size_t t1, size_t t2) {
-            return this
-                ->actions[std::pair<size_t, size_t>(t1,t2)].first;
-        }
+        EndPoint * min[2]; /* x/y */
+        EndPoint * max[2]; /* x/y */
 
-        /**
-         * @param t1 type id of first object
-         * @param t2 type id of second object
-         * @return function to call on t1/t2 separation
-         */    
-        std::function < void (void *, void *) >
-        onSeparation(size_t t1, size_t t2) {
-            return this
-                ->actions[std::pair<size_t, size_t>(t1,t2)].second;
+        Collisionable * owner;
+
+        AABB (int minX, int minY, int maxX, int maxY, Collisionable * o) :
+            owner(o) {
+            min[0] = new EndPoint(this, minX, true);
+            min[1] = new EndPoint(this, minY, true);
+            max[0] = new EndPoint(this, maxX, false);
+            max[1] = new EndPoint(this, maxY, false);
         }
     };
 
+    /* END: private classes for SAPList collision manager */
 
 private:
 
     EndPoint * xAxis;
     EndPoint * yAxis;
-    ActionManager actions;
+    ActionManager * actionManager;
 
     /** Swap two EndPoint * */
     void swap(EndPoint * p1, EndPoint * p2) {
@@ -150,53 +131,80 @@ private:
      * @param c the object used to create the corresponding AABB
      * @return a pointer to freshly heap-allocated AABB 
      */
-    AABB * mk_AABB(const Collisionable & c) {
-        EndPoint * miX, * miY, * maX, * maY;
-
-        /* TODO: create EndPoints */
-
-        return new AABB(miX, miY, maX, maY, typeid(c).hash_code, (void *) c);
+    AABB * mk_AABB(Collisionable * c) {
+        return new AABB(c->getXMin(), c->getYMin(),
+                        c->getXMax(), c->getYMax(),
+                        c);
     }
 
 
     /** Update EndPoint place and call the appropriate function in case 
-     * of collision/separation
+     * of collision/separation. Does not affect the EndPoint.value, which must 
+     * be updated before calling updateEndPoint.
      * @param pt the EndPoint to update
      */
-    void updateEndPoint(EndPoint * pt) {
+    void updateAxis(EndPoint * min, EndPoint * max) {
         
-         auto aux =
-            [&pt, this]
-            (std::function<EndPoint*(EndPoint*)>succ,
+        auto update =
+            [this]
+            (EndPoint * pt,
+             std::function<EndPoint*(EndPoint*)>succ,
              std::function<bool(int,int)>loop_cond,
              std::function<bool(EndPoint*,EndPoint*)>mustAdd,
              std::function<bool(EndPoint*,EndPoint*)>mustRm) {
-            
+          
             EndPoint * tmp = succ(pt);
-            
-            while (loop_cond(tmp->value, pt->value)) {
+            if (!loop_cond(tmp->value, pt->value))
+                { return false; }
+
+            do {
                 this->swap(tmp, pt);
                 if (mustAdd(pt, tmp)) {
                     if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                    this->actions.onCollision
-                        (pt->owner->typeId, tmp->owner->typeId)
-                        (pt->owner->owner, tmp->owner->owner);
+                        this->actionManager->onCollision(pt->owner->owner,
+                                                         tmp->owner->owner);
                     }
                 } else if (mustRm(pt, tmp)) {
-                    this->actions.onSeparation
-                        (pt->owner->typeId,tmp->owner->typeId)
-                        (pt->owner->owner, tmp->owner->owner);
+                    this->actionManager->onSeparation(pt->owner->owner,
+                                                      tmp->owner->owner);
                 }
-            }
+            } while (loop_cond((tmp = succ(pt))->value, pt->value));
+            
+            return true;
         };
 
-        /** TODO: use aux to update on x and y axis */
+        auto prev = [](EndPoint *p)
+            { return p->prev;};
+        auto prev_cond = [](int i1, int i2)
+            { return i1 > i2; };  
+        auto prev_add = [](EndPoint *p1, EndPoint *p2)
+            { return !p1->isMin && p2->isMin; };
+        auto prev_rm = [](EndPoint *p1, EndPoint *p2)
+            { return p1->isMin && !p2->isMin; };
+
+             
+        auto next = [](EndPoint *p)
+            { return p->next; };
+        auto next_cond = [](int i1, int i2)
+            { return i1 < i2; };
+        auto next_add = [](EndPoint *p1, EndPoint *p2)
+            { return !p1->isMin && p2->isMin; };
+        auto next_rm = [](EndPoint *p1, EndPoint *p2)
+            { return p1->isMin && !p2->isMin; };
+
+        /* first BINOR force update */
+        if (!(update(max, next, next_cond, next_add, next_rm)
+              | update(min, next, next_cond, next_add, next_rm))) {
+            update(min, prev, prev_cond, prev_add, prev_rm);
+            update(max, prev, prev_cond, prev_add, prev_rm);
+        }
 
     }
     
 public:
 
-    SAPList () {
+    SAPList (ActionManager * am) {
+        this->actionManager = am;
         /* not sure about the true/false values */
         xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
         xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
@@ -215,9 +223,31 @@ public:
         } delete yAxis;
     }
 
-    void addObject(const Collisionable &) {}
-    void updateObject(const Collisionable &) {}
-    void removeObject(const Collisionable &) {}
+    void addObject(Collisionable * c) {
+
+        AABB * aabb = this->mk_AABB(c);
+
+        aabb->min[0]->next = aabb->max[0];
+        aabb->max[0]->prev = aabb->min[0];
+        aabb->max[0]->next = xAxis;
+        xAxis->prev = aabb->max[0];
+
+        aabb->min[1]->next = aabb->max[1];
+        aabb->max[1]->prev = aabb->min[1];
+        aabb->max[1]->next = yAxis;
+        yAxis->prev = aabb->max[1];
+
+        updateObject(c);
+    }
+
+    void updateObject(Collisionable * c) {
+        AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
+        updateAxis(aabb->min[1], aabb->max[1]);
+        updateAxis(aabb->min[0], aabb->max[0]);
+    }
+
+    void removeObject(Collisionable * c) {
+    }
 };
 
 #endif
