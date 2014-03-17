@@ -7,23 +7,41 @@
 
 #include "../src/SAPList.hpp"
 
-struct SAPListTester {
-    SAPList * cm;
-    Collisionable * obj1;
-    Collisionable * obj2;
-    SAPListTester() {
-        cm = new SAPList();
-        obj1 = new Collisionable();
-        obj2 = new Collisionable();
-    }
-    ~SAPListTester() { delete cm; }
+class CollisionableTester : virtual public Collisionable {
+public:
+    int x, y, w, h;
+    virtual int getXMin() { return this->x; }
+    virtual int getYMin() { return this->y; }
+    virtual int getXMax() { return this->x + this->w; }
+    virtual int getYMax() { return this->y + this->h; }
+
+    CollisionableTester() : CollisionableTester(0, 0, 0, 0) {}
+    CollisionableTester(int i1, int i2, int i3, int i4) :
+        x(i1), y(i2), w(i3), h(i4) {}
+    ~CollisionableTester() {}
 };
 
-BOOST_AUTO_TEST_SUITE( Collisionable_constructors )
+struct SAPListTester {
+    SAPList * cm;
+    CollisionableTester * obj1;
+    CollisionableTester * obj2;
+    SAPListTester() {
+        cm = new SAPList();
+        obj1 = new CollisionableTester();
+        obj2 = new CollisionableTester();
+    }
+    ~SAPListTester() {
+        delete cm;
+        delete obj1;
+        delete obj2;
+    }
+};
 
-BOOST_AUTO_TEST_CASE ( Collisionable_constructors_default ) {
+BOOST_AUTO_TEST_SUITE( CollisionableTester_constructors )
 
-    Collisionable * c = new Collisionable();
+BOOST_AUTO_TEST_CASE ( CollisionableTester_constructors_default ) {
+
+    CollisionableTester * c = new CollisionableTester();
     BOOST_REQUIRE_EQUAL( c->x, 0 );
     BOOST_REQUIRE_EQUAL( c->y, 0 );
     BOOST_REQUIRE_EQUAL( c->w, 0 );
@@ -31,9 +49,9 @@ BOOST_AUTO_TEST_CASE ( Collisionable_constructors_default ) {
 
 }
 
-BOOST_AUTO_TEST_CASE ( Collisionable_constructors_intialized ) {
+BOOST_AUTO_TEST_CASE ( CollisionableTester_constructors_intialized ) {
 
-    Collisionable * c = new Collisionable(10, 11, 12, 13);
+    CollisionableTester * c = new CollisionableTester(10, 11, 12, 13);
     BOOST_REQUIRE_EQUAL( c->x, 10 );
     BOOST_REQUIRE_EQUAL( c->y, 11 );
     BOOST_REQUIRE_EQUAL( c->w, 12 );

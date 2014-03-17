@@ -177,7 +177,8 @@ private:
 
 
     /** Update EndPoint place and call the appropriate function in case 
-     * of collision/separation
+     * of collision/separation. Does not affect the EndPoint.value, which must 
+     * be updated before calling updateEndPoint.
      * @param pt the EndPoint to update
      */
     void updateEndPoint(EndPoint * pt) {
@@ -188,26 +189,39 @@ private:
              std::function<bool(int,int)>loop_cond,
              std::function<bool(EndPoint*,EndPoint*)>mustAdd,
              std::function<bool(EndPoint*,EndPoint*)>mustRm) {
-            
-            EndPoint * tmp = succ(pt);
-            
-            while (loop_cond(tmp->value, pt->value)) {
-                this->swap(tmp, pt);
-                if (mustAdd(pt, tmp)) {
-                    if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                    this->actions.onCollision
-                        (pt->owner->typeId, tmp->owner->typeId)
-                        (pt->owner->owner, tmp->owner->owner);
-                    }
-                } else if (mustRm(pt, tmp)) {
-                    this->actions.onSeparation
-                        (pt->owner->typeId,tmp->owner->typeId)
-                        (pt->owner->owner, tmp->owner->owner);
-                }
-            }
-        };
+          
+             EndPoint * tmp = succ(pt);
+  
+             while (loop_cond(tmp->value, pt->value)) {
+                 this->swap(tmp, pt);
+                 if (mustAdd(pt, tmp)) {
+                     if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+                         this->actions.onCollision
+                             (pt->owner->typeId, tmp->owner->typeId)
+                             (pt->owner->owner, tmp->owner->owner);
+                     }
+                 } else if (mustRm(pt, tmp)) {
+                     this->actions.onSeparation
+                         (pt->owner->typeId,tmp->owner->typeId)
+                         (pt->owner->owner, tmp->owner->owner);
+                 }
+             }
+         };
+         
+         
+         aux(([](EndPoint *p){return p->prev;}),
+             ([](int i1, int i2){return i1 > i2;}),
+             ([](EndPoint *p1, EndPoint *p2)
+              { return !p1->isMin && p2->isMin; }),
+             ([](EndPoint *p1, EndPoint *p2)
+              { return p1->isMin && !p2->isMin; }));
 
-        /** TODO: use aux to update on x and y axis */
+         aux(([](EndPoint *p){return p->next;}),
+             ([](int i1, int i2){return i1 < i2;}),
+             ([](EndPoint *p1, EndPoint *p2)
+              { return !p1->isMin && p2->isMin; }),
+             ([](EndPoint *p1, EndPoint *p2)
+              { return p1->isMin && !p2->isMin; }));
 
     }
     
