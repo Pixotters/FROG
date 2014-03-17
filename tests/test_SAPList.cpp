@@ -7,7 +7,8 @@
 
 #include "../src/SAPList.hpp"
 
-/* Classes for testion:
+/* 
+ * USER DEFINED CLASSES
  * - ActionManagerTester implements ActionManager
  * - CollisionableTester implements Collisionable
  * - 2 empty classes derived from CollisionableTester
@@ -69,6 +70,11 @@ public:
     ActionManagerTester() : status(0) {}
 };
 
+/*
+ * FIXTURE
+ * SAP fixture using previous classes
+ */
+
 struct SAPListTester {
     SAPList * cm;
     CollisionableTester * obj1;
@@ -86,7 +92,12 @@ struct SAPListTester {
     }
 };
 
-BOOST_AUTO_TEST_SUITE( CollisionableTester_constructors )
+/*
+ * TESTS
+ */
+
+
+BOOST_AUTO_TEST_SUITE( SAPList_constructors )
 
 BOOST_AUTO_TEST_CASE ( Collisionable_type1_constructor ) {
 
@@ -112,10 +123,6 @@ BOOST_AUTO_TEST_CASE ( Collisionable_type2_constructor ) {
 
 }
 
-BOOST_AUTO_TEST_SUITE_END()
-
-BOOST_AUTO_TEST_SUITE( SAPList_constructors )
-
 BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListTester )
 {
     BOOST_REQUIRE_EQUAL( cm->xAxis->next->prev, cm->xAxis );
@@ -123,7 +130,7 @@ BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListTester )
 
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE( SAPList_mk_AABB )
+BOOST_AUTO_TEST_SUITE( SAPList_functions )
 
 BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListTester )
 {
