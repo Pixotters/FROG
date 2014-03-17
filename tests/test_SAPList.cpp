@@ -38,7 +38,7 @@ public:
     Collisionable_type2() : CollisionableTester(10, 11, 12, 13) {}
 };
 
-class ActionManagerTester : virtual public SAPList::ActionManager {
+class ActionManagerTester : virtual public ActionManager {
 public:
 
     int status;
@@ -148,5 +148,8 @@ BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListTester )
     delete c;
     
 }
+
+
+
 
 BOOST_AUTO_TEST_SUITE_END()

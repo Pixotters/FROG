@@ -7,8 +7,18 @@
 #include <climits>
 #include "CollisionManager.hpp"
 
+class ActionManager;
+class Collisionable;
+class SAPList;
+
 class Collisionable {
+
+protected:
+    /* (void *) because AABB type is hidden */
+    void * boundingBox;
+
 public:
+    void * getBoundingBox() { return boundingBox; }
     virtual int getXMin() = 0;
     virtual int getYMin() = 0;
     virtual int getXMax() = 0;
@@ -16,29 +26,60 @@ public:
     virtual ~Collisionable() {};
 };
 
-class SAPList : virtual public CollisionManager<Collisionable> {
+class ActionManager {
 
 public:
-    class ActionManager {
-    public:
-        virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
-        virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
-        virtual ~ActionManager() {};
-    };
+    virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
+    virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
+    virtual ~ActionManager() {};
+
+};
+
+class SAPList : virtual public CollisionManager<Collisionable> {
 
 private:
 
     /* BEGIN: private classes for SAPList collision manager */
-    class EndPoint;
+
     class AABB;
 
-    class AABB {
+    class EndPoint {
+
+        /**
+         * TODO:
+         * - Optimize merging isMin boolean into another member
+         *   (as a flag)
+         * - Using doubly-linked list could waste memory but is easier to implement
+         *   than arrays.
+         * - Implement pair manager
+         */
+
     public:
-        /** min/max
-         *  - first is x axis
-         *  - second is y axis */
-        EndPoint * min[2];
-        EndPoint * max[2];
+
+        AABB * owner;
+        int value; //FIXME: use a pointer?
+        bool isMin;
+
+        EndPoint * prev;
+        EndPoint * next;
+        EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL) : 
+            owner(o), value(v), isMin(m), prev(p), next(n) {}
+    
+        /** When and EndPoint is destroyed, it updates prev and next */
+        ~EndPoint () {
+            if (this->prev != NULL) {
+                this->prev->next = this->next;
+            }
+            if (this->next != NULL)
+                this->next->prev = this->prev;
+        }
+    };
+    
+    class AABB {
+
+    public:
+        EndPoint * min[2]; /* x/y */
+        EndPoint * max[2]; /* x/y */
 
         Collisionable * owner;
 
@@ -51,37 +92,9 @@ private:
         }
     };
 
-    /**
-     * TODO:
-     * - Optimize merging isMin boolean into another member
-     *   (as a flag)
-     * - Using doubly-linked list could waste memory but is easier to implement
-     *   than arrays.
-     * - Implement pair manager
-     */
-    class EndPoint {
-    public:
-        AABB * owner;
-        int value; //FIXME: use a pointer?
-        bool isMin;
-
-        EndPoint * prev;
-        EndPoint * next;
-
-        EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL) : 
-            owner(o), value(v), isMin(m), prev(p), next(n) {}
-
-        /** When and EndPoint is destroyed, it updates prev and next */
-        ~EndPoint () {
-            if (this->prev != NULL) {
-                this->prev->next = this->next;
-            }
-            if (this->next != NULL)
-                this->next->prev = this->prev;
-        }
-    };
-
     /* END: private classes for SAPList collision manager */
+
+private:
 
     EndPoint * xAxis;
     EndPoint * yAxis;
@@ -130,45 +143,61 @@ private:
      * be updated before calling updateEndPoint.
      * @param pt the EndPoint to update
      */
-    void updateEndPoint(EndPoint * pt) {
+    void updateAxis(EndPoint * min, EndPoint * max) {
         
-         auto aux =
-            [&pt, this]
-            (std::function<EndPoint*(EndPoint*)>succ,
+        auto update =
+            [this]
+            (EndPoint * pt,
+             std::function<EndPoint*(EndPoint*)>succ,
              std::function<bool(int,int)>loop_cond,
              std::function<bool(EndPoint*,EndPoint*)>mustAdd,
              std::function<bool(EndPoint*,EndPoint*)>mustRm) {
           
-             EndPoint * tmp = succ(pt);
-  
-             while (loop_cond(tmp->value, pt->value)) {
-                 this->swap(tmp, pt);
-                 if (mustAdd(pt, tmp)) {
-                     if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                         this->actionManager->onCollision(pt->owner->owner,
-                                                          tmp->owner->owner);
-                     }
-                 } else if (mustRm(pt, tmp)) {
-                     this->actionManager->onSeparation(pt->owner->owner,
-                                                       tmp->owner->owner);
-                 }
-             }
-         };
-         
-         
-         aux(([](EndPoint *p){return p->prev;}),
-             ([](int i1, int i2){return i1 > i2;}),
-             ([](EndPoint *p1, EndPoint *p2)
-              { return !p1->isMin && p2->isMin; }),
-             ([](EndPoint *p1, EndPoint *p2)
-              { return p1->isMin && !p2->isMin; }));
+            EndPoint * tmp = succ(pt);
+            if (!loop_cond(tmp->value, pt->value))
+                { return false; }
 
-         aux(([](EndPoint *p){return p->next;}),
-             ([](int i1, int i2){return i1 < i2;}),
-             ([](EndPoint *p1, EndPoint *p2)
-              { return !p1->isMin && p2->isMin; }),
-             ([](EndPoint *p1, EndPoint *p2)
-              { return p1->isMin && !p2->isMin; }));
+            do {
+                this->swap(tmp, pt);
+                if (mustAdd(pt, tmp)) {
+                    if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+                        this->actionManager->onCollision(pt->owner->owner,
+                                                         tmp->owner->owner);
+                    }
+                } else if (mustRm(pt, tmp)) {
+                    this->actionManager->onSeparation(pt->owner->owner,
+                                                      tmp->owner->owner);
+                }
+            } while (loop_cond((tmp = succ(pt))->value, pt->value));
+            
+            return true;
+        };
+
+        auto prev = [](EndPoint *p)
+            { return p->prev;};
+        auto prev_cond = [](int i1, int i2)
+            { return i1 > i2; };  
+        auto prev_add = [](EndPoint *p1, EndPoint *p2)
+            { return !p1->isMin && p2->isMin; };
+        auto prev_rm = [](EndPoint *p1, EndPoint *p2)
+            { return p1->isMin && !p2->isMin; };
+
+             
+        auto next = [](EndPoint *p)
+            { return p->next; };
+        auto next_cond = [](int i1, int i2)
+            { return i1 < i2; };
+        auto next_add = [](EndPoint *p1, EndPoint *p2)
+            { return !p1->isMin && p2->isMin; };
+        auto next_rm = [](EndPoint *p1, EndPoint *p2)
+            { return p1->isMin && !p2->isMin; };
+
+        /* first BINOR force update */
+        if (!(update(max, next, next_cond, next_add, next_rm)
+              | update(min, next, next_cond, next_add, next_rm))) {
+            update(min, prev, prev_cond, prev_add, prev_rm);
+            update(max, prev, prev_cond, prev_add, prev_rm);
+        }
 
     }
     
@@ -194,9 +223,31 @@ public:
         } delete yAxis;
     }
 
-    void addObject(const Collisionable &) {}
-    void updateObject(const Collisionable &) {}
-    void removeObject(const Collisionable &) {}
+    void addObject(Collisionable * c) {
+
+        AABB * aabb = this->mk_AABB(c);
+
+        aabb->min[0]->next = aabb->max[0];
+        aabb->max[0]->prev = aabb->min[0];
+        aabb->max[0]->next = xAxis;
+        xAxis->prev = aabb->max[0];
+
+        aabb->min[1]->next = aabb->max[1];
+        aabb->max[1]->prev = aabb->min[1];
+        aabb->max[1]->next = yAxis;
+        yAxis->prev = aabb->max[1];
+
+        updateObject(c);
+    }
+
+    void updateObject(Collisionable * c) {
+        AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
+        updateAxis(aabb->min[1], aabb->max[1]);
+        updateAxis(aabb->min[0], aabb->max[0]);
+    }
+
+    void removeObject(Collisionable * c) {
+    }
 };
 
 #endif
