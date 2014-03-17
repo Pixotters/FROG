@@ -18,6 +18,7 @@ public:
 
 class SAPList : public CollisionManager<Collisionable> {
 
+private:
     class EndPoint;
 
     class AABB {
