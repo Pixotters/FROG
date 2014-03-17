@@ -8,11 +8,12 @@
 #include "CollisionManager.hpp"
 
 class Collisionable {
-    /* FIXME: use getters instead of public fields */
 public:
-    int x, y, w, h;
-    Collisionable(int x=0, int y=0, int w=0, int h=0) :
-    x(x), y(y), w(w), h(h) {}
+    virtual int getXMin() = 0;
+    virtual int getYMin() = 0;
+    virtual int getXMax() = 0;
+    virtual int getYMax() = 0;
+    virtual ~Collisionable() {};
 };
 
 class SAPList : public CollisionManager<Collisionable> {
