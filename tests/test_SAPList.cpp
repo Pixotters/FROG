@@ -150,26 +150,70 @@ BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListFixture )
     
 }
 
+BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
+{
+    SAPList::EndPoint
+        * p1 = new SAPList::EndPoint(NULL, 0, false),
+        * p2 = new SAPList::EndPoint(NULL, 10, false);
+
+    p1->next = p2;
+    p2->prev = p1;
+
+    //    BOOST_CHECK_EQUAL( p1->prev, NULL );
+    BOOST_CHECK_EQUAL( p1->next, p2 );
+    BOOST_CHECK_EQUAL( p2->prev, p1 );
+    //BOOST_CHECK_EQUAL( p2->next, NULL );
+    
+    cm->swap(p1, p2);
+
+    //BOOST_CHECK_EQUAL( p2->prev, NULL );
+    BOOST_CHECK_EQUAL( p2->next, p1 );
+    BOOST_CHECK_EQUAL( p1->prev, p2 );
+    //BOOST_CHECK_EQUAL( p1->next, NULL );
+
+    delete p1;
+    delete p2;
+
+}
+
 BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 {
     SAPList::EndPoint
         * p1 = new SAPList::EndPoint(NULL, 0, false),
-        * p2 = new SAPList::EndPoint(NULL, 1, false),
-        * p3 = new SAPList::EndPoint(NULL, 2, false),
-        * p4 = new SAPList::EndPoint(NULL, 3, false);
-    
+        * p2 = new SAPList::EndPoint(NULL, 10, false),
+        * p3 = new SAPList::EndPoint(NULL, 20, false),
+        * p4 = new SAPList::EndPoint(NULL, 30, false);
+
+    p1->next = p2;
     p2->prev = p1;
     p2->next = p3;
     p3->prev = p2;
     p3->next = p4;
-
+    p4->prev = p3;
+    
     cm->updateAxis(p2, p3);
 
+    BOOST_CHECK_EQUAL( p1->next, p2 );
     BOOST_CHECK_EQUAL( p2->prev, p1 );
     BOOST_CHECK_EQUAL( p2->next, p3 );
     BOOST_CHECK_EQUAL( p3->prev, p2 );
     BOOST_CHECK_EQUAL( p3->next, p4 );
 
+    /*
+    p2->value = 25;
+    p3->value = 35;
+
+    cm->updateAxis(p2, p3);
+
+    BOOST_CHECK_EQUAL( p1->prev, NULL );
+    BOOST_CHECK_EQUAL( p1->next, p2 );
+    BOOST_CHECK_EQUAL( p2->prev, p1 );
+    BOOST_CHECK_EQUAL( p2->next, p4 );
+    BOOST_CHECK_EQUAL( p3->prev, p4 );
+    BOOST_CHECK_EQUAL( p3->next, NULL );
+    BOOST_CHECK_EQUAL( p4->prev, p2);
+    BOOST_CHECK_EQUAL( p4->next, p3);
+    */    
     delete p1;
     delete p2;
     delete p3;

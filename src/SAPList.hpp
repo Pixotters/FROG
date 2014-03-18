@@ -105,9 +105,13 @@ private:
 
     /** Swap two EndPoint * */
     void swap(EndPoint * p1, EndPoint * p2) {
-        p2->next->prev = p1;
+        if (p2->next != NULL) {
+            p2->next->prev = p1;
+        }
         p1->next = p2->next;
-        p1->prev->next = p2;
+        if (p1->prev != NULL) {
+            p1->prev->next = p2;
+        }
         p1->prev = p2;
         p2->next = p1;
     }
