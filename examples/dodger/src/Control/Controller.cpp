@@ -1,6 +1,6 @@
 #include "Control/Controller.hpp"
-#include "App.hpp"
 #include "Control/Input.hpp"
+#include <SFML/Window/Event.hpp>
 
 namespace ctrl{
 
@@ -20,6 +20,9 @@ namespace ctrl{
     sf::Event event;
     m_events.clear();
     while(m_window->pollEvent(event) ){
+      if(event.type == sf::Event::Closed){
+        /* TODO : close the program */
+      }
       m_events.push_back(event);
     }
     AbstractController::handle();
