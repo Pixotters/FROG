@@ -7,7 +7,7 @@
 #include <iostream>
 
 Controller::Controller(sf::Window * w)
-  : m_window(w)
+  : AbstractController<Input::Input, Command>(), m_window(w)
 {
 
 }
