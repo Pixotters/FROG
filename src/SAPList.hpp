@@ -157,16 +157,16 @@ private:
             [this]
             (EndPoint * pt,
              std::function<EndPoint*(EndPoint*)>succ,
-             std::function<bool(int,int)>loop_cond,
+             std::function<bool(int pt,int succ)>loop_cond,
              std::function<bool(EndPoint*,EndPoint*)>mustAdd,
              std::function<bool(EndPoint*,EndPoint*)>mustRm) {
           
             EndPoint * tmp = succ(pt);
-            if (!loop_cond(tmp->value, pt->value))
+            if (!loop_cond(pt->value, tmp->value))
                 { return false; }
 
             do {
-                this->swap(tmp, pt);
+                this->swap(pt, tmp);
                 if (mustAdd(pt, tmp)) {
                     if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
                         this->actionManager->onCollision(pt->owner->owner,
@@ -176,7 +176,8 @@ private:
                     this->actionManager->onSeparation(pt->owner->owner,
                                                       tmp->owner->owner);
                 }
-            } while (loop_cond((tmp = succ(pt))->value, pt->value));
+                tmp = succ(pt);
+            } while (loop_cond(pt->value, tmp->value));
             
             return true;
         };
@@ -185,8 +186,8 @@ private:
 
         auto prev = [](EndPoint *p)
             { return p->prev;};
-        auto prev_cond = [](int i1, int i2)
-            { return i1 > i2; };  
+        auto prev_cond = [](int pt, int succ)
+            { return pt < succ; };  
         auto prev_add = [](EndPoint *p1, EndPoint *p2)
             { return !p1->isMin && p2->isMin; };
         auto prev_rm = [](EndPoint *p1, EndPoint *p2)
@@ -195,8 +196,8 @@ private:
              
         auto next = [](EndPoint *p)
             { return p->next; };
-        auto next_cond = [](int i1, int i2)
-            { return i1 < i2; };
+        auto next_cond = [](int pt, int succ)
+            { return pt > succ; };
         auto next_add = [](EndPoint *p1, EndPoint *p2)
             { return !p1->isMin && p2->isMin; };
         auto next_rm = [](EndPoint *p1, EndPoint *p2)

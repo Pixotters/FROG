@@ -168,45 +168,61 @@ BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 {
     SAPList::EndPoint
-        min (NULL, 0, false),
+        min (NULL, INT_MIN, false),
         p1 (NULL, 0, false),
         p2 (NULL, 10, false),
         p3 (NULL, 20, false),
         p4 (NULL, 30, false),
-        max (NULL, 30, false),
-        * null = static_cast<SAPList::EndPoint*> (NULL);
+        max (NULL, INT_MAX, false);
 
+    p1.prev = &min;
     p1.next = &p2;
     p2.prev = &p1;
     p2.next = &p3;
     p3.prev = &p2;
     p3.next = &p4;
     p4.prev = &p3;
+    p4.next = &max;
     
     cm.updateAxis(&p2, &p3);
 
+    BOOST_CHECK_EQUAL( p1.prev, &min );
     BOOST_CHECK_EQUAL( p1.next, &p2 );
     BOOST_CHECK_EQUAL( p2.prev, &p1 );
     BOOST_CHECK_EQUAL( p2.next, &p3 );
     BOOST_CHECK_EQUAL( p3.prev, &p2 );
     BOOST_CHECK_EQUAL( p3.next, &p4 );
     BOOST_CHECK_EQUAL( p4.prev, &p3 );
+    BOOST_CHECK_EQUAL( p4.next, &max );
 
     p2.value = 25;
     p3.value = 35;
+    
+    cm.updateAxis(&p2, &p3);
+
+    BOOST_CHECK_EQUAL( p1.prev, &min );
+    BOOST_CHECK_EQUAL( p1.next, &p2 );
+    BOOST_CHECK_EQUAL( p2.prev, &p1 );
+    BOOST_CHECK_EQUAL( p2.next, &p4 );
+    BOOST_CHECK_EQUAL( p4.prev, &p2 );
+    BOOST_CHECK_EQUAL( p4.next, &p3 );
+    BOOST_CHECK_EQUAL( p3.prev, &p4 );
+    BOOST_CHECK_EQUAL( p3.next, &max );
+
+    p2.value = 10;
+    p3.value = 20;
     /*
     cm.updateAxis(&p2, &p3);
-    
-    BOOST_CHECK_EQUAL( p1->prev, null );
-    BOOST_CHECK_EQUAL( p1->next, p2 );
-    BOOST_CHECK_EQUAL( p2->prev, p1 );
-    BOOST_CHECK_EQUAL( p2->next, p4 );
-    BOOST_CHECK_EQUAL( p3->prev, p4 );
-    BOOST_CHECK_EQUAL( p3->next, null );
-    BOOST_CHECK_EQUAL( p4->prev, p2);
-    BOOST_CHECK_EQUAL( p4->next, p3);
-    */
 
+    BOOST_CHECK_EQUAL( p1.prev, &min );
+    BOOST_CHECK_EQUAL( p1.next, &p2 );
+    BOOST_CHECK_EQUAL( p2.prev, &p1 );
+    BOOST_CHECK_EQUAL( p2.next, &p3 );
+    BOOST_CHECK_EQUAL( p3.prev, &p2 );
+    BOOST_CHECK_EQUAL( p3.next, &p4 );
+    BOOST_CHECK_EQUAL( p4.prev, &p3 );
+    BOOST_CHECK_EQUAL( p4.next, &max );
+    */ 
 }
 
 BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
