@@ -1,9 +1,11 @@
 #include "App.hpp"
 #include "Random.hpp"
 
-#include <iostream> // delete
+#include <iostream> // TODO remove
 
 #include "StartState.hpp"
+
+#include "xboxtest.hpp"
 
 void App::init()
 {
@@ -15,7 +17,8 @@ void App::init()
   m_window->setPosition(sf::Vector2i(0,0) );
   m_window->setKeyRepeatEnabled(false);
   m_controller = new Controller(m_window);
-  m_stateManager.push(new StartState() );
+    m_stateManager.push(new StartState() );
+  //  m_stateManager.push(new XboxTest() );
   m_isRunning = true;
 }
 
@@ -26,7 +29,7 @@ void App::run()
   while(m_isRunning)
     {
       m_deltaTime = t0.restart();
-      m_controller->handleInputs();
+      m_controller->handle();
       handleCommands();
       update();
       render();
