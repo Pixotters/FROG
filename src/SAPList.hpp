@@ -108,10 +108,11 @@ private:
         if (p2->next != NULL) {
             p2->next->prev = p1;
         }
-        p1->next = p2->next;
         if (p1->prev != NULL) {
             p1->prev->next = p2;
         }
+        p1->next = p2->next;
+        p2->prev = p1->prev;
         p1->prev = p2;
         p2->next = p1;
     }

@@ -154,22 +154,23 @@ BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 {
     SAPList::EndPoint
         * p1 = new SAPList::EndPoint(NULL, 0, false),
-        * p2 = new SAPList::EndPoint(NULL, 10, false);
+        * p2 = new SAPList::EndPoint(NULL, 10, false),
+        * null = static_cast<SAPList::EndPoint*> (NULL);
 
     p1->next = p2;
     p2->prev = p1;
 
-    //    BOOST_CHECK_EQUAL( p1->prev, NULL );
-    BOOST_CHECK_EQUAL( p1->next, p2 );
-    BOOST_CHECK_EQUAL( p2->prev, p1 );
-    //BOOST_CHECK_EQUAL( p2->next, NULL );
+    BOOST_CHECK_EQUAL ( p1->prev, null );
+    BOOST_CHECK_EQUAL ( p1->next, p2 );
+    BOOST_CHECK_EQUAL ( p2->prev, p1 );
+    BOOST_CHECK_EQUAL ( p2->next, null );
     
     cm->swap(p1, p2);
 
-    //BOOST_CHECK_EQUAL( p2->prev, NULL );
+    BOOST_CHECK_EQUAL( p2->prev, null );
     BOOST_CHECK_EQUAL( p2->next, p1 );
     BOOST_CHECK_EQUAL( p1->prev, p2 );
-    //BOOST_CHECK_EQUAL( p1->next, NULL );
+    BOOST_CHECK_EQUAL( p1->next, null );
 
     delete p1;
     delete p2;
