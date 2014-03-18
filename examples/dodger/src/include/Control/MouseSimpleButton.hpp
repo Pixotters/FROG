@@ -1,13 +1,14 @@
-#ifndef INPUT_MOUSESIMPLEBUTTON_HPP
-#define INPUT_MOUSESIMPLEBUTTON_HPP
+#ifndef CTRL_MOUSESIMPLEBUTTON_HPP
+#define CTRL_MOUSESIMPLEBUTTON_HPP
 
-#include "MouseButton.hpp"
-#include "SimpleButton.hpp"
+#include "Control/MouseButton.hpp"
+#include "Control/SimpleButton.hpp"
 #include <SFML/Window/Event.hpp>
 
-class Controller;
 
-namespace Input{
+namespace ctrl{
+
+class Controller;
 
   class MouseSimpleButton : virtual public MouseButton,
                                virtual public SimpleButton

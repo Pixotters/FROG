@@ -3,13 +3,13 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Input/Button.hpp"
-#include "Input/SimpleButton.hpp"
-#include "Input/KeyboardButton.hpp"
-#include "Input/MouseButton.hpp"
-#include "Input/JoystickButton.hpp"
-#include "Input/JoystickSimpleButton.hpp"
-#include "Input/Xbox.hpp"
+#include "Control/Button.hpp"
+#include "Control/SimpleButton.hpp"
+#include "Control/KeyboardButton.hpp"
+#include "Control/MouseButton.hpp"
+#include "Control/JoystickButton.hpp"
+#include "Control/JoystickSimpleButton.hpp"
+#include "Control/Xbox.hpp"
 
 #include "App.hpp"
 
@@ -28,29 +28,29 @@ Level::Level()
   auto moveup = new MovePlayer(m_player, 0, -8);
   auto movedown = new MovePlayer(m_player, 0, 8);
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::Q), moveleft );    
+    ->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardButton(sf::Keyboard::D), moveright );
+    ->suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
+    ->suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
   App::instance()->getController()
-    ->suscribe(new Input::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
+    ->suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
   App::instance()->getController()
-    ->suscribe(new Input::JoystickButton(XBOX::X), moveleft );    
+    ->suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
   App::instance()->getController()
-    ->suscribe(new Input::JoystickButton(XBOX::B), moveright );
+    ->suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
   App::instance()->getController()
-    ->suscribe(new Input::JoystickButton(XBOX::Y), moveup );    
+    ->suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
   App::instance()->getController()
-    ->suscribe(new Input::JoystickButton(XBOX::A), movedown );
+    ->suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
   App::instance()->getController()
-    ->suscribe(new Input::MouseButton(sf::Mouse::Left),
+    ->suscribe(new ctrl::MouseButton(sf::Mouse::Left),
                new Bomb(m_ennemies) );
   App::instance()->getController()
-    ->suscribe(new Input::MouseSimpleButton(sf::Mouse::Right),
+    ->suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
                new Bomb(m_ennemies) );
   App::instance()->getController()
-    ->suscribe(new Input::JoystickSimpleButton(XBOX::HOME), 
+    ->suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
                new Bomb(m_ennemies) );
   spawnEnemy();
 }
@@ -141,7 +141,7 @@ void Level::updateTargets()
 }
 
 
-void Level::handleCommands(Controller * c)
+void Level::handleCommands(ctrl::Controller * c)
 {
   auto commands = c->getQueue();
   while(not commands.empty() )

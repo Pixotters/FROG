@@ -2,7 +2,7 @@
 #define APP_HPP
 
 #include "Config.hpp"
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 #include "StateManager.hpp"
 #include "Singleton.hpp"
 
@@ -36,7 +36,7 @@ private:
   StateManager m_stateManager;
 
   // filters the inputs and translates them into commands //
-  Controller * m_controller;
+  ctrl::Controller * m_controller;
 
   //// operations ////
 private:
@@ -111,7 +111,7 @@ public:
   StateManager getStateManager() const{ return m_stateManager; };
   StateManager& getStateManager(){ return m_stateManager; };
 
-  Controller * getController() { return m_controller; };
+  ctrl::Controller * getController() { return m_controller; };
 
 };
 

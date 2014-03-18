@@ -1,13 +1,12 @@
-#ifndef INPUT_INPUT_HPP
-#define INPUT_INPUT_HPP
+#ifndef CTRL_INPUT_HPP
+#define CTRL_INPUT_HPP
 
-#include "AbstractController.hpp"
+#include "Control/AbstractController.hpp"
 #include "Command.hpp"
 
+namespace ctrl{
 
 class Controller;
-
-namespace Input{
 
   class Input
   {

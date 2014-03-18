@@ -1,7 +1,7 @@
 #ifndef STATEMANAGER_HPP
 #define STATEMANAGER_HPP
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 #include "State.hpp"
 #include <stack>
 
@@ -59,7 +59,7 @@ public:
   /**
    * @brief Makes the scene react to commands detected (via a controller)
    */
-  virtual void handleCommands(Controller *);
+  virtual void handleCommands(ctrl::Controller *);
 
 };
 

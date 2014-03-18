@@ -1,6 +1,6 @@
-#include "Input/SimpleButton.hpp"
+#include "Control/SimpleButton.hpp"
 
-namespace Input{
+namespace ctrl{
 
   SimpleButton::SimpleButton(const SimpleButton::Trigger& t)
     : Button(), m_trigger(t)

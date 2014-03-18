@@ -1,8 +1,8 @@
-#include "Input/JoystickSimpleButton.hpp"
+#include "Control/JoystickSimpleButton.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 
-namespace Input{
+namespace ctrl{
 
 
   JoystickSimpleButton::JoystickSimpleButton(const unsigned int& b, 

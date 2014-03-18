@@ -1,10 +1,10 @@
-#include "Input/Input.hpp"
+#include "Control/Input.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 #include "Command.hpp"
 
 
-namespace Input{
+namespace ctrl{
 
   Input::Input()
   {

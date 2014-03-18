@@ -1,6 +1,6 @@
-#include "Input/Button.hpp"
+#include "Control/Button.hpp"
 
-namespace Input{
+namespace ctrl{
 
   Button::Button()
     : Input()

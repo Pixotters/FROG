@@ -65,7 +65,7 @@ void StateManager::render(sf::RenderTarget& rt)
     }
 }
 
-void StateManager::handleCommands(Controller * c)
+void StateManager::handleCommands(ctrl::Controller * c)
 {
   if( not m_stateStack.empty() )
     {

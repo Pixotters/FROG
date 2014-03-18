@@ -1,8 +1,8 @@
-#include "Input/KeyboardButton.hpp"
+#include "Control/KeyboardButton.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 
-namespace Input{
+namespace ctrl{
 
   KeyboardButton::KeyboardButton(const sf::Keyboard::Key& k)
     :Button(), m_button(k)

@@ -3,6 +3,8 @@
 
 #include "State.hpp"
 
+#include "Control/Controller.hpp"
+
 #include <SFML/Graphics.hpp>
 
 class StartState : virtual public State
@@ -21,7 +23,7 @@ public:
 
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  virtual void handleCommands(Controller *);
+  virtual void handleCommands(ctrl::Controller *);
 
 };
 

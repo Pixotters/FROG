@@ -1,8 +1,8 @@
-#include "Input/MouseSimpleButton.hpp"
+#include "Control/MouseSimpleButton.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 
-namespace Input{
+namespace ctrl{
 
   MouseSimpleButton::MouseSimpleButton(const sf::Mouse::Button& b, 
                                        const SimpleButton::Trigger& t)
