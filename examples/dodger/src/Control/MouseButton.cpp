@@ -1,8 +1,8 @@
-#include "Input/MouseButton.hpp"
+#include "Control/MouseButton.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 
-namespace Input{
+namespace ctrl{
 
   MouseButton::MouseButton(const sf::Mouse::Button& b)
     : Button(), m_button(b) {

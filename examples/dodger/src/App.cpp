@@ -5,8 +5,6 @@
 
 #include "StartState.hpp"
 
-#include "xboxtest.hpp"
-
 void App::init()
 {
   m_window = new sf::RenderWindow(sf::VideoMode(
@@ -16,7 +14,7 @@ void App::init()
                                   sf::Style::Close);
   m_window->setPosition(sf::Vector2i(0,0) );
   m_window->setKeyRepeatEnabled(false);
-  m_controller = new Controller(m_window);
+  m_controller = new ctrl::Controller(m_window);
     m_stateManager.push(new StartState() );
   //  m_stateManager.push(new XboxTest() );
   m_isRunning = true;

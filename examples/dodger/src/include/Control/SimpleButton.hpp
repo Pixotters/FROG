@@ -1,9 +1,9 @@
-#ifndef SIMPLEBUTTON_HPP
-#define SIMPLEBUTTON_HPP
+#ifndef CTRL_SIMPLEBUTTON_HPP
+#define CTRL_SIMPLEBUTTON_HPP
 
-#include "Button.hpp"
+#include "Control/Button.hpp"
 
-namespace Input{
+namespace ctrl{
 
   class SimpleButton : virtual public Button
   {

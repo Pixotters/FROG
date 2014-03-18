@@ -7,6 +7,8 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
+#include "Control/Controller.hpp"
+
 #include <SFML/System/Clock.hpp>
 
 class Level : virtual public Scene
@@ -24,7 +26,7 @@ public:
   virtual ~Level();
   virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
-  virtual void handleCommands(Controller *);
+  virtual void handleCommands(ctrl::Controller *);
 
 private:
   void spawnEnemy();

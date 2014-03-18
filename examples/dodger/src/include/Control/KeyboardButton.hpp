@@ -1,12 +1,13 @@
-#ifndef INPUT_KEYBOARDBUTTON_HPP
-#define INPUT_KEYBOARDBUTTON_HPP
+#ifndef CTRL_KEYBOARDBUTTON_HPP
+#define CTRL_KEYBOARDBUTTON_HPP
 
-#include "Button.hpp"
+#include "Control/Button.hpp"
 #include <SFML/Window/Event.hpp>
 
-class Controller;
 
-namespace Input{
+namespace ctrl{
+
+class Controller;
 
 class KeyboardButton : virtual public Button
 {

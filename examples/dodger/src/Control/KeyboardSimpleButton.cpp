@@ -1,8 +1,8 @@
-#include "Input/KeyboardSimpleButton.hpp"
+#include "Control/KeyboardSimpleButton.hpp"
 
-#include "Controller.hpp"
+#include "Control/Controller.hpp"
 
-namespace Input{
+namespace ctrl{
 
   KeyboardSimpleButton::KeyboardSimpleButton(const sf::Keyboard::Key& k, 
                                              const SimpleButton::Trigger& t)

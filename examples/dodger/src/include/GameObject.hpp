@@ -2,10 +2,12 @@
 #define GAMEOBJECT_HPP
 
 #include "Transform.hpp"
+#include "ComponentHolder.hpp"
 
 #include <SFML/Graphics.hpp>
 
-class GameObject : virtual public sf::Drawable
+class GameObject : virtual public sf::Drawable,
+                   virtual public ComponentHolder
 {
   //// attributes ////
 protected:
@@ -31,8 +33,6 @@ public :
   
   Transform getTransform() const;
   Transform& getTransform();
-  
-
 };
 
 #endif

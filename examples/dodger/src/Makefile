@@ -4,9 +4,10 @@ include ../Makefile.generic
 
 PROGRAM=Dodger
 SOURCES=$(wildcard *.cpp)
-#SOURCES=$(wildcard Input/*.cpp)
+CTRLSOURCES=$(wildcard Control/*.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
+CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
 INC=include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
@@ -22,7 +23,7 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PROGRAM): $(OBJECTS)
+$(PROGRAM): $(OBJECTS) $(CTRLOBJECTS)
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS)
 
 clean: generic_clean

@@ -1,13 +1,14 @@
-#ifndef INPUT_MOUSEBUTTON_HPP
-#define INPUT_MOUSEBUTTON_HPP
+#ifndef CTRL_MOUSEBUTTON_HPP
+#define CTRL_MOUSEBUTTON_HPP
 
-#include "Button.hpp"
+#include "Control/Button.hpp"
 
 #include <SFML/Window/Event.hpp>
 
-class Controller;
 
-namespace Input{
+namespace ctrl{
+
+class Controller;
 
 class MouseButton : virtual public Button
 {

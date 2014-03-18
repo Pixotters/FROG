@@ -1,13 +1,14 @@
-#ifndef INPUT_JOYSTICKSIMPLEBUTTON_HPP
-#define INPUT_JOYSTICKSIMPLEBUTTON_HPP
+#ifndef CTRL_JOYSTICKSIMPLEBUTTON_HPP
+#define CTRL_JOYSTICKSIMPLEBUTTON_HPP
 
-#include "JoystickButton.hpp"
-#include "SimpleButton.hpp"
+#include "Control/JoystickButton.hpp"
+#include "Control/SimpleButton.hpp"
 #include <SFML/Window/Event.hpp>
 
-class Controller;
 
-namespace Input{
+namespace ctrl{
+
+class Controller;
 
   class JoystickSimpleButton : virtual public JoystickButton,
                                virtual public SimpleButton
