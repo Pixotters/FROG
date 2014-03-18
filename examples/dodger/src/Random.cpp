@@ -17,9 +17,6 @@ void Random::init(){
   unsigned int index = (unsigned int)(rand()%100);
   int res = sNumbers[index];
   sNumbers[index] = rand();
-  if(min < 0){
-    return (res%(max-min) )+min;
-  }else{
-  return (res%max)+min;
-  }
+  return (res%(max-min+1) )+min;
+
 }
