@@ -19,6 +19,8 @@ public:
   C * getComponent() const;
   template <typename C>
   void addComponent(C *);
+  template <typename C>
+  void removeComponent();
 };
 
 #endif
