@@ -1,15 +1,10 @@
+
 #include "Level.hpp"
 
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Control/Button.hpp"
-#include "Control/SimpleButton.hpp"
-#include "Control/KeyboardButton.hpp"
-#include "Control/MouseButton.hpp"
-#include "Control/JoystickButton.hpp"
-#include "Control/JoystickSimpleButton.hpp"
-#include "Control/Xbox.hpp"
+#include "Control.hpp"
 
 #include "App.hpp"
 
