@@ -76,20 +76,11 @@ public:
  */
 
 struct SAPListFixture {
-    SAPList * cm;
-    CollisionableTester * o1;
-    CollisionableTester * o2;
-    SAPListFixture() {
-        cm = new SAPList(new ActionManagerTester());
-        o1 = new Collisionable_type1();
-        o2 = new Collisionable_type2();
-    }
-    ~SAPListFixture() {
-        delete cm->actionManager;
-        delete cm;
-        delete o1;
-        delete o2;
-    }
+    ActionManagerTester am;
+    SAPList cm;
+    CollisionableTester o1;
+    CollisionableTester o2;
+    SAPListFixture () : cm(&am), o2(10,11,12,13) {}
 };
 
 /*
@@ -101,25 +92,25 @@ BOOST_AUTO_TEST_SUITE( SAPList_constructors )
 
 BOOST_FIXTURE_TEST_CASE ( Collisionable_type1_constructor, SAPListFixture ) {
 
-    BOOST_REQUIRE_EQUAL( o1->x, 0 );
-    BOOST_REQUIRE_EQUAL( o1->y, 0 );
-    BOOST_REQUIRE_EQUAL( o1->w, 0 );
-    BOOST_REQUIRE_EQUAL( o1->h, 0 );
+    BOOST_REQUIRE_EQUAL( o1.x, 0 );
+    BOOST_REQUIRE_EQUAL( o1.y, 0 );
+    BOOST_REQUIRE_EQUAL( o1.w, 0 );
+    BOOST_REQUIRE_EQUAL( o1.h, 0 );
 
 }
 
 BOOST_FIXTURE_TEST_CASE ( Collisionable_type2_constructor, SAPListFixture ) {
 
-    BOOST_REQUIRE_EQUAL( o2->x, 10 );
-    BOOST_REQUIRE_EQUAL( o2->y, 11 );
-    BOOST_REQUIRE_EQUAL( o2->w, 12 );
-    BOOST_REQUIRE_EQUAL( o2->h, 13 );
+    BOOST_REQUIRE_EQUAL( o2.x, 10 );
+    BOOST_REQUIRE_EQUAL( o2.y, 11 );
+    BOOST_REQUIRE_EQUAL( o2.w, 12 );
+    BOOST_REQUIRE_EQUAL( o2.h, 13 );
 
 }
 
 BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListFixture )
 {
-    BOOST_REQUIRE_EQUAL( cm->xAxis->next->prev, cm->xAxis );
+    BOOST_REQUIRE_EQUAL( cm.xAxis->next->prev, cm.xAxis );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -139,11 +130,11 @@ BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListFixture )
           BOOST_CHECK_EQUAL( aabb->max[1]->value, yMax );
           BOOST_CHECK_EQUAL( aabb->owner, obj); };
 
-    SAPList::AABB * aabb1 = cm->mk_AABB(o1);
-    SAPList::AABB * aabb2 = cm->mk_AABB(o2);
+    SAPList::AABB * aabb1 = cm.mk_AABB(&o1);
+    SAPList::AABB * aabb2 = cm.mk_AABB(&o2);
 
-    test(aabb1, 0, 0, 0, 0, o1);
-    test(aabb2, 10, 11, 10 + 12, 11 + 13, o2);
+    test(aabb1, 0, 0, 0, 0, &o1);
+    test(aabb2, 10, 11, 10 + 12, 11 + 13, &o2);
 
     delete aabb1;
     delete aabb2;
@@ -153,77 +144,74 @@ BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListFixture )
 BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 {
     SAPList::EndPoint
-        * p1 = new SAPList::EndPoint(NULL, 0, false),
-        * p2 = new SAPList::EndPoint(NULL, 10, false),
+        p1(NULL, 0, false),
+        p2(NULL, 10, false),
         * null = static_cast<SAPList::EndPoint*> (NULL);
 
-    p1->next = p2;
-    p2->prev = p1;
+    p1.next = &p2;
+    p2.prev = &p1;
 
-    BOOST_CHECK_EQUAL ( p1->prev, null );
-    BOOST_CHECK_EQUAL ( p1->next, p2 );
-    BOOST_CHECK_EQUAL ( p2->prev, p1 );
-    BOOST_CHECK_EQUAL ( p2->next, null );
+    BOOST_CHECK_EQUAL ( p1.prev, null );
+    BOOST_CHECK_EQUAL ( p1.next, &p2 );
+    BOOST_CHECK_EQUAL ( p2.prev, &p1 );
+    BOOST_CHECK_EQUAL ( p2.next, null );
     
-    cm->swap(p1, p2);
+    cm.swap(&p1, &p2);
 
-    BOOST_CHECK_EQUAL( p2->prev, null );
-    BOOST_CHECK_EQUAL( p2->next, p1 );
-    BOOST_CHECK_EQUAL( p1->prev, p2 );
-    BOOST_CHECK_EQUAL( p1->next, null );
-
-    delete p1;
-    delete p2;
+    BOOST_CHECK_EQUAL( p2.prev, null );
+    BOOST_CHECK_EQUAL( p2.next, &p1 );
+    BOOST_CHECK_EQUAL( p1.prev, &p2 );
+    BOOST_CHECK_EQUAL( p1.next, null );
 
 }
 
 BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 {
     SAPList::EndPoint
-        * p1 = new SAPList::EndPoint(NULL, 0, false),
-        * p2 = new SAPList::EndPoint(NULL, 10, false),
-        * p3 = new SAPList::EndPoint(NULL, 20, false),
-        * p4 = new SAPList::EndPoint(NULL, 30, false);
+        min (NULL, 0, false),
+        p1 (NULL, 0, false),
+        p2 (NULL, 10, false),
+        p3 (NULL, 20, false),
+        p4 (NULL, 30, false),
+        max (NULL, 30, false),
+        * null = static_cast<SAPList::EndPoint*> (NULL);
 
-    p1->next = p2;
-    p2->prev = p1;
-    p2->next = p3;
-    p3->prev = p2;
-    p3->next = p4;
-    p4->prev = p3;
+    p1.next = &p2;
+    p2.prev = &p1;
+    p2.next = &p3;
+    p3.prev = &p2;
+    p3.next = &p4;
+    p4.prev = &p3;
     
-    cm->updateAxis(p2, p3);
+    cm.updateAxis(&p2, &p3);
 
-    BOOST_CHECK_EQUAL( p1->next, p2 );
-    BOOST_CHECK_EQUAL( p2->prev, p1 );
-    BOOST_CHECK_EQUAL( p2->next, p3 );
-    BOOST_CHECK_EQUAL( p3->prev, p2 );
-    BOOST_CHECK_EQUAL( p3->next, p4 );
+    BOOST_CHECK_EQUAL( p1.next, &p2 );
+    BOOST_CHECK_EQUAL( p2.prev, &p1 );
+    BOOST_CHECK_EQUAL( p2.next, &p3 );
+    BOOST_CHECK_EQUAL( p3.prev, &p2 );
+    BOOST_CHECK_EQUAL( p3.next, &p4 );
+    BOOST_CHECK_EQUAL( p4.prev, &p3 );
 
+    p2.value = 25;
+    p3.value = 35;
     /*
-    p2->value = 25;
-    p3->value = 35;
-
-    cm->updateAxis(p2, p3);
-
-    BOOST_CHECK_EQUAL( p1->prev, NULL );
+    cm.updateAxis(&p2, &p3);
+    
+    BOOST_CHECK_EQUAL( p1->prev, null );
     BOOST_CHECK_EQUAL( p1->next, p2 );
     BOOST_CHECK_EQUAL( p2->prev, p1 );
     BOOST_CHECK_EQUAL( p2->next, p4 );
     BOOST_CHECK_EQUAL( p3->prev, p4 );
-    BOOST_CHECK_EQUAL( p3->next, NULL );
+    BOOST_CHECK_EQUAL( p3->next, null );
     BOOST_CHECK_EQUAL( p4->prev, p2);
     BOOST_CHECK_EQUAL( p4->next, p3);
-    */    
-    delete p1;
-    delete p2;
-    delete p3;
-    delete p4;
+    */
+
 }
 
 BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
 {
-
+    
     auto test = [](SAPList::EndPoint * pt,
                    Collisionable * obj, int val, bool isMin)
         { BOOST_CHECK_EQUAL(pt->owner->owner, obj);
@@ -232,26 +220,26 @@ BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
     
     SAPList::EndPoint
         
-        *xMin = cm->xAxis,
-        *xMax = cm->xAxis->next,
+        * xMin = cm.xAxis,
+        * xMax = cm.xAxis->next,
       
-        *yMin = cm->yAxis,
-        *yMax = cm->yAxis->next;
+        * yMin = cm.yAxis,
+        * yMax = cm.yAxis->next;
 
-    cm->addObject(o1);
+    cm.addObject(&o1);
 
-    test(xMin->next, o1, 0, true);
-    test(xMax->prev, o1, 0, false);
-    test(yMin->next, o1, 0, true);
-    test(yMax->prev, o1, 0, false);
+    test(xMin->next, &o1, 0, true);
+    test(xMax->prev, &o1, 0, false);
+    test(yMin->next, &o1, 0, true);
+    test(yMax->prev, &o1, 0, false);
     
 
-    //cm->addObject(o2); <- does not end
+    //cm.addObject(o2); <- does not end
 
-    //test(xMin->next, o1, 0, true);
-    //test(xMin->next->next, o2, 10, true);
-    //test(xMax->prev, o2, (10 + 12), false);
-    //test(xMax->prev->prev, o1, 0, false);
+    //test(xMin->next, &o1, 0, true);
+    //test(xMin->next->next, &o2, 10, true);
+    //test(xMax->prev, &o2, (10 + 12), false);
+    //test(xMax->prev->prev, &o1, 0, false);
 
     }
 
