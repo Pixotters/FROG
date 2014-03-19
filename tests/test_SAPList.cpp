@@ -1,10 +1,11 @@
 #define BOOST_TEST_MODULE Test_SAPList
 #include <boost/test/unit_test.hpp>
 
+#include <typeinfo>
+
 /* make everything public for testing */
 #define private public
 #define protected public
-
 #include "../src/SAPList.hpp"
 
 /* 
@@ -62,10 +63,33 @@ public:
     /* (not type1, any type) */
     virtual void onCollision(Collisionable * o1,
                              Collisionable * o2)
-    { this->status = 1; }
+    {
+        Collisionable_type1 * c1 = dynamic_cast<Collisionable_type1*>(o1);
+        Collisionable_type2 * c2 = dynamic_cast<Collisionable_type2*>(o2);
+
+        if (c1)
+            if (c2)
+                this->onCollision (c1, c2);
+            else
+                this->onCollision (c1, o2);
+        else
+            this->status  = 1;
+    }
+
     virtual void onSeparation(Collisionable * o1,
                               Collisionable * o2)
-    { this->status = -1; }
+    {
+        Collisionable_type1 * c1 = dynamic_cast<Collisionable_type1*>(o1);
+        Collisionable_type2 * c2 = dynamic_cast<Collisionable_type2*>(o2);
+
+        if (c1)
+            if (c2)
+                this->onSeparation (c1, c2);
+            else
+                this->onSeparation (c1, o2);
+        else
+            this->status  = -1;
+    }
 
     ActionManagerTester() : status(0) {}
 };
@@ -111,6 +135,7 @@ BOOST_FIXTURE_TEST_CASE ( Collisionable_type2_constructor, SAPListFixture ) {
 BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListFixture )
 {
     BOOST_REQUIRE_EQUAL( cm.xAxis->next->prev, cm.xAxis );
+    BOOST_REQUIRE_EQUAL( cm.yAxis->next->prev, cm.yAxis );
 }
 
 BOOST_AUTO_TEST_SUITE_END()
@@ -293,14 +318,30 @@ BOOST_FIXTURE_TEST_CASE( SAP_actionManager, SAPListFixture )
     cm.addObject(&o1);
     cm.addObject(&o2);
 
-    SAPList::AABB* aabb1 = static_cast<SAPList::AABB*>(o1.boundingBox);
-    aabb1->max[0]->value = 11; // o2 xMin is at 10
-    aabb1->max[1]->value = 12; // o2 yMin is at 11
-    
+    SAPList::AABB* aabb = static_cast<SAPList::AABB*>(o1.boundingBox);
+    aabb->max[0]->value = 11; // o2 xMin is at 10
+    aabb->max[1]->value = 12; // o2 yMin is at 11
     cm.updateObject(&o1);
-    
-    /* FIXME: FAILURE -> generic action is called. */
     BOOST_CHECK_EQUAL (am.status, 24); // 24 on (typ1, typ2) collision
+
+    aabb->max[0]->value = 0; // o2 xMin is at 10
+    aabb->max[1]->value = 0; // o2 yMin is at 11
+    cm.updateObject(&o1);
+    BOOST_CHECK_EQUAL (am.status, -24); // -24 on (typ1, typ2) separation
+
+    Collisionable_type1 tmp;
+    cm.addObject(&tmp);
+    aabb = static_cast<SAPList::AABB*>(tmp.boundingBox);
+
+    aabb->max[0]->value = 2;
+    aabb->max[1]->value = 2;
+    cm.updateObject(&tmp);
+    BOOST_CHECK_EQUAL (am.status, 42); // 42 on (typ1, typ1) collision
+
+    aabb->min[0]->value = 1;
+    aabb->min[1]->value = 1;
+    cm.updateObject(&tmp);
+    BOOST_CHECK_EQUAL (am.status, -42); // -42 on (typ1, typ1) separation
 
 }
 
