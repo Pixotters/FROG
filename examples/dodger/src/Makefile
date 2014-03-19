@@ -4,7 +4,8 @@ include ../Makefile.generic
 
 PROGRAM=Dodger
 SOURCES=$(wildcard *.cpp)
-CTRLSOURCES=$(wildcard Control/*.cpp)
+CTRLDIR=Control
+CTRLSOURCES=$(wildcard $(CTRLDIR)/*.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
@@ -27,6 +28,7 @@ $(PROGRAM): $(OBJECTS) $(CTRLOBJECTS)
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS)
 
 clean: generic_clean
+	cd $(CTRLDIR); rm -f *.o *.d *.d* *~ *#
 
 proper:
 	rm -f $(PROGRAM)
