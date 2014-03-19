@@ -337,6 +337,7 @@ public:
     }
 
     void removeObject(Collisionable * c) {
+        delete static_cast<AABB *>(c->getBoundingBox());
     }
 };
 
