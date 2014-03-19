@@ -69,13 +69,11 @@ private:
     
         /** When and EndPoint is destroyed, it updates prev and next */
         ~EndPoint () {
-            /*
             if (this->prev != NULL) {
                 this->prev->next = this->next;
             }
             if (this->next != NULL)
                 this->next->prev = this->prev;
-            */
         }
     };
     
@@ -94,6 +92,8 @@ private:
             max[0] = new EndPoint(this, maxX, false);
             max[1] = new EndPoint(this, maxY, false);
         }
+        ~AABB ()
+        { delete min[0]; delete min[1]; delete max[0]; delete max[1]; }
     };
 
     /* END: private classes for SAPList collision manager */
@@ -230,15 +230,16 @@ public:
     }
 
     ~SAPList () {
-        /*
-        while (xAxis->next != NULL) {
-            delete xAxis->next;
-        } delete xAxis;
-
-        while (yAxis->next != NULL) {
-            delete yAxis->next;
-        } delete yAxis;
-        */
+        
+        /* delete all AABB will delete EndPoints */
+        while (xAxis->next != NULL && xAxis->next->owner != NULL) {
+            delete xAxis->next->owner;
+        }
+        /* delete all sentinels */
+        delete xAxis->next;
+        delete xAxis;
+        delete yAxis->next;
+        delete yAxis;
     }
 
     void addObject(Collisionable * c) {
@@ -276,15 +277,3 @@ public:
 };
 
 #endif
-
-/*
-  if (mustAdd(pt, tmp)) {
-  if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-  this->actionManager->onCollision(pt->owner->owner,
-  tmp->owner->owner);
-  }
-  } else if (mustRm(pt, tmp)) {
-  this->actionManager->onSeparation(pt->owner->owner,
-  tmp->owner->owner);
-  }
-*/
