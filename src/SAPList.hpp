@@ -115,12 +115,14 @@ private:
         p1->prev = p2;            
     }
 
-    /** A collision between two AABB on one axis */
-    inline bool partialCollisionCheck(const AABB & b1,
-                                      const AABB & b2,
+    /** A collision between two AABB on one axis
+     * no collision on equality (>/<)
+     */
+    inline bool partialCollisionCheck(const AABB & a,
+                                      const AABB & b,
                                       int dim) {
-        return (b1.max[dim] <= b2.max[dim] && b1.max[dim] >= b2.min[dim])
-            || (b1.min[dim] >= b2.min[dim] && b1.max[dim] <= b2.max[dim]);
+        return !(a.min[dim]->value > b.max[dim]->value
+                 || a.max[dim]->value < b.min[dim]->value);
     }
 
     /**

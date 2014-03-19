@@ -261,6 +261,27 @@ BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
     test(xMax->prev->prev->prev, &o1, 0, false);
     test(xMax->prev->prev->prev->prev, &o1, 0, true);
 
+    test(yMin->next, &o1, 0, true);
+    test(yMin->next->next, &o1, 0, false);
+    test(yMin->next->next->next, &o2, 11, true);
+    test(yMin->next->next->next->next, &o2, (11 + 13), false);
+
+    test(yMax->prev, &o2, (11 + 13), false);
+    test(yMax->prev->prev, &o2, 11, true);
+    test(yMax->prev->prev->prev, &o1, 0, false);
+    test(yMax->prev->prev->prev->prev, &o1, 0, true);
+
     }
 
+BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
+{
+    SAPList::AABB
+        a(0, 0, 10, 10, NULL),
+        b(5, 5, 15, 15, NULL);
+
+    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 0) );
+    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 1) );
+    BOOST_CHECK ( cm.collisionCheck (a, b) );
+    BOOST_CHECK ( cm.collisionCheck (b, a) );
+}
 BOOST_AUTO_TEST_SUITE_END()
