@@ -19,20 +19,48 @@ protected:
     void * boundingBox;
 
 public:
+    /**
+     * @return a pointer to Collisionable's bouding box (it needs cast).
+     */
     void * getBoundingBox() { return boundingBox; }
+
+    /**
+     * Change the boundingBox of a Collisionable
+     * @param b new bounding box
+     */
     void setBoundingBox(void * b) { boundingBox = b; }
+
+    /** @return the smallest value of a Collisionable on X axis */
     virtual int getXMin() = 0;
+
+    /** @return the smallest value of a Collisionable on Y axis */
     virtual int getYMin() = 0;
+
+    /** @return the greatest value of a Collisionable on X axis */
     virtual int getXMax() = 0;
+
+    /** @return the greatest value of a Collisionable on Y axis */
     virtual int getYMax() = 0;
+
     virtual ~Collisionable() {};
 };
 
 class ActionManager {
 
 public:
+    /**
+     * Function to call on collision
+     * @param o1 first object which collide
+     * @param o2 second object which collide
+     */
     virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
+
+    /**
+     * @param o1 first object which do not collide
+     * @param o2 second object which do not collide
+     */
     virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
+
     virtual ~ActionManager() {};
 
 };
@@ -51,19 +79,25 @@ private:
          * TODO:
          * - Optimize merging isMin boolean into another member
          *   (as a flag)
-         * - Using doubly-linked list could waste memory but is easier to implement
-         *   than arrays.
-         * - Implement pair manager
+         * - Using doubly-linked list could waste memory but is easier to 
+         *   implement than arrays.
          */
 
     public:
 
         AABB * owner;
-        int value; //FIXME: use a pointer?
+        /** Value used to sort EndPoint list */
+        int value;
+
+        /** Flag to indicate if this EndPoint is minimum of a AABB or not */
         bool isMin;
 
+        /** Previous EndPoint in the list */
         EndPoint * prev;
+
+        /** Next EndPoint in the list */
         EndPoint * next;
+
         EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL) : 
             owner(o), value(v), isMin(m), prev(p), next(n) {}
     
@@ -80,9 +114,14 @@ private:
     class AABB {
 
     public:
-        EndPoint * min[2]; /* x/y */
-        EndPoint * max[2]; /* x/y */
 
+        /** First minimum EndPoint is on x axis, second one is on y */
+        EndPoint * min[2];
+
+        /** Second minimum EndPoint is on x axis, second one is on y */
+        EndPoint * max[2];
+
+        /** Object the box is attached to */
         Collisionable * owner;
 
         AABB (int minX, int minY, int maxX, int maxY, Collisionable * o) :
@@ -92,6 +131,7 @@ private:
             max[0] = new EndPoint(this, maxX, false);
             max[1] = new EndPoint(this, maxY, false);
         }
+
         ~AABB ()
         { delete min[0]; delete min[1]; delete max[0]; delete max[1]; }
     };
@@ -100,12 +140,20 @@ private:
 
 private:
 
+    /** First EndPoint on xAxis (not a real point, but a sentinel)*/
     EndPoint * xAxis;
+
+    /** Second EndPoint on xAxis (not a real point, but a sentinel)*/
     EndPoint * yAxis;
+
+    /** Action manager used on collision/separation */
     ActionManager * actionManager;
 
     /** Swap two EndPoint.
-     * PRECONDITION: p1 is*/
+     * **p2 has to be the direct next EndPoint after p1**
+     * @param p1 first EndPoint
+     * @param p2 second EndPoint
+     */
     void swap(EndPoint * p1, EndPoint * p2) {
         if (p2->next != NULL) p2->next->prev = p1;
         if (p1->prev != NULL) p1->prev->next = p2;
@@ -115,7 +163,8 @@ private:
         p1->prev = p2;            
     }
 
-    /** A collision between two AABB on one axis
+    /**
+     * A collision between two AABB on one axis
      * no collision on equality (>/<)
      */
     inline bool partialCollisionCheck(const AABB & a,
@@ -135,7 +184,8 @@ private:
     }
 
 
-    /** Create the AABB corresponding to a collisionable object
+    /**
+     * Create the AABB corresponding to a collisionable object
      * @param c the object used to create the corresponding AABB
      * @return a pointer to freshly heap-allocated AABB 
      */
@@ -209,7 +259,7 @@ private:
         auto next_sep = [](EndPoint *pt, EndPoint *succ)
             { return pt->isMin && !succ->isMin; };
         
-        /* first BINOR force update */
+        /* BINOR force update and allow to use a boolean test */
         if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
              update(min, next, next_cond, next_swap, next_col, next_sep))) {
                update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
@@ -242,6 +292,13 @@ public:
         delete yAxis;
     }
 
+
+    /**
+     * Create a bounding box attached to a Collisionable and insert its
+     * points in xAxis and yAxis (keep it sorted)
+     * @param c Object (Collisionable) attached to the new bounding box
+     *          to insert in the list
+     */
     void addObject(Collisionable * c) {
 
         /* create couple and insert after sentinel */
@@ -266,6 +323,13 @@ public:
         updateObject(c);
     }
 
+
+    /**
+     * Update Collisionable's EndPoints position in CollisionManger. Detect 
+     * collisions and separation and act according to actionManager. Should 
+     * be called as soon as an object moves.
+     * @param c Object to update
+     */
     void updateObject(Collisionable * c) {
         AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
         updateAxis(aabb->min[0], aabb->max[0]);
