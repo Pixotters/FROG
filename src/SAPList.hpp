@@ -5,6 +5,7 @@
 #include <map>
 #include <typeinfo>
 #include <climits>
+#include <iostream>
 #include "CollisionManager.hpp"
 
 class ActionManager;
@@ -103,18 +104,15 @@ private:
     EndPoint * yAxis;
     ActionManager * actionManager;
 
-    /** Swap two EndPoint * */
+    /** Swap two EndPoint.
+     * PRECONDITION: p1 is*/
     void swap(EndPoint * p1, EndPoint * p2) {
-        if (p2->next != NULL) {
-            p2->next->prev = p1;
-        }
-        if (p1->prev != NULL) {
-            p1->prev->next = p2;
-        }
+        if (p2->next != NULL) p2->next->prev = p1;
+        if (p1->prev != NULL) p1->prev->next = p2;
         p1->next = p2->next;
+        p2->next = p1;  
         p2->prev = p1->prev;
-        p1->prev = p2;
-        p2->next = p1;
+        p1->prev = p2;            
     }
 
     /** A collision between two AABB on one axis */
@@ -157,27 +155,18 @@ private:
             [this]
             (EndPoint * pt,
              std::function<EndPoint*(EndPoint*)>succ,
-             std::function<bool(int pt,int succ)>loop_cond,
+             std::function<bool(EndPoint*pt,EndPoint*succ)>loop_cond,
+             std::function<void(EndPoint*pt,EndPoint*succ)>swap_fun/*,
              std::function<bool(EndPoint*,EndPoint*)>mustAdd,
-             std::function<bool(EndPoint*,EndPoint*)>mustRm) {
+             std::function<bool(EndPoint*,EndPoint*)>mustRm*/) {
           
             EndPoint * tmp = succ(pt);
-            if (!loop_cond(pt->value, tmp->value))
+            if (!loop_cond(pt, tmp))
                 { return false; }
 
-            do {
-                this->swap(pt, tmp);
-                if (mustAdd(pt, tmp)) {
-                    if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
-                        this->actionManager->onCollision(pt->owner->owner,
-                                                         tmp->owner->owner);
-                    }
-                } else if (mustRm(pt, tmp)) {
-                    this->actionManager->onSeparation(pt->owner->owner,
-                                                      tmp->owner->owner);
-                }
-                tmp = succ(pt);
-            } while (loop_cond(pt->value, tmp->value));
+            do { swap_fun(pt, tmp);
+                 tmp = succ(pt);
+            } while (loop_cond(pt, tmp));
             
             return true;
         };
@@ -186,29 +175,35 @@ private:
 
         auto prev = [](EndPoint *p)
             { return p->prev;};
-        auto prev_cond = [](int pt, int succ)
-            { return pt < succ; };  
+        auto prev_cond = [](EndPoint * pt, EndPoint * succ)
+            { return pt->value < succ->value; };
+        auto prev_swap = [this](EndPoint * pt, EndPoint * succ)
+            { swap(succ, pt); };
+        /*
         auto prev_add = [](EndPoint *p1, EndPoint *p2)
             { return !p1->isMin && p2->isMin; };
         auto prev_rm = [](EndPoint *p1, EndPoint *p2)
             { return p1->isMin && !p2->isMin; };
-
+        */
              
         auto next = [](EndPoint *p)
             { return p->next; };
-        auto next_cond = [](int pt, int succ)
-            { return pt > succ; };
+        auto next_cond = [](EndPoint * pt, EndPoint * succ)
+            { return pt->value > succ->value; };
+        auto next_swap = [this](EndPoint * pt, EndPoint * succ)
+            { swap(pt, succ); };
+        /*
         auto next_add = [](EndPoint *p1, EndPoint *p2)
             { return !p1->isMin && p2->isMin; };
         auto next_rm = [](EndPoint *p1, EndPoint *p2)
             { return p1->isMin && !p2->isMin; };
-
+        */
         /* first BINOR force update */
-        if (!(update(max, next, next_cond, next_add, next_rm)
-              | update(min, next, next_cond, next_add, next_rm))) {
-            update(min, prev, prev_cond, prev_add, prev_rm);
-            update(max, prev, prev_cond, prev_add, prev_rm);
-        }
+        if(!(update(max, next, next_cond, next_swap/*, next_add, next_rm*/) |
+             update(min, next, next_cond, next_swap/*, next_add, next_rm*/))) {
+               update(min, prev, prev_cond, prev_swap/*, prev_add, prev_rm*/);
+               update(max, prev, prev_cond, prev_swap/*, prev_add, prev_rm*/);
+           }
 
     }
     
@@ -270,3 +265,15 @@ public:
 };
 
 #endif
+
+/*
+  if (mustAdd(pt, tmp)) {
+  if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+  this->actionManager->onCollision(pt->owner->owner,
+  tmp->owner->owner);
+  }
+  } else if (mustRm(pt, tmp)) {
+  this->actionManager->onSeparation(pt->owner->owner,
+  tmp->owner->owner);
+  }
+*/

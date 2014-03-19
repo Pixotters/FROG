@@ -175,6 +175,29 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
         p4 (NULL, 30, false),
         max (NULL, INT_MAX, false);
 
+    auto check_order = [](SAPList::EndPoint*p1,
+                   SAPList::EndPoint*p2,
+                   SAPList::EndPoint*p3,
+                   SAPList::EndPoint*p4,
+                   SAPList::EndPoint*p5,
+                   SAPList::EndPoint*p6) {
+
+        BOOST_CHECK_EQUAL( p1->next, p2 );
+        BOOST_CHECK_EQUAL( p2->prev, p1 );
+        BOOST_CHECK_EQUAL( p2->next, p3 );
+        BOOST_CHECK_EQUAL( p3->prev, p2 );
+        BOOST_CHECK_EQUAL( p3->next, p4 );
+        BOOST_CHECK_EQUAL( p4->prev, p3 );
+        BOOST_CHECK_EQUAL( p4->next, p5 );
+        BOOST_CHECK_EQUAL( p5->prev, p4 );
+        BOOST_CHECK_EQUAL( p5->next, p6 );
+        BOOST_CHECK_EQUAL( p6->prev, p5 );
+
+    };
+
+    /* Initialization */
+
+    min.next = &p1;
     p1.prev = &min;
     p1.next = &p2;
     p2.prev = &p1;
@@ -183,46 +206,23 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
     p3.next = &p4;
     p4.prev = &p3;
     p4.next = &max;
+    max.prev = &p4;
     
-    cm.updateAxis(&p2, &p3);
+    /* Tests */
 
-    BOOST_CHECK_EQUAL( p1.prev, &min );
-    BOOST_CHECK_EQUAL( p1.next, &p2 );
-    BOOST_CHECK_EQUAL( p2.prev, &p1 );
-    BOOST_CHECK_EQUAL( p2.next, &p3 );
-    BOOST_CHECK_EQUAL( p3.prev, &p2 );
-    BOOST_CHECK_EQUAL( p3.next, &p4 );
-    BOOST_CHECK_EQUAL( p4.prev, &p3 );
-    BOOST_CHECK_EQUAL( p4.next, &max );
+    cm.updateAxis(&p2, &p3);
+    check_order(&min, &p1, &p2, &p3, &p4, &max);
 
     p2.value = 25;
     p3.value = 35;
-    
     cm.updateAxis(&p2, &p3);
-
-    BOOST_CHECK_EQUAL( p1.prev, &min );
-    BOOST_CHECK_EQUAL( p1.next, &p2 );
-    BOOST_CHECK_EQUAL( p2.prev, &p1 );
-    BOOST_CHECK_EQUAL( p2.next, &p4 );
-    BOOST_CHECK_EQUAL( p4.prev, &p2 );
-    BOOST_CHECK_EQUAL( p4.next, &p3 );
-    BOOST_CHECK_EQUAL( p3.prev, &p4 );
-    BOOST_CHECK_EQUAL( p3.next, &max );
-
+    check_order(&min, &p1, &p2, &p4, &p3, &max);
+    
     p2.value = 10;
     p3.value = 20;
-    /*
     cm.updateAxis(&p2, &p3);
+    check_order(&min, &p1, &p2, &p3, &p4, &max);
 
-    BOOST_CHECK_EQUAL( p1.prev, &min );
-    BOOST_CHECK_EQUAL( p1.next, &p2 );
-    BOOST_CHECK_EQUAL( p2.prev, &p1 );
-    BOOST_CHECK_EQUAL( p2.next, &p3 );
-    BOOST_CHECK_EQUAL( p3.prev, &p2 );
-    BOOST_CHECK_EQUAL( p3.next, &p4 );
-    BOOST_CHECK_EQUAL( p4.prev, &p3 );
-    BOOST_CHECK_EQUAL( p4.next, &max );
-    */ 
 }
 
 BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
@@ -248,14 +248,18 @@ BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
     test(xMax->prev, &o1, 0, false);
     test(yMin->next, &o1, 0, true);
     test(yMax->prev, &o1, 0, false);
-    
 
-    //cm.addObject(o2); <- does not end
+    cm.addObject(&o2);
 
-    //test(xMin->next, &o1, 0, true);
-    //test(xMin->next->next, &o2, 10, true);
-    //test(xMax->prev, &o2, (10 + 12), false);
-    //test(xMax->prev->prev, &o1, 0, false);
+    test(xMin->next, &o1, 0, true);
+    test(xMin->next->next, &o1, 0, false);
+    test(xMin->next->next->next, &o2, 10, true);
+    test(xMin->next->next->next->next, &o2, (10 + 12), false);
+
+    test(xMax->prev, &o2, (10 + 12), false);
+    test(xMax->prev->prev, &o2, 10, true);
+    test(xMax->prev->prev->prev, &o1, 0, false);
+    test(xMax->prev->prev->prev->prev, &o1, 0, true);
 
     }
 
