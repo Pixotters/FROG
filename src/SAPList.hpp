@@ -124,16 +124,33 @@ private:
         /** Object the box is attached to */
         Collisionable * owner;
 
-        AABB (int minX, int minY, int maxX, int maxY, Collisionable * o) :
-            owner(o) {
-            min[0] = new EndPoint(this, minX, true);
-            min[1] = new EndPoint(this, minY, true);
-            max[0] = new EndPoint(this, maxX, false);
-            max[1] = new EndPoint(this, maxY, false);
+        /**
+         * Create the AABB corresponding to a collisionable object
+         * @param c the object used to create the corresponding AABB
+         */
+        AABB(Collisionable * c) : owner(c) {
+            min[0] = new EndPoint(this, c->getXMin(), true);
+            min[1] = new EndPoint(this, c->getYMin(), true);
+            max[0] = new EndPoint(this, c->getXMax(), false);
+            max[1] = new EndPoint(this, c->getYMax(), false);
+            c->setBoundingBox(this);
         }
 
         ~AABB ()
         { delete min[0]; delete min[1]; delete max[0]; delete max[1]; }
+
+
+        /**
+         * Update EndPoints values according to information provided by
+         * owner and Collisionable API
+         */
+        void updateEPValues() {
+            min[0]->value = owner->getXMin();
+            min[1]->value = owner->getYMin();
+            max[0]->value = owner->getXMax();
+            max[1]->value = owner->getYMax();
+        }
+
     };
 
     /* END: private classes for SAPList collision manager */
@@ -181,18 +198,6 @@ private:
     bool collisionCheck(const AABB & b1, const AABB & b2) {
         return partialCollisionCheck (b1, b2, 0)
             && partialCollisionCheck (b1, b2, 1);
-    }
-
-
-    /**
-     * Create the AABB corresponding to a collisionable object
-     * @param c the object used to create the corresponding AABB
-     * @return a pointer to freshly heap-allocated AABB 
-     */
-    AABB * mk_AABB(Collisionable * c) {
-        return new AABB(c->getXMin(), c->getYMin(),
-                        c->getXMax(), c->getYMax(),
-                        c);
     }
 
 
@@ -301,10 +306,7 @@ public:
      */
     void addObject(Collisionable * c) {
 
-        /* create couple and insert after sentinel */
-
-        AABB * aabb = this->mk_AABB(c);
-        c->setBoundingBox(aabb);
+        AABB * aabb = new AABB(c);
 
         aabb->min[0]->next = aabb->max[0];
         aabb->max[0]->prev = aabb->min[0];

@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_SUITE_END()
 
 BOOST_AUTO_TEST_SUITE( SAPList_functions )
 
-BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, SAPListFixture )
 {
 
     auto test = [](SAPList::AABB * aabb,
@@ -155,19 +155,16 @@ BOOST_FIXTURE_TEST_CASE( SAP_mk_AABB, SAPListFixture )
           BOOST_CHECK_EQUAL( aabb->max[1]->value, yMax );
           BOOST_CHECK_EQUAL( aabb->owner, obj); };
 
-    SAPList::AABB * aabb1 = cm.mk_AABB(&o1);
-    SAPList::AABB * aabb2 = cm.mk_AABB(&o2);
+    SAPList::AABB aabb1(&o1), aabb2(&o2);
 
-    test(aabb1, 0, 0, 0, 0, &o1);
-    test(aabb2, 10, 11, 10 + 12, 11 + 13, &o2);
+    test(&aabb1, 0, 0, 0, 0, &o1);
+    test(&aabb2, 10, 11, 10 + 12, 11 + 13, &o2);
 
-    delete aabb1;
-    delete aabb2;
-    
 }
 
 BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 {
+
     SAPList::EndPoint
         p1(NULL, 0, false),
         p2(NULL, 10, false),
@@ -190,8 +187,23 @@ BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 
 }
 
+BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
+{
+    CollisionableTester
+        obj1(0, 0, 10, 10),
+        obj2(5, 5, 15, 15);
+
+    SAPList::AABB a(&obj1), b(&obj2);
+
+    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 0) );
+    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 1) );
+    BOOST_CHECK ( cm.collisionCheck (a, b) );
+    BOOST_CHECK ( cm.collisionCheck (b, a) );
+}
+
 BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 {
+
     SAPList::EndPoint
         min (NULL, INT_MIN, false),
         p1 (NULL, 0, false),
@@ -232,7 +244,7 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
     p4.prev = &p3;
     p4.next = &max;
     max.prev = &p4;
-    
+
     /* Tests */
 
     cm.updateAxis(&p2, &p3);
@@ -252,7 +264,7 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 
 BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
 {
-    
+
     auto test = [](SAPList::EndPoint * pt,
                    Collisionable * obj, int val, bool isMin)
         { BOOST_CHECK_EQUAL(pt->owner->owner, obj);
@@ -297,18 +309,6 @@ BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
     test(yMax->prev->prev->prev->prev, &o1, 0, true);
 
     }
-
-BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
-{
-    SAPList::AABB
-        a(0, 0, 10, 10, NULL),
-        b(5, 5, 15, 15, NULL);
-
-    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 0) );
-    BOOST_CHECK ( cm.partialCollisionCheck (a, b, 1) );
-    BOOST_CHECK ( cm.collisionCheck (a, b) );
-    BOOST_CHECK ( cm.collisionCheck (b, a) );
-}
 
 BOOST_FIXTURE_TEST_CASE( SAP_actionManager, SAPListFixture )
 {
