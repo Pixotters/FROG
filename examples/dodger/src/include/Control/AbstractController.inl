@@ -6,7 +6,7 @@ template <typename IN, typename OUT>
 AbstractController<IN, OUT>::~AbstractController(){ }
 
 template <typename IN, typename OUT>
-void AbstractController<IN, OUT>::handle(){
+void AbstractController<IN, OUT>::update(){
   cleanQueue();
   auto end = m_binding.end();
   for(auto it = m_binding.begin(); it != end; ++it)

@@ -19,7 +19,7 @@ namespace ctrl{
   public:
     AbstractController();
     virtual ~AbstractController();
-    virtual void handle();
+    virtual void update();
     void suscribe(IN *, OUT *);
     void unsuscribe(IN *);
     void clear();

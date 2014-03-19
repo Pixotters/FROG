@@ -65,11 +65,3 @@ void StateManager::render(sf::RenderTarget& rt)
     }
 }
 
-void StateManager::handleCommands(ctrl::Controller * c)
-{
-  if( not m_stateStack.empty() )
-    {
-      m_stateStack.top()->handleCommands(c);
-    }
-  
-}

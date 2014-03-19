@@ -14,9 +14,7 @@ void App::init()
                                   sf::Style::Close);
   m_window->setPosition(sf::Vector2i(0,0) );
   m_window->setKeyRepeatEnabled(false);
-  m_controller = new ctrl::Controller(m_window);
-    m_stateManager.push(new StartState() );
-  //  m_stateManager.push(new XboxTest() );
+  m_stateManager.push(new StartState() );
   m_isRunning = true;
 }
 
@@ -27,8 +25,6 @@ void App::run()
   while(m_isRunning)
     {
       m_deltaTime = t0.restart();
-      m_controller->handle();
-      handleCommands();
       update();
       render();
     }
@@ -41,13 +37,8 @@ void App::exit()
   State * s = m_stateManager.pop();
   delete s;
   delete m_window;
-  delete m_controller;
 }
 
-void App::handleCommands()
-{
-  m_stateManager.handleCommands( m_controller );
-}
 
 void App::update()
 {

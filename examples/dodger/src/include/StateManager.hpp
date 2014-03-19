@@ -56,10 +56,6 @@ public:
    */ 
   virtual void render(sf::RenderTarget& rt);
 
-  /**
-   * @brief Makes the scene react to commands detected (via a controller)
-   */
-  virtual void handleCommands(ctrl::Controller *);
 
 };
 

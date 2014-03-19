@@ -13,6 +13,8 @@
 #include "MovePlayer.hpp"
 #include "Bomb.hpp"
 
+#include <iostream> // TODO remove
+
 Level::Level()
   : Scene()
 { 
@@ -22,31 +24,30 @@ Level::Level()
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
   auto movedown = new MovePlayer(m_player, 0, 8);
-  App::instance()->getController()
-    ->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
-  App::instance()->getController()
-    ->suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
-  App::instance()->getController()
-    ->suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
-  App::instance()->getController()
-    ->suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
-  App::instance()->getController()
-    ->suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
-  App::instance()->getController()
-    ->suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
-  App::instance()->getController()
-    ->suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
-  App::instance()->getController()
-    ->suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
-  App::instance()->getController()
-    ->suscribe(new ctrl::MouseButton(sf::Mouse::Left),
-               new Bomb(m_ennemies) );
-  App::instance()->getController()
-    ->suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
-               new Bomb(m_ennemies) );
-  App::instance()->getController()
-    ->suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-               new Bomb(m_ennemies) );
+
+  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
+
+  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
+
+  m_controller.suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
+
+  m_controller.suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
+
+  m_controller.suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
+
+  m_controller.suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
+
+  m_controller.suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
+
+  m_controller.suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
+
+  m_controller.suscribe(new ctrl::MouseButton(sf::Mouse::Left),
+                        new Bomb(m_ennemies) );
+
+  m_controller.suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+                        new Bomb(m_ennemies) );
+  m_controller.suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+                        new Bomb(m_ennemies) );
   spawnEnemy();
 }
 
@@ -72,6 +73,7 @@ void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 void Level::update()
 {  
   Scene::update();
+  handleCommands(m_controller);
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -88,8 +90,6 @@ void Level::spawnEnemy()
 {
   Enemy * e = new Enemy;
   e->getTransform().setPosition(Random::get(100, 700), 50);
-  e->m_physics.addRotationForce(5.0f);
-  e->m_physics.addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 7) ) );
   m_ennemies.push_back(e );
 }
 
@@ -97,10 +97,6 @@ void Level::spawnTarget()
 {
   Target * e = new Target;
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
-  e->m_physics.addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                                        Random::get(-10, 10) / 10.f ) ); 
-  e->m_physics.addAcceleration(  e->m_physics.getVelocity() / -100.0f );
-  e->m_physics.addGrowth(sf::Vector2f(-0.005f, -0.005f) );
   m_targets.push_back(e);
 }
 
@@ -133,18 +129,6 @@ void Level::updateTargets()
       }
     }
   m_targets.remove(nullptr);
-}
-
-
-void Level::handleCommands(ctrl::Controller * c)
-{
-  auto commands = c->getQueue();
-  while(not commands.empty() )
-    {
-      Command * a = commands.front();
-      a->execute();
-      commands.pop();
-    }
 }
 
 

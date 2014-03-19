@@ -35,9 +35,6 @@ private:
   // the current state, must be replaced by a stateManager
   StateManager m_stateManager;
 
-  // filters the inputs and translates them into commands //
-  ctrl::Controller * m_controller;
-
   //// operations ////
 private:
   App()
@@ -64,11 +61,6 @@ public:
     before closing, we may have to process thing (free memory allocated in init)
    */
   void exit();
-  
-  /*
-    make the current state handle events
-   */
-  void handleCommands();
   
   /*
     updates the current state
@@ -110,8 +102,6 @@ public:
   */
   StateManager getStateManager() const{ return m_stateManager; };
   StateManager& getStateManager(){ return m_stateManager; };
-
-  ctrl::Controller * getController() { return m_controller; };
 
 };
 

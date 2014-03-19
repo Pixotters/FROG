@@ -5,7 +5,7 @@
 Element::Element()
   : GameObject() 
 {
-
+  addComponent<Physics>( new Physics() );
 }
 
 Element::~Element()
@@ -33,7 +33,7 @@ void Element::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 void Element::update()
 {
   GameObject::update();
-  PhysicEngine::update(this, &m_physics);
+  PhysicEngine::update(this, getComponent<Physics>() );
   //  m_physics.update();
 }
 

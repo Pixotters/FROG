@@ -23,8 +23,6 @@ public:
 
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  virtual void handleCommands(ctrl::Controller *);
-
 };
 
 

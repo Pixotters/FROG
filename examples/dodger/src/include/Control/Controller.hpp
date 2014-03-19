@@ -28,13 +28,13 @@ namespace ctrl{
     int m_mouseY;
     int m_deltaMouseX;
     int m_deltaMouseY;
-    sf::Window * m_window;
+    sf::Window * const m_window;
 
     //// operations ////
   public:
-    Controller(sf::Window *);
+    Controller(sf::Window * const = nullptr);
     virtual ~Controller();
-    virtual void handle();
+    virtual void update();
     bool handle(Input *);
     bool handle(KeyboardButton *);
     bool handle(MouseButton *);

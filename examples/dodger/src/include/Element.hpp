@@ -14,7 +14,7 @@ class Element : virtual public GameObject
 protected:
 
 public:
-  Physics m_physics;
+  //  Physics m_physics;
   sf::Shape * m_boundingBox;
 
   //// operations ////

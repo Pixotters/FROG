@@ -1,10 +1,13 @@
 #include "Control/Controller.hpp"
 #include "Control/Input.hpp"
+#include "App.hpp" // TODO : see that dependencie
 #include <SFML/Window/Event.hpp>
+
+#include <iostream> // TODO : remove
 
 namespace ctrl{
 
-  Controller::Controller(sf::Window * w)
+  Controller::Controller(sf::Window * const w)
     : AbstractController<Input, Command>(), m_window(w)
   {
 
@@ -15,17 +18,21 @@ namespace ctrl{
 
   }
 
-  void Controller::handle()
+  void Controller::update()
   {
+    std::cout<< "handling "<<m_window<<std::endl;
     sf::Event event;
     m_events.clear();
-    while(m_window->pollEvent(event) ){
+    sf::Window * win = m_window;
+    if(not win)
+      win = App::instance()->getWindow(); // TODO : replace by a service locator
+    while(win->pollEvent(event) ){
       if(event.type == sf::Event::Closed){
         /* TODO : close the program */
       }
       m_events.push_back(event);
     }
-    AbstractController::handle();
+    AbstractController::update();
   }
 
 

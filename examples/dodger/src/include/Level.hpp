@@ -19,6 +19,7 @@ protected:
   Player * m_player;
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
+  ctrl::Controller m_controller;
 
   //// operations ////
 public:
@@ -26,7 +27,6 @@ public:
   virtual ~Level();
   virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
-  virtual void handleCommands(ctrl::Controller *);
 
 private:
   void spawnEnemy();
