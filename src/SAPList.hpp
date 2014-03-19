@@ -158,16 +158,28 @@ private:
             (EndPoint * pt,
              std::function<EndPoint*(EndPoint*)>succ,
              std::function<bool(EndPoint*pt,EndPoint*succ)>loop_cond,
-             std::function<void(EndPoint*pt,EndPoint*succ)>swap_fun/*,
-             std::function<bool(EndPoint*,EndPoint*)>mustAdd,
-             std::function<bool(EndPoint*,EndPoint*)>mustRm*/) {
+             std::function<void(EndPoint*pt,EndPoint*succ)>swap_fun,
+             std::function<bool(EndPoint*pt,EndPoint*succ)>doCollide,
+             std::function<bool(EndPoint*pt,EndPoint*succ)>doSeparate) {
           
             EndPoint * tmp = succ(pt);
             if (!loop_cond(pt, tmp))
                 { return false; }
 
-            do { swap_fun(pt, tmp);
-                 tmp = succ(pt);
+            do {
+                swap_fun(pt, tmp);
+
+                if (doCollide(pt, tmp)) {
+                    if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+                        this->actionManager->onCollision(pt->owner->owner,
+                                                         tmp->owner->owner);
+                    }
+                } else if (doSeparate(pt, tmp)) {
+                    this->actionManager->onSeparation(pt->owner->owner,
+                                                      tmp->owner->owner);
+                }
+
+                tmp = succ(pt);
             } while (loop_cond(pt, tmp));
             
             return true;
@@ -181,30 +193,27 @@ private:
             { return pt->value < succ->value; };
         auto prev_swap = [this](EndPoint * pt, EndPoint * succ)
             { swap(succ, pt); };
-        /*
-        auto prev_add = [](EndPoint *p1, EndPoint *p2)
-            { return !p1->isMin && p2->isMin; };
-        auto prev_rm = [](EndPoint *p1, EndPoint *p2)
-            { return p1->isMin && !p2->isMin; };
-        */
-             
+        auto prev_col = [](EndPoint *pt, EndPoint *succ)
+            { return pt->isMin && !succ->isMin; };
+        auto prev_sep = [](EndPoint *pt, EndPoint *succ)
+            { return !pt->isMin && succ->isMin; };
+                     
         auto next = [](EndPoint *p)
             { return p->next; };
         auto next_cond = [](EndPoint * pt, EndPoint * succ)
             { return pt->value > succ->value; };
         auto next_swap = [this](EndPoint * pt, EndPoint * succ)
             { swap(pt, succ); };
-        /*
-        auto next_add = [](EndPoint *p1, EndPoint *p2)
-            { return !p1->isMin && p2->isMin; };
-        auto next_rm = [](EndPoint *p1, EndPoint *p2)
-            { return p1->isMin && !p2->isMin; };
-        */
+        auto next_col = [](EndPoint *pt, EndPoint *succ)
+            { return !pt->isMin && succ->isMin; };
+        auto next_sep = [](EndPoint *pt, EndPoint *succ)
+            { return pt->isMin && !succ->isMin; };
+        
         /* first BINOR force update */
-        if(!(update(max, next, next_cond, next_swap/*, next_add, next_rm*/) |
-             update(min, next, next_cond, next_swap/*, next_add, next_rm*/))) {
-               update(min, prev, prev_cond, prev_swap/*, prev_add, prev_rm*/);
-               update(max, prev, prev_cond, prev_swap/*, prev_add, prev_rm*/);
+        if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
+             update(min, next, next_cond, next_swap, next_col, next_sep))) {
+               update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
+               update(max, prev, prev_cond, prev_swap, prev_col, prev_sep);
            }
 
     }

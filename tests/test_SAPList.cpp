@@ -78,9 +78,9 @@ public:
 struct SAPListFixture {
     ActionManagerTester am;
     SAPList cm;
-    CollisionableTester o1;
-    CollisionableTester o2;
-    SAPListFixture () : cm(&am), o2(10,11,12,13) {}
+    Collisionable_type1 o1;
+    Collisionable_type2 o2;
+    SAPListFixture () : cm(&am) {}
 };
 
 /*
@@ -284,4 +284,24 @@ BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
     BOOST_CHECK ( cm.collisionCheck (a, b) );
     BOOST_CHECK ( cm.collisionCheck (b, a) );
 }
+
+BOOST_FIXTURE_TEST_CASE( SAP_actionManager, SAPListFixture )
+{
+
+    BOOST_CHECK_EQUAL (am.status, 0); // default is zero
+
+    cm.addObject(&o1);
+    cm.addObject(&o2);
+
+    SAPList::AABB* aabb1 = static_cast<SAPList::AABB*>(o1.boundingBox);
+    aabb1->max[0]->value = 11; // o2 xMin is at 10
+    aabb1->max[1]->value = 12; // o2 yMin is at 11
+    
+    cm.updateObject(&o1);
+    
+    /* FIXME: FAILURE -> generic action is called. */
+    BOOST_CHECK_EQUAL (am.status, 24); // 24 on (typ1, typ2) collision
+
+}
+
 BOOST_AUTO_TEST_SUITE_END()
