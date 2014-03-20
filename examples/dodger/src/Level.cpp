@@ -11,6 +11,7 @@
 #include "Random.hpp"
 
 #include "MovePlayer.hpp"
+#include "JoystickMove.hpp"
 #include "Bomb.hpp"
 
 #include <iostream> // TODO remove
@@ -60,6 +61,7 @@ public:
 
 };
 
+
 Level::Level()
   : Scene()
 { 
@@ -96,7 +98,7 @@ Level::Level()
   Collider * am = new Collider(m_player, &m_targets);
   m_collider = new SAPList(am);  
   m_collider->addObject(m_player);
-
+  
   spawnEnemy();
 }
 
@@ -123,6 +125,8 @@ void Level::update()
 {  
   Scene::update();
   handleCommands(m_controller);
+  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
+  jm->execute();
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();

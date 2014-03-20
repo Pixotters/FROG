@@ -27,7 +27,15 @@ namespace ctrl{
     while(win->pollEvent(event) ){
       if(event.type == sf::Event::Closed){
         /* TODO : close the program */
+      } else if ( event.type == sf::Event::MouseMoved){
+        m_mouseDeltaX = - m_mouseX;
+        m_mouseDeltaY = - m_mouseY;
+        m_mouseX = event.mouseMove.x;
+        m_mouseY = event.mouseMove.y;
+        m_mouseDeltaX += m_mouseX;
+        m_mouseDeltaY += m_mouseY;
       }
+      
       m_events.push_back(event);
     }
     AbstractController::update();
@@ -80,12 +88,11 @@ namespace ctrl{
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
       {
-        if ( 
-            ( (it->type == sf::Event::MouseButtonPressed
-               && b->getTrigger() == SimpleButton::PRESSED)
-              || (it->type == sf::Event::MouseButtonReleased
-                  && b->getTrigger() == SimpleButton::RELEASED) )
-            && (it->mouseButton.button == b->getButton() )  )
+        if ( ( (it->type == sf::Event::MouseButtonPressed
+                && b->getTrigger() == SimpleButton::PRESSED)
+               || (it->type == sf::Event::MouseButtonReleased
+                   && b->getTrigger() == SimpleButton::RELEASED) )
+             && (it->mouseButton.button == b->getButton() )  )
           {
             m_events.erase(it);
             return true;
@@ -136,6 +143,11 @@ namespace ctrl{
 
   sf::Vector2i Controller::getMouseDelta() const{
     return sf::Vector2i(m_mouseDeltaX, m_mouseDeltaY);
+  }
+
+  float Controller::getJoystickAxis(const unsigned int& id,
+                                    const sf::Joystick::Axis& ax) const{
+    return sf::Joystick::getAxisPosition(id, ax);
   }
 
 }
