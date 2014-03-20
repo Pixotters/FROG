@@ -7,7 +7,10 @@
 
 #include "Physics.hpp"
 
-class Element : virtual public GameObject
+#include "SAPList.hpp"
+
+class Element : virtual public GameObject,
+                virtual public Collisionable
 {
 
   //// attributes ////
@@ -35,6 +38,13 @@ public:
    */
   virtual void update();
 
+  virtual int getXMin() const;
+
+  virtual int getXMax() const;
+
+  virtual int getYMin() const;
+
+  virtual int getYMax() const;
 
 };
 

@@ -35,5 +35,30 @@ void Element::update()
   GameObject::update();
   PhysicEngine::update(this, getComponent<Physics>() );
   //  m_physics.update();
+  
+}
+
+int Element::getXMin() const{
+  std::cout << this <<" XMIN : "<< m_transform.getPosition().x +m_boundingBox->getLocalBounds().left << std::endl;
+  return m_transform.getPosition().x+m_boundingBox->getLocalBounds().left;
+}
+
+int Element::getXMax() const{
+  sf::FloatRect fr = m_boundingBox->getLocalBounds();
+  std::cout << this <<" XMAX : "<< m_transform.getPosition().x + fr.left + fr.width << std::endl;
+  return m_transform.getPosition().x+fr.left+ fr.width;
+}
+
+int Element::getYMin() const{
+  std::cout << this <<" YMIN : "<< m_transform.getPosition().y+m_boundingBox->getLocalBounds().top << std::endl;
+  return m_transform.getPosition().y+m_boundingBox->getLocalBounds().top;
+
+}
+
+int Element::getYMax() const{
+  sf::FloatRect fr = m_boundingBox->getLocalBounds();
+  std::cout << this <<" YMAX : "<< m_transform.getPosition().y+fr.top + fr.height << std::endl;
+  return m_transform.getPosition().y+fr.top+fr.height;
+
 }
 

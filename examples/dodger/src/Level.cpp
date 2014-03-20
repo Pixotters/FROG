@@ -15,6 +15,51 @@
 
 #include <iostream> // TODO remove
 
+class Collider : virtual public ActionManager{
+
+private:
+  Player * m_player;
+  std::list<Target *> * m_targets;
+
+public:
+  Collider(Player * p, std::list<Target *> * t) 
+    : m_player(p), m_targets(t){}
+
+  virtual void onCollision(Collisionable * a, Collisionable * b){
+       
+    Player * p;
+    Target * t1;
+    Target * t2;
+    if( (p = dynamic_cast<Player *>(a) )
+        && (t2 = dynamic_cast<Target *>(b) ) ){
+      std::cout << "converted p-t"<<std::endl;
+      onCollision(p, t2);
+    }
+    if( (t1 = dynamic_cast<Target *>(a) )
+        && (t2 = dynamic_cast<Target *>(b) ) ){
+      std::cout << "converted t-t : "<<t1<<"-"<<t2 <<std::endl;
+      onCollision(t1, t2);
+    }else{
+      std::cout << "collision ?-? "<< std::endl;
+    }
+  }
+
+  void onCollision(Player * a, Target * b){
+    std::cout << "collision player-target "<< std::endl;
+    m_targets -> remove(b);
+  }
+
+  void onCollision(Target * a, Target * b){
+    std::cout << "collision target-target "<< std::endl;
+    //    m_targets -> remove(b);
+  }
+  
+  virtual void onSeparation(Collisionable * a, Collisionable * b){
+
+  }
+
+};
+
 Level::Level()
   : Scene()
 { 
@@ -29,9 +74,9 @@ Level::Level()
 
   m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
 
-  m_controller.suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::Z), moveup );  
+  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::Z), moveup );  
 
-  m_controller.suscribe(new ctrl::KeyboardSimpleButton(sf::Keyboard::S),  movedown );
+  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::S),  movedown );
 
   m_controller.suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
 
@@ -48,6 +93,10 @@ Level::Level()
                         new Bomb(m_ennemies) );
   m_controller.suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
                         new Bomb(m_ennemies) );
+  Collider * am = new Collider(m_player, &m_targets);
+  m_collider = new SAPList(am);  
+  m_collider->addObject(m_player);
+
   spawnEnemy();
 }
 
@@ -77,7 +126,7 @@ void Level::update()
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
-  if( t.asSeconds() > 0.2f && m_targets.size() < 5 ){
+  if( t.asSeconds() > 0.2f && m_targets.size() < 1 ){
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
@@ -98,6 +147,7 @@ void Level::spawnTarget()
   Target * e = new Target;
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
+  m_collider->addObject(e);
 }
 
 void Level::updateEnemies()
@@ -119,14 +169,17 @@ void Level::updateTargets()
 {
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
-      (*it)->update();
+      (*it)->update();      
+      m_collider->updateObject(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
+        m_collider->removeObject(*it);
         delete (*it);
         *it = nullptr;
-      }
+      }  
+
     }
   m_targets.remove(nullptr);
 }
@@ -135,4 +188,5 @@ void Level::updateTargets()
 void Level::movePlayer(const short& x)
 {
   m_player->getTransform().move(x, 0);
+  m_collider->updateObject(m_player);
 }

@@ -12,6 +12,7 @@
 #include "Control/JoystickSimpleButton.hpp"
 
 #include <SFML/Window.hpp>
+#include <SFML/System.hpp>
 
 #include <map>
 #include <queue>
@@ -26,8 +27,8 @@ namespace ctrl{
     std::list< sf::Event > m_events;
     int m_mouseX;
     int m_mouseY;
-    int m_deltaMouseX;
-    int m_deltaMouseY;
+    int m_mouseDeltaX;
+    int m_mouseDeltaY;
     sf::Window * const m_window;
 
     //// operations ////
@@ -42,6 +43,12 @@ namespace ctrl{
     bool handle(KeyboardSimpleButton *);
     bool handle(MouseSimpleButton *);
     bool handle(JoystickSimpleButton *);
+    int getMouseX() const;
+    int getMouseY() const;
+    sf::Vector2i getMousePosition() const;
+    int getMouseDeltaX() const;
+    int getMouseDeltaY() const;
+    sf::Vector2i getMouseDelta() const;
   };
 
 }

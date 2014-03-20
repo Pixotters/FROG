@@ -31,16 +31,16 @@ public:
     void setBoundingBox(void * b) { boundingBox = b; }
 
     /** @return the smallest value of a Collisionable on X axis */
-    virtual int getXMin() = 0;
+    virtual int getXMin() const = 0;
 
     /** @return the smallest value of a Collisionable on Y axis */
-    virtual int getYMin() = 0;
+    virtual int getYMin() const = 0;
 
     /** @return the greatest value of a Collisionable on X axis */
-    virtual int getXMax() = 0;
+    virtual int getXMax() const = 0;
 
     /** @return the greatest value of a Collisionable on Y axis */
-    virtual int getYMax() = 0;
+    virtual int getYMax() const = 0;
 
     virtual ~Collisionable() {};
 };

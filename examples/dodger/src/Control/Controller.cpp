@@ -3,7 +3,6 @@
 #include "App.hpp" // TODO : see that dependencie
 #include <SFML/Window/Event.hpp>
 
-#include <iostream> // TODO : remove
 
 namespace ctrl{
 
@@ -20,7 +19,6 @@ namespace ctrl{
 
   void Controller::update()
   {
-    std::cout<< "handling "<<m_window<<std::endl;
     sf::Event event;
     m_events.clear();
     sf::Window * win = m_window;
@@ -116,6 +114,28 @@ namespace ctrl{
     return false;
   }
 
+  int Controller::getMouseX() const{
+    return m_mouseX;
+  } 
 
+  int Controller::getMouseY() const{
+    return m_mouseY;
+  }
+
+  sf::Vector2i Controller::getMousePosition() const{
+    return sf::Vector2i(m_mouseX, m_mouseY);
+  }
+
+  int Controller::getMouseDeltaX() const{
+    return m_mouseX;
+  } 
+
+  int Controller::getMouseDeltaY() const{
+    return m_mouseY;
+  }
+
+  sf::Vector2i Controller::getMouseDelta() const{
+    return sf::Vector2i(m_mouseDeltaX, m_mouseDeltaY);
+  }
 
 }
