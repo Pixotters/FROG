@@ -11,6 +11,8 @@
 
 #include <SFML/System/Clock.hpp>
 
+#include "SAPList.hpp"
+
 class Level : virtual public Scene
 {
   //// attributes ////
@@ -20,6 +22,7 @@ protected:
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
   ctrl::Controller m_controller;
+  SAPList * m_collider;
 
   //// operations ////
 public:
