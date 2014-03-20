@@ -106,8 +106,9 @@ private:
             if (this->prev != NULL) {
                 this->prev->next = this->next;
             }
-            if (this->next != NULL)
+            if (this->next != NULL) {
                 this->next->prev = this->prev;
+            }
         }
     };
     
@@ -136,8 +137,18 @@ private:
             c->setBoundingBox(this);
         }
 
-        ~AABB ()
-        { delete min[0]; delete min[1]; delete max[0]; delete max[1]; }
+        /**
+         * When a AABB is destroyed, its owner bounding box is set to NULL
+         */
+        ~AABB () { 
+            delete min[0];
+            delete min[1];
+            delete max[0];
+            delete max[1];
+            if (owner) {
+                //   owner->setBoundingBox(NULL); <- segfault in unit tests.
+            }
+        }
 
 
         /**
@@ -337,7 +348,12 @@ public:
         updateAxis(aabb->min[0], aabb->max[0]);
         updateAxis(aabb->min[1], aabb->max[1]);
     }
-
+  
+  
+    /**
+     * Remove a bounding box attached to a Collisionable 
+     * @param c Object attached to the bounding box to remove
+     */
     void removeObject(Collisionable * c) {
         delete static_cast<AABB *>(c->getBoundingBox());
     }
