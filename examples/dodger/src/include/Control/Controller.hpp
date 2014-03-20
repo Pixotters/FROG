@@ -49,6 +49,8 @@ namespace ctrl{
     int getMouseDeltaX() const;
     int getMouseDeltaY() const;
     sf::Vector2i getMouseDelta() const;
+    float getJoystickAxis(const unsigned int& id,
+                          const sf::Joystick::Axis& ax) const;
   };
 
 }
