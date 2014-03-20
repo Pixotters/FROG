@@ -345,6 +345,7 @@ public:
      */
     void updateObject(Collisionable * c) {
         AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
+        aabb->updateEPValues();
         updateAxis(aabb->min[0], aabb->max[0]);
         updateAxis(aabb->min[1], aabb->max[1]);
     }

@@ -317,29 +317,26 @@ BOOST_FIXTURE_TEST_CASE( SAP_actionManager, SAPListFixture )
 
     cm.addObject(&o1);
     cm.addObject(&o2);
-
-    SAPList::AABB* aabb = static_cast<SAPList::AABB*>(o1.boundingBox);
-    aabb->max[0]->value = 11; // o2 xMin is at 10
-    aabb->max[1]->value = 12; // o2 yMin is at 11
+         
+    o1.w = 11; // o2 xMin is at 10
+    o1.h = 12; // o2 yMin is at 11
     cm.updateObject(&o1);
     BOOST_CHECK_EQUAL (am.status, 24); // 24 on (typ1, typ2) collision
 
-    aabb->max[0]->value = 0; // o2 xMin is at 10
-    aabb->max[1]->value = 0; // o2 yMin is at 11
+    o1.w = 0; // o2 xMin is at 10
+    o1.h = 0; // o2 yMin is at 11
     cm.updateObject(&o1);
     BOOST_CHECK_EQUAL (am.status, -24); // -24 on (typ1, typ2) separation
 
     Collisionable_type1 tmp;
     cm.addObject(&tmp);
-    aabb = static_cast<SAPList::AABB*>(tmp.boundingBox);
-
-    aabb->max[0]->value = 2;
-    aabb->max[1]->value = 2;
+    tmp.w = 2;
+    tmp.h = 2;
     cm.updateObject(&tmp);
     BOOST_CHECK_EQUAL (am.status, 42); // 42 on (typ1, typ1) collision
 
-    aabb->min[0]->value = 1;
-    aabb->min[1]->value = 1;
+    tmp.x = 1;
+    tmp.y = 1;
     cm.updateObject(&tmp);
     BOOST_CHECK_EQUAL (am.status, -42); // -42 on (typ1, typ1) separation
 
