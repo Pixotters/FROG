@@ -6,6 +6,7 @@
 /* make everything public for testing */
 #define private public
 #define protected public
+#include "../src/Collisionable.hpp"
 #include "../src/SAPList.hpp"
 
 /* 
@@ -15,18 +16,18 @@
  * - 2 empty classes derived from CollisionableTester
  */
 
-class CollisionableTester : virtual public Collisionable {
+class CollisionableTester : virtual public sap::Collisionable {
 public:
     int x, y, w, h;
-    virtual int getXMin() { return this->x; }
-    virtual int getYMin() { return this->y; }
-    virtual int getXMax() { return this->x + this->w; }
-    virtual int getYMax() { return this->y + this->h; }
+    virtual int getXMin() const { return this->x; }
+    virtual int getYMin() const { return this->y; }
+    virtual int getXMax() const { return this->x + this->w; }
+    virtual int getYMax() const { return this->y + this->h; }
 
     CollisionableTester() : CollisionableTester(0, 0, 0, 0) {}
     CollisionableTester(int i1, int i2, int i3, int i4) :
         x(i1), y(i2), w(i3), h(i4) {}
-    ~CollisionableTester() {}
+    virtual ~CollisionableTester() {}
 };
 
 class Collisionable_type1 : virtual public CollisionableTester {
@@ -39,7 +40,7 @@ public:
     Collisionable_type2() : CollisionableTester(10, 11, 12, 13) {}
 };
 
-class ActionManagerTester : virtual public ActionManager {
+class ActionManagerTester : virtual public sap::ActionManager {
 public:
 
     int status;
@@ -54,15 +55,15 @@ public:
 
     /* (type1, not type2) */
     virtual void onCollision(Collisionable_type1 * o1,
-                     Collisionable * o2)
+                             sap::Collisionable * o2)
     { this->status = 42; }
     virtual void onSeparation(Collisionable_type1 * o1,
-                              Collisionable * o2)
+                              sap::Collisionable * o2)
     { this->status = -42; }
 
     /* (not type1, any type) */
-    virtual void onCollision(Collisionable * o1,
-                             Collisionable * o2)
+    virtual void onCollision(sap::Collisionable * o1,
+                             sap::Collisionable * o2)
     {
         Collisionable_type1 * c1 = dynamic_cast<Collisionable_type1*>(o1);
         Collisionable_type2 * c2 = dynamic_cast<Collisionable_type2*>(o2);
@@ -76,8 +77,8 @@ public:
             this->status  = 1;
     }
 
-    virtual void onSeparation(Collisionable * o1,
-                              Collisionable * o2)
+    virtual void onSeparation(sap::Collisionable * o1,
+                              sap::Collisionable * o2)
     {
         Collisionable_type1 * c1 = dynamic_cast<Collisionable_type1*>(o1);
         Collisionable_type2 * c2 = dynamic_cast<Collisionable_type2*>(o2);
@@ -101,7 +102,7 @@ public:
 
 struct SAPListFixture {
     ActionManagerTester am;
-    SAPList cm;
+    sap::SAPList cm;
     Collisionable_type1 o1;
     Collisionable_type2 o2;
     SAPListFixture () : cm(&am) {}
@@ -145,17 +146,17 @@ BOOST_AUTO_TEST_SUITE( SAPList_functions )
 BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, SAPListFixture )
 {
 
-    auto test = [](SAPList::AABB * aabb,
+    auto test = [](sap::SAPList::AABB * aabb,
                    int xMin, int yMin,
                    int xMax, int yMax,
-                   Collisionable * obj)
+                   sap::Collisionable * obj)
         { BOOST_CHECK_EQUAL( aabb->min[0]->value, xMin );
           BOOST_CHECK_EQUAL( aabb->min[1]->value, yMin );
           BOOST_CHECK_EQUAL( aabb->max[0]->value, xMax );
           BOOST_CHECK_EQUAL( aabb->max[1]->value, yMax );
           BOOST_CHECK_EQUAL( aabb->owner, obj); };
 
-    SAPList::AABB aabb1(&o1), aabb2(&o2);
+    sap::SAPList::AABB aabb1(&o1), aabb2(&o2);
 
     test(&aabb1, 0, 0, 0, 0, &o1);
     test(&aabb2, 10, 11, 10 + 12, 11 + 13, &o2);
@@ -165,10 +166,10 @@ BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, SAPListFixture )
 BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 {
 
-    SAPList::EndPoint
+    sap::SAPList::EndPoint
         p1(NULL, 0, false),
         p2(NULL, 10, false),
-        * null = static_cast<SAPList::EndPoint*> (NULL);
+        * null = static_cast<sap::SAPList::EndPoint*> (NULL);
 
     p1.next = &p2;
     p2.prev = &p1;
@@ -193,7 +194,7 @@ BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
         obj1(0, 0, 10, 10),
         obj2(5, 5, 15, 15);
 
-    SAPList::AABB a(&obj1), b(&obj2);
+    sap::SAPList::AABB a(&obj1), b(&obj2);
 
     BOOST_CHECK ( cm.partialCollisionCheck (a, b, 0) );
     BOOST_CHECK ( cm.partialCollisionCheck (a, b, 1) );
@@ -204,7 +205,7 @@ BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
 BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 {
 
-    SAPList::EndPoint
+    sap::SAPList::EndPoint
         min (NULL, INT_MIN, false),
         p1 (NULL, 0, false),
         p2 (NULL, 10, false),
@@ -212,12 +213,12 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
         p4 (NULL, 30, false),
         max (NULL, INT_MAX, false);
 
-    auto check_order = [](SAPList::EndPoint*p1,
-                   SAPList::EndPoint*p2,
-                   SAPList::EndPoint*p3,
-                   SAPList::EndPoint*p4,
-                   SAPList::EndPoint*p5,
-                   SAPList::EndPoint*p6) {
+    auto check_order = [](sap::SAPList::EndPoint*p1,
+                   sap::SAPList::EndPoint*p2,
+                   sap::SAPList::EndPoint*p3,
+                   sap::SAPList::EndPoint*p4,
+                   sap::SAPList::EndPoint*p5,
+                   sap::SAPList::EndPoint*p6) {
 
         BOOST_CHECK_EQUAL( p1->next, p2 );
         BOOST_CHECK_EQUAL( p2->prev, p1 );
@@ -265,13 +266,13 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
 {
 
-    auto test = [](SAPList::EndPoint * pt,
-                   Collisionable * obj, int val, bool isMin)
+    auto test = [](sap::SAPList::EndPoint * pt,
+                   sap::Collisionable * obj, int val, bool isMin)
         { BOOST_CHECK_EQUAL(pt->owner->owner, obj);
           BOOST_CHECK_EQUAL(pt->value, val);
           BOOST_CHECK_EQUAL(pt->isMin, isMin); };
     
-    SAPList::EndPoint
+    sap::SAPList::EndPoint
         
         * xMin = cm.xAxis,
         * xMax = cm.xAxis->next,
