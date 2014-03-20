@@ -5,6 +5,8 @@
 #include "Target.hpp"
 
 #include "Control.hpp"
+#include "Control/ControlManager.hpp"
+#include "Control/Input.hpp"
 
 #include "App.hpp"
 
@@ -72,30 +74,31 @@ Level::Level()
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
   auto movedown = new MovePlayer(m_player, 0, 8);
+  ControlManager<ctrl::Input, Command> * actionManager = new ControlManager<ctrl::Input, Command>();
+  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
 
-  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
+  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
 
-  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
+  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Z), moveup );  
 
-  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::Z), moveup );  
+  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::S),  movedown );
 
-  m_controller.suscribe(new ctrl::KeyboardButton(sf::Keyboard::S),  movedown );
+  actionManager->suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
 
-  m_controller.suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
+  actionManager->suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
 
-  m_controller.suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
+  actionManager->suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
 
-  m_controller.suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
+  actionManager->suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  m_controller.suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
-
-  m_controller.suscribe(new ctrl::MouseButton(sf::Mouse::Left),
+  actionManager->suscribe(new ctrl::MouseButton(sf::Mouse::Left),
                         new Bomb(m_ennemies) );
 
-  m_controller.suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+  actionManager->suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
                         new Bomb(m_ennemies) );
-  m_controller.suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+  actionManager->suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
                         new Bomb(m_ennemies) );
+  m_controller.setManager(actionManager);
   Collider * am = new Collider(m_player, &m_targets);
   m_collider = new SAPList(am);  
   m_collider->addObject(m_player);
@@ -126,14 +129,14 @@ void Level::update()
 {  
   Scene::update();
   handleCommands(m_controller);
-  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
-  jm->execute();
-  delete jm;  
+  //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
+  //  jm->execute();
+  //  delete jm;  
   m_collider->updateObject(m_player);
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
-  if( t.asSeconds() > 0.2f && m_targets.size() < 1 ){
+  if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){

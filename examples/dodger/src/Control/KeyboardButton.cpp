@@ -20,9 +20,9 @@ namespace ctrl{
     return m_button;
   }
 
-  bool KeyboardButton::handle(Controller * c)
+  bool KeyboardButton::occurred(Controller * c)
   {
-    return c->handle(this);
+    return c->occurred(this);
   }
 
 }

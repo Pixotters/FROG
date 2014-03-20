@@ -24,7 +24,7 @@ class Controller;
     KeyboardSimpleButton(const sf::Keyboard::Key&, 
                          const SimpleButton::Trigger& = SimpleButton::PRESSED);
     virtual ~KeyboardSimpleButton();
-    bool handle(Controller *);
+    bool occurred(Controller *);
 
   };
 

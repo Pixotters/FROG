@@ -1,9 +1,10 @@
 #ifndef CTRL_ABSTRACTCONTROLLER_HPP
 #define CTRL_ABSTRACTCONTROLLER_HPP
 
-#include <map>
 #include <queue>
-#include <list>
+#include "Control/ControlManager.hpp"
+
+#include <iostream>
 
 namespace ctrl{
 
@@ -12,22 +13,22 @@ namespace ctrl{
   {
     //// attributes ////
   protected:
-    std::map< IN *, OUT * > m_binding;
     std::queue<OUT * > m_output;
+    ControlManager<IN, OUT> * m_controlManager;
 
     //// operations ////
   public:
     AbstractController();
     virtual ~AbstractController();
-    virtual void update();
-    void suscribe(IN *, OUT *);
-    void unsuscribe(IN *);
-    void clear();
+    virtual void update() = 0;
+    std::queue<OUT *> handle();
     std::queue<OUT *> getQueue() const;
+    ControlManager<IN, OUT> * setManager(ControlManager<IN, OUT> *);
+    ControlManager<IN, OUT> * getManager() const;
 
   protected:
     void add(OUT *);
-    virtual bool handle(IN *);
+    virtual bool occurred(IN *)= 0;
     void cleanQueue();
   
   };

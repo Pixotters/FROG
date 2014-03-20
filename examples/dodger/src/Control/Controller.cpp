@@ -38,33 +38,33 @@ namespace ctrl{
       
       m_events.push_back(event);
     }
-    AbstractController::update();
+
   }
 
 
   ////////// insert inputs after that ////
 
-  bool Controller::handle(Input * i)
+  bool Controller::occurred(Input * i)
   {
     return false;
   }
 
-  bool Controller::handle(KeyboardButton * b)
+  bool Controller::occurred(KeyboardButton * b)
   {
     return (sf::Keyboard::isKeyPressed(b->getButton() )  );
   }
 
-  bool Controller::handle(MouseButton * b)
+  bool Controller::occurred(MouseButton * b)
   {
     return (sf::Mouse::isButtonPressed(b->getButton() )  );
   }
 
-  bool Controller::handle(JoystickButton * b)
+  bool Controller::occurred(JoystickButton * b)
   {
     return (sf::Joystick::isButtonPressed(b->getID(), b->getButton() )  );
   }
 
-  bool Controller::handle(KeyboardSimpleButton * b)
+  bool Controller::occurred(KeyboardSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
@@ -83,7 +83,7 @@ namespace ctrl{
     return false;
   }
 
-  bool Controller::handle(MouseSimpleButton * b)
+  bool Controller::occurred(MouseSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
@@ -102,7 +102,7 @@ namespace ctrl{
   }
 
 
-  bool Controller::handle(JoystickSimpleButton * b)
+  bool Controller::occurred(JoystickSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)

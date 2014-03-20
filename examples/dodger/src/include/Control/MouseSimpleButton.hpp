@@ -23,7 +23,7 @@ class Controller;
     MouseSimpleButton(const sf::Mouse::Button&, 
                       const SimpleButton::Trigger& = SimpleButton::PRESSED);
     virtual ~MouseSimpleButton();
-    bool handle(Controller *);
+    bool occurred(Controller *);
 
   };
 

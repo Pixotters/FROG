@@ -18,8 +18,8 @@ class Controller;
     Input();
     virtual ~Input();
     //    template <typename I, typename O>
-    bool handle(AbstractController<Input,Command> *);
-    virtual bool handle(Controller *);
+    bool occurred(AbstractController<Input,Command> *);
+    virtual bool occurred(Controller *);
   };
 
 }
