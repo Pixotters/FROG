@@ -18,13 +18,13 @@ bool JoystickMove::execute()
 {
   
   float x = 0.f, y = 0.f;
-  x = m_controller->getJoystickAxis(m_id, sf::Joystick::X) / 10.f;
-  y = m_controller->getJoystickAxis(m_id, sf::Joystick::Y) / 10.f;
+  x = m_controller->getJoystickAxis(m_id, sf::Joystick::X);
+  y = m_controller->getJoystickAxis(m_id, sf::Joystick::Y);
   std::cout << "joystick : "<<x<<","<<y<<std::endl;
   if( x > DEADZONE || y > DEADZONE || x < -DEADZONE || y < -DEADZONE){
       std::cout << "moved player"<<std::endl;
-    float px = m_gameobject->getTransform().getPosition().x+x;
-    float py = m_gameobject->getTransform().getPosition().y+y;
+    float px = m_gameobject->getTransform().getPosition().x+x/10.f;
+    float py = m_gameobject->getTransform().getPosition().y+y/10.f;
     if( px < 0){
       px = 0;
     }

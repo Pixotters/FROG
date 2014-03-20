@@ -31,17 +31,18 @@ public:
     Player * p;
     Target * t1;
     Target * t2;
-    if( (p = dynamic_cast<Player *>(a) )
-        && (t2 = dynamic_cast<Target *>(b) ) ){
+    if(
+       ( (p = dynamic_cast<Player *>(a) )
+        && (t2 = dynamic_cast<Target *>(b) ) )
+       //      ||( (p = dynamic_cast<Player *>(b) )
+       //          && (t2 = dynamic_cast<Target *>(a) ) )
+       ){
       std::cout << "converted p-t"<<std::endl;
       onCollision(p, t2);
     }
     if( (t1 = dynamic_cast<Target *>(a) )
         && (t2 = dynamic_cast<Target *>(b) ) ){
-      std::cout << "converted t-t : "<<t1<<"-"<<t2 <<std::endl;
       onCollision(t1, t2);
-    }else{
-      std::cout << "collision ?-? "<< std::endl;
     }
   }
 
@@ -98,7 +99,7 @@ Level::Level()
   Collider * am = new Collider(m_player, &m_targets);
   m_collider = new SAPList(am);  
   m_collider->addObject(m_player);
-  
+  std::cout << "player is "<<m_player<<std::endl;
   spawnEnemy();
 }
 
@@ -127,6 +128,8 @@ void Level::update()
   handleCommands(m_controller);
   JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   jm->execute();
+  delete jm;  
+  m_collider->updateObject(m_player);
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -192,5 +195,4 @@ void Level::updateTargets()
 void Level::movePlayer(const short& x)
 {
   m_player->getTransform().move(x, 0);
-  m_collider->updateObject(m_player);
 }
