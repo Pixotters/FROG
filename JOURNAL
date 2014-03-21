@@ -1,8 +1,33 @@
+= 27/03 =
+
+Nicolas a encore touché au Controller, mais il a promis de ne plus y toucher 
+pendant un moment. Il est désormais plus flexible par l'utilisation de deux 
+modules templatés réutilisables : Filter et Translator. Le "vieux" Controller 
+a été renommé "ControlHandler", le "nouveau" Controller est en fait une classe 
+qui encapsule ce ControlHandler et la traduction des Input en Command. Cela 
+semble plus facile pour un utilisateur lambda. 
+
+
+
 = 20/03 = 
 
 Le Controller a été abstrait : il y a maintenant une classe AbstractController 
-templatée pour les types d'input et d'output. Le Controlle actuel est donc 
+templatée pour les types d'input et d'output. Le Controller actuel est donc 
 un AbstractController<Input, Command>. 
+//julien : //
+Après entretien avec Stefano il semblerait qu'il n'y ait pas plus propre que 
+le Visitor pour le multiple dispatch. Celui-ci a suggéré que nous cherchions 
+dans //Boost// un sucre pour le visitor. 
+Le professeur a aussi demandé à définir nos projets de test par rapport à des 
+jeux existants, pour commencer. 
+Nicolas se portera sur un remake de //Wild Guns//, alors que Julien aurait envie 
+d'un remake de //Full Metal Planete//. 
+
+== Objectifs de la semaine ==
+
+Nicolas veut commencer le rendu. 
+Julien veut avancer un peu plus sur les collisions. 
+Si le rendu est fait rapidement, il faudra commencer à séparer. 
 
 = 13/03 =
 
@@ -19,7 +44,6 @@ Un début de collision a été fait, se basant sur l'algorithme du
 Julien veut faire une gestion de collision utilisable concrètement. 
 Nicolas veut finir la gestion des contrôles : il y a probablement un moyen 
 plus simple qu'utiliser un visitor. 
-Si l'avancée est rapide, on tentera la gestion de fichier intelligente. 
 
 
 = 06/02 =
