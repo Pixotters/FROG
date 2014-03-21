@@ -45,8 +45,9 @@ namespace ctrl{
 
     /*!
      * \brief Adds a <T> to the filter list
-     * \details Prevents for doubles by checking if the <T> is already there
+     * \details Prevents for doubles by checking if the <T> is already there. If 
      * \param t <T> to add to the filter list
+     * \
      */
     void suscribe(T * t);
 

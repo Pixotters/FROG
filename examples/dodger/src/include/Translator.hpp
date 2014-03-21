@@ -14,14 +14,54 @@ protected:
 
   //// operations ////
 public:
+
+  /*!
+   *
+   */
   Translator();
+
   virtual ~Translator();
-  std::map< IN *, OUT * > getBinding() const;
+
+  /*!
+   * \brief Returns the <OUT> associated with the <IN *>
+   * \details If no entry is associated with the argument, returns nullptr
+   * \param i key to translate
+   * \return the value associated to \a i, nullptr if there is none
+   */
   virtual OUT * get(IN *) const;
+
+  /*!
+   * \brief Adds a new binding to the translator
+   * \details If the key has already a value, it is overriden and returned
+   * \param i key of the binding
+   * \param o value of the binding
+   * \return o if i doesn't already have a binding, the old binding if it has
+   */
   OUT * suscribe(IN *, OUT *);
-  OUT * set(IN *, OUT *);
+
+  /*!
+   * \brief Removes a binding
+   * \details If the given <IN> has no value associated, nothing is removed
+   * \param i Key to remove
+   */
   void unsuscribe(IN *);
+
+  /*!
+   * \brief Removes all binding of the translator
+   */
   void clear();
+
+protected:
+  /*!
+   * \brief Adds a new binding to the translator
+   * \details No checking is performed. This function should be use wisely 
+   because it can insert doubles. If case of doubt, please use suscribe.
+   * \param i key of the binding
+   * \param o value of the binding
+   * \return o if i doesn't already have a binding, the old binding if it has
+   */
+  OUT * set(IN * i , OUT * o);
+
 
 };
 
