@@ -1,21 +1,21 @@
 template <typename IN, typename OUT>
-ControlManager<IN, OUT>::ControlManager() 
+Translator<IN, OUT>::Translator() 
 {
 }
 
 template <typename IN, typename OUT>
-ControlManager<IN, OUT>::~ControlManager() 
+Translator<IN, OUT>::~Translator() 
 {
 }
 
 template <typename IN, typename OUT>
-std::map< IN *, OUT * > ControlManager<IN, OUT>::getBinding() const
+std::map< IN *, OUT * > Translator<IN, OUT>::getBinding() const
 {
         return m_binding;
 }
 
 template <typename IN, typename OUT>
-OUT * ControlManager<IN, OUT>::get(IN * i) const{
+OUT * Translator<IN, OUT>::get(IN * i) const{
   auto it = m_binding.find(i);
   if(it == m_binding.end() )
     {
@@ -27,7 +27,7 @@ OUT * ControlManager<IN, OUT>::get(IN * i) const{
 }
 
 template <typename IN, typename OUT>
-void ControlManager<IN, OUT>::suscribe(IN * i, OUT * o){
+void Translator<IN, OUT>::suscribe(IN * i, OUT * o){
   auto it = m_binding.find(i);
   if( it != m_binding.end() )
     {
@@ -37,7 +37,7 @@ void ControlManager<IN, OUT>::suscribe(IN * i, OUT * o){
 }
 
 template <typename IN, typename OUT>
-void ControlManager<IN, OUT>::unsuscribe(IN * i ){
+void Translator<IN, OUT>::unsuscribe(IN * i ){
   auto it = m_binding.find(i);
   if( it != m_binding.end() )
     {
@@ -46,12 +46,12 @@ void ControlManager<IN, OUT>::unsuscribe(IN * i ){
 }
 
 template <typename IN, typename OUT>
-void ControlManager<IN, OUT>::clear(){
+void Translator<IN, OUT>::clear(){
   m_binding.clear();
 }
        
 template <typename IN, typename OUT>
-OUT * ControlManager<IN, OUT>::set(IN * i, OUT * o){
+OUT * Translator<IN, OUT>::set(IN * i, OUT * o){
 suscribe(i, o);
             return get(i);
 }

@@ -1,13 +1,13 @@
 
 template <typename IN>
-AbstractController<IN>::AbstractController(){ }
+Filter<IN>::Filter(){ }
 
 template <typename IN>
-AbstractController<IN>::~AbstractController(){ }
+Filter<IN>::~Filter(){ }
 
 
 template <typename IN>
-std::list<IN *> AbstractController<IN>::handle(){
+std::list<IN *> Filter<IN>::handle(){
   update();
   cleanQueue();
   auto end = m_check.end();
@@ -22,17 +22,17 @@ std::list<IN *> AbstractController<IN>::handle(){
 }
 
 template <typename IN>
-std::list<IN *> AbstractController<IN>::getQueue() const{
+std::list<IN *> Filter<IN>::getQueue() const{
   return m_output;
 }
 
 template <typename IN>
-void AbstractController<IN>::add(IN * i ){
+void Filter<IN>::add(IN * i ){
   m_output.push_front(i);
 }
 
 template <typename IN>
-void AbstractController<IN>::cleanQueue(){
+void Filter<IN>::cleanQueue(){
   while(not m_output.empty() )
     {
       m_output.pop_front();
@@ -40,7 +40,7 @@ void AbstractController<IN>::cleanQueue(){
 }
 
 template <typename IN>
-void AbstractController<IN>::suscribe(IN * i){
+void Filter<IN>::suscribe(IN * i){
   std::cout << "suscribing" <<std::endl;
   unsuscribe(i);
   std::cout << "pushing back" <<std::endl;
@@ -49,7 +49,7 @@ void AbstractController<IN>::suscribe(IN * i){
 }
 
 template <typename IN>
-void AbstractController<IN>::unsuscribe(IN * i ){
+void Filter<IN>::unsuscribe(IN * i ){
   std::cout << "unsuscribing" <<std::endl;
   auto it = m_check.begin();
   auto end = m_check.end();

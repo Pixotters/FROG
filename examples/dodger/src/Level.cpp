@@ -5,8 +5,7 @@
 #include "Target.hpp"
 
 #include "Control.hpp"
-#include "Control/ControlManager.hpp"
-#include "Control/Input.hpp"
+#include "Translator.hpp"
 
 #include "App.hpp"
 

@@ -1,12 +1,12 @@
-#ifndef CONTROLMANAGER_HPP
-#define CONTROLMANAGER_HPP
+#ifndef TRANSLATOR_HPP
+#define TRANSLATOR_HPP
 
 #include <map>
 
 #include <iostream> //TODO remove
 
 template <typename IN, typename OUT>
-class ControlManager{
+class Translator{
 
   //// attributes ////
 protected:
@@ -14,8 +14,8 @@ protected:
 
   //// operations ////
 public:
-  ControlManager();
-  virtual ~ControlManager();
+  Translator();
+  virtual ~Translator();
   std::map< IN *, OUT * > getBinding() const;
   OUT * get(IN *) const;
   void suscribe(IN *, OUT *);
@@ -25,6 +25,6 @@ public:
 
 };
 
-#include "ControlManager.inl"
+#include "Translator.inl"
 
 #endif

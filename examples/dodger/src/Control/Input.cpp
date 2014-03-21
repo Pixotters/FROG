@@ -14,7 +14,7 @@ namespace ctrl{
   }
 
 
-  bool Input::check(AbstractController<Input> * ac) {
+  bool Input::check(Filter<Input> * ac) {
     Controller * c;
     if( (c = dynamic_cast<Controller*>(ac) ) ){
       return check(c);

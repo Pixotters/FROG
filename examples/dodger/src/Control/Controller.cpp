@@ -7,7 +7,7 @@
 namespace ctrl{
 
   Controller::Controller(sf::Window * const w)
-    : AbstractController<Input>(), m_window(w)
+    : Filter<Input>(), m_window(w)
   {
 
   }

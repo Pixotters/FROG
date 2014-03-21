@@ -1,15 +1,14 @@
-#ifndef CTRL_ABSTRACTCONTROLLER_HPP
-#define CTRL_ABSTRACTCONTROLLER_HPP
+#ifndef FILTER_HPP
+#define FILTER_HPP
 
 #include <list>
-#include "Control/ControlManager.hpp"
 
 #include <iostream>
 
 namespace ctrl{
 
   template <typename IN>
-  class AbstractController
+  class Filter
   {
     //// attributes ////
   protected:
@@ -18,8 +17,8 @@ namespace ctrl{
 
     //// operations ////
   public:
-    AbstractController();
-    virtual ~AbstractController();
+    Filter();
+    virtual ~Filter();
     virtual void update() = 0;
     std::list<IN *> handle();
     std::list<IN *> getQueue() const;
@@ -33,7 +32,7 @@ namespace ctrl{
   
   };
 
-#include "AbstractController.inl"
+#include "Filter.inl"
 
 }
 #endif

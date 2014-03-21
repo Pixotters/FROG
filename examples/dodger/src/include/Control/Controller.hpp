@@ -1,7 +1,7 @@
 #ifndef CTRL_CONTROLLER_HPP
 #define CTRL_CONTROLLER_HPP
 
-#include "Control/AbstractController.hpp"
+#include "Filter.hpp"
 
 #include "Command.hpp"
 #include "Control/KeyboardButton.hpp"
@@ -18,7 +18,7 @@
 
 namespace ctrl{
 
-  class Controller : virtual public AbstractController<Input>
+  class Controller : virtual public Filter<Input>
   {
     //// attributes ////
   protected:
