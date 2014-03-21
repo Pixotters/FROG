@@ -1,7 +1,7 @@
 #ifndef STATEMANAGER_HPP
 #define STATEMANAGER_HPP
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 #include "State.hpp"
 #include <stack>
 

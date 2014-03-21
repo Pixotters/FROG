@@ -1,6 +1,6 @@
 #include "Control/Input.hpp"
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 
 namespace ctrl{
@@ -15,8 +15,8 @@ namespace ctrl{
 
 
   bool Input::check(Filter<Input> * ac) {
-    Controller * c;
-    if( (c = dynamic_cast<Controller*>(ac) ) ){
+    ControlHandler * c;
+    if( (c = dynamic_cast<ControlHandler*>(ac) ) ){
       return check(c);
     }else{
       return false;
@@ -24,7 +24,7 @@ namespace ctrl{
   }
 
 
-  bool Input::check(Controller * c){
+  bool Input::check(ControlHandler * c){
     return c->check(this);
   }
 

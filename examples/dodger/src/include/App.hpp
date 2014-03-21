@@ -2,7 +2,7 @@
 #define APP_HPP
 
 #include "Config.hpp"
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 #include "StateManager.hpp"
 #include "Singleton.hpp"
 

@@ -5,7 +5,7 @@
 
 namespace ctrl{
 
-class Controller;
+class ControlHandler;
 
   class Input
   {
@@ -18,7 +18,7 @@ class Controller;
     virtual ~Input();
     //    template <typename I, typename O>
     bool check(Filter<Input> *);
-    virtual bool check(Controller *);
+    virtual bool check(ControlHandler *);
   };
 
 }

@@ -3,7 +3,7 @@
 
 #include "State.hpp"
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 #include <SFML/Graphics.hpp>
 

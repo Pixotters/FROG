@@ -8,7 +8,7 @@
 
 namespace ctrl{
 
-class Controller;
+class ControlHandler;
 
   class JoystickSimpleButton : virtual public JoystickButton,
                                virtual public SimpleButton
@@ -25,7 +25,7 @@ class Controller;
                    const SimpleButton::Trigger& = SimpleButton::PRESSED,
                    const unsigned int& = 0);
     virtual ~JoystickSimpleButton();
-    bool check(Controller *);
+    bool check(ControlHandler *);
 
   };
 

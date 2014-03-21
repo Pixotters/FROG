@@ -1,6 +1,6 @@
 #include "Control/KeyboardButton.hpp"
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 namespace ctrl{
 
@@ -20,7 +20,7 @@ namespace ctrl{
     return m_button;
   }
 
-  bool KeyboardButton::check(Controller * c)
+  bool KeyboardButton::check(ControlHandler * c)
   {
     return c->check(this);
   }

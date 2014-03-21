@@ -1,4 +1,4 @@
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 #include "Control/Input.hpp"
 #include "App.hpp" // TODO : see that dependencie
 #include <SFML/Window/Event.hpp>
@@ -6,18 +6,18 @@
 
 namespace ctrl{
 
-  Controller::Controller(sf::Window * const w)
+  ControlHandler::ControlHandler(sf::Window * const w)
     : Filter<Input>(), m_window(w)
   {
 
   }
 
-  Controller::~Controller()
+  ControlHandler::~ControlHandler()
   {
 
   }
 
-  void Controller::preprocess()
+  void ControlHandler::preprocess()
   {
     sf::Event event;
     m_events.clear();
@@ -41,34 +41,34 @@ namespace ctrl{
 
   }
 
-  std::list<Input *> Controller::update()
+  std::list<Input *> ControlHandler::update()
   {
     return filter(m_check);
   }
 
   ////////// insert inputs after that ////
 
-  bool Controller::check(Input * i)
+  bool ControlHandler::check(Input * i)
   {
     return i->check(this);
   }
 
-  bool Controller::check(KeyboardButton * b)
+  bool ControlHandler::check(KeyboardButton * b)
   {
     return (sf::Keyboard::isKeyPressed(b->getButton() )  );
   }
 
-  bool Controller::check(MouseButton * b)
+  bool ControlHandler::check(MouseButton * b)
   {
     return (sf::Mouse::isButtonPressed(b->getButton() )  );
   }
 
-  bool Controller::check(JoystickButton * b)
+  bool ControlHandler::check(JoystickButton * b)
   {
     return (sf::Joystick::isButtonPressed(b->getID(), b->getButton() )  );
   }
 
-  bool Controller::check(KeyboardSimpleButton * b)
+  bool ControlHandler::check(KeyboardSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
@@ -87,7 +87,7 @@ namespace ctrl{
     return false;
   }
 
-  bool Controller::check(MouseSimpleButton * b)
+  bool ControlHandler::check(MouseSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
@@ -106,7 +106,7 @@ namespace ctrl{
   }
 
 
-  bool Controller::check(JoystickSimpleButton * b)
+  bool ControlHandler::check(JoystickSimpleButton * b)
   {
     auto end = m_events.end();
     for(auto it = m_events.begin(); it != end; ++it)
@@ -125,31 +125,31 @@ namespace ctrl{
     return false;
   }
 
-  int Controller::getMouseX() const{
+  int ControlHandler::getMouseX() const{
     return m_mouseX;
   } 
 
-  int Controller::getMouseY() const{
+  int ControlHandler::getMouseY() const{
     return m_mouseY;
   }
 
-  sf::Vector2i Controller::getMousePosition() const{
+  sf::Vector2i ControlHandler::getMousePosition() const{
     return sf::Vector2i(m_mouseX, m_mouseY);
   }
 
-  int Controller::getMouseDeltaX() const{
+  int ControlHandler::getMouseDeltaX() const{
     return m_mouseX;
   } 
 
-  int Controller::getMouseDeltaY() const{
+  int ControlHandler::getMouseDeltaY() const{
     return m_mouseY;
   }
 
-  sf::Vector2i Controller::getMouseDelta() const{
+  sf::Vector2i ControlHandler::getMouseDelta() const{
     return sf::Vector2i(m_mouseDeltaX, m_mouseDeltaY);
   }
 
-  float Controller::getJoystickAxis(const unsigned int& id,
+  float ControlHandler::getJoystickAxis(const unsigned int& id,
                                     const sf::Joystick::Axis& ax) const{
     return sf::Joystick::getAxisPosition(id, ax);
   }

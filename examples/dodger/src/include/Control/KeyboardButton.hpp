@@ -7,7 +7,7 @@
 
 namespace ctrl{
 
-class Controller;
+class ControlHandler;
 
 class KeyboardButton : virtual public Button
 {
@@ -21,7 +21,7 @@ public:
   KeyboardButton(const sf::Keyboard::Key&);
   virtual ~KeyboardButton();
   sf::Keyboard::Key getButton() const;
-  virtual bool check(Controller *);
+  virtual bool check(ControlHandler *);
 };
 
 }

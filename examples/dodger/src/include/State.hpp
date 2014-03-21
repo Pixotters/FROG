@@ -1,7 +1,7 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 #include "Translator.hpp"
 #include "Renderer.hpp"
 
@@ -28,7 +28,7 @@ public :
    */
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  void handleCommands(ctrl::Controller *, 
+  void handleCommands(ctrl::ControlHandler *, 
                       Translator<ctrl::Input, Command> *);
 };
 

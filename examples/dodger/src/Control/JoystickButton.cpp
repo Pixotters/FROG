@@ -1,5 +1,5 @@
 #include "Control/JoystickButton.hpp"
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 namespace ctrl{
 
@@ -22,7 +22,7 @@ namespace ctrl{
     return m_id;
   }
 
-  bool JoystickButton::check(Controller * c)
+  bool JoystickButton::check(ControlHandler * c)
   {
     return c->check(this);
   }

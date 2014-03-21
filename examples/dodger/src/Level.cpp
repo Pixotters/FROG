@@ -76,8 +76,8 @@ Level::Level()
   std::cout << "phase1" <<std::endl;
   std::cout << "phase1.1" <<std::endl;
 
-  auto qkey = new ctrl::KeyboardButton(sf::Keyboard::Q);
-  auto dkey = new ctrl::KeyboardButton(sf::Keyboard::D);
+  auto qkey = new ctrl::KeyboardSimpleButton(sf::Keyboard::Q);
+  auto dkey = new ctrl::KeyboardSimpleButton(sf::Keyboard::D);
   auto zkey = new ctrl::KeyboardButton(sf::Keyboard::Z);
   auto skey = new ctrl::KeyboardButton(sf::Keyboard::S);
   std::cout << "phase1.2" <<std::endl;

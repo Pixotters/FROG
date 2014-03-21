@@ -1,7 +1,7 @@
 #ifndef CONTROL_HPP
 #define CONTROL_HPP
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 #include "Control/Input.hpp"
 #include "Control/Button.hpp"
 #include "Control/KeyboardButton.hpp"

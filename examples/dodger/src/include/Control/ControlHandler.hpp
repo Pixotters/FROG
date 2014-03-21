@@ -1,5 +1,5 @@
-#ifndef CTRL_CONTROLLER_HPP
-#define CTRL_CONTROLLER_HPP
+#ifndef CTRL_CONTROLHANDLER_HPP
+#define CTRL_CONTROLHANDLER_HPP
 
 #include "Filter.hpp"
 
@@ -19,7 +19,7 @@
 namespace ctrl{
 
 
-  class Controller : virtual public Filter<Input>
+  class ControlHandler: virtual public Filter<Input>
   {
     //// attributes ////
   protected:
@@ -32,8 +32,8 @@ namespace ctrl{
 
     //// operations ////
   public:
-    Controller(sf::Window * const = nullptr);
-    virtual ~Controller();
+    ControlHandler(sf::Window * const = nullptr);
+    virtual ~ControlHandler();
     std::list<Input *> update();
     bool check(Input *);
     bool check(KeyboardButton *);

@@ -5,7 +5,7 @@
 #define DEADZONE 25
 
 JoystickMove::JoystickMove(GameObject * const go,
-                           ctrl::Controller * const c,
+                           ctrl::ControlHandler * const c,
                            const unsigned int& id)
   : Command(), m_gameobject(go), m_controller(c)
 {
