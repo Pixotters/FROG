@@ -52,7 +52,7 @@ namespace ctrl{
                           const sf::Joystick::Axis& ax) const;
 
   protected:
-    virtual void preprocess();
+    virtual std::list<Input *> preprocess(std::list<Input *>);
 
   };
 
