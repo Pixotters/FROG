@@ -2,39 +2,47 @@
 
 title Input handling process
 
+participant State
+
+box "Controller" #SkyBlue
+    participant Controller
+    participant ControlHandler
+    participant Translator
+endbox
+
 == suscribing ==
-Scene --> Controller: suscribe(input, command)
+State --> Controller: suscribe(input, command)
 activate Controller
 
-Controller --> Controller.ControlHandler : addToFilter(input)
-'activate Controller.ControlHandler
+Controller --> ControlHandler : addToFilter(input)
+'activate ControlHandler
 
-Controller --> Controller.Translator : addBinding(input, command)
-'deactivate Controller.ControlHandler
-'activate Controller.Translator
+Controller --> Translator : addBinding(input, command)
+'deactivate ControlHandler
+'activate Translator
 
-Scene <-- Controller
-'deactivate Controller.Translator
+State <-- Controller
+'deactivate Translator
 deactivate Controller
 
 
 == handle inputs and commands ==
 
-Scene -> Controller : getQueue
+State -> Controller : getQueue
 activate Controller
 
-Controller -> Controller.ControlHandler : handle
+Controller -> ControlHandler : handle
 note right: ControlHandler is a Filter that checks if suscribed Input occurred
-activate Controller.ControlHandler
-Controller <- Controller.ControlHandler : filtered inputs
-deactivate Controller.ControlHandler
+activate ControlHandler
+Controller <- ControlHandler : filtered inputs
+deactivate ControlHandler
 
-Controller -> Controller.Translator : getCommand
-activate Controller.Translator
-Controller <- Controller.Translator : commands for inputs that occured
-deactivate Controller.Translator
+Controller -> Translator : getCommand
+activate Translator
+Controller <- Translator : commands for inputs that occured
+deactivate Translator
 
-Scene <- Controller : queue of Command to perform
+State <- Controller : queue of Command to perform
 deactivate Controller
 
 @enduml
