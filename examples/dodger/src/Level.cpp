@@ -91,7 +91,7 @@ Level::Level()
   m_controller.suscribe(qkey);
   m_controller.suscribe(skey);
   std::cout << "phase1.4" <<std::endl;
-  m_actionManager.set(new ctrl::JoystickButton(XBOX::X), moveleft );    
+  /* m_actionManager.set(new ctrl::JoystickButton(XBOX::X), moveleft );    
 
   m_actionManager.set(new ctrl::JoystickButton(XBOX::B), moveright );
 
@@ -105,7 +105,7 @@ Level::Level()
   m_actionManager.set(new ctrl::MouseSimpleButton(sf::Mouse::Right),
                        new Bomb(m_ennemies) );
   m_actionManager.set(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-                       new Bomb(m_ennemies) );
+  new Bomb(m_ennemies) );*/
   std::cout << "phase2" <<std::endl;
   Collider * am = new Collider(m_player, &m_targets);
   m_collider = new SAPList(am);  

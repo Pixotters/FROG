@@ -27,13 +27,16 @@ OUT * Translator<IN, OUT>::get(IN * i) const{
 }
 
 template <typename IN, typename OUT>
-void Translator<IN, OUT>::suscribe(IN * i, OUT * o){
+OUT * Translator<IN, OUT>::suscribe(IN * i, OUT * o){
   auto it = m_binding.find(i);
+  OUT * old;
   if( it != m_binding.end() )
     {
+    old = *it;
       m_binding.erase (it);
     }
-  m_binding.insert(std::pair<IN *, OUT *>(i, o) );
+    set(i, o);
+  return old;
 }
 
 template <typename IN, typename OUT>
@@ -52,6 +55,5 @@ void Translator<IN, OUT>::clear(){
        
 template <typename IN, typename OUT>
 OUT * Translator<IN, OUT>::set(IN * i, OUT * o){
-suscribe(i, o);
-            return get(i);
+  m_binding.insert(std::pair<IN *, OUT *>(i, o) );
 }

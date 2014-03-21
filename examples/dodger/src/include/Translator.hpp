@@ -17,8 +17,8 @@ public:
   Translator();
   virtual ~Translator();
   std::map< IN *, OUT * > getBinding() const;
-  OUT * get(IN *) const;
-  void suscribe(IN *, OUT *);
+  virtual OUT * get(IN *) const;
+  OUT * suscribe(IN *, OUT *);
   OUT * set(IN *, OUT *);
   void unsuscribe(IN *);
   void clear();

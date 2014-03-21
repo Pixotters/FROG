@@ -22,7 +22,7 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 void State::handleCommands(ctrl::Controller * c, 
                            Translator<ctrl::Input, Command> * t)
 {
-  auto inputs = c->handle();
+  auto inputs = c->update();
   while(not inputs.empty() ){
     ctrl::Input * i = inputs.front();
     inputs.pop_front();

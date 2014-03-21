@@ -18,6 +18,7 @@
 
 namespace ctrl{
 
+
   class Controller : virtual public Filter<Input>
   {
     //// attributes ////
@@ -33,7 +34,7 @@ namespace ctrl{
   public:
     Controller(sf::Window * const = nullptr);
     virtual ~Controller();
-    virtual void update();
+    std::list<Input *> update();
     bool check(Input *);
     bool check(KeyboardButton *);
     bool check(MouseButton *);
@@ -49,6 +50,10 @@ namespace ctrl{
     sf::Vector2i getMouseDelta() const;
     float getJoystickAxis(const unsigned int& id,
                           const sf::Joystick::Axis& ax) const;
+
+  protected:
+    virtual void preprocess();
+
   };
 
 }

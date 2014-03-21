@@ -17,7 +17,7 @@ namespace ctrl{
 
   }
 
-  void Controller::update()
+  void Controller::preprocess()
   {
     sf::Event event;
     m_events.clear();
@@ -41,12 +41,16 @@ namespace ctrl{
 
   }
 
+  std::list<Input *> Controller::update()
+  {
+    return filter(m_check);
+  }
 
   ////////// insert inputs after that ////
 
   bool Controller::check(Input * i)
   {
-    return false;
+    return i->check(this);
   }
 
   bool Controller::check(KeyboardButton * b)

@@ -1,32 +1,29 @@
 
-template <typename IN>
-Filter<IN>::Filter(){ }
+template <typename T>
+Filter<T>::Filter(){ }
 
-template <typename IN>
-Filter<IN>::Filter(std::list<IN *> l)
-  : m_check(l)
+template <typename T>
+Filter<T>::Filter(std::list<T *> check)
+  : m_check(check)
 { 
 }
 
-template <typename IN>
-Filter<IN>::~Filter(){ }
+template <typename T>
+Filter<T>::~Filter(){ }
 
 
-template <typename IN>
-std::list<IN *> Filter<IN>::filter(std::list<T *> in){
+template <typename T>
+std::list<T *> Filter<T>::filter(std::list<T *> in){
   return postprocess(process(preprocess(in) ) );
-  process();
-  postprocess();
-  return getQueue();   
 }
 
-
-std::list<T *> operator()(std::list<T *> in){
+template <typename T>
+std::list<T *> Filter<T>::operator()(std::list<T *> in){
   return filter(in);
 }
 
-template <typename IN>
-void Filter<IN>::suscribe(IN * i){
+template <typename T>
+void Filter<T>::suscribe(T * i){
    auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )
@@ -34,13 +31,14 @@ void Filter<IN>::suscribe(IN * i){
       if( *it == i){
         return;
       }
+      it++;
     }
   m_check.push_back(i );
 }
 
 
-template <typename IN>
-void Filter<IN>::unsuscribe(IN * i ){
+template <typename T>
+void Filter<T>::unsuscribe(T * i ){
   auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )
@@ -54,23 +52,24 @@ void Filter<IN>::unsuscribe(IN * i ){
 }
 
 
-template <typename IN>
-void Filter<IN>::clear(){
+template <typename T>
+void Filter<T>::clear(){
   m_check.clear();
 }
 
 
 
 
-template <typename IN>
-std::list<T *> Filter<IN>::preprocess(std::list<T *> in){
+template <typename T>
+std::list<T *> Filter<T>::preprocess(std::list<T * > in){
   return in;
 }
 
 
-template <typename IN>
-std::list<T *> Filter<IN>::process(std::list<T *> in){
+template <typename T>
+std::list<T *> Filter<T>::process(std::list<T * > in){
   auto end = in.end();
+  std::list<T *> filtered;
   for(auto it = in.begin(); it != end; ++it)
     {
       if ( check(*it) )
@@ -78,17 +77,18 @@ std::list<T *> Filter<IN>::process(std::list<T *> in){
           filtered.push_back(*it );
         }
     }
+    return filtered;
 }
 
 
-template <typename IN>
-std::list<T *> Filter<IN>::postprocess(std::list<T *> in){
+template <typename T>
+std::list<T *> Filter<T>::postprocess(std::list<T * > in){
   return in;
 }
 
 
-template <typename IN>
-bool Filter<IN>::check(T * t){
+template <typename T>
+bool Filter<T>::check(T * t){
   auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )

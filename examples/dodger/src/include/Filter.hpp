@@ -38,7 +38,7 @@ namespace ctrl{
 
     /*!
      * \brief Performs the filtering on the given input
-     * \param in : list of <T> to filter
+     * \param in : list of <T *> to filter
      * \return filtered list
      */
     std::list<T *> operator()(std::list<T *> in);
@@ -71,7 +71,7 @@ namespace ctrl{
      * \param in list of <T> to filter
      * \return the preprocessed list
      */
-    virtual void preprocess(std::list<T *> in);    
+    virtual std::list<T *> preprocess(std::list<T *> in);    
 
 
     /*!
@@ -81,15 +81,15 @@ namespace ctrl{
      * \param in list of <T> to filter
      * \return the filtered list
      */
-    void process(std::list<T *> in);
+    std::list<T *> process(std::list<T *> in);
 
     /*!
      * \brief Actions to perform after filtering
      * \details By default, nothing is performed
-     * \param in list of <T> to filter
+     * \param in list of <T *> to filter
      * \return the postprocessed list
      */    
-    virtual void postprocess(std::list<T *> in);
+    virtual std::list<T *> postprocess(std::list<T *> in);
 
     /*!
      * \brief Verifies if a <T> has to be kept or not
@@ -100,6 +100,10 @@ namespace ctrl{
     virtual bool check(T * t);
   
   };
+
+
+
+
 
 #include "Filter.inl"
 
