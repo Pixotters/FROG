@@ -37,12 +37,15 @@ OUT * Translator<IN, OUT>::suscribe(IN * i, OUT * o){
 
 
 template <typename IN, typename OUT>
-void Translator<IN, OUT>::unsuscribe(IN * i ){
+OUT * Translator<IN, OUT>::unsuscribe(IN * i ){
   auto it = m_binding.find(i);
+  OUT * old = nullptr;
   if( it != m_binding.end() )
     {
+        old = it->second;
       m_binding.erase (it);
     }
+    return old;
 }
 
 

@@ -44,12 +44,13 @@ public:
    * \details If the given <IN> has no value associated, nothing is removed
    * \param i Key to remove
    */
-  void unsuscribe(IN *);
+  OUT * unsuscribe(IN *);
 
   /*!
    * \brief Removes all binding of the translator
    */
   void clear();
+  
 
 protected:
   /*!
