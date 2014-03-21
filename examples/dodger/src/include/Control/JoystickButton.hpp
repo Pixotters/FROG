@@ -25,7 +25,7 @@ namespace ctrl{
     virtual ~JoystickButton();
     unsigned int getButton() const;
     unsigned int getID() const;
-    bool handle(Controller *);
+    bool occurred(Controller *);
 
   };
 

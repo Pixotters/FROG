@@ -21,8 +21,7 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 
 void State::handleCommands(ctrl::Controller& c)
 {
-  c.update();
-  auto commands = c.getQueue();
+  auto commands = c.handle();
   while(not commands.empty() )
     {
       Command * a = commands.front();

@@ -21,7 +21,7 @@ public:
   KeyboardButton(const sf::Keyboard::Key&);
   virtual ~KeyboardButton();
   sf::Keyboard::Key getButton() const;
-  virtual bool handle(Controller *);
+  virtual bool occurred(Controller *);
 };
 
 }

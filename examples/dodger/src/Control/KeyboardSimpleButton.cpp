@@ -14,8 +14,8 @@ namespace ctrl{
 
   }
 
-  bool KeyboardSimpleButton::handle(Controller * c){
-    return c->handle(this);
+  bool KeyboardSimpleButton::occurred(Controller * c){
+    return c->occurred(this);
   }
 
 }

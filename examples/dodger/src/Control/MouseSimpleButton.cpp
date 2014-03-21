@@ -14,8 +14,8 @@ namespace ctrl{
 
   }
 
-  bool MouseSimpleButton::handle(Controller * c){
-    return c->handle(this);
+  bool MouseSimpleButton::occurred(Controller * c){
+    return c->occurred(this);
   }
 
 }

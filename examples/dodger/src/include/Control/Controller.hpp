@@ -14,8 +14,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include <map>
-#include <queue>
 #include <list>
 
 namespace ctrl{
@@ -36,13 +34,13 @@ namespace ctrl{
     Controller(sf::Window * const = nullptr);
     virtual ~Controller();
     virtual void update();
-    bool handle(Input *);
-    bool handle(KeyboardButton *);
-    bool handle(MouseButton *);
-    bool handle(JoystickButton *);
-    bool handle(KeyboardSimpleButton *);
-    bool handle(MouseSimpleButton *);
-    bool handle(JoystickSimpleButton *);
+    bool occurred(Input *);
+    bool occurred(KeyboardButton *);
+    bool occurred(MouseButton *);
+    bool occurred(JoystickButton *);
+    bool occurred(KeyboardSimpleButton *);
+    bool occurred(MouseSimpleButton *);
+    bool occurred(JoystickSimpleButton *);
     int getMouseX() const;
     int getMouseY() const;
     sf::Vector2i getMousePosition() const;

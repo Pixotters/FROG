@@ -22,9 +22,9 @@ namespace ctrl{
     return m_id;
   }
 
-  bool JoystickButton::handle(Controller * c)
+  bool JoystickButton::occurred(Controller * c)
   {
-    return c->handle(this);
+    return c->occurred(this);
   }
 
 
