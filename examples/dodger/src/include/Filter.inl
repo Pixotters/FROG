@@ -3,64 +3,99 @@ template <typename IN>
 Filter<IN>::Filter(){ }
 
 template <typename IN>
+Filter<IN>::Filter(std::list<IN *> l)
+  : m_check(l)
+{ 
+}
+
+template <typename IN>
 Filter<IN>::~Filter(){ }
 
 
 template <typename IN>
-std::list<IN *> Filter<IN>::handle(){
-  update();
-  cleanQueue();
-  auto end = m_check.end();
-  for(auto it = m_check.begin(); it != end; ++it)
-    {
-      if ( (*it)->check(this) )
-        {
-          add(*it );
-        }
-    }
-  return getQueue();  
+std::list<IN *> Filter<IN>::filter(std::list<T *> in){
+  return postprocess(process(preprocess(in) ) );
+  process();
+  postprocess();
+  return getQueue();   
 }
 
-template <typename IN>
-std::list<IN *> Filter<IN>::getQueue() const{
-  return m_output;
-}
 
-template <typename IN>
-void Filter<IN>::add(IN * i ){
-  m_output.push_front(i);
-}
-
-template <typename IN>
-void Filter<IN>::cleanQueue(){
-  while(not m_output.empty() )
-    {
-      m_output.pop_front();
-    }
+std::list<T *> operator()(std::list<T *> in){
+  return filter(in);
 }
 
 template <typename IN>
 void Filter<IN>::suscribe(IN * i){
-  std::cout << "suscribing" <<std::endl;
-  unsuscribe(i);
-  std::cout << "pushing back" <<std::endl;
-
+   auto it = m_check.begin();
+  auto end = m_check.end();
+  while( it != end )
+    {
+      if( *it == i){
+        return;
+      }
+    }
   m_check.push_back(i );
 }
 
+
 template <typename IN>
 void Filter<IN>::unsuscribe(IN * i ){
-  std::cout << "unsuscribing" <<std::endl;
   auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )
     {
-      std::cout << "loop" <<std::endl;
       if(*it == i){
         m_check.erase (it);
         break;
-        std::cout << "found" <<std::endl;
       }
       it++;
     }
+}
+
+
+template <typename IN>
+void Filter<IN>::clear(){
+  m_check.clear();
+}
+
+
+
+
+template <typename IN>
+std::list<T *> Filter<IN>::preprocess(std::list<T *> in){
+  return in;
+}
+
+
+template <typename IN>
+std::list<T *> Filter<IN>::process(std::list<T *> in){
+  auto end = in.end();
+  for(auto it = in.begin(); it != end; ++it)
+    {
+      if ( check(*it) )
+        {
+          filtered.push_back(*it );
+        }
+    }
+}
+
+
+template <typename IN>
+std::list<T *> Filter<IN>::postprocess(std::list<T *> in){
+  return in;
+}
+
+
+template <typename IN>
+bool Filter<IN>::check(T * t){
+  auto it = m_check.begin();
+  auto end = m_check.end();
+  while( it != end )
+    {
+      if( *it == t){
+        return true;
+      }
+    }
+  return false;
 }
