@@ -2,6 +2,7 @@
 #define STATE_HPP
 
 #include "Control/Controller.hpp"
+#include "Control/ControlManager.hpp"
 #include "Renderer.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -27,7 +28,8 @@ public :
    */
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  void handleCommands(ctrl::Controller&);
+  void handleCommands(ctrl::Controller *, 
+                      ControlManager<ctrl::Input, Command> *);
 };
 
 #endif

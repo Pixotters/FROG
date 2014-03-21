@@ -2,7 +2,6 @@
 #define CTRL_INPUT_HPP
 
 #include "Control/AbstractController.hpp"
-#include "Command.hpp"
 
 namespace ctrl{
 
@@ -18,8 +17,8 @@ class Controller;
     Input();
     virtual ~Input();
     //    template <typename I, typename O>
-    bool occurred(AbstractController<Input,Command> *);
-    virtual bool occurred(Controller *);
+    bool check(AbstractController<Input> *);
+    virtual bool check(Controller *);
   };
 
 }

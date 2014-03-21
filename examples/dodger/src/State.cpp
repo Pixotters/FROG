@@ -19,14 +19,15 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 }
 
 
-void State::handleCommands(ctrl::Controller& c)
+void State::handleCommands(ctrl::Controller * c, 
+                           ControlManager<ctrl::Input, Command> * t)
 {
-  auto commands = c.handle();
-  while(not commands.empty() )
-    {
-      Command * a = commands.front();
-      a->execute();
-      commands.pop();
-    }
+  auto inputs = c->handle();
+  while(not inputs.empty() ){
+    ctrl::Input * i = inputs.front();
+    inputs.pop_front();
+    Command * a = t->get(i);
+    a->execute();
+  }
 
 }

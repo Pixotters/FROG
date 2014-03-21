@@ -1,61 +1,66 @@
 
-template <typename IN, typename OUT>
-AbstractController<IN, OUT>::AbstractController(){ }
+template <typename IN>
+AbstractController<IN>::AbstractController(){ }
 
-template <typename IN, typename OUT>
-AbstractController<IN, OUT>::~AbstractController(){ }
+template <typename IN>
+AbstractController<IN>::~AbstractController(){ }
 
 
-template <typename IN, typename OUT>
-std::queue<OUT *> AbstractController<IN, OUT>::handle(){
-  std::cout << "handling" << std::endl;
+template <typename IN>
+std::list<IN *> AbstractController<IN>::handle(){
   update();
   cleanQueue();
-  std::map< IN *, OUT * > binding = m_controlManager->getBinding();
-  auto end = binding.end();
-  for(auto it = binding.begin(); it != end; ++it)
+  auto end = m_check.end();
+  for(auto it = m_check.begin(); it != end; ++it)
     {
-      if (it->first->occurred(this) )
+      if ( (*it)->check(this) )
         {
-          add(it->second );
+          add(*it );
         }
     }
-    return getQueue();  
+  return getQueue();  
 }
 
-template <typename IN, typename OUT>
-std::queue<OUT *> AbstractController<IN, OUT>::getQueue() const{
+template <typename IN>
+std::list<IN *> AbstractController<IN>::getQueue() const{
   return m_output;
 }
 
-template <typename IN, typename OUT>
-ControlManager<IN, OUT> * AbstractController<IN, OUT>::setManager(ControlManager<IN, OUT> * cm ){
-     auto old = m_controlManager;
-  m_controlManager = cm;
-return old;
+template <typename IN>
+void AbstractController<IN>::add(IN * i ){
+  m_output.push_front(i);
 }
 
-template <typename IN, typename OUT>
-ControlManager<IN, OUT> * AbstractController<IN, OUT>::getManager( ) const{
-  return m_controlManager;
-}
-
-template <typename IN, typename OUT>
-void AbstractController<IN, OUT>::add(OUT * o ){
-  m_output.push(o);
-}
-
-/*
-template <typename IN, typename OUT>
-bool AbstractController<IN, OUT>::occurred(IN * i ){
-     return false;
-}
-*/
-
-template <typename IN, typename OUT>
-void AbstractController<IN, OUT>::cleanQueue(){
+template <typename IN>
+void AbstractController<IN>::cleanQueue(){
   while(not m_output.empty() )
     {
-      m_output.pop();
+      m_output.pop_front();
+    }
+}
+
+template <typename IN>
+void AbstractController<IN>::suscribe(IN * i){
+  std::cout << "suscribing" <<std::endl;
+  unsuscribe(i);
+  std::cout << "pushing back" <<std::endl;
+
+  m_check.push_back(i );
+}
+
+template <typename IN>
+void AbstractController<IN>::unsuscribe(IN * i ){
+  std::cout << "unsuscribing" <<std::endl;
+  auto it = m_check.begin();
+  auto end = m_check.end();
+  while( it != end )
+    {
+      std::cout << "loop" <<std::endl;
+      if(*it == i){
+        m_check.erase (it);
+        break;
+        std::cout << "found" <<std::endl;
+      }
+      it++;
     }
 }

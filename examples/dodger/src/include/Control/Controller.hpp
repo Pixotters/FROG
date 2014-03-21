@@ -18,7 +18,7 @@
 
 namespace ctrl{
 
-  class Controller : virtual public AbstractController<Input, Command>
+  class Controller : virtual public AbstractController<Input>
   {
     //// attributes ////
   protected:
@@ -34,13 +34,13 @@ namespace ctrl{
     Controller(sf::Window * const = nullptr);
     virtual ~Controller();
     virtual void update();
-    bool occurred(Input *);
-    bool occurred(KeyboardButton *);
-    bool occurred(MouseButton *);
-    bool occurred(JoystickButton *);
-    bool occurred(KeyboardSimpleButton *);
-    bool occurred(MouseSimpleButton *);
-    bool occurred(JoystickSimpleButton *);
+    bool check(Input *);
+    bool check(KeyboardButton *);
+    bool check(MouseButton *);
+    bool check(JoystickButton *);
+    bool check(KeyboardSimpleButton *);
+    bool check(MouseSimpleButton *);
+    bool check(JoystickSimpleButton *);
     int getMouseX() const;
     int getMouseY() const;
     sf::Vector2i getMousePosition() const;

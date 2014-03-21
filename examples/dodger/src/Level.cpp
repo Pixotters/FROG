@@ -35,7 +35,7 @@ public:
     Target * t2;
     if(
        ( (p = dynamic_cast<Player *>(a) )
-        && (t2 = dynamic_cast<Target *>(b) ) )
+         && (t2 = dynamic_cast<Target *>(b) ) )
        //      ||( (p = dynamic_cast<Player *>(b) )
        //          && (t2 = dynamic_cast<Target *>(a) ) )
        ){
@@ -74,31 +74,40 @@ Level::Level()
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
   auto movedown = new MovePlayer(m_player, 0, 8);
-  ControlManager<ctrl::Input, Command> * actionManager = new ControlManager<ctrl::Input, Command>();
-  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Q), moveleft );    
+  std::cout << "phase1" <<std::endl;
+  std::cout << "phase1.1" <<std::endl;
 
-  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::D), moveright );
+  auto qkey = new ctrl::KeyboardButton(sf::Keyboard::Q);
+  auto dkey = new ctrl::KeyboardButton(sf::Keyboard::D);
+  auto zkey = new ctrl::KeyboardButton(sf::Keyboard::Z);
+  auto skey = new ctrl::KeyboardButton(sf::Keyboard::S);
+  std::cout << "phase1.2" <<std::endl;
+  m_actionManager.set(qkey, moveleft );    
+  m_actionManager.set(dkey, moveright );
+  m_actionManager.set(zkey, moveup );  
+  m_actionManager.set(skey,  movedown ); 
+  std::cout << "phase1.3" <<std::endl;
+  m_controller.suscribe(zkey);
+  m_controller.suscribe(dkey);
+  m_controller.suscribe(qkey);
+  m_controller.suscribe(skey);
+  std::cout << "phase1.4" <<std::endl;
+  m_actionManager.set(new ctrl::JoystickButton(XBOX::X), moveleft );    
 
-  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::Z), moveup );  
+  m_actionManager.set(new ctrl::JoystickButton(XBOX::B), moveright );
 
-  actionManager->suscribe(new ctrl::KeyboardButton(sf::Keyboard::S),  movedown );
+  m_actionManager.set(new ctrl::JoystickButton(XBOX::Y), moveup );    
 
-  actionManager->suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
+  m_actionManager.set(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  actionManager->suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
+  m_actionManager.set(new ctrl::MouseButton(sf::Mouse::Left),
+                       new Bomb(m_ennemies) );
 
-  actionManager->suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
-
-  actionManager->suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
-
-  actionManager->suscribe(new ctrl::MouseButton(sf::Mouse::Left),
-                        new Bomb(m_ennemies) );
-
-  actionManager->suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
-                        new Bomb(m_ennemies) );
-  actionManager->suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-                        new Bomb(m_ennemies) );
-  m_controller.setManager(actionManager);
+  m_actionManager.set(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+                       new Bomb(m_ennemies) );
+  m_actionManager.set(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+                       new Bomb(m_ennemies) );
+  std::cout << "phase2" <<std::endl;
   Collider * am = new Collider(m_player, &m_targets);
   m_collider = new SAPList(am);  
   m_collider->addObject(m_player);
@@ -128,10 +137,12 @@ void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 void Level::update()
 {  
   Scene::update();
-  handleCommands(m_controller);
+  //  std::cout<< "handling..." << std::endl;
+    handleCommands(&m_controller, &m_actionManager);
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
+  //  std::cout<< "handled..." << std::endl;
   m_collider->updateObject(m_player);
   updateEnemies();
   updateTargets();

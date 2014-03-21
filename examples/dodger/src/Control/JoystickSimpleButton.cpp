@@ -16,9 +16,9 @@ namespace ctrl{
 
   }
 
-  bool JoystickSimpleButton::occurred(Controller * c)
+  bool JoystickSimpleButton::check(Controller * c)
   {
-    return c->occurred(this);
+    return c->check(this);
   }
 
 

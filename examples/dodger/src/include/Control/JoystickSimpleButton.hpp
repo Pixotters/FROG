@@ -25,7 +25,7 @@ class Controller;
                    const SimpleButton::Trigger& = SimpleButton::PRESSED,
                    const unsigned int& = 0);
     virtual ~JoystickSimpleButton();
-    bool occurred(Controller *);
+    bool check(Controller *);
 
   };
 

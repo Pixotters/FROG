@@ -1,7 +1,6 @@
 #include "Control/Input.hpp"
 
 #include "Control/Controller.hpp"
-#include "Command.hpp"
 
 
 namespace ctrl{
@@ -15,18 +14,18 @@ namespace ctrl{
   }
 
 
-  bool Input::occurred(AbstractController<Input,Command> * ac) {
+  bool Input::check(AbstractController<Input> * ac) {
     Controller * c;
     if( (c = dynamic_cast<Controller*>(ac) ) ){
-      return occurred(c);
+      return check(c);
     }else{
       return false;
     }
   }
 
 
-  bool Input::occurred(Controller * c){
-    return c->occurred(this);
+  bool Input::check(Controller * c){
+    return c->check(this);
   }
 
 }

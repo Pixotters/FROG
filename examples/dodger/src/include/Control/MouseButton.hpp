@@ -22,7 +22,7 @@ public:
   MouseButton(const sf::Mouse::Button&);
   virtual ~MouseButton();
   sf::Mouse::Button getButton() const;
-  bool occurred(Controller *);
+  bool check(Controller *);
 };
 
 }

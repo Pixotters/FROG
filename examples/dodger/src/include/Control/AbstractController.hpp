@@ -1,35 +1,35 @@
 #ifndef CTRL_ABSTRACTCONTROLLER_HPP
 #define CTRL_ABSTRACTCONTROLLER_HPP
 
-#include <queue>
+#include <list>
 #include "Control/ControlManager.hpp"
 
 #include <iostream>
 
 namespace ctrl{
 
-  template <typename IN, typename OUT>
+  template <typename IN>
   class AbstractController
   {
     //// attributes ////
   protected:
-    std::queue<OUT * > m_output;
-    ControlManager<IN, OUT> * m_controlManager;
+    std::list<IN *> m_check;
+    std::list<IN *> m_output;
 
     //// operations ////
   public:
     AbstractController();
     virtual ~AbstractController();
     virtual void update() = 0;
-    std::queue<OUT *> handle();
-    std::queue<OUT *> getQueue() const;
-    ControlManager<IN, OUT> * setManager(ControlManager<IN, OUT> *);
-    ControlManager<IN, OUT> * getManager() const;
+    std::list<IN *> handle();
+    std::list<IN *> getQueue() const;
+    void suscribe(IN *);
+    void unsuscribe(IN *);
+    void cleanQueue();
 
   protected:
-    void add(OUT *);
-    virtual bool occurred(IN *)= 0;
-    void cleanQueue();
+    void add(IN *);
+    virtual bool check(IN *)= 0;
   
   };
 

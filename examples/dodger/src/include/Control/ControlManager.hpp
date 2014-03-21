@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include <iostream> //TODO remove
+
 template <typename IN, typename OUT>
 class ControlManager{
 
@@ -17,6 +19,7 @@ public:
   std::map< IN *, OUT * > getBinding() const;
   OUT * get(IN *) const;
   void suscribe(IN *, OUT *);
+  OUT * set(IN *, OUT *);
   void unsuscribe(IN *);
   void clear();
 
