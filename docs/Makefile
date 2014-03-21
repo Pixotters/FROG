@@ -5,4 +5,4 @@ doc:
 	$(DOXYGEN) $(DOXYFLAGS) doxygen.conf
 
 clean:
-	rm -rf docs/api/*
+	rm -rf api

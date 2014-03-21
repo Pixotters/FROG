@@ -5,7 +5,7 @@
 #include "Collisionable.hpp"
 
 /**
- * The action manager is the interface of objects needed by SAPList.
+ * The action manager is the interface of objects needed by LSAP.
  * This class handle objects collisions and separations
  */
 

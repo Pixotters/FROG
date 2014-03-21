@@ -1,11 +1,11 @@
 #include <map>
 #include <climits>
 
-#include "SAPList.hpp"
+#include "LSAP.hpp"
 
 namespace sap {
 
-    SAPList::SAPList (ActionManager * am) {
+    LSAP::LSAP (ActionManager * am) {
         this->actionManager = am;
         /* not sure about the true/false values */
         xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
@@ -14,7 +14,7 @@ namespace sap {
         yAxis->next = new EndPoint(NULL, INT_MAX, false, yAxis, NULL);
     }
 
-    SAPList::~SAPList () {
+    LSAP::~LSAP () {
         
         /* delete all AABB will delete EndPoints */
         while (xAxis->next != NULL && xAxis->next->owner != NULL) {
@@ -34,7 +34,7 @@ namespace sap {
      * @param c Object (Collisionable) attached to the new bounding box
      *          to insert in the list
      */
-    void SAPList::addObject(Collisionable * c) {
+    void LSAP::addObject(Collisionable * c) {
 
         AABB * aabb = new AABB(c);
 
@@ -62,7 +62,7 @@ namespace sap {
      * be called as soon as an object moves.
      * @param c Object to update
      */
-    void SAPList::updateObject(Collisionable * c) {
+    void LSAP::updateObject(Collisionable * c) {
         AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
         aabb->updateEPValues();
         updateAxis(aabb->min[0], aabb->max[0]);
@@ -74,7 +74,7 @@ namespace sap {
      * Remove a bounding box attached to a Collisionable 
      * @param c Object attached to the bounding box to remove
      */
-    void SAPList::removeObject(Collisionable * c) {
+    void LSAP::removeObject(Collisionable * c) {
         delete static_cast<AABB *>(c->getBoundingBox());
     }
 

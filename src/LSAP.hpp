@@ -8,11 +8,11 @@
 
 namespace sap {
 
-    class SAPList : virtual public CollisionManager<Collisionable> {
+    class LSAP : virtual public CollisionManager<Collisionable> {
 
     private:
 
-        /* BEGIN: private classes for SAPList collision manager */
+        /* BEGIN: private classes for LSAP collision manager */
 
         class AABB;
 
@@ -107,7 +107,7 @@ namespace sap {
 
         };
 
-        /* END: private classes for SAPList collision manager */
+        /* END: private classes for LSAP collision manager */
 
     private:
 
@@ -229,9 +229,9 @@ namespace sap {
     
     public:
 
-        SAPList (ActionManager * am);
+        LSAP (ActionManager * am);
 
-        ~SAPList ();
+        ~LSAP ();
 
         /**
          * Create a bounding box attached to a Collisionable and insert its

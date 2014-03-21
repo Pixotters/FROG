@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE Test_SAPList
+#define BOOST_TEST_MODULE Test_LSAP
 #include <boost/test/unit_test.hpp>
 
 #include <typeinfo>
@@ -7,7 +7,7 @@
 #define private public
 #define protected public
 #include "../src/Collisionable.hpp"
-#include "../src/SAPList.hpp"
+#include "../src/LSAP.hpp"
 
 /* 
  * USER DEFINED CLASSES
@@ -100,12 +100,12 @@ public:
  * SAP fixture using previous classes
  */
 
-struct SAPListFixture {
+struct LSAPFixture {
     ActionManagerTester am;
-    sap::SAPList cm;
+    sap::LSAP cm;
     Collisionable_type1 o1;
     Collisionable_type2 o2;
-    SAPListFixture () : cm(&am) {}
+    LSAPFixture () : cm(&am) {}
 };
 
 /*
@@ -113,9 +113,9 @@ struct SAPListFixture {
  */
 
 
-BOOST_AUTO_TEST_SUITE( SAPList_constructors )
+BOOST_AUTO_TEST_SUITE( LSAP_constructors )
 
-BOOST_FIXTURE_TEST_CASE ( Collisionable_type1_constructor, SAPListFixture ) {
+BOOST_FIXTURE_TEST_CASE ( Collisionable_type1_constructor, LSAPFixture ) {
 
     BOOST_REQUIRE_EQUAL( o1.x, 0 );
     BOOST_REQUIRE_EQUAL( o1.y, 0 );
@@ -124,7 +124,7 @@ BOOST_FIXTURE_TEST_CASE ( Collisionable_type1_constructor, SAPListFixture ) {
 
 }
 
-BOOST_FIXTURE_TEST_CASE ( Collisionable_type2_constructor, SAPListFixture ) {
+BOOST_FIXTURE_TEST_CASE ( Collisionable_type2_constructor, LSAPFixture ) {
 
     BOOST_REQUIRE_EQUAL( o2.x, 10 );
     BOOST_REQUIRE_EQUAL( o2.y, 11 );
@@ -133,7 +133,7 @@ BOOST_FIXTURE_TEST_CASE ( Collisionable_type2_constructor, SAPListFixture ) {
 
 }
 
-BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, LSAPFixture )
 {
     BOOST_REQUIRE_EQUAL( cm.xAxis->next->prev, cm.xAxis );
     BOOST_REQUIRE_EQUAL( cm.yAxis->next->prev, cm.yAxis );
@@ -141,12 +141,12 @@ BOOST_FIXTURE_TEST_CASE( SAP_defaultContructor, SAPListFixture )
 
 BOOST_AUTO_TEST_SUITE_END()
 
-BOOST_AUTO_TEST_SUITE( SAPList_functions )
+BOOST_AUTO_TEST_SUITE( LSAP_functions )
 
-BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, LSAPFixture )
 {
 
-    auto test = [](sap::SAPList::AABB * aabb,
+    auto test = [](sap::LSAP::AABB * aabb,
                    int xMin, int yMin,
                    int xMax, int yMax,
                    sap::Collisionable * obj)
@@ -156,20 +156,20 @@ BOOST_FIXTURE_TEST_CASE( SAP_AABB_constructor, SAPListFixture )
           BOOST_CHECK_EQUAL( aabb->max[1]->value, yMax );
           BOOST_CHECK_EQUAL( aabb->owner, obj); };
 
-    sap::SAPList::AABB aabb1(&o1), aabb2(&o2);
+    sap::LSAP::AABB aabb1(&o1), aabb2(&o2);
 
     test(&aabb1, 0, 0, 0, 0, &o1);
     test(&aabb2, 10, 11, 10 + 12, 11 + 13, &o2);
 
 }
 
-BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE ( SAP_swap, LSAPFixture )
 {
 
-    sap::SAPList::EndPoint
+    sap::LSAP::EndPoint
         p1(NULL, 0, false),
         p2(NULL, 10, false),
-        * null = static_cast<sap::SAPList::EndPoint*> (NULL);
+        * null = static_cast<sap::LSAP::EndPoint*> (NULL);
 
     p1.next = &p2;
     p2.prev = &p1;
@@ -188,13 +188,13 @@ BOOST_FIXTURE_TEST_CASE ( SAP_swap, SAPListFixture )
 
 }
 
-BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, LSAPFixture )
 {
     CollisionableTester
         obj1(0, 0, 10, 10),
         obj2(5, 5, 15, 15);
 
-    sap::SAPList::AABB a(&obj1), b(&obj2);
+    sap::LSAP::AABB a(&obj1), b(&obj2);
 
     BOOST_CHECK ( cm.partialCollisionCheck (a, b, 0) );
     BOOST_CHECK ( cm.partialCollisionCheck (a, b, 1) );
@@ -202,10 +202,10 @@ BOOST_FIXTURE_TEST_CASE ( SAP_collisionCheck, SAPListFixture )
     BOOST_CHECK ( cm.collisionCheck (b, a) );
 }
 
-BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, LSAPFixture )
 {
 
-    sap::SAPList::EndPoint
+    sap::LSAP::EndPoint
         min (NULL, INT_MIN, false),
         p1 (NULL, 0, false),
         p2 (NULL, 10, false),
@@ -213,12 +213,12 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
         p4 (NULL, 30, false),
         max (NULL, INT_MAX, false);
 
-    auto check_order = [](sap::SAPList::EndPoint*p1,
-                   sap::SAPList::EndPoint*p2,
-                   sap::SAPList::EndPoint*p3,
-                   sap::SAPList::EndPoint*p4,
-                   sap::SAPList::EndPoint*p5,
-                   sap::SAPList::EndPoint*p6) {
+    auto check_order = [](sap::LSAP::EndPoint*p1,
+                   sap::LSAP::EndPoint*p2,
+                   sap::LSAP::EndPoint*p3,
+                   sap::LSAP::EndPoint*p4,
+                   sap::LSAP::EndPoint*p5,
+                   sap::LSAP::EndPoint*p6) {
 
         BOOST_CHECK_EQUAL( p1->next, p2 );
         BOOST_CHECK_EQUAL( p2->prev, p1 );
@@ -263,16 +263,16 @@ BOOST_FIXTURE_TEST_CASE ( SAP_updateAxis, SAPListFixture )
 
 }
 
-BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE( SAP_addObject, LSAPFixture )
 {
 
-    auto test = [](sap::SAPList::EndPoint * pt,
+    auto test = [](sap::LSAP::EndPoint * pt,
                    sap::Collisionable * obj, int val, bool isMin)
         { BOOST_CHECK_EQUAL(pt->owner->owner, obj);
           BOOST_CHECK_EQUAL(pt->value, val);
           BOOST_CHECK_EQUAL(pt->isMin, isMin); };
     
-    sap::SAPList::EndPoint
+    sap::LSAP::EndPoint
         
         * xMin = cm.xAxis,
         * xMax = cm.xAxis->next,
@@ -311,7 +311,7 @@ BOOST_FIXTURE_TEST_CASE( SAP_addObject, SAPListFixture )
 
     }
 
-BOOST_FIXTURE_TEST_CASE( SAP_actionManager, SAPListFixture )
+BOOST_FIXTURE_TEST_CASE( SAP_actionManager, LSAPFixture )
 {
 
     BOOST_CHECK_EQUAL (am.status, 0); // default is zero
