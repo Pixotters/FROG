@@ -1,31 +1,40 @@
 @startuml
 
-'App -> Config : loadFromFile(config)
-'note right: creates a map of all possible inputs with default actions
-'Config -> App : config loaded
-App -> Controller : handleInputs(window)
-note right: Controller keeps a map of keys associated with actions
+title Input handling process
 
-App.window --> App.window
-activate App.window
-Controller -> App.window : pollEvent(event)
-App.window -> Controller : event read
-deactivate App.window
-activate Controller.actionQueue
-Controller -> Controller.actionQueue : add action associated to event
-note left: if an event is read
-deactivate Controller.actionQueue
+== suscribing ==
+Scene --> Controller: suscribe(input, command)
+activate Controller
 
-Scene -> Scene : pollActions
-activate Scene
-Controller -> Scene : performActions(actionQueue)
-note left: when all events have been polled
+Controller --> Controller.ControlHandler : addToFilter(input)
+'activate Controller.ControlHandler
 
-Scene -> Controller.actionQueue : dequeue(a)
-activate Controller.actionQueue
-Controller.actionQueue -> Scene : returns Action a
-note right: perform Action a
-deactivate Controller.actionQueue
-deactivate Scene
+Controller --> Controller.Translator : addBinding(input, command)
+'deactivate Controller.ControlHandler
+'activate Controller.Translator
+
+Scene <-- Controller
+'deactivate Controller.Translator
+deactivate Controller
+
+
+== handle inputs and commands ==
+
+Scene -> Controller : getQueue
+activate Controller
+
+Controller -> Controller.ControlHandler : handle
+note right: ControlHandler is a Filter that checks if suscribed Input occurred
+activate Controller.ControlHandler
+Controller <- Controller.ControlHandler : filtered inputs
+deactivate Controller.ControlHandler
+
+Controller -> Controller.Translator : getCommand
+activate Controller.Translator
+Controller <- Controller.Translator : commands for inputs that occured
+deactivate Controller.Translator
+
+Scene <- Controller : queue of Command to perform
+deactivate Controller
 
 @enduml
