@@ -3,6 +3,8 @@
 
 #include <map>
 
+#include <iterator>
+
 #include <iostream> //TODO remove
 
 template <typename IN, typename OUT>
@@ -11,12 +13,14 @@ class Translator{
   //// attributes ////
 protected:
   std::map< IN *, OUT * > m_binding;
+  //  typedef typename std::pair<IN *, OUT *> * iterator;
+  //  typedef typename const std::pair<IN *, OUT *> * const_iterator;
 
   //// operations ////
 public:
 
   /*!
-   *
+   * \brief Base constructor
    */
   Translator();
 
@@ -51,6 +55,30 @@ public:
    */
   void clear();
   
+
+  /*!
+   * \brief Iterator to the first entry
+   * \return a std::pair * pointing to the first entry
+   */
+  //iterator begin();
+
+  /*!
+   * \brief Iterator to the last entry
+   * \return a std::pair * pointing to the last entry
+   */
+  //iterator end();
+
+  /*!
+   * \brief Iterator to the first entry
+   * \return a std::pair * pointing to the first entry
+   */
+  //const_iterator begin() const;
+
+  /*!
+   * \brief Iterator to the last entry
+   * \return a std::pair * pointing to the last entry
+   */
+  //const_iterator end() const;
 
 protected:
   /*!

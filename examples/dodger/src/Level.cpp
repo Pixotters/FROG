@@ -81,30 +81,30 @@ Level::Level()
   auto zkey = new ctrl::KeyboardButton(sf::Keyboard::Z);
   auto skey = new ctrl::KeyboardButton(sf::Keyboard::S);
   std::cout << "phase1.2" <<std::endl;
-  m_actionManager.set(qkey, moveleft );    
-  m_actionManager.set(dkey, moveright );
-  m_actionManager.set(zkey, moveup );  
-  m_actionManager.set(skey,  movedown ); 
+  m_actionManager.suscribe(qkey, moveleft );    
+  m_actionManager.suscribe(dkey, moveright );
+  m_actionManager.suscribe(zkey, moveup );  
+  m_actionManager.suscribe(skey,  movedown ); 
   std::cout << "phase1.3" <<std::endl;
   m_controller.suscribe(zkey);
   m_controller.suscribe(dkey);
   m_controller.suscribe(qkey);
   m_controller.suscribe(skey);
   std::cout << "phase1.4" <<std::endl;
-   m_actionManager.set(new ctrl::JoystickButton(XBOX::X), moveleft );    
+   m_actionManager.suscribe(new ctrl::JoystickButton(XBOX::X), moveleft );    
 
-  m_actionManager.set(new ctrl::JoystickButton(XBOX::B), moveright );
+  m_actionManager.suscribe(new ctrl::JoystickButton(XBOX::B), moveright );
 
-  m_actionManager.set(new ctrl::JoystickButton(XBOX::Y), moveup );    
+  m_actionManager.suscribe(new ctrl::JoystickButton(XBOX::Y), moveup );    
 
-  m_actionManager.set(new ctrl::JoystickButton(XBOX::A), movedown );
+  m_actionManager.suscribe(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  m_actionManager.set(new ctrl::MouseButton(sf::Mouse::Left),
+  m_actionManager.suscribe(new ctrl::MouseButton(sf::Mouse::Left),
                        new Bomb(m_ennemies) );
 
-  m_actionManager.set(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+  m_actionManager.suscribe(new ctrl::MouseSimpleButton(sf::Mouse::Right),
                        new Bomb(m_ennemies) );
-  m_actionManager.set(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+  m_actionManager.suscribe(new ctrl::JoystickSimpleButton(XBOX::HOME), 
   new Bomb(m_ennemies) );
   std::cout << "phase2" <<std::endl;
   Collider * am = new Collider(m_player, &m_targets);

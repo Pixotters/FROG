@@ -4,7 +4,7 @@ namespace ctrl{
 
   Controller::Controller(ControlHandler * ch, 
                          InputMap * im)
-    : m_handle(ch)
+    : m_handler(ch)
   {
     if(m_handler == nullptr)
       {
@@ -13,7 +13,7 @@ namespace ctrl{
 
     if(im == nullptr)
       {
-        m_mapping.push_back(new InputMap );
+        m_mapping.push_back(new InputMap() );
       }else{
       m_mapping.push_back(im);
     }
@@ -40,7 +40,7 @@ namespace ctrl{
     if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
       return nullptr;
     }
-    return m_mapping.at(n)->unsuscribe(i, c);  
+    return m_mapping.at(n)->unsuscribe(i);  
   }
 
   void Controller::unbindAll(Input * i)
@@ -48,8 +48,8 @@ namespace ctrl{
     auto end = m_mapping.size();
     for(unsigned int it = 0; it < end; it++)
       {
-        if(m_mapping.at(n) != nullptr){
-          m_mapping.at(n)->unsuscribe(i,c);
+        if(m_mapping.at(it) != nullptr){
+          m_mapping.at(it)->unsuscribe(i);
         }
       }
   }
@@ -70,7 +70,7 @@ namespace ctrl{
             return it;
           }
       }
-    m_mapping.push_back(it);
+    m_mapping.push_back(im);
     return it;
   }
 
@@ -78,7 +78,7 @@ namespace ctrl{
   {
     if(i < m_mapping.size() )
       {
-        m_mapping.at(n) = nullptr;
+        m_mapping.at(i) = nullptr;
       }
   }
 
@@ -99,7 +99,7 @@ namespace ctrl{
   void Controller::unhandle(InputMap * im)
   {
     auto end = m_mapping.size();
-    auto endmap = im->end();
+    /*    auto endmap = im->end();
     Input * input;
     // TODO : find a way to iterate through an InputMap
     for(auto mapit = im->begin(); mapit != endmap; mapit++)
@@ -121,18 +121,19 @@ namespace ctrl{
             unhandle(input);
           }
       }
+    */
   }
 
 
   void Controller::unhandle(Input * i)
   {
-    m_controlHandler->unsuscribe(i);
+    m_handler->unsuscribe(i);
   }
 
 
   void Controller::handle(Input * i)
   {
-    m_controlHandler->suscribe(i);
+    m_handler->suscribe(i);
   }
 
 }

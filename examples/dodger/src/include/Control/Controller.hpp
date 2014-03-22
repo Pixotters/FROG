@@ -12,7 +12,7 @@ namespace ctrl{
     //// attributes ////
   protected :
     ControlHandler * m_handler;
-    std::vector<InputMap> m_mapping;
+    std::vector<InputMap * > m_mapping;
 
     //// operations ////
   public:
