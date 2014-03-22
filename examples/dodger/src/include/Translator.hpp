@@ -1,18 +1,22 @@
 #ifndef TRANSLATOR_HPP
 #define TRANSLATOR_HPP
 
+#include <exception>
+#include <iterator>
 #include <map>
 
-#include <iterator>
-
 #include <iostream> //TODO remove
+
 
 template <typename IN, typename OUT>
 class Translator{
 
+
+class NotFound: public std::exception{};
+
   //// attributes ////
 protected:
-  std::map< IN *, OUT * > m_binding;
+  std::map< IN, OUT > m_binding;
   //  typedef typename std::pair<IN *, OUT *> * iterator;
   //  typedef typename const std::pair<IN *, OUT *> * const_iterator;
 
@@ -32,7 +36,7 @@ public:
    * \param i key to translate
    * \return the value associated to \a i, nullptr if there is none
    */
-  virtual OUT * get(IN *) const;
+  virtual OUT get(IN) const;
 
   /*!
    * \brief Adds a new binding to the translator
@@ -41,14 +45,14 @@ public:
    * \param o value of the binding
    * \return o if i doesn't already have a binding, the old binding if it has
    */
-  OUT * suscribe(IN *, OUT *);
+  OUT suscribe(IN, OUT);
 
   /*!
    * \brief Removes a binding
    * \details If the given <IN> has no value associated, nothing is removed
    * \param i Key to remove
    */
-  OUT * unsuscribe(IN *);
+  OUT unsuscribe(IN);
 
   /*!
    * \brief Removes all binding of the translator
@@ -89,8 +93,28 @@ protected:
    * \param o value of the binding
    * \return o if i doesn't already have a binding, the old binding if it has
    */
-  OUT * set(IN * i , OUT * o);
+  OUT set(IN i , OUT o);
 
+
+};
+
+
+template <typename IN, typename OUT>
+class Translator<IN *, OUT *>
+{
+protected:
+  std::map< IN *, OUT * > m_binding;
+
+public:
+   Translator();
+  virtual ~Translator();
+  virtual OUT * get(IN *) const;
+  OUT * suscribe(IN * , OUT* );
+  OUT * unsuscribe(IN *);
+  void clear();
+
+protected:
+  OUT * set(IN * i , OUT * o);
 
 };
 

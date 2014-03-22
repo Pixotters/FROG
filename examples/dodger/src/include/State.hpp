@@ -29,7 +29,7 @@ public :
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   void handleCommands(ctrl::ControlHandler *, 
-                      Translator<ctrl::Input, Command> *);
+                      Translator<ctrl::Input *, Command *> *);
 };
 
 #endif

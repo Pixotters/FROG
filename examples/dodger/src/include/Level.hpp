@@ -23,7 +23,7 @@ protected:
   std::list<Target *> m_targets;
   ctrl::ControlHandler m_controller;
   SAPList * m_collider;
-  Translator<ctrl::Input, Command> m_actionManager;
+  Translator<ctrl::Input *, Command *> m_actionManager;
 
   //// operations ////
 public:

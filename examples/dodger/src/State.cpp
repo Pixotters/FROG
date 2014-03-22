@@ -20,7 +20,7 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 
 
 void State::handleCommands(ctrl::ControlHandler * c, 
-                           Translator<ctrl::Input, Command> * t)
+                           Translator<ctrl::Input *, Command *> * t)
 {
   auto inputs = c->update();
   while(not inputs.empty() ){
