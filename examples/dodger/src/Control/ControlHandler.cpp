@@ -7,7 +7,7 @@
 namespace ctrl{
 
   ControlHandler::ControlHandler(sf::Window * const w)
-    : Filter<Input>(), m_window(w)
+    : Filter<Input *>(), m_window(w)
   {
 
   }

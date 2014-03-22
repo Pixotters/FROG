@@ -69,7 +69,7 @@ std::list<T> Filter<T>::preprocess(std::list<T > in){
 template <typename T>
 std::list<T> Filter<T>::process(std::list<T > in){
   auto end = in.end();
-  std::list<T *> filtered;
+  std::list<T> filtered;
   for(auto it = in.begin(); it != end; ++it)
     {
       if ( check(*it) )
