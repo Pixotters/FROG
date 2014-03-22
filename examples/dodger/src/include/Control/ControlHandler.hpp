@@ -19,7 +19,7 @@
 namespace ctrl{
 
 
-  class ControlHandler: virtual public Filter<Input>
+  class ControlHandler: virtual public Filter<Input *>
   {
     //// attributes ////
   protected:
