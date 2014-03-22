@@ -5,7 +5,7 @@
 
 namespace ctrl {
  
- typedef Translator<Input, Command> InputMap;
+ typedef Translator<Input *, Command *> InputMap;
 
 }
 

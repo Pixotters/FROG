@@ -49,9 +49,8 @@ namespace ctrl{
      index matches a null or non-existing map, nothing will be done.
      * \param i Input to remove
      * \param n index of the InputMap in which the Input should be removed
-     * \return the Command previously bound, nullptr is there was none
      */
-    Command * unbind(Input * i, const unsigned short& n = 0);
+    void unbind(Input * i, const unsigned short& n = 0);
 
     /*!
      * \brief Removes a binding from all InputMaps

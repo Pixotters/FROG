@@ -34,13 +34,12 @@ namespace ctrl{
     return m_mapping.at(n)->suscribe(i, c);
   }
 
-  Command * Controller::unbind(Input * i,
+  void Controller::unbind(Input * i,
                                const unsigned short& n)
   {
-    if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
-      return nullptr;
+    if(n < m_mapping.size() and m_mapping.at(n) != nullptr){
+      m_mapping.at(n)->unsuscribe(i);  
     }
-    return m_mapping.at(n)->unsuscribe(i);  
   }
 
   void Controller::unbindAll(Input * i)
