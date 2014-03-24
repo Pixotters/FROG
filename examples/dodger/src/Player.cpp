@@ -10,10 +10,11 @@ Player::Player(const unsigned short& l)
   m_score = 0;
   static float rad = 24.0f;
   m_transform.setPosition(400, 560 );
-  m_boundingBox = new sf::CircleShape(rad, 6);
+  //  m_boundingBox = new sf::CircleShape(rad, 6);
+  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Blue);
-  m_boundingBox->setOutlineColor(sf::Color::White);
-  m_boundingBox->setOutlineThickness(3);
+  //  m_boundingBox->setOutlineColor(sf::Color::White);
+  //  m_boundingBox->setOutlineThickness(3);
   m_boundingBox->setOrigin(rad, rad);
 }
 

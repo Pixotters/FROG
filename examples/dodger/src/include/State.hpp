@@ -1,8 +1,11 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include "Control/Controller.hpp"
 #include "Renderer.hpp"
+
+#include "Command.hpp"
+
+#include <list>
 
 #include <SFML/Graphics.hpp>
 
@@ -27,7 +30,7 @@ public :
    */
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  void handleCommands(ctrl::Controller&);
+  void handleCommands(std::list<Command *>); 
 };
 
 #endif

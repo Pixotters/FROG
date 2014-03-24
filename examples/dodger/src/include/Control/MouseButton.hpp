@@ -8,7 +8,7 @@
 
 namespace ctrl{
 
-class Controller;
+class ControlHandler;
 
 class MouseButton : virtual public Button
 {
@@ -22,7 +22,7 @@ public:
   MouseButton(const sf::Mouse::Button&);
   virtual ~MouseButton();
   sf::Mouse::Button getButton() const;
-  bool handle(Controller *);
+  bool check(ControlHandler *);
 };
 
 }

@@ -19,15 +19,15 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 }
 
 
-void State::handleCommands(ctrl::Controller& c)
+void State::handleCommands(std::list<Command *> c)
 {
-  c.update();
-  auto commands = c.getQueue();
-  while(not commands.empty() )
-    {
-      Command * a = commands.front();
-      a->execute();
-      commands.pop();
-    }
+  while(not c.empty() ){
+    Command * a = c.front();
+    if(a != nullptr)
+      {
+        a->execute();
+      }
+    c.pop_front();
+  }
 
 }

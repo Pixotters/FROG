@@ -1,16 +1,22 @@
 #include "Control/Controller.hpp"
-#include "Control/Input.hpp"
-#include "App.hpp" // TODO : see that dependencie
-#include <SFML/Window/Event.hpp>
-
-#include <iostream> // TODO : remove
 
 namespace ctrl{
 
-  Controller::Controller(sf::Window * const w)
-    : AbstractController<Input, Command>(), m_window(w)
+  Controller::Controller(ControlHandler * ch, 
+                         InputMap * im)
+    : m_handler(ch)
   {
+    if(m_handler == nullptr)
+      {
+        m_handler = new ControlHandler();
+      }
 
+    if(im == nullptr)
+      {
+        m_mapping.push_back(new InputMap() );
+      }else{
+      m_mapping.push_back(im);
+    }
   }
 
   Controller::~Controller()
@@ -18,104 +24,143 @@ namespace ctrl{
 
   }
 
-  void Controller::update()
+  Command * Controller::bind(Input * i,
+                             Command * c,
+                             const unsigned short& n)
   {
-    std::cout<< "handling "<<m_window<<std::endl;
-    sf::Event event;
-    m_events.clear();
-    sf::Window * win = m_window;
-    if(not win)
-      win = App::instance()->getWindow(); // TODO : replace by a service locator
-    while(win->pollEvent(event) ){
-      if(event.type == sf::Event::Closed){
-        /* TODO : close the program */
-      }
-      m_events.push_back(event);
+    if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
+      m_mapping.at(n) = new InputMap();
     }
-    AbstractController::update();
+    handle(i);
+    return m_mapping.at(n)->suscribe(i, c);
   }
 
-
-  ////////// insert inputs after that ////
-
-  bool Controller::handle(Input * i)
+  void Controller::unbind(Input * i,
+                          const unsigned short& n)
   {
-    return false;
+    if(n < m_mapping.size() and m_mapping.at(n) != nullptr){
+      m_mapping.at(n)->unsuscribe(i);        
+    }
+    // TODO check if the input is present in an other map before unhandling it
+    unhandle(i);
   }
 
-  bool Controller::handle(KeyboardButton * b)
+  void Controller::unbindAll(Input * i)
   {
-    return (sf::Keyboard::isKeyPressed(b->getButton() )  );
-  }
-
-  bool Controller::handle(MouseButton * b)
-  {
-    return (sf::Mouse::isButtonPressed(b->getButton() )  );
-  }
-
-  bool Controller::handle(JoystickButton * b)
-  {
-    return (sf::Joystick::isButtonPressed(b->getID(), b->getButton() )  );
-  }
-
-  bool Controller::handle(KeyboardSimpleButton * b)
-  {
-    auto end = m_events.end();
-    for(auto it = m_events.begin(); it != end; ++it)
+    auto end = m_mapping.size();
+    for(unsigned int it = 0; it < end; it++)
       {
-        if ( 
-            ( (it->type == sf::Event::KeyPressed
-               && b->getTrigger() == SimpleButton::PRESSED)
-              || (it->type == sf::Event::KeyReleased
-                  && b->getTrigger() == SimpleButton::RELEASED) )
-            && (it->key.code == b->getButton() )  )
+        if(m_mapping.at(it) != nullptr){
+          m_mapping.at(it)->unsuscribe(i);    
+        }
+      }
+    unhandle(i);
+  }
+
+  unsigned short Controller::addInputMap(InputMap * im)
+  {
+    if(im == nullptr)
+      {
+        im = new InputMap();
+      }
+    unsigned int it;
+    auto end = m_mapping.size();
+    for(it = 0; it < end; it++)
+      {
+        if(m_mapping.at(it) == nullptr)
           {
-            m_events.erase(it);
-            return true;
+            m_mapping.at(it) = im;
+            return it;
           }
       }
-    return false;
+    m_mapping.push_back(im);
+    return it;
   }
 
-  bool Controller::handle(MouseSimpleButton * b)
+  void Controller::removeInputMap(const unsigned short& i)
   {
-    auto end = m_events.end();
-    for(auto it = m_events.begin(); it != end; ++it)
+    if(i < m_mapping.size() )
       {
-        if ( 
-            ( (it->type == sf::Event::MouseButtonPressed
-               && b->getTrigger() == SimpleButton::PRESSED)
-              || (it->type == sf::Event::MouseButtonReleased
-                  && b->getTrigger() == SimpleButton::RELEASED) )
-            && (it->mouseButton.button == b->getButton() )  )
+        m_mapping.at(i) = nullptr;
+      }
+  }
+
+  InputMap * Controller::changeInputMap(InputMap * im, 
+                                        const unsigned short& i)
+  {
+    InputMap * res = im;
+    if( i < m_mapping.size() )
+      {
+        res = m_mapping.at(i);
+        m_mapping.at(i) = im;
+      }
+    return res;
+  }
+
+
+
+  void Controller::unhandle(InputMap * im)
+  {
+    auto end = m_mapping.size();
+    auto endmap = im->end();
+    Input * input;
+    // TODO : find a way to iterate through an InputMap
+    for(auto mapit = im->begin(); mapit != endmap; mapit++)
+      {
+        input = mapit->first;
+        unsigned short it;
+        for(it = 0; it < end; it++)
           {
-            m_events.erase(it);
-            return true;
+            if(m_mapping.at(it) != im)
+              {
+                if(m_mapping.at(it)->get(input) != nullptr){
+                  break; // break should affect only the inner loop
+                  }
+              }
+          }
+        if(it >= end)
+          {
+            // here, we have seen all the others maps without finding the input
+            unhandle(input);
           }
       }
-    return false;
+    
   }
 
 
-  bool Controller::handle(JoystickSimpleButton * b)
+  void Controller::unhandle(Input * i)
   {
-    auto end = m_events.end();
-    for(auto it = m_events.begin(); it != end; ++it)
+    m_handler->unsuscribe(i);
+  }
+
+
+  void Controller::handle(Input * i)
+  {
+    m_handler->suscribe(i);
+  }
+
+  std::list<Command *> Controller::update()
+  {
+    std::list<Command *> res;
+    std::list<Input *> inputs = m_handler->update();
+    if(m_mapping.empty() or inputs.empty() )
       {
-        if ( 
-            ( (it->type == sf::Event::JoystickButtonPressed
-               && b->getTrigger() == SimpleButton::PRESSED)
-              || (it->type == sf::Event::JoystickButtonReleased
-                  && b->getTrigger() == SimpleButton::RELEASED) )
-            && (it->joystickButton.button == b->getButton() )  )
+        return res;
+      }
+    auto endmap = m_mapping.end();
+    for(auto itmap = m_mapping.begin(); itmap != endmap; itmap++)
+      {
+        auto endinput = inputs.end();
+        for(auto itinput = inputs.begin(); itinput != endinput; itinput++)
           {
-            m_events.erase(it);
-            return true;
+            auto singleinput = ( (*itmap)->get(*itinput) );
+            if(singleinput != nullptr)
+              {
+                res.push_back(singleinput);
+              }
           }
       }
-    return false;
+    return res;
   }
-
-
 
 }

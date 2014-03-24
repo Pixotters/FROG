@@ -1,12 +1,11 @@
 #ifndef CTRL_INPUT_HPP
 #define CTRL_INPUT_HPP
 
-#include "Control/AbstractController.hpp"
-#include "Command.hpp"
+#include "Filter.hpp"
 
 namespace ctrl{
 
-class Controller;
+class ControlHandler;
 
   class Input
   {
@@ -18,8 +17,8 @@ class Controller;
     Input();
     virtual ~Input();
     //    template <typename I, typename O>
-    bool handle(AbstractController<Input,Command> *);
-    virtual bool handle(Controller *);
+    bool check(Filter<Input> *);
+    virtual bool check(ControlHandler *);
   };
 
 }

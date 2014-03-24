@@ -1,7 +1,6 @@
 #include "Control/Input.hpp"
 
-#include "Control/Controller.hpp"
-#include "Command.hpp"
+#include "Control/ControlHandler.hpp"
 
 
 namespace ctrl{
@@ -15,18 +14,18 @@ namespace ctrl{
   }
 
 
-  bool Input::handle(AbstractController<Input,Command> * ac) {
-    Controller * c;
-    if( (c = dynamic_cast<Controller*>(ac) ) ){
-      return handle(c);
+  bool Input::check(Filter<Input> * ac) {
+    ControlHandler * c;
+    if( (c = dynamic_cast<ControlHandler*>(ac) ) ){
+      return check(c);
     }else{
       return false;
     }
   }
 
 
-  bool Input::handle(Controller * c){
-    return c->handle(this);
+  bool Input::check(ControlHandler * c){
+    return c->check(this);
   }
 
 }

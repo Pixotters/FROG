@@ -11,6 +11,8 @@
 
 #include <SFML/System/Clock.hpp>
 
+#include "SAPList.hpp"
+
 class Level : virtual public Scene
 {
   //// attributes ////
@@ -19,6 +21,9 @@ protected:
   Player * m_player;
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
+  //  ctrl::ControlHandler m_controller;
+  SAPList * m_collider;
+  //  Translator<ctrl::Input *, Command *> m_actionManager;
   ctrl::Controller m_controller;
 
   //// operations ////
@@ -27,6 +32,7 @@ public:
   virtual ~Level();
   virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
+  void removeTarget(Target *);
 
 private:
   void spawnEnemy();

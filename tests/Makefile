@@ -1,6 +1,6 @@
 include ../Makefile.generic
 
-TEST_TARGETS=test_SAPList
+TEST_TARGETS=test_LSAP
 TEST_SRC_DIR=../src
 TEST_OUTPUT_DIR=cov-report
 
@@ -42,4 +42,4 @@ proper: clean
 
 -include $(TEST_TARGETS:=.d)
 
-test_SAPList: test_SAPList.o $(TEST_SRC_DIR)/SAPList.o
+test_LSAP: test_LSAP.o $(TEST_SRC_DIR)/LSAP.o

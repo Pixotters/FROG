@@ -8,7 +8,7 @@
 
 namespace ctrl{
 
-  class Controller;
+  class ControlHandler;
 
   class JoystickButton : virtual public Button
   {
@@ -25,7 +25,7 @@ namespace ctrl{
     virtual ~JoystickButton();
     unsigned int getButton() const;
     unsigned int getID() const;
-    bool handle(Controller *);
+    bool check(ControlHandler *);
 
   };
 

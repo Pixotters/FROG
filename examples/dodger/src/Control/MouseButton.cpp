@@ -1,6 +1,6 @@
 #include "Control/MouseButton.hpp"
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 namespace ctrl{
 
@@ -17,9 +17,9 @@ namespace ctrl{
     return m_button;
   }
 
-  bool MouseButton::handle(Controller * c)
+  bool MouseButton::check(ControlHandler * c)
   {
-    return c->handle(this);
+    return c->check(this);
   }
 
 }

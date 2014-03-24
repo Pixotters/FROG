@@ -1,6 +1,6 @@
 #include "Control/JoystickSimpleButton.hpp"
 
-#include "Control/Controller.hpp"
+#include "Control/ControlHandler.hpp"
 
 namespace ctrl{
 
@@ -16,9 +16,9 @@ namespace ctrl{
 
   }
 
-  bool JoystickSimpleButton::handle(Controller * c)
+  bool JoystickSimpleButton::check(ControlHandler * c)
   {
-    return c->handle(this);
+    return c->check(this);
   }
 
 
