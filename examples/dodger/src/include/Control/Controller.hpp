@@ -88,8 +88,10 @@ namespace ctrl{
     InputMap * changeInputMap(InputMap * im, const unsigned short& i = 0);
 
     /*!
-     * \brief
-     * \details
+     * \brief Computes a list of command that should be executed
+     * \details Monitors the inputs registered in the handler, and converts 
+     * them in Commands with the InputMaps
+     * \return A list of commands that should be executed in response to inputs
      */
     std::list<Command *> update();
 

@@ -3,6 +3,8 @@
 
 #include "Element.hpp"
 
+#include <SFML/Graphics.hpp>
+
 class Enemy : virtual public Element
 {
 
@@ -13,6 +15,7 @@ protected:
 public:
   Enemy();
   virtual ~Enemy();
+
 };
 
 #endif

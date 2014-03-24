@@ -28,11 +28,9 @@ namespace ctrl{
                              Command * c,
                              const unsigned short& n)
   {
-    std::cout<< "binding 1" <<std::endl;
     if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
       m_mapping.at(n) = new InputMap();
     }
-    std::cout<< "binding 2" <<std::endl;
     handle(i);
     return m_mapping.at(n)->suscribe(i, c);
   }
