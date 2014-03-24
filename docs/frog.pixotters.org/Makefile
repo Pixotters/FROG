@@ -1,5 +1,5 @@
 HOWTOSRCDIR=../howto
-SRC=index howto/index howto/saplist
+SRC=index howto/index howto/lsap
 TMP=$(SRC:=.tmp)
 HTML=$(SRC:=.html)
 
@@ -19,8 +19,8 @@ tmp: $(TMP)
 	@cat $< >> $@
 
 index.tmp: index.pa
-howto/index.tmp: $(HOWTOSRCDIR)/index.pa
-howto/saplist.tmp: $(HOWTOSRCDIR)/howto_SAPList.pa
+howto/index.tmp: index_howto.pa
+howto/lsap.tmp: $(HOWTOSRCDIR)/howto_lsap.pa
 
 mkdir:
 	mkdir -p howto
