@@ -19,15 +19,15 @@ void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 }
 
 
-void State::handleCommands(ctrl::ControlHandler * c, 
-                           Translator<ctrl::Input *, Command *> * t)
+void State::handleCommands(std::list<Command *> c)
 {
-  auto inputs = c->update();
-  while(not inputs.empty() ){
-    ctrl::Input * i = inputs.front();
-    inputs.pop_front();
-    Command * a = t->get(i);
-    a->execute();
+  while(not c.empty() ){
+    Command * a = c.front();
+    if(a != nullptr)
+      {
+        a->execute();
+      }
+    c.pop_front();
   }
 
 }

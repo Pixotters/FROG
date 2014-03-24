@@ -17,8 +17,10 @@ class NotFound: public std::exception{};
   //// attributes ////
 protected:
   std::map< IN, OUT > m_binding;
-  //  typedef typename std::pair<IN, OUT> * iterator;
-  //  typedef typename const std::pair<IN, OUT> * const_iterator;
+
+public:
+  typedef typename std::map<IN,OUT>::iterator iterator;
+  typedef typename std::map<IN, OUT>::const_iterator const_iterator;
 
   //// operations ////
 public:
@@ -64,25 +66,25 @@ public:
    * \brief Iterator to the first entry
    * \return a std::pair * pointing to the first entry
    */
-  //iterator begin();
+  iterator begin();
 
   /*!
    * \brief Iterator to the last entry
    * \return a std::pair * pointing to the last entry
    */
-  //iterator end();
+  iterator end();
 
   /*!
    * \brief Iterator to the first entry
    * \return a std::pair * pointing to the first entry
    */
-  //const_iterator begin() const;
+  const_iterator begin() const;
 
   /*!
    * \brief Iterator to the last entry
    * \return a std::pair * pointing to the last entry
    */
-  //const_iterator end() const;
+  const_iterator end() const;
 
 protected:
   /*!

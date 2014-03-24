@@ -24,7 +24,7 @@ std::list<T> Filter<T>::operator()(std::list<T> in){
 
 template <typename T>
 void Filter<T>::suscribe(T i){
-   auto it = m_check.begin();
+  auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )
     {

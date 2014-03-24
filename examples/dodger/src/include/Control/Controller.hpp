@@ -87,6 +87,12 @@ namespace ctrl{
      */
     InputMap * changeInputMap(InputMap * im, const unsigned short& i = 0);
 
+    /*!
+     * \brief
+     * \details
+     */
+    std::list<Command *> update();
+
   protected :
 
     /*!

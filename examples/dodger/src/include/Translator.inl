@@ -39,7 +39,7 @@ void Translator<IN, OUT>::unsuscribe(IN i ){
   auto it = m_binding.find(i);
   if( it != m_binding.end() )
     {
-        m_binding.erase (it);
+      m_binding.erase (it);
     }
 }
 
@@ -55,28 +55,26 @@ OUT Translator<IN, OUT>::set(IN i, OUT o){
   m_binding.insert(std::pair<IN , OUT >(i, o) );
 }
 
-
-/*
-  template <typename IN, typename OUT>
-  Translator<IN, OUT>::iterator Translator<IN, OUT>::begin()
-  {
+template <typename IN, typename OUT>
+typename Translator<IN,OUT>::iterator Translator<IN, OUT>::begin()
+{
   return m_binding.begin();
-  }
+}
 
-  iterator Translator::end()
-  {
+template <typename IN, typename OUT>
+typename Translator<IN, OUT>::iterator Translator<IN,OUT>::end()
+{
   return m_binding.end();
-  }
+}
 
-  const_iterator Translator::begin() const
-  {
+template <typename IN, typename OUT>
+typename Translator<IN, OUT>::const_iterator Translator<IN, OUT>::begin() const
+{
   return m_binding.begin();
-  }
+}
 
-  const_iterator Translator::end() const
-  {
+template <typename IN, typename OUT>
+typename Translator<IN, OUT>::const_iterator Translator<IN, OUT>::end() const
+{
   return m_binding.end();
-  }
-*/
-
-
+}

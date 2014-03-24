@@ -25,7 +25,6 @@ namespace ctrl{
     if(not win)
       win = App::instance()->getWindow(); // TODO : replace by a service locator
     while(win->pollEvent(event) ){
-      std:: cout << "event " << std::endl;
       if(event.type == sf::Event::Closed){
         /* TODO : close the program */
       } else if ( event.type == sf::Event::MouseMoved){
@@ -154,5 +153,7 @@ namespace ctrl{
                                     const sf::Joystick::Axis& ax) const{
     return sf::Joystick::getAxisPosition(id, ax);
   }
+
+
 
 }

@@ -8,7 +8,7 @@
 Target::Target()
   : Element()
 {
-  m_boundingBox = new sf::CircleShape(30);
+  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Green);
   Physics * phi = getComponent<Physics>();
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 

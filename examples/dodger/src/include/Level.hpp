@@ -7,7 +7,7 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Control/ControlHandler.hpp"
+#include "Control/Controller.hpp"
 
 #include <SFML/System/Clock.hpp>
 
@@ -21,9 +21,10 @@ protected:
   Player * m_player;
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
-  ctrl::ControlHandler m_controller;
+  //  ctrl::ControlHandler m_controller;
   SAPList * m_collider;
-  Translator<ctrl::Input *, Command *> m_actionManager;
+  //  Translator<ctrl::Input *, Command *> m_actionManager;
+  ctrl::Controller m_controller;
 
   //// operations ////
 public:

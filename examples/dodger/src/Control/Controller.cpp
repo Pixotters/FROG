@@ -28,18 +28,23 @@ namespace ctrl{
                              Command * c,
                              const unsigned short& n)
   {
+    std::cout<< "binding 1" <<std::endl;
     if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
       m_mapping.at(n) = new InputMap();
     }
+    std::cout<< "binding 2" <<std::endl;
+    handle(i);
     return m_mapping.at(n)->suscribe(i, c);
   }
 
   void Controller::unbind(Input * i,
-                               const unsigned short& n)
+                          const unsigned short& n)
   {
     if(n < m_mapping.size() and m_mapping.at(n) != nullptr){
-      m_mapping.at(n)->unsuscribe(i);  
+      m_mapping.at(n)->unsuscribe(i);        
     }
+    // TODO check if the input is present in an other map before unhandling it
+    unhandle(i);
   }
 
   void Controller::unbindAll(Input * i)
@@ -48,9 +53,10 @@ namespace ctrl{
     for(unsigned int it = 0; it < end; it++)
       {
         if(m_mapping.at(it) != nullptr){
-          m_mapping.at(it)->unsuscribe(i);
+          m_mapping.at(it)->unsuscribe(i);    
         }
       }
+    unhandle(i);
   }
 
   unsigned short Controller::addInputMap(InputMap * im)
@@ -98,7 +104,7 @@ namespace ctrl{
   void Controller::unhandle(InputMap * im)
   {
     auto end = m_mapping.size();
-    /*    auto endmap = im->end();
+    auto endmap = im->end();
     Input * input;
     // TODO : find a way to iterate through an InputMap
     for(auto mapit = im->begin(); mapit != endmap; mapit++)
@@ -120,7 +126,7 @@ namespace ctrl{
             unhandle(input);
           }
       }
-    */
+    
   }
 
 
@@ -133,6 +139,30 @@ namespace ctrl{
   void Controller::handle(Input * i)
   {
     m_handler->suscribe(i);
+  }
+
+  std::list<Command *> Controller::update()
+  {
+    std::list<Command *> res;
+    std::list<Input *> inputs = m_handler->update();
+    if(m_mapping.empty() or inputs.empty() )
+      {
+        return res;
+      }
+    auto endmap = m_mapping.end();
+    for(auto itmap = m_mapping.begin(); itmap != endmap; itmap++)
+      {
+        auto endinput = inputs.end();
+        for(auto itinput = inputs.begin(); itinput != endinput; itinput++)
+          {
+            auto singleinput = ( (*itmap)->get(*itinput) );
+            if(singleinput != nullptr)
+              {
+                res.push_back(singleinput);
+              }
+          }
+      }
+    return res;
   }
 
 }

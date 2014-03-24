@@ -1,9 +1,11 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include "Control/ControlHandler.hpp"
-#include "Translator.hpp"
 #include "Renderer.hpp"
+
+#include "Command.hpp"
+
+#include <list>
 
 #include <SFML/Graphics.hpp>
 
@@ -28,8 +30,7 @@ public :
    */
   virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
-  void handleCommands(ctrl::ControlHandler *, 
-                      Translator<ctrl::Input *, Command *> *);
+  void handleCommands(std::list<Command *>); 
 };
 
 #endif
