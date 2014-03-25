@@ -1,7 +1,7 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include "Renderer.hpp"
+#include "Rendering/Renderer.hpp"
 
 #include "Command.hpp"
 

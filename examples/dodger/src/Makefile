@@ -6,9 +6,12 @@ PROGRAM=Dodger
 SOURCES=$(wildcard *.cpp)
 CTRLDIR=Control
 CTRLSOURCES=$(wildcard $(CTRLDIR)/*.cpp)
+RENDERDIR=Rendering
+RENDERSOURCES=$(wildcard $(RENDERDIR)/*.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
+RENDEROBJECTS=$(patsubst %.cpp,%.o,$(RENDERSOURCES))
 INC=include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
@@ -24,7 +27,7 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PROGRAM): $(OBJECTS) $(CTRLOBJECTS)
+$(PROGRAM): $(OBJECTS) $(CTRLOBJECTS) $(RENDEROBJECTS)
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS)
 
 clean: generic_clean

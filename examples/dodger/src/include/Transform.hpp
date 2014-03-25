@@ -15,7 +15,7 @@ protected:
 
   //// operations ////
 public:
-  Transform() : Component(), sf::Transformable();
+  Transform();
   virtual ~Transform();
   virtual void update();
   int getZIndex() const;
