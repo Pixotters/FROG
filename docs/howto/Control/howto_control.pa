@@ -1,9 +1,9 @@
 = How to trigger actions =
 
-You can easily configure our key mapping. 
-Each State declares a ``Controller``. You simply register to it pairs of Inputs 
+You can easily configure your key mapping. 
+Each State declares a ``Controller``. You simply register pairs of Inputs 
 and Commands, saying "when this Input occurs, I want this command to happen". 
-Let's take a look at the simple example. 
+Let's take a look at a simple example. 
 
 
 == Example ==
@@ -13,10 +13,9 @@ Let's take a look at the simple example.
 KeyboardButton dkey = new KeyboardButton(sf::Keyboard::D);
 Move move = new Move(player, 4, 0);
 m_controller.bind(dkey, move);
-m_controller.bind( new KeyboardButton(sf::Keyboard::Q),
-                   new Move(player, 0, 4)  );
+m_controller.bind( new KeyboardButton(sf::Keyboard::Q), new Move(player, 0, 4)  );
 ```
-Here we registered two events : 
+Here we have registered two events : 
 # //D key// of the keyboard, makes the player move of 4 units to the right
 # //S key// of the keyboard, makes the player move of 4 units to the down
 
@@ -35,12 +34,12 @@ previous list
 
 == Inputs ==
 
-Frog proposed some built-in inputs, to help you focusing on actions. They are 
+Frog proposes some built-in inputs, to help you focusing on actions. They are 
 divided in two main categories : 
 # Continuous inputs : the associated action is trigerred as long as the input 
 occurs. Basically, maintaining a button. 
-# Simple inputs : the associated is triggered once. Basically, when a button 
-is pressed or released. 
+# Simple inputs : the associated command is triggered once. Basically, when a 
+button is pressed or released. 
 
 === KeyboardButton / MouseButton / JoystickButton === 
 
@@ -70,4 +69,28 @@ KeyboardSimpleButton akey = new KeyboardSimpleButton(sf::Keyboard::A, SimpleButt
 MouseSimpleButton mleft = new MouseSimpleButton(sf::Mouse::Left, SimpleButton::RELEASED);
 // Button 1 of the joystick number 0, when Pressed
 JoystickSimpleButton one0 = new JoystickSimpleButton(1, 0);
+```
+
+== Changing controls ==
+
+The **Controller** can be highly customizable : it holds a set of InputMap, 
+that you can change at any time. You may want to change, for instance, to 
+modify some inputs while keeping others, or simply in case you have several 
+players and you want to modify inputs for player 2 without changing player 1's. 
+**InputMap** is a map that associates Command to Input. 
+```
+// create an InputMap for player 1
+InputMap p1 = new InputMap();
+p1.suscribe(left_arrow, moveLeft(player1) );
+p1.suscribe(right_arrow, moveRight(player1) );
+// create another InputMap for player2
+InputMap p2 = new InputMap();
+p2.suscribe(wkey, moveLeft(player2) );
+p2.suscribe(dkey, moveRight(player2) );
+// adding the InputMaps to the controller
+Controller ctrl;
+ctrl.addInputMap(p1, 0);
+ctrl.addInputMap(p2, 1);
+// changing map fro player 2
+ctrl.changeMap(1, otherp2);
 ```

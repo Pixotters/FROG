@@ -9,8 +9,8 @@ it, let's introduce the ``Collisionable`` and ``ActionManager`` class.
 ``Collisionable`` interface defines four methods to implement: ``int 
 getXMin()``, ``int getYMin()``, ``int getXMax()`` and ``int getYMax()``. 
 These function are needed to create and keep updated the object's bounding 
-box. What does it means: you need to implements these methods in all your 
-objects you want in your ``LSAP``. When called these functions need to 
+box. What does it mean: you need to implement these methods in all your 
+objects you want in your ``LSAP``. When called, these functions need to 
 return the minimum/maximum bound on x/y axis at the time they are called.
 
 == The ``ActionManager`` interface ==
@@ -18,6 +18,7 @@ return the minimum/maximum bound on x/y axis at the time they are called.
 ``ActionManager`` defines two methods: 
 - ``void onCollision(Collisionable * o1, Collisionable * o2)``
 - ``void onSeparation(Collisionable * o1, Collisionable * o2)``
+
 These functions are going to be called by ``LSAP``. ``onCollision`` is 
 used when a new collision is detected, whereas ``onSeparation`` is called 
 when two objects which collided do not collide anymore.
@@ -32,10 +33,10 @@ Your objects implement ``Collisionable`` and you implemented an
 
 Now you can create your ``LSAP`` using the ``LSAP (ActionManager *)`` 
 constructor. The next step would be to add every objects you want to 
-manager in your manager using ``addObject(Collisionable *)``.
+manage in your manager using ``addObject(Collisionable *)``.
 
 Any time your object moves, you may/should want to keep your manager 
-updated using ``addObject(Collisionable *)``. It will update bounds in 
+updated using ``updateObject(Collisionable *)``. It will update bounds in 
 manager and detect collisions or separations.
 
 Finally, remove objects from the manager using 
