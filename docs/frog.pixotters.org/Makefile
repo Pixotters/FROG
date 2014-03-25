@@ -29,6 +29,9 @@ api:
 	make -C .. doc
 	cp -R ../api/html api
 
+upload: .upload-script all
+	lftp -f $<
+
 clean:
 	find . -name "*~" -delete
 	find . -name "*.tmp" -delete
