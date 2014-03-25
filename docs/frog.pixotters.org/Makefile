@@ -1,5 +1,5 @@
 HOWTOSRCDIR=../howto
-SRC=index howto/index howto/lsap
+SRC=index howto/index howto/lsap howto/controller
 TMP=$(SRC:=.tmp)
 HTML=$(SRC:=.html)
 
@@ -21,6 +21,7 @@ tmp: $(TMP)
 index.tmp: index.pa
 howto/index.tmp: index_howto.pa
 howto/lsap.tmp: $(HOWTOSRCDIR)/howto_lsap.pa
+howto/controller.tmp: $(HOWTOSRCDIR)/Control/howto_control.pa
 
 mkdir:
 	mkdir -p howto
