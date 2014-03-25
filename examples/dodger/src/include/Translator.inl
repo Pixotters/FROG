@@ -1,3 +1,4 @@
+
 template <typename IN, typename OUT>
 Translator<IN, OUT>::Translator() 
 {

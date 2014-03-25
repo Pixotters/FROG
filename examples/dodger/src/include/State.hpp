@@ -9,28 +9,33 @@
 
 #include <SFML/Graphics.hpp>
 
-class State : virtual public sf::Drawable{
 
-  //// attributes ////
-protected : 
-  Renderer * m_renderer;
+namespace frog{
 
-  //// operations ////
-public :
-  State();
-  virtual ~State();
+  class State : virtual public sf::Drawable{
 
-  /*
-    computes the state's logic. 
-   */
-  virtual void update() = 0;
+    //// attributes ////
+  protected : 
+    Renderer * m_renderer;
 
-  /*
-    render the state
-   */
-  virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+    //// operations ////
+  public :
+    State();
+    virtual ~State();
 
-  void handleCommands(std::list<Command *>); 
-};
+    /*
+      computes the state's logic. 
+    */
+    virtual void update() = 0;
+
+    /*
+      render the state
+    */
+    virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+
+    void handleCommands(std::list<Command *>); 
+  };
+
+}
 
 #endif

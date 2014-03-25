@@ -4,64 +4,68 @@
 
 #include <iostream>
 
-StateManager::StateManager()
-{
-}
 
-StateManager::~StateManager()
-{ 
-}
+namespace frog{
 
-void StateManager::push(State * s)
-{
-  m_stateStack.push(s);
-}
+  StateManager::StateManager()
+  {
+  }
 
-State * StateManager::pop()
-{
-  if( m_stateStack.empty() )
-    {
-      std::cerr << "Cannot pop a state : StateManager is empty" << std::endl;
-      return nullptr; // TODO : throw exception ??
-    }
-  State * s = m_stateStack.top();
-  m_stateStack.pop();
-  return s;
-}
+  StateManager::~StateManager()
+  { 
+  }
 
-bool StateManager::isEmpty()
-{
-  return m_stateStack.empty();
-}
+  void StateManager::push(State * s)
+  {
+    m_stateStack.push(s);
+  }
 
-State * StateManager::change(State * s )
-{
-  State * old = pop();
-  push(s);
-  return old;
-}
+  State * StateManager::pop()
+  {
+    if( m_stateStack.empty() )
+      {
+        std::cerr << "Cannot pop a state : StateManager is empty" << std::endl;
+        return nullptr; // TODO : throw exception ??
+      }
+    State * s = m_stateStack.top();
+    m_stateStack.pop();
+    return s;
+  }
 
-void StateManager::clear()
-{
-  while( !m_stateStack.empty() )
-    {
-      pop();
-    }
-}
+  bool StateManager::isEmpty()
+  {
+    return m_stateStack.empty();
+  }
 
-void StateManager::update()
-{
-  if( not m_stateStack.empty() )
-    {
-      m_stateStack.top()->update();
-    }
-}
+  State * StateManager::change(State * s )
+  {
+    State * old = pop();
+    push(s);
+    return old;
+  }
 
-void StateManager::render(sf::RenderTarget& rt)
-{
-  if( not m_stateStack.empty() )
-    {
-      m_stateStack.top()->draw(rt, sf::RenderStates::Default);
-    }
-}
+  void StateManager::clear()
+  {
+    while( !m_stateStack.empty() )
+      {
+        pop();
+      }
+  }
 
+  void StateManager::update()
+  {
+    if( not m_stateStack.empty() )
+      {
+        m_stateStack.top()->update();
+      }
+  }
+
+  void StateManager::render(sf::RenderTarget& rt)
+  {
+    if( not m_stateStack.empty() )
+      {
+        m_stateStack.top()->draw(rt, sf::RenderStates::Default);
+      }
+  }
+
+}

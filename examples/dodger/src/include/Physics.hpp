@@ -4,6 +4,9 @@
 #include "Component.hpp"
 #include <SFML/System/Vector2.hpp>
 
+
+namespace frog{
+
 class Physics : virtual public Component
 {
   //// attributes ////
@@ -73,5 +76,8 @@ public:
 
   
 };
+
+
+}
 
 #endif

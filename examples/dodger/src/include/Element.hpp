@@ -9,6 +9,8 @@
 
 #include "SAPList.hpp"
 
+using namespace frog;
+
 class Element : virtual public GameObject,
                 virtual public Collisionable
 {

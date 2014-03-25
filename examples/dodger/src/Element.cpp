@@ -2,6 +2,9 @@
 
 #include "PhysicEngine.hpp"
 
+
+using namespace frog;
+
 Element::Element()
   : GameObject() 
 {

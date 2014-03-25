@@ -5,6 +5,9 @@
 #include "GameObject.hpp"
 #include "Control/ControlHandler.hpp"
 
+
+using namespace frog;
+
 class JoystickMove : virtual public Command{
 
   //// attributes ////

@@ -1,34 +1,39 @@
 #include "GameObject.hpp"
 
-GameObject::GameObject()
-  : sf::Drawable() 
-{
 
-}
+namespace frog{
 
-GameObject::~GameObject()
-{
+  GameObject::GameObject()
+    : sf::Drawable() 
+  {
 
-}
+  }
 
+  GameObject::~GameObject()
+  {
 
-void GameObject::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
-{
-  rs.transform *= m_transform.getTransform();
-}
+  }
 
 
-void GameObject::update()
-{ 
+  void GameObject::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
+  {
+    rs.transform *= m_transform.getTransform();
+  }
 
-}
 
-Transform GameObject::getTransform() const
-{
-  return m_transform;
-}
+  void GameObject::update()
+  { 
 
-Transform& GameObject::getTransform()
-{
-  return m_transform;
+  }
+
+  Transform GameObject::getTransform() const
+  {
+    return m_transform;
+  }
+
+  Transform& GameObject::getTransform()
+  {
+    return m_transform;
+  }
+
 }

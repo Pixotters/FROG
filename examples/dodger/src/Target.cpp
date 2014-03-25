@@ -4,6 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
+using namespace frog;
 
 Target::Target()
   : Element()

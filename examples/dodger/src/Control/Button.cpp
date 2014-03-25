@@ -1,16 +1,21 @@
 #include "Control/Button.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  Button::Button()
-    : Input()
-  {
+  namespace ctrl{
+
+    Button::Button()
+      : Input()
+    {
+
+    }
+
+    Button::~Button()
+    {
+
+    }
 
   }
 
-  Button::~Button()
-  {
-
-  }
 
 }

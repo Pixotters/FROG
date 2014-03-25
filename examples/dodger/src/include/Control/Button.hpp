@@ -3,17 +3,20 @@
 
 #include "Control/Input.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  class Button : virtual public Input
-  {
-    //// operations ////
-  public:
-    Button();
-    virtual ~Button();
-  };
+  namespace ctrl{
+
+    class Button : virtual public Input
+    {
+      //// operations ////
+    public:
+      Button();
+      virtual ~Button();
+    };
+
+  }
 
 }
-
 
 #endif

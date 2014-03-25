@@ -13,6 +13,8 @@
 
 #include "SAPList.hpp"
 
+using namespace frog;
+
 class Level : virtual public Scene
 {
   //// attributes ////

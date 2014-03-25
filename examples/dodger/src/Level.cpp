@@ -17,6 +17,8 @@
 
 #include <iostream> // TODO remove
 
+using namespace frog;
+
 class Collider : virtual public ActionManager{
 
 private:

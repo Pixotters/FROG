@@ -6,7 +6,8 @@
 
 #include <list>
 
-class Bomb : virtual public Command
+
+class Bomb : virtual public frog::Command
 {
   //// operations ////
 protected:

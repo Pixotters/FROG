@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+using namespace frog;
+
 StartState::StartState()
   : State()
 {

@@ -7,6 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 
+using namespace frog;
+
 class StartState : virtual public State
 {
 

@@ -4,6 +4,9 @@
 
 #include <SFML/Graphics.hpp>
 
+
+using namespace frog;
+
 Enemy::Enemy()
   : Element()
 {

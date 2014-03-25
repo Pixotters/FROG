@@ -2,6 +2,7 @@
 
 #include "App.hpp"
 
+using namespace frog;
 
 Player::Player(const unsigned short& l)
   : GameObject()

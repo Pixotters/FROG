@@ -7,6 +7,9 @@
 
 #include "SAPList.hpp"
 
+
+using namespace frog;
+
 class Player : virtual public GameObject,
                virtual public Collisionable
 {

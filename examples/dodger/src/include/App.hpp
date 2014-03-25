@@ -8,6 +8,9 @@
 
 #include <SFML/Window.hpp>
 
+
+namespace frog{
+
 class App : virtual public Singleton<App>{
 
   friend class Singleton<App>;
@@ -104,5 +107,7 @@ public:
   StateManager& getStateManager(){ return m_stateManager; };
 
 };
+
+}
 
 #endif

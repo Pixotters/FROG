@@ -1,5 +1,8 @@
 #include "Bomb.hpp"
 
+
+using namespace frog;
+
 Bomb::Bomb(std::list<Enemy *>& l)
   : Command(), m_list(l)
 {

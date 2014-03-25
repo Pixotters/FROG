@@ -3,16 +3,20 @@
 
 #include <string>
 
-class Command
-{
-  //// attributes ////
-protected:
+namespace frog{
 
-  //// operations ////
-public:
-  Command();
-  virtual ~Command();
-  virtual bool execute() = 0;
-};
+  class Command
+  {
+    //// attributes ////
+  protected:
+
+    //// operations ////
+  public:
+    Command();
+    virtual ~Command();
+    virtual bool execute() = 0;
+  };
+
+}
 
 #endif

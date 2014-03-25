@@ -1,12 +1,15 @@
 #include "Command.hpp"
 
-Command::Command()
-{
+namespace frog{
+
+  Command::Command()
+  {
+
+  }
+
+  Command::~Command()
+  {
+
+  }
 
 }
-
-Command::~Command()
-{
-
-}
-

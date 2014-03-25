@@ -4,6 +4,8 @@
 #include "Command.hpp"
 #include "Player.hpp"
 
+using namespace frog;
+
 class MovePlayer : virtual public Command
 {
   //// attributes ////

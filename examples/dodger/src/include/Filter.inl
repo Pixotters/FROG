@@ -77,7 +77,7 @@ std::list<T> Filter<T>::process(std::list<T > in){
           filtered.push_back(*it );
         }
     }
-    return filtered;
+  return filtered;
 }
 
 
@@ -150,7 +150,7 @@ std::list<T *> PFilter<T>::operator()(std::list<T *> in){
 
 template <typename T>
 void PFilter<T>::suscribe(T * i){
-   auto it = m_check.begin();
+  auto it = m_check.begin();
   auto end = m_check.end();
   while( it != end )
     {
@@ -201,7 +201,7 @@ std::list<T *> PFilter<T>::process(std::list<T * > in){
           filtered.push_back(*it );
         }
     }
-    return filtered;
+  return filtered;
 }
 
 
@@ -223,3 +223,4 @@ bool PFilter<T>::check(T * t){
     }
   return false;
 }
+

@@ -1,14 +1,17 @@
 #include "Rendering/Renderer.hpp"
 
+namespace frog{
 
-Renderer::Renderer(const unsigned int& w,
-                   const unsigned int& h)
-{
-  create(w, h);
-  initialize();
-}
+  Renderer::Renderer(const unsigned int& w,
+                     const unsigned int& h)
+  {
+    create(w, h);
+    initialize();
+  }
 
-void Renderer::draw(sf::RenderTarget& rt, sf::RenderStates rs)
-{
-  rt.draw( sf::Sprite(getTexture() ), rs);
+  void Renderer::draw(sf::RenderTarget& rt, sf::RenderStates rs)
+  {
+    rt.draw( sf::Sprite(getTexture() ), rs);
+  }
+
 }

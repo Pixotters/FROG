@@ -3,6 +3,8 @@
 
 #include "Element.hpp"
 
+using namespace frog;
+
 class Target : virtual public Element
 {
 

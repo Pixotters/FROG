@@ -1,24 +1,29 @@
 #include "Transform.hpp"
 
-Transform::Transform() 
-  : Component(), sf::Transformable() 
-{
-}
 
-Transform::~Transform()
-{ 
-}
+namespace frog{
 
-void Transform::update()
-{ 
-}
+  Transform::Transform() 
+    : Component(), sf::Transformable() 
+  {
+  }
 
-int Transform::getZIndex() const
-{ 
-  return m_zindex; 
-}
+  Transform::~Transform()
+  { 
+  }
+
+  void Transform::update()
+  { 
+  }
+
+  int Transform::getZIndex() const
+  { 
+    return m_zindex; 
+  }
   
-void Transform::setZIndex(const int& z)
-{ 
-  m_zindex = z; 
+  void Transform::setZIndex(const int& z)
+  { 
+    m_zindex = z; 
+  }
+
 }

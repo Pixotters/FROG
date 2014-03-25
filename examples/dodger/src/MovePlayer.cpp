@@ -1,5 +1,7 @@
 #include "MovePlayer.hpp"
 
+using namespace frog;
+
 MovePlayer::MovePlayer(Player * p, 
                        const short& x,
                        const short& y)

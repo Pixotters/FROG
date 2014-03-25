@@ -4,6 +4,9 @@
 
 #define DEADZONE 25
 
+
+using namespace frog;
+
 JoystickMove::JoystickMove(GameObject * const go,
                            ctrl::ControlHandler * const c,
                            const unsigned int& id)

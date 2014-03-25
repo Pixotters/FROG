@@ -16,45 +16,50 @@
 
 #include <list>
 
-namespace ctrl{
+namespace frog{
+
+  namespace ctrl{
 
 
-  class ControlHandler: virtual public Filter<Input *>
-  {
-    //// attributes ////
-  protected:
-    std::list< sf::Event > m_events;
-    int m_mouseX;
-    int m_mouseY;
-    int m_mouseDeltaX;
-    int m_mouseDeltaY;
-    sf::Window * const m_window;
+    class ControlHandler: virtual public Filter<Input *>
+    {
+      //// attributes ////
+    protected:
+      std::list< sf::Event > m_events;
+      int m_mouseX;
+      int m_mouseY;
+      int m_mouseDeltaX;
+      int m_mouseDeltaY;
+      sf::Window * const m_window;
 
-    //// operations ////
-  public:
-    ControlHandler(sf::Window * const = nullptr);
-    virtual ~ControlHandler();
-    std::list<Input *> update();
-    bool check(Input *);
-    bool check(KeyboardButton *);
-    bool check(MouseButton *);
-    bool check(JoystickButton *);
-    bool check(KeyboardSimpleButton *);
-    bool check(MouseSimpleButton *);
-    bool check(JoystickSimpleButton *);
-    int getMouseX() const;
-    int getMouseY() const;
-    sf::Vector2i getMousePosition() const;
-    int getMouseDeltaX() const;
-    int getMouseDeltaY() const;
-    sf::Vector2i getMouseDelta() const;
-    float getJoystickAxis(const unsigned int& id,
-                          const sf::Joystick::Axis& ax) const;
+      //// operations ////
+    public:
+      ControlHandler(sf::Window * const = nullptr);
+      virtual ~ControlHandler();
+      std::list<Input *> update();
+      bool check(Input *);
+      bool check(KeyboardButton *);
+      bool check(MouseButton *);
+      bool check(JoystickButton *);
+      bool check(KeyboardSimpleButton *);
+      bool check(MouseSimpleButton *);
+      bool check(JoystickSimpleButton *);
+      int getMouseX() const;
+      int getMouseY() const;
+      sf::Vector2i getMousePosition() const;
+      int getMouseDeltaX() const;
+      int getMouseDeltaY() const;
+      sf::Vector2i getMouseDelta() const;
+      float getJoystickAxis(const unsigned int& id,
+                            const sf::Joystick::Axis& ax) const;
 
-  protected:
-    virtual std::list<Input *> preprocess(std::list<Input *>);
+    protected:
+      virtual std::list<Input *> preprocess(std::list<Input *>);
 
-  };
+    };
+
+  }
 
 }
+
 #endif

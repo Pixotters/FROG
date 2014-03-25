@@ -1,22 +1,26 @@
 #include "Control/SimpleButton.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  SimpleButton::SimpleButton(const SimpleButton::Trigger& t)
-    : Button(), m_trigger(t)
-  {
+  namespace ctrl{
+
+    SimpleButton::SimpleButton(const SimpleButton::Trigger& t)
+      : Button(), m_trigger(t)
+    {
+
+    }
+
+    SimpleButton::~SimpleButton()
+    {
+
+    }
+
+    SimpleButton::Trigger SimpleButton::getTrigger() const
+    {
+      return m_trigger;
+    }
+
 
   }
-
-  SimpleButton::~SimpleButton()
-  {
-
-  }
-
-  SimpleButton::Trigger SimpleButton::getTrigger() const
-  {
-    return m_trigger;
-  }
-
 
 }

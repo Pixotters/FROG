@@ -2,15 +2,19 @@
 #define RANDOM_HPP
 
 
-class Random{
+namespace frog{
 
-private:
-static unsigned int sNumbers[100];
+  class Random{
 
-public:
-static void init();
-static int get(const int& min, const int& max);
+  private:
+    static unsigned int sNumbers[100];
 
-};
+  public:
+    static void init();
+    static int get(const int& min, const int& max);
+
+  };
+
+}
 
 #endif

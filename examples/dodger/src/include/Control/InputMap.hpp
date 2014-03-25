@@ -3,9 +3,13 @@
 
 #include "Translator.hpp"
 
-namespace ctrl {
+namespace frog{
+
+  namespace ctrl {
  
- typedef Translator<Input *, Command *> InputMap;
+    typedef Translator<Input *, Command *> InputMap;
+
+  }
 
 }
 
