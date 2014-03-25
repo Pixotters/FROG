@@ -5,18 +5,17 @@
 
 #include "Command.hpp"
 
-#include <list>
-
 #include <SFML/Graphics.hpp>
+#include <list>
 
 
 namespace frog{
 
-  class State : virtual public sf::Drawable{
+  class State{
 
     //// attributes ////
   protected : 
-    Renderer * m_renderer;
+    render::Renderer * m_renderer;
 
     //// operations ////
   public :
@@ -28,10 +27,7 @@ namespace frog{
     */
     virtual void update() = 0;
 
-    /*
-      render the state
-    */
-    virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
+    void render(sf::RenderTarget& rt) const;
 
     void handleCommands(std::list<Command *>); 
   };

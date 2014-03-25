@@ -64,7 +64,7 @@ namespace frog{
   {
     if( not m_stateStack.empty() )
       {
-        m_stateStack.top()->draw(rt, sf::RenderStates::Default);
+        m_stateStack.top()->render(rt);
       }
   }
 

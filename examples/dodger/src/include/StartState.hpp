@@ -23,8 +23,6 @@ public:
 
   virtual void update();
 
-  virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
-
 };
 
 

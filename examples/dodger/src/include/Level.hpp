@@ -32,7 +32,7 @@ protected:
 public:
   Level();
   virtual ~Level();
-  virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
+  //  virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
   void removeTarget(Target *);
 

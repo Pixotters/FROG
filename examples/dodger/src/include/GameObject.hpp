@@ -36,6 +36,7 @@ namespace frog{
   
     Transform getTransform() const;
     Transform& getTransform();
+    //    virtual Transform * getComponent<Transform>();
   };
 
 }

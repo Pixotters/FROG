@@ -36,4 +36,9 @@ namespace frog{
     return m_transform;
   }
 
+  /*  Transform * GameObject::getComponent<Transform>()
+  {
+    return m_transform;
+  }
+  */
 }

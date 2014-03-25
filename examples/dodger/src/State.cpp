@@ -1,12 +1,12 @@
 #include "State.hpp"
 
+#include <iostream> // TODO remove
 
 namespace frog{
 
   State::State()
-    : sf::Drawable()
   {
-    m_renderer = new Renderer(800, 600);
+    m_renderer = new render::Renderer(800, 600);
   }
 
   State::~State()
@@ -14,11 +14,12 @@ namespace frog{
     delete m_renderer;
   }
 
-  void State::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
+  void State::render(sf::RenderTarget& rt) const
   {
-    m_renderer->display();
-    m_renderer->draw(rt, rs);
-    m_renderer->clear(sf::Color::Black);
+    // TODO : do this properly
+    std::cout << "(state) drawing renderer "<<m_renderer<<" in "<< &rt <<std::endl;
+    m_renderer->setTarget(&rt);
+    m_renderer->update();
   }
 
 

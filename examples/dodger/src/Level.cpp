@@ -15,6 +15,8 @@
 #include "JoystickMove.hpp"
 #include "Bomb.hpp"
 
+#include "Rendering/RenderingComponent.hpp"
+
 #include <iostream> // TODO remove
 
 using namespace frog;
@@ -68,6 +70,12 @@ Level::Level()
 { 
   m_player = new Player;
   m_gameObjects.push_back(m_player);
+  sf::Texture * t = new sf::Texture;
+  t->loadFromFile("assets/troll.png");
+  sf::Sprite * s = new sf::Sprite;
+  s->setTexture(*t);
+  m_player->addComponent(new render::RenderingComponent(s));
+  m_renderer->addObject(m_player );
   auto moveleft = new MovePlayer(m_player, -4, 0);
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
@@ -107,6 +115,7 @@ Level::~Level()
   delete m_player;
 }
 
+/*
 void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 {
   Scene::draw(rt, rs);
@@ -120,6 +129,7 @@ void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
       (*it)->draw(rt, rs);
     }   
 }
+*/
 
 void Level::update()
 {  

@@ -1,17 +1,102 @@
 #include "Rendering/Renderer.hpp"
 
+#include "Transform.hpp"
+
+#include <iostream> // TODO remove
+
 namespace frog{
 
-  Renderer::Renderer(const unsigned int& w,
-                     const unsigned int& h)
-  {
-    create(w, h);
-    initialize();
-  }
+  namespace render{
 
-  void Renderer::draw(sf::RenderTarget& rt, sf::RenderStates rs)
-  {
-    rt.draw( sf::Sprite(getTexture() ), rs);
+    Renderer::Renderer(sf::RenderTarget * rt,
+                       const unsigned int& w,
+                       const unsigned int& h)
+      
+    {
+      // TODO : get the windows size with a service locator
+      m_target = rt;
+      m_texture.create(w, h);
+      //      m_texture.initialize();
+    }
+
+    Renderer::Renderer(const unsigned int& w,
+                       const unsigned int& h)
+      
+    {
+      // TODO : get the windows size with a service locator
+      m_texture.create(w, h);
+      //      m_texture.initialize();
+    }
+
+    Renderer::~Renderer()
+    {
+
+    }
+
+    void Renderer::update()
+    {
+      std::cout << "updating renderer "<<this<<std::endl;
+      auto end = m_objects.end();
+      for(auto it = m_objects.begin(); it != end; it++)
+        {
+          std::cout << "updating object "<< it->first << std::endl;
+          updateObject( it->first );         
+          std::cout << "updated. drawing "<< it->second << std::endl; 
+          draw( it->second );
+          std::cout << "drawn "<< std::endl; 
+        }      
+      std::cout << "drawing renderer "<<this<<std::endl;
+      m_texture.display();
+      m_target->draw( sf::Sprite(m_texture.getTexture() ) );
+      m_texture.clear();
+      std::cout << "drawn renderer "<<this<<std::endl;
+    }
+
+    bool Renderer::addObject(GameObject * go)
+    {
+      return m_objects.insert(std::pair<GameObject *, RenderingComponent *>(go, nullptr) ).second;
+    }
+
+    void Renderer::removeObject(GameObject * go)
+    {
+      auto it = m_objects.find(go);
+      if (it != m_objects.end() )
+        {
+          m_objects.erase(it);
+        }
+    }
+
+    void Renderer::setTarget(sf::RenderTarget * rt)
+    {
+      m_target = rt;
+    }
+
+    void Renderer::updateObject(GameObject * go)
+    {
+      // TODO : see the best -> pointer comparison, dirty flag, observer ?
+      std::cout << "getting renderingComponent of "<<go<< std::endl; 
+      RenderingComponent * rc = go->getComponent<RenderingComponent>();
+      std::cout << "got it at "<< rc <<". current is "<<m_objects.at(go) << std::endl;       
+      if( rc != m_objects.at(go) )
+        {
+          m_objects.at(go) = rc;
+        }
+      
+      Transform tr = go->getTransform();
+      rc->setPosition( tr.getPosition() );
+      rc->setRotation( tr.getRotation() );
+      rc->setScale( tr.getScale() );
+    }
+
+    void Renderer::draw(RenderingComponent * rc)
+    {
+      if(rc != nullptr)
+        {
+          rc->draw(m_texture, rc->getTransform() );
+        }
+    }
+
+
   }
 
 }
