@@ -1,0 +1,40 @@
+@startuml
+
+class GameObject{
+    getComponent<T>()
+}
+
+class Renderer{
+    list< map<GameObject, RenderingComponent> > monitoring
+    update()
+    drawObject(GameObject *)
+    addObject(GameObject *)
+    removeObject(GameObject *)
+    updateObject(GameObject *)
+}
+
+class Scene{
+    addObject(GameObject)
+}
+
+class Component
+
+class RenderingComponent
+
+RenderingComponent -left-|> Component
+
+GameObject o-right- Component
+
+note "Renderer gets objects and rendering \ncomponent when Scene calls <i>addObject</i>" as link
+
+Renderer .. link
+
+link .. GameObject
+
+RenderingComponent -up-|> sf.Drawable
+
+Scene o-- GameObject
+
+Scene *-- Renderer 
+
+@enduml
