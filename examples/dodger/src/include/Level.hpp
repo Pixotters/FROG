@@ -11,6 +11,8 @@
 
 #include <SFML/System/Clock.hpp>
 
+#include <SFML/Graphics.hpp>
+
 #include "SAPList.hpp"
 
 using namespace frog;
@@ -27,6 +29,9 @@ protected:
   SAPList * m_collider;
   //  Translator<ctrl::Input *, Command *> m_actionManager;
   ctrl::Controller m_controller;
+  sf::Texture m_targetTexture;
+  sf::Texture m_playerTexture;
+  sf::Texture m_enemyTexture;
 
   //// operations ////
 public:
