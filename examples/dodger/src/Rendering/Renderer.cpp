@@ -81,7 +81,8 @@ namespace frog{
         {
           m_objects.at(go) = rc;
         }
-      
+      // TODO : check if this could be in "update" of RenderingComponent
+      // or maybe we should do this in "draw"
       Transform tr = go->getTransform();
       rc->setPosition( tr.getPosition() );
       rc->setRotation( tr.getRotation() );

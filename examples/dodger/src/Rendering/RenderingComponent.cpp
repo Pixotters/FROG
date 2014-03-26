@@ -25,7 +25,9 @@ namespace frog{
       rt.draw(*m_drawable, rs);
     }
 
-    void RenderingComponent::update(){}
+    void RenderingComponent::update(){
+      // TODO : check if transforms can be set here (see Renderer : 84)
+    }
 
   }
 
