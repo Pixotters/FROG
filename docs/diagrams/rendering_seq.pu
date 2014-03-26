@@ -17,11 +17,13 @@ deactivate Scene
 Scene --> Renderer : update()
 activate Scene
 activate Renderer
-Renderer <- Renderer : drawObject(obj)
+Renderer <- Renderer : draw(obj)
 activate Renderer
 Renderer -> GameObject : obj.getComponent<RenderingComponent>()
 activate GameObject
 Renderer <- GameObject : r = RenderingComponent
+Renderer -> GameObject : t = obj.getComponent<Transform>()
+Renderer <- GameObject : r.changeTransform(t)
 Renderer -> Renderer : draw(r)
 deactivate Renderer
 deactivate GameObject
