@@ -5,12 +5,14 @@ class GameObject{
 }
 
 class Renderer{
-    list< map<GameObject, RenderingComponent> > monitoring
+    sf.RenderTarget target
+    list< map<GameObject *, RenderingComponent *> > objects
     update()
-    drawObject(GameObject *)
+    draw(RenderingComponent *)
     addObject(GameObject *)
     removeObject(GameObject *)
     updateObject(GameObject *)
+    setTarget(sf.RenderTarget)
 }
 
 class Scene{
@@ -21,6 +23,19 @@ class Component
 
 class RenderingComponent
 
+class sf.Drawable{
+    draw(sf.RenderTarget, sf.RenderStates)
+}
+
+class sf.Transformable{
+setPosition(sf.Vector2f)
+setScale(sf.Vector2f)
+setRotation(float)
+sf.Vector2f getPosition()
+sf.Vector2f getScale()
+float getRotation()
+}
+
 RenderingComponent -left-|> Component
 
 GameObject o-right- Component
@@ -28,9 +43,10 @@ GameObject o-right- Component
 note "Renderer gets objects and rendering \ncomponent when Scene calls <i>addObject</i>" as link
 
 Renderer .. link
-
 link .. GameObject
+link .. RenderingComponent
 
+RenderingComponent -up-|> sf.Transformable
 RenderingComponent -up-|> sf.Drawable
 
 Scene o-- GameObject
