@@ -11,7 +11,7 @@ Target::Target()
 {
   m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Green);
-  Physics * phi = getComponent<Physics>();
+  phi::Physics * phi = getComponent<phi::Physics>();
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
                                 Random::get(-10, 10) / 10.f ) ); 
   phi->addAcceleration(  phi->getVelocity() / -100.0f );
