@@ -1,7 +1,7 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include "Scene.hpp"
+#include "Main/Scene.hpp"
 
 #include "Player.hpp"
 #include "Enemy.hpp"

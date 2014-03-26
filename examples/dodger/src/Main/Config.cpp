@@ -1,4 +1,4 @@
-#include "Config.hpp"
+#include "Main/Config.hpp"
 
 #include <map>
 

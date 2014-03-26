@@ -1,4 +1,4 @@
-#include "GameObject.hpp"
+#include "Main/GameObject.hpp"
 
 
 namespace frog{

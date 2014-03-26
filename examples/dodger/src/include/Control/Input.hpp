@@ -1,7 +1,7 @@
 #ifndef CTRL_INPUT_HPP
 #define CTRL_INPUT_HPP
 
-#include "Filter.hpp"
+#include "Main/Filter.hpp"
 
 namespace frog{
 

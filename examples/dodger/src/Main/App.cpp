@@ -1,5 +1,5 @@
-#include "App.hpp"
-#include "Random.hpp"
+#include "Main/App.hpp"
+#include "Main/Random.hpp"
 
 #include <iostream> // TODO remove
 

@@ -1,8 +1,8 @@
 #ifndef JOYSTICKMOVE_HPP
 #define JOYSTICKMOVE_HPP
 
-#include "Command.hpp"
-#include "GameObject.hpp"
+#include "Main/Command.hpp"
+#include "Main/GameObject.hpp"
 #include "Control/ControlHandler.hpp"
 
 

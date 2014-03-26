@@ -1,7 +1,7 @@
 #ifndef CTRL_INPUTMAP_HPP
 #define CTRL_INPUTMAP_HPP
 
-#include "Translator.hpp"
+#include "Main/Translator.hpp"
 
 namespace frog{
 

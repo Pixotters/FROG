@@ -1,6 +1,6 @@
 #include "Enemy.hpp"
 
-#include "Random.hpp"
+#include "Main/Random.hpp"
 
 #include <SFML/Graphics.hpp>
 

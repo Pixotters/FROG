@@ -1,7 +1,7 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
-#include "GameObject.hpp"
+#include "Main/GameObject.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 

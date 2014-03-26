@@ -12,17 +12,20 @@ CXXFLAGS+= -I$(INC)
 
 # Put here if there are some sub-directories to manage
 
+MAINDIR=Main
 CTRLDIR=Control
 RENDERDIR=Rendering
 PHIDIR=Physics
+MAINSOURCES=$(wildcard $(MAINDIR)/*.cpp)
 CTRLSOURCES=$(wildcard $(CTRLDIR)/*.cpp)
 RENDERSOURCES=$(wildcard $(RENDERDIR)/*.cpp)
 PHISOURCES=$(wildcard $(PHIDIR)/*.cpp)
+MAINOBJECTS=$(patsubst %.cpp,%.o,$(MAINSOURCES))
 CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
 RENDEROBJECTS=$(patsubst %.cpp,%.o,$(RENDERSOURCES))
 PHIOBJECTS=$(patsubst %.cpp,%.o,$(PHISOURCES))
 
-SUBOBJECTS=$(CTRLOBJECTS) $(RENDEROBJECTS) $(PHIOBJECTS)
+SUBOBJECTS=$(CTRLOBJECTS) $(RENDEROBJECTS) $(PHIOBJECTS) $(MAINOBJECTS)
 
 # === 
 

@@ -4,12 +4,12 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Control.hpp"
-#include "Translator.hpp"
+#include "Main/Control.hpp"
+#include "Main/Translator.hpp"
 
-#include "App.hpp"
+#include "Main/App.hpp"
 
-#include "Random.hpp"
+#include "Main/Random.hpp"
 
 #include "MovePlayer.hpp"
 #include "JoystickMove.hpp"

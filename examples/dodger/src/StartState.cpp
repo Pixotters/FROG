@@ -1,6 +1,6 @@
 #include "StartState.hpp"
 
-#include "App.hpp"
+#include "Main/App.hpp"
 
 #include "Level.hpp"
 

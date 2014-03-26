@@ -1,7 +1,7 @@
 #ifndef BOMB_HPP
 #define BOMB_HPP
 
-#include "Command.hpp"
+#include "Main/Command.hpp"
 #include "Enemy.hpp"
 
 #include <list>

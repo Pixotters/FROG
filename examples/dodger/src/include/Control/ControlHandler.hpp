@@ -1,9 +1,9 @@
 #ifndef CTRL_CONTROLHANDLER_HPP
 #define CTRL_CONTROLHANDLER_HPP
 
-#include "Filter.hpp"
+#include "Main/Filter.hpp"
 
-#include "Command.hpp"
+#include "Main/Command.hpp"
 #include "Control/KeyboardButton.hpp"
 #include "Control/MouseButton.hpp"
 #include "Control/KeyboardSimpleButton.hpp"

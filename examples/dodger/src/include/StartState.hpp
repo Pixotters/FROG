@@ -1,7 +1,7 @@
 #ifndef STARTSTATE_HPP
 #define STARTSTATE_HPP
 
-#include "State.hpp"
+#include "Main/State.hpp"
 
 #include "Control/ControlHandler.hpp"
 
