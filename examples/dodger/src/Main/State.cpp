@@ -1,6 +1,5 @@
 #include "Main/State.hpp"
 
-#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -16,8 +15,7 @@ namespace frog{
 
   void State::render(sf::RenderTarget& rt) const
   {
-    // TODO : do this properly
-    std::cout << "(state) drawing renderer "<<m_renderer<<" in "<< &rt <<std::endl;
+    // TODO : do this properly, no need to set target each frame
     m_renderer->setTarget(&rt);
     m_renderer->update();
   }

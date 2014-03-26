@@ -1,8 +1,6 @@
 #include "Rendering/Renderer.hpp"
 
-#include "Transform.hpp"
-
-#include <iostream> // TODO remove
+#include "Main/Transform.hpp"
 
 namespace frog{
 
@@ -35,21 +33,15 @@ namespace frog{
 
     void Renderer::update()
     {
-      std::cout << "updating renderer "<<this<<std::endl;
       auto end = m_objects.end();
       for(auto it = m_objects.begin(); it != end; it++)
         {
-          std::cout << "updating object "<< it->first << std::endl;
           updateObject( it->first );         
-          std::cout << "updated. drawing "<< it->second << std::endl; 
           draw( it->second );
-          std::cout << "drawn "<< std::endl; 
         }      
-      std::cout << "drawing renderer "<<this<<std::endl;
       m_texture.display();
       m_target->draw( sf::Sprite(m_texture.getTexture() ) );
       m_texture.clear();
-      std::cout << "drawn renderer "<<this<<std::endl;
     }
 
     bool Renderer::addObject(GameObject * go)
@@ -74,9 +66,7 @@ namespace frog{
     void Renderer::updateObject(GameObject * go)
     {
       // TODO : see the best -> pointer comparison, dirty flag, observer ?
-      std::cout << "getting renderingComponent of "<<go<< std::endl; 
       RenderingComponent * rc = go->getComponent<RenderingComponent>();
-      std::cout << "got it at "<< rc <<". current is "<<m_objects.at(go) << std::endl;       
       if( rc != m_objects.at(go) )
         {
           m_objects.at(go) = rc;
