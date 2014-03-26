@@ -1,8 +1,10 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "State.hpp"
-#include "GameObject.hpp"
+#include "Main/State.hpp"
+#include "Main/GameObject.hpp"
+#include "SAPList.hpp"
+#include "Control/Controller.hpp"
 
 #include <list>
 
@@ -13,7 +15,10 @@ namespace frog{
 
     //// attributes ////
   protected:
-    std::list<GameObject * > m_gameObjects;
+    std::list<GameObject * > m_gameObjects;    
+    SAPList * m_collider;
+    ctrl::Controller m_controller;
+
 
     //// operations ////
   public:
@@ -22,19 +27,28 @@ namespace frog{
     virtual ~Scene();
 
     /*
-      updates the scene. eg updates all the scene's gameObjects + some codes we may 
-      want to add
+      updates the scene. eg updates all the scene's gameObjects + some codes we 
+      may want to add
     */
     virtual void update();
 
+    /*!
+     * \brief Adds a GameObject to the scene's systems
+     * \details A same GameObject cannot be added twice : no doubles
+     * \param go GameObject to add
+     * \return True if the object has successfully been added
+     */
+    bool addObject(GameObject * go);
+
+    /*!
+     * \brief Removes an object from the scene's systems
+     * \details If the object is not present, nothing happens
+     * \param go GameObject to remove
+     */
+    void removeObject(GameObject * go);
 
   protected:
-  
-    /*
-      draws only the gameObjects in the renderer
-    *
-    virtual void drawEntities(sf::RenderTarget& rt, sf::RenderStates rs) const;
-    */
+
 
   };
 

@@ -73,14 +73,12 @@ Level::Level()
   : Scene()
 { 
   m_player = new Player;
-  m_gameObjects.push_back(m_player);
   m_playerTexture.loadFromFile("assets/frog.png");
   m_targetTexture.loadFromFile("assets/donut.png");
   m_enemyTexture.loadFromFile("assets/troll.png");
   sf::Sprite * s = new sf::Sprite;
   s->setTexture(m_playerTexture);
   m_player->addComponent(new render::RenderingComponent(s) );
-  m_renderer->addObject(m_player );
   auto moveleft = new MovePlayer(m_player, -4, 0);
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
@@ -111,7 +109,8 @@ Level::Level()
                     new Bomb(m_ennemies) );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new SAPList(am);  
-  m_collider->addObject(m_player);
+
+  addObject(m_player);
   spawnEnemy();
 }
 
@@ -119,22 +118,6 @@ Level::~Level()
 {
   delete m_player;
 }
-
-/*
-void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
-{
-  Scene::draw(rt, rs);
-  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
-    {      
-      (*it)->draw(rt, rs);
-    }
-  Scene::drawEntities(rt, rs);
-  for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
-    {      
-      (*it)->draw(rt, rs);
-    }   
-}
-*/
 
 void Level::update()
 {  
@@ -162,19 +145,18 @@ void Level::spawnEnemy()
 {
   Enemy * e = new Enemy;
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
-  m_renderer->addObject(e );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
+  addObject(e);
 }
 
 void Level::spawnTarget()
 {
   Target * e = new Target;
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
-  m_renderer->addObject(e );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
-  m_collider->addObject(e);
+  addObject(e);
 }
 
 void Level::updateEnemies()
@@ -185,7 +167,7 @@ void Level::updateEnemies()
       (*it)->update();
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
-        m_renderer->removeObject(*it);
+        removeObject(*it);    
         delete (*it);
         *it = nullptr;
       }
@@ -203,8 +185,7 @@ void Level::updateTargets()
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
-        m_collider->removeObject(*it);
-        m_renderer->removeObject(*it);
+        removeObject(*it);
         delete (*it);
         *it = nullptr;
       }  

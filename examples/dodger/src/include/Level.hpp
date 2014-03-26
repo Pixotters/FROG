@@ -7,13 +7,9 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Control/Controller.hpp"
-
 #include <SFML/System/Clock.hpp>
 
 #include <SFML/Graphics.hpp>
-
-#include "SAPList.hpp"
 
 using namespace frog;
 
@@ -25,10 +21,6 @@ protected:
   Player * m_player;
   std::list<Enemy *> m_ennemies;
   std::list<Target *> m_targets;
-  //  ctrl::ControlHandler m_controller;
-  SAPList * m_collider;
-  //  Translator<ctrl::Input *, Command *> m_actionManager;
-  ctrl::Controller m_controller;
   sf::Texture m_targetTexture;
   sf::Texture m_playerTexture;
   sf::Texture m_enemyTexture;
@@ -37,7 +29,6 @@ protected:
 public:
   Level();
   virtual ~Level();
-  //  virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
   virtual void update();
   void removeTarget(Target *);
 
