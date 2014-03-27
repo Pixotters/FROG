@@ -11,15 +11,20 @@ Julien a ecrit un ActionManager par defaut (maintient une liste des
 objets en collision), qui n'est pas encore teste. Il a commence le travail 
 autour de la physique (plus de recherche que de code).
 
-A cote de ca, la documentation a ete amelioree, ainsi que le site web: 
-[[frog.pixotters.org]] (automatisation de la generation des pages + upload)
+A coté de ça, la documentation a été améliorée, ainsi que le site web : 
+[[frog.pixotters.org]] (automatisation de la génération des pages + upload). 
+
+Un renderer basique a aussi été fait : via un RenderingComponent implémentant 
+//sf::Drawable// de SFML, le Renderer de la scène sait comment dessiner les 
+objets enregistrés, il saura "où" via le component Transform (obligatoire 
+pour les gameobjects, de toutes façons). 
 
 = 20/03 = 
 
 Le Controller a été abstrait : il y a maintenant une classe AbstractController 
 templatée pour les types d'input et d'output. Le Controller actuel est donc 
 un AbstractController<Input, Command>. 
-//julien : //
+
 Après entretien avec Stefano il semblerait qu'il n'y ait pas plus propre que 
 le Visitor pour le multiple dispatch. Celui-ci a suggéré que nous cherchions 
 dans //Boost// un sucre pour le visitor. 
