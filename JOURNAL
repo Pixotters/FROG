@@ -25,13 +25,16 @@ Le Controller a été abstrait : il y a maintenant une classe AbstractController
 templatée pour les types d'input et d'output. Le Controller actuel est donc 
 un AbstractController<Input, Command>. 
 
+Le gestionnaire de collision est utilisable, bien qu'ameliorable (notamment 
+au niveau des gestions des actions lors de la detection d'une collision).
+
 Après entretien avec Stefano il semblerait qu'il n'y ait pas plus propre que 
 le Visitor pour le multiple dispatch. Celui-ci a suggéré que nous cherchions 
-dans //Boost// un sucre pour le visitor. 
+dans //Boost// un sucre pour le visitor.  
 Le professeur a aussi demandé à définir nos projets de test par rapport à des 
-jeux existants, pour commencer. 
+jeux existants, pour commencer.  
 Nicolas se portera sur un remake de //Wild Guns//, alors que Julien aurait 
-envie d'un remake de //Full Metal Planete//. 
+envie d'un remake de //Full Metal Planete//.
 
 == Objectifs de la semaine ==
 
