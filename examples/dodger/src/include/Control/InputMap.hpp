@@ -1,11 +1,15 @@
 #ifndef CTRL_INPUTMAP_HPP
 #define CTRL_INPUTMAP_HPP
 
-#include "Translator.hpp"
+#include "Main/Translator.hpp"
 
-namespace ctrl {
+namespace frog{
+
+  namespace ctrl {
  
- typedef Translator<Input *, Command *> InputMap;
+    typedef Translator<Input *, Command *> InputMap;
+
+  }
 
 }
 

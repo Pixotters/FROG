@@ -3,27 +3,31 @@
 
 #include "Control/Button.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  class SimpleButton : virtual public Button
-  {
-  public :
-    typedef enum{
-      PRESSED,
-      RELEASED
-    } Trigger;
+  namespace ctrl{
+
+    class SimpleButton : virtual public Button
+    {
+    public :
+      typedef enum{
+        PRESSED,
+        RELEASED
+      } Trigger;
     
 
-    //// attributes ////
-  protected:
-    Trigger m_trigger;
+      //// attributes ////
+    protected:
+      Trigger m_trigger;
     
-    //// operations ////
-  public:
-    SimpleButton(const Trigger& = SimpleButton::PRESSED);
-    virtual ~SimpleButton();
-    Trigger getTrigger() const;
-  };
+      //// operations ////
+    public:
+      SimpleButton(const Trigger& = SimpleButton::PRESSED);
+      virtual ~SimpleButton();
+      Trigger getTrigger() const;
+    };
+
+  }
 
 }
 

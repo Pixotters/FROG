@@ -5,6 +5,9 @@
 
 #include <SFML/Graphics.hpp>
 
+
+using namespace frog;
+
 class Enemy : virtual public Element
 {
 

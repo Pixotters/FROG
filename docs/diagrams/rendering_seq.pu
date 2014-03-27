@@ -1,0 +1,33 @@
+@startuml
+
+participant Scene
+participant Renderer
+participant GameObject
+
+== adding GameObjects ==
+
+Scene --> GameObject : addComponent(RenderingComponent)
+activate Scene
+
+Scene --> Renderer : addObject(GameObject)
+deactivate Scene
+
+== Rendering GameObjects ==
+
+Scene --> Renderer : update()
+activate Scene
+activate Renderer
+Renderer <- Renderer : draw(obj)
+activate Renderer
+Renderer -> GameObject : obj.getComponent<RenderingComponent>()
+activate GameObject
+Renderer <- GameObject : r = RenderingComponent
+Renderer -> GameObject : t = obj.getComponent<Transform>()
+Renderer <- GameObject : r.changeTransform(t)
+Renderer -> Renderer : draw(r)
+deactivate Renderer
+deactivate GameObject
+deactivate Renderer
+deactivate Scene
+
+@enduml

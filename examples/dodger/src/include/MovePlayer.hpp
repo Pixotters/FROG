@@ -1,8 +1,10 @@
 #ifndef MOVEPLAYER_HPP
 #define MOVEPLAYER_HPP
 
-#include "Command.hpp"
+#include "Main/Command.hpp"
 #include "Player.hpp"
+
+using namespace frog;
 
 class MovePlayer : virtual public Command
 {
