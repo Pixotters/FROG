@@ -20,8 +20,8 @@ le Visitor pour le multiple dispatch. Celui-ci a suggéré que nous cherchions
 dans //Boost// un sucre pour le visitor. 
 Le professeur a aussi demandé à définir nos projets de test par rapport à des 
 jeux existants, pour commencer. 
-Nicolas se portera sur un remake de //Wild Guns//, alors que Julien aurait envie 
-d'un remake de //Full Metal Planete//. 
+Nicolas se portera sur un remake de //Wild Guns//, alors que Julien aurait 
+envie d'un remake de //Full Metal Planete//. 
 
 == Objectifs de la semaine ==
 
