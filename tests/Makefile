@@ -1,6 +1,6 @@
 include ../Makefile.generic
 
-TEST_TARGETS=test_LSAP
+TEST_TARGETS=test_LSAP test_BasicPhysic
 TEST_SRC_DIR=../src
 TEST_OUTPUT_DIR=cov-report
 
@@ -43,3 +43,4 @@ proper: clean
 -include $(TEST_TARGETS:=.d)
 
 test_LSAP: test_LSAP.o $(TEST_SRC_DIR)/LSAP.o
+test_BasicPhysic: test_BasicPhysic.o $(TEST_SRC_DIR)/BasicPhysic.o
