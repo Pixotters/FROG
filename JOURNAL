@@ -7,7 +7,12 @@ a été renommé "ControlHandler", le "nouveau" Controller est en fait une class
 qui encapsule ce ControlHandler et la traduction des Input en Command. Cela 
 semble plus facile pour un utilisateur lambda. 
 
+Julien a ecrit un ActionManager par defaut (maintient une liste des 
+objets en collision), qui n'est pas encore teste. Il a commence le travail 
+autour de la physique (plus de recherche que de code).
 
+A cote de ca, la documentation a ete amelioree, ainsi que le site web: 
+[[frog.pixotters.org]] (automatisation de la generation des pages + upload)
 
 = 20/03 = 
 

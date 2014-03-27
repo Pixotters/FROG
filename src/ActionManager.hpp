@@ -7,6 +7,10 @@
 /**
  * The action manager is the interface of objects needed by LSAP.
  * This class handle objects collisions and separations
+ * Note: Be careful when implementing an ActionManager. If your manager
+ *       actually acts on objects as soon as a collision is detected, it may
+ *       result in unexpected behavior (if you delete the object in the
+ *       provided action for instance).
  */
 
 namespace sap {

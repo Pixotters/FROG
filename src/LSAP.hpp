@@ -10,6 +10,13 @@ namespace sap {
 
     class LSAP : virtual public CollisionManager<Collisionable> {
 
+        /**
+         * Sweep And Prune engine, implemented using doubly linked lists
+         * **Limitation:** if an object moves too fast, LSAP may miss
+         * a collision.
+         */
+
+
     private:
 
         /* BEGIN: private classes for LSAP collision manager */
