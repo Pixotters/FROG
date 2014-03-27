@@ -1,0 +1,96 @@
+= How to trigger actions =
+
+You can easily configure your key mapping. 
+Each State declares a ``Controller``. You simply register pairs of Inputs 
+and Commands, saying "when this Input occurs, I want this command to happen". 
+Let's take a look at a simple example. 
+
+
+== Example ==
+
+** Scene file **
+```
+KeyboardButton dkey = new KeyboardButton(sf::Keyboard::D);
+Move move = new Move(player, 4, 0);
+m_controller.bind(dkey, move);
+m_controller.bind( new KeyboardButton(sf::Keyboard::Q), new Move(player, 0, 4)  );
+```
+Here we have registered two events : 
+# //D key// of the keyboard, makes the player move of 4 units to the right
+# //S key// of the keyboard, makes the player move of 4 units to the down
+
+
+== Controller == 
+
+[[ http://frog.pixotters.org/img/controller_scheme1.png || Controller scheme ]] 
+
+This scheme should be pretty clear : 
+# First, the controller checks if the program received events 
+# Then, it checks if these events match a registered input, putting those which 
+occured in a list
+# Then, in the end, it will get all commands associated to every input in the 
+previous list
+
+
+== Inputs ==
+
+Frog proposes some built-in inputs, to help you focusing on actions. They are 
+divided in two main categories : 
+# Continuous inputs : the associated action is trigerred as long as the input 
+occurs. Basically, maintaining a button. 
+# Simple inputs : the associated command is triggered once. Basically, when a 
+button is pressed or released. 
+
+=== KeyboardButton / MouseButton / JoystickButton === 
+
+These are real-time events, triggering continual actions as long as the 
+button is pressed. Typical usages are : moving a player, shooting...
+**KeyboardButton** uses a //sf::Keyboard::Key//. 
+**MouseButton** uses a //sf::Keyboard::Key//. 
+**KeyboardButton** uses two unsigned ints : one for the id of the 
+button, the other for the id of the joystick.
+```
+// 'A' key of the keyboard
+KeyboardButton akey = new KeyboardButton(sf::Keyboard::A);
+// Left button of the mouse
+MouseButton mleft = new MouseButton(sf::Mouse::Left);
+// Button 1 of the joystick number 0
+JoystickButton one0 = new JoystickButton(1, 0);
+```
+
+=== KeyboardSimpleButton / MouseSimpleButton / JoystickSimpleButton === 
+
+These are one-shot buttons. They can be triggered either by pressing a button 
+or by releasing it. Only one action will be performed until the input is redone. 
+```
+// 'A' button of the keyboard, when Pressed
+KeyboardSimpleButton akey = new KeyboardSimpleButton(sf::Keyboard::A, SimpleButton::PRESSED);
+// Left button of the mouse, when Released
+MouseSimpleButton mleft = new MouseSimpleButton(sf::Mouse::Left, SimpleButton::RELEASED);
+// Button 1 of the joystick number 0, when Pressed
+JoystickSimpleButton one0 = new JoystickSimpleButton(1, 0);
+```
+
+== Changing controls ==
+
+The **Controller** can be highly customizable : it holds a set of InputMap, 
+that you can change at any time. You may want to change, for instance, to 
+modify some inputs while keeping others, or simply in case you have several 
+players and you want to modify inputs for player 2 without changing player 1's. 
+**InputMap** is a map that associates Command to Input. 
+```
+// create an InputMap for player 1
+InputMap p1 = new InputMap();
+p1.suscribe(left_arrow, moveLeft(player1) );
+p1.suscribe(right_arrow, moveRight(player1) );
+// create another InputMap for player2
+InputMap p2 = new InputMap();
+p2.suscribe(wkey, moveLeft(player2) );
+p2.suscribe(dkey, moveRight(player2) );
+// adding the InputMaps to the controller
+Controller ctrl;
+ctrl.addInputMap(p1, 0);
+ctrl.addInputMap(p2, 1);
+// changing map fro player 2
+ctrl.changeMap(1, otherp2);
+```

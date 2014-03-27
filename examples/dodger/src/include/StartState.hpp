@@ -1,11 +1,13 @@
 #ifndef STARTSTATE_HPP
 #define STARTSTATE_HPP
 
-#include "State.hpp"
+#include "Main/State.hpp"
 
 #include "Control/ControlHandler.hpp"
 
 #include <SFML/Graphics.hpp>
+
+using namespace frog;
 
 class StartState : virtual public State
 {
@@ -20,8 +22,6 @@ public:
   virtual ~StartState();
 
   virtual void update();
-
-  virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
 };
 

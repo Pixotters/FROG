@@ -4,28 +4,34 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Control.hpp"
-#include "Translator.hpp"
+#include "Main/Control.hpp"
+#include "Main/Translator.hpp"
 
-#include "App.hpp"
+#include "Main/App.hpp"
 
-#include "Random.hpp"
+#include "Main/Random.hpp"
 
 #include "MovePlayer.hpp"
 #include "JoystickMove.hpp"
 #include "Bomb.hpp"
 
+#include "Rendering/RenderingComponent.hpp"
+
 #include <iostream> // TODO remove
+
+using namespace frog;
 
 class Collider : virtual public ActionManager{
 
 private:
   Player * m_player;
+  render::Renderer * m_renderer;
   std::list<Target *> * m_targets;
 
 public:
-  Collider(Player * p, std::list<Target *> * t) 
-    : m_player(p), m_targets(t){}
+  Collider(Player * p, std::list<Target *> * t, render::Renderer * r) 
+    : m_player(p), m_targets(t), m_renderer(r)
+  {}
 
   virtual void onCollision(Collisionable * a, Collisionable * b){
        
@@ -47,7 +53,9 @@ public:
   }
 
   void onCollision(Player * a, Target * b){
-    m_targets -> remove(b);
+    m_targets->remove(b);
+    m_renderer->removeObject(b);
+    
   }
 
   void onCollision(Target * a, Target * b){
@@ -65,7 +73,12 @@ Level::Level()
   : Scene()
 { 
   m_player = new Player;
-  m_gameObjects.push_back(m_player);
+  m_playerTexture.loadFromFile("assets/frog.png");
+  m_targetTexture.loadFromFile("assets/donut.png");
+  m_enemyTexture.loadFromFile("assets/troll.png");
+  sf::Sprite * s = new sf::Sprite;
+  s->setTexture(m_playerTexture);
+  m_player->addComponent(new render::RenderingComponent(s) );
   auto moveleft = new MovePlayer(m_player, -4, 0);
   auto moveright = new MovePlayer(m_player, 4, 0);
   auto moveup = new MovePlayer(m_player, 0, -8);
@@ -94,29 +107,16 @@ Level::Level()
                        new Bomb(m_ennemies) );
   m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
                     new Bomb(m_ennemies) );
-  Collider * am = new Collider(m_player, &m_targets);
+  Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new SAPList(am);  
-  m_collider->addObject(m_player);
+
+  addObject(m_player);
   spawnEnemy();
 }
 
 Level::~Level()
 {
   delete m_player;
-}
-
-void Level::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
-{
-  Scene::draw(rt, rs);
-  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
-    {      
-      (*it)->draw(rt, rs);
-    }
-  Scene::drawEntities(rt, rs);
-  for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
-    {      
-      (*it)->draw(rt, rs);
-    }   
 }
 
 void Level::update()
@@ -144,16 +144,19 @@ void Level::update()
 void Level::spawnEnemy()
 {
   Enemy * e = new Enemy;
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
+  addObject(e);
 }
 
 void Level::spawnTarget()
 {
   Target * e = new Target;
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
-  m_collider->addObject(e);
+  addObject(e);
 }
 
 void Level::updateEnemies()
@@ -164,6 +167,7 @@ void Level::updateEnemies()
       (*it)->update();
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
+        removeObject(*it);    
         delete (*it);
         *it = nullptr;
       }
@@ -181,7 +185,7 @@ void Level::updateTargets()
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
-        m_collider->removeObject(*it);
+        removeObject(*it);
         delete (*it);
         *it = nullptr;
       }  

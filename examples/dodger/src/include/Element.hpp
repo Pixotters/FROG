@@ -1,13 +1,15 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
-#include "GameObject.hpp"
+#include "Main/GameObject.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
-#include "Physics.hpp"
+#include "Physics//Physics.hpp"
 
 #include "SAPList.hpp"
+
+using namespace frog;
 
 class Element : virtual public GameObject,
                 virtual public Collisionable

@@ -1,25 +1,29 @@
 #ifndef CTRL_INPUT_HPP
 #define CTRL_INPUT_HPP
 
-#include "Filter.hpp"
+#include "Main/Filter.hpp"
 
-namespace ctrl{
+namespace frog{
 
-class ControlHandler;
+  namespace ctrl{
 
-  class Input
-  {
-    //// attributes ////
-  protected:
+    class ControlHandler;
 
-    //// operations ////
-  public:
-    Input();
-    virtual ~Input();
-    //    template <typename I, typename O>
-    bool check(Filter<Input> *);
-    virtual bool check(ControlHandler *);
-  };
+    class Input
+    {
+      //// attributes ////
+    protected:
+
+      //// operations ////
+    public:
+      Input();
+      virtual ~Input();
+      //    template <typename I, typename O>
+      bool check(Filter<Input> *);
+      virtual bool check(ControlHandler *);
+    };
+
+  }
 
 }
 

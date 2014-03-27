@@ -1,8 +1,0 @@
-@startuml
-
-Scene o-- Renderer
-Scene o-- GameObject
-GameObject o-- RenderingComponent
-Renderer .. RenderingComponent : uses
-
-@enduml

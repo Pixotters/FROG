@@ -2,20 +2,24 @@
 
 #include "Control/ControlHandler.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  MouseSimpleButton::MouseSimpleButton(const sf::Mouse::Button& b, 
-                                       const SimpleButton::Trigger& t)
-    : MouseButton(b), SimpleButton(t)
-  {
-  }
+  namespace ctrl{
 
-  MouseSimpleButton::~MouseSimpleButton(){
+    MouseSimpleButton::MouseSimpleButton(const sf::Mouse::Button& b, 
+                                         const SimpleButton::Trigger& t)
+      : MouseButton(b), SimpleButton(t)
+    {
+    }
 
-  }
+    MouseSimpleButton::~MouseSimpleButton(){
 
-  bool MouseSimpleButton::check(ControlHandler * c){
-    return c->check(this);
+    }
+
+    bool MouseSimpleButton::check(ControlHandler * c){
+      return c->check(this);
+    }
+
   }
 
 }

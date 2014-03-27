@@ -4,25 +4,28 @@
 #include "Control/Button.hpp"
 #include <SFML/Window/Event.hpp>
 
+namespace frog{
 
-namespace ctrl{
+  namespace ctrl{
 
-class ControlHandler;
+    class ControlHandler;
 
-class KeyboardButton : virtual public Button
-{
+    class KeyboardButton : virtual public Button
+    {
 
-  //// attributes ////
-protected:
-  sf::Keyboard::Key m_button;
+      //// attributes ////
+    protected:
+      sf::Keyboard::Key m_button;
 
-  //// operations ////
-public:
-  KeyboardButton(const sf::Keyboard::Key&);
-  virtual ~KeyboardButton();
-  sf::Keyboard::Key getButton() const;
-  virtual bool check(ControlHandler *);
-};
+      //// operations ////
+    public:
+      KeyboardButton(const sf::Keyboard::Key&);
+      virtual ~KeyboardButton();
+      sf::Keyboard::Key getButton() const;
+      virtual bool check(ControlHandler *);
+    };
+
+  }
 
 }
 

@@ -2,27 +2,31 @@
 
 #include "Control/ControlHandler.hpp"
 
-namespace ctrl{
+namespace frog{
 
-  KeyboardButton::KeyboardButton(const sf::Keyboard::Key& k)
-    :Button(), m_button(k)
-  {
+  namespace ctrl{
+
+    KeyboardButton::KeyboardButton(const sf::Keyboard::Key& k)
+      :Button(), m_button(k)
+    {
     
-  }
+    }
 
-  KeyboardButton::~KeyboardButton()
-  {
+    KeyboardButton::~KeyboardButton()
+    {
 
-  }
+    }
 
-  sf::Keyboard::Key KeyboardButton::getButton() const
-  {
-    return m_button;
-  }
+    sf::Keyboard::Key KeyboardButton::getButton() const
+    {
+      return m_button;
+    }
 
-  bool KeyboardButton::check(ControlHandler * c)
-  {
-    return c->check(this);
+    bool KeyboardButton::check(ControlHandler * c)
+    {
+      return c->check(this);
+    }
+
   }
 
 }

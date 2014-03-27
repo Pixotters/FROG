@@ -2,24 +2,28 @@
 
 #include "Control/ControlHandler.hpp"
 
-namespace ctrl{
+namespace frog{
+
+  namespace ctrl{
 
 
-  JoystickSimpleButton::JoystickSimpleButton(const unsigned int& b, 
-                                             const SimpleButton::Trigger& t,
-                                             const unsigned int& i)
-    : JoystickButton(b,i), SimpleButton(t){
+    JoystickSimpleButton::JoystickSimpleButton(const unsigned int& b, 
+                                               const SimpleButton::Trigger& t,
+                                               const unsigned int& i)
+      : JoystickButton(b,i), SimpleButton(t){
+
+    }
+
+    JoystickSimpleButton::~JoystickSimpleButton(){
+
+    }
+
+    bool JoystickSimpleButton::check(ControlHandler * c)
+    {
+      return c->check(this);
+    }
+
 
   }
-
-  JoystickSimpleButton::~JoystickSimpleButton(){
-
-  }
-
-  bool JoystickSimpleButton::check(ControlHandler * c)
-  {
-    return c->check(this);
-  }
-
 
 }

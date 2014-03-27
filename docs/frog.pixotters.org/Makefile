@@ -1,11 +1,11 @@
 HOWTOSRCDIR=../howto
-SRC=index howto/index howto/lsap
+SRC=index howto/index howto/lsap howto/controller
 TMP=$(SRC:=.tmp)
 HTML=$(SRC:=.html)
 
-.PHONY: all clean proper
+.PHONY: all clean proper img
 
-all: mkdir $(HTML) api
+all: mkdir $(HTML) api img
 
 tmp: $(TMP)
 
@@ -21,9 +21,14 @@ tmp: $(TMP)
 index.tmp: index.pa
 howto/index.tmp: index_howto.pa
 howto/lsap.tmp: $(HOWTOSRCDIR)/howto_lsap.pa
+howto/controller.tmp: $(HOWTOSRCDIR)/Control/howto_control.pa
 
 mkdir:
 	mkdir -p howto
+
+img:
+	mkdir -p img
+	cp $(HOWTOSRCDIR)/img/* img
 
 api:
 	make -C .. doc

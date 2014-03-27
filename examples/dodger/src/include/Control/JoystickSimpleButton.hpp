@@ -5,29 +5,32 @@
 #include "Control/SimpleButton.hpp"
 #include <SFML/Window/Event.hpp>
 
+namespace frog{
 
-namespace ctrl{
+  namespace ctrl{
 
-class ControlHandler;
+    class ControlHandler;
 
-  class JoystickSimpleButton : virtual public JoystickButton,
-                               virtual public SimpleButton
-  {
+    class JoystickSimpleButton : virtual public JoystickButton,
+                                 virtual public SimpleButton
+    {
 
-    //// attributes ////
-  protected : 
-    unsigned int m_button;
-    unsigned int m_id;
+      //// attributes ////
+    protected : 
+      unsigned int m_button;
+      unsigned int m_id;
 
-    //// operations ////
-  public:
-    JoystickSimpleButton(const unsigned int&, 
-                   const SimpleButton::Trigger& = SimpleButton::PRESSED,
-                   const unsigned int& = 0);
-    virtual ~JoystickSimpleButton();
-    bool check(ControlHandler *);
+      //// operations ////
+    public:
+      JoystickSimpleButton(const unsigned int&, 
+                           const SimpleButton::Trigger& = SimpleButton::PRESSED,
+                           const unsigned int& = 0);
+      virtual ~JoystickSimpleButton();
+      bool check(ControlHandler *);
 
-  };
+    };
+
+  }
 
 }
 
