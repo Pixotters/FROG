@@ -22,7 +22,7 @@ Here we have registered two events :
 
 == Controller == 
 
-[[ controller_scheme1.png || Controller scheme ]] 
+[[ http://frog.pixotters.org/img/controller_scheme1.png || Controller scheme ]] 
 
 This scheme should be pretty clear : 
 # First, the controller checks if the program received events 
