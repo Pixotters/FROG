@@ -9,8 +9,17 @@ test:
 build:
 	make -C src/ build
 
+clean-src:
+	make -C src/ local_clean
+
+clean-docs:
+	make -C docs/ local_clean
+
+clean-test:
+	make -C tests/ local_clean
+
 clean:
-	make -f Makefile.generic generic_clean
-	make -C docs/ clean
-	make -C tests/ clean
-	make -C src/ clean
+	find -regex '.*\.\(o\|d\|gcda\|gcno\|info\)' -delete
+	find -name *~ -delete
+
+proper: clean clean-src clean-docs clean-test

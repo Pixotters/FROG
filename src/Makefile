@@ -1,4 +1,4 @@
-# Nicolas CAILLOUX & Julien SAGOT
+include ../Makefile.generic
 
 FROG=libfrog.so
 VERSION=0
@@ -8,9 +8,8 @@ HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 INC:=include/
 LIBDIR:=lib/
-CXX=g++
-CXXFLAGS:= -std=c++0x -Wall -Wextra -pedantic-errors -g -I$(INC)
-LDFLAGS:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS+= -I$(INC)
+
 
 # Put here if there are some sub-directories to manage
 
@@ -31,7 +30,6 @@ SUBOBJECTS=$(CTRLOBJECTS) $(RENDEROBJECTS) $(PHIOBJECTS) $(COLLISIONOBJECTS)
 
 # === 
 
-
 frog: $(FROG)
 
 show: generic_show
@@ -45,9 +43,8 @@ show: generic_show
 
 $(FROG): $(OBJECTS) $(SUBOBJECTS)
 	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
--o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$@.$(VERSION)
+	-o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$@.$(VERSION)
 	ldconfig -l $@.$(VERSION).$(SUBVERSION)
-	rm $@
 	ln -s $@.$(VERSION) $@
 
 %.d: %.cpp
@@ -56,8 +53,10 @@ $(FROG): $(OBJECTS) $(SUBOBJECTS)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
 
-clean: 
-	rm -f *.o *.d *.d.* *~ *# *.gch *.gcno *.gcda
+local_clean: 
+
+clean: local_clean
+	make -C .. clean
 
 proper:
 	rm -f $(PROGRAM)

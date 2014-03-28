@@ -4,5 +4,7 @@ DOXYFLAGS=
 doc:
 	$(DOXYGEN) $(DOXYFLAGS) doxygen.conf
 
-clean:
+local_clean:
 	rm -rf api
+
+clean: local_clean

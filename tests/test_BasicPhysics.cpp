@@ -5,7 +5,7 @@
 /* make everything public for testing */
 #define private public
 #define protected public
-#include "../src/BasicPhysic.hpp"
+#include "include/Physics/BasicPhysics.hpp"
 
 /* 
  * USER DEFINED CLASSES
@@ -23,7 +23,7 @@ public:
  */
 
 struct PhysicFixture {
-    BasicPhysic physic;
+    BasicPhysics physics;
     BodyTester o1;
     BodyTester o2;
     PhysicFixture () : o2(10, 10) {}
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_SUITE( BasicPhysic_test )
 
 BOOST_FIXTURE_TEST_CASE ( reaction1, PhysicFixture ) {
 
-    physic.reaction(&o1, &o2);
+    physics.reaction(&o1, &o2);
 
     BOOST_CHECK ( o1.force == sf::Vector2f(10, 10) );
     BOOST_CHECK ( o2.force == sf::Vector2f(0, 0) );

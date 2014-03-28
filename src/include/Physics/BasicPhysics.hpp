@@ -1,11 +1,11 @@
-#ifndef BASICPHYSIC_HPP
-#define BASICPHYSIC_HPP 1
+#ifndef BASICPHYSICS_HPP
+#define BASICPHYSICS_HPP 1
 
 #include <SFML/System/Vector2.hpp>
 
 class PhysicBody {
 
-    friend class BasicPhysic;
+    friend class BasicPhysics;
 
 protected:
 
@@ -21,7 +21,7 @@ public:
     virtual ~PhysicBody() {}
 };
 
-class BasicPhysic {
+class BasicPhysics {
 public:
     void reaction(PhysicBody * b1, PhysicBody * b2){
         /* Apply force to each other + force reaction */

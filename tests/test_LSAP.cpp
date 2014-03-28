@@ -6,8 +6,8 @@
 /* make everything public for testing */
 #define private public
 #define protected public
-#include "../src/Collisionable.hpp"
-#include "../src/LSAP.hpp"
+#include "include/Collision/Collisionable.hpp"
+#include "include/Collision/LSAP.hpp"
 
 /* 
  * USER DEFINED CLASSES
