@@ -7,8 +7,8 @@ a été renommé "ControlHandler", le "nouveau" Controller est en fait une class
 qui encapsule ce ControlHandler et la traduction des Input en Command. Cela 
 semble plus facile pour un utilisateur lambda. 
 
-Julien a ecrit un ActionManager par defaut (maintient une liste des 
-objets en collision), qui n'est pas encore teste. Il a commence le travail 
+Julien a écrit un ActionManager par defaut (maintient une liste des 
+objets en collision), qui n'est pas encore tésté. Il a commencé le travail 
 autour de la physique (plus de recherche que de code).
 
 A coté de ça, la documentation a été améliorée, ainsi que le site web : 
@@ -18,6 +18,17 @@ Un renderer basique a aussi été fait : via un RenderingComponent implémentant
 //sf::Drawable// de SFML, le Renderer de la scène sait comment dessiner les 
 objets enregistrés, il saura "où" via le component Transform (obligatoire 
 pour les gameobjects, de toutes façons). 
+
+== Objectif de la semaine == 
+
+La priorité est la séparation franche du framework. Jusqu'à maintenant, on 
+codait sur le jeu de test //Dodger//. Il faut séparer les composants 
+spécifiques et faire un makefile pour créer de librairies partagées (//.so//).  
+Ensuite, la gestion intelligente de fichiers (//ResourceManager//) est une 
+étape essentielle avant d'entamer le rendu plus en profondeur.  
+La physique basique devrait être refaite, nous esperons pouvoir faire des 
+rebonds. 
+
 
 = 20/03 = 
 
@@ -48,13 +59,13 @@ Le système de Controller a été amélioré, et marche désormais avec tous les
 périphériques standard : clavier, souris, manette. Il ne reste plus qu'à 
 implémenter les différentes manières de traiter les inputs. On doit définir 
 des méthodes //handle(Input)// qui seront appelées correctement via un 
-Visitor, le C++ ne gérant par défaut le MultipleDispatch. 
+Visitor, le C++ ne gérant par défaut le MultipleDispatch.  
 Un début de collision a été fait, se basant sur l'algorithme du 
 //Sweep&Prune//, implémenté via des listes doublement chainées. 
 
 == Objectifs de la semaine ==
 
-Julien veut faire une gestion de collision utilisable concrètement. 
+Julien veut faire une gestion de collision utilisable concrètement.  
 Nicolas veut finir la gestion des contrôles : il y a probablement un moyen 
 plus simple qu'utiliser un visitor. 
 
@@ -65,11 +76,11 @@ Les tests (mis en place avec //Boost//) fonctionnent, tout comme la couverture
 de code (utilisant //g++// et //lcov//). 
 
 Le début de la gestion des inputs a été fait : on capte bien les inputs 
-clavier, qu'ils soient en temps réel ou en polling (évènements //one-time//). 
+clavier, qu'ils soient en temps réel ou en polling (évènements //one-time//).  
 Le système utilisé est un dérivé de //publisher/suscriber//, où le State peut 
 enregistrer les touches pour lesquelles il a un intérêt, en leur associant une 
 action. Le Controller va filter avec ces souscriptions, en envoyant les actions 
-déclenchées au State, via le StateManager. 
+déclenchées au State, via le StateManager.  
 Les actions sont simplement des sous-classes de la classe abstraite Action, 
 devant redéfinir une méthode //execute//.
 
@@ -87,7 +98,7 @@ possédant deux vecteurs (force et accélération).
 == Objectifs de la semaine == 
 
 Julien commencera l'implémentation du moteur de collision. 
-Nicolas avancera sur la gestion des évènements. 
+Nicolas avancera sur la gestion des évènements.  
 Si l'avancée est rapide, un début sur un rendu amélioré pourrait être fait.
 
 
@@ -106,7 +117,7 @@ transformations.
 Concernant le rendu, deux méthodes s'affrontent : 
 - l'une utilise des Renderer par type d'objets et des listes d'associations
 - l'autre utilise un Component RenderingComponent à qui on fournit une 
-procédure de rendu. 
+procédure de rendu.  
 Dans les deux cas, le rendu n'est jamais fait directement par les objets ou la 
 scène, mais via un renderer global (géré par la scène). 
 Après l'entretien, Stefano a suggéré que la méthode avec Component est plus 
@@ -128,14 +139,14 @@ Une fois ce probleme reglé, plus de tests suivront, et l'analyse de la
 couverture sera faite avec ``gcov`` de ``gcc``. 
 
 Concernant les intéractions utilisateurs, il a été proposé par l'enseignant le 
-design pattern Publish/suscribe : 
+design pattern Publish/suscribe :  
 la fenêtre, par défaut, ignore tous les évènements, sauf si un controller lui 
 a dit "je suis intéressé par celui-ci".  
 Afin de ne pas avoir a créer un controller par objet, le pattern Chain of 
 Responsability a été proposé, afin que ce ne soit que la scène (ou plus haut) 
 qui s'enregistre auprès du publisher.
 
-== Objectifs pour la semaine suivante ==
+== Objectifs de la semaine ==
 
 - Définir une fois pour toutes si on va utiliser des Component ou pas. Tout 
   le reste en dépend. 
@@ -157,7 +168,7 @@ Un debut de recherche sur les frameworks de tests unitaires pour c++ a
 permit de decouvrir UnitTest++, plus de recherches permettront de fixer 
 notre choix dans la semaine.
 
-Les deux jeux sont :
+Les deux jeux sont :  
 # **Cat'n'mouse** : Le jeu du chat et de la souris. Le joueur (chat) doit 
   attraper la souris qui se balade dans une pièce avec des murs. Se joue au 
   clavier.  
@@ -167,7 +178,7 @@ Les deux jeux sont :
 Les spécifications sont disponibles dans le dossier ``examples``. De grandes 
 questions se sont posées sur les évènements et collisions, à débattre.
 
-== Objectifs pour la semaine suivante ==
+== Objectifs de la semaine ==
 
 - Ecrire des diagrammes plus standardises (UML) et identifier :
   -- Les dependances entres les modules de la //game loop//.
@@ -190,7 +201,7 @@ implementes.
 
 Réflexions sur la modularité. Un schéma a été construit.
 
-== Objectifs pour la semaine suivante ==
+== Objectifs de la semaine ==
 
 Pour la semaine du 20 spécification d'un jeu minimal (dans ses aspects 
 graphiques : proposition un personnage controlé dans des murs avec un 
