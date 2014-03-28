@@ -7,14 +7,13 @@ Scene *-- SceneGraph
 SceneGraph o-- GameObject
 GameObject o-- Component
 
-Scene o-- Renderer
-Scene o-- PhysicEngine
-Scene o-- CollisionEngine
+Scene *-- Renderer
+Scene *-- PhysicEngine
+Scene *-- CollisionEngine
 
 App *-- Config
-App *-- Controller
 Action .. State
-Controller .. State
+Controller --* State
 Controller o-- Action
 
 Component <|-- RenderingComponent

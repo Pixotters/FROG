@@ -17,6 +17,7 @@
 
 #include "Rendering/RenderingComponent.hpp"
 
+#include <SFML/Graphics.hpp>
 #include <iostream> // TODO remove
 
 using namespace frog;
@@ -132,7 +133,7 @@ void Level::update()
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
-  if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
+  if( t.asSeconds() > 0.2f && m_targets.size() < 1000 ){
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
@@ -144,7 +145,8 @@ void Level::update()
 void Level::spawnEnemy()
 {
   Enemy * e = new Enemy;
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
+  //  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
+  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
   addObject(e);

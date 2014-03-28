@@ -1,49 +1,68 @@
 # Nicolas CAILLOUX & Julien SAGOT
-PROGRAM=FROG
+
+FROG=libfrog.so
+VERSION=0
+SUBVERSION=1
 SOURCES=$(wildcard *.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
+INC:=include/
+LIBDIR:=lib/
 CXX=g++
-CXXFLAGS := -std=c++0x -Wall -Wextra -pedantic-errors -g
-INC=./include
-LIBDIR=
-LIBS := -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS:= -std=c++0x -Wall -Wextra -pedantic-errors -g -I$(INC)
+LDFLAGS:= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+
+# Put here if there are some sub-directories to manage
+
+CTRLDIR=Control
+RENDERDIR=Rendering
+PHIDIR=Physics
+COLLISIONDIR=Collision
+CTRLSOURCES=$(wildcard $(CTRLDIR)/*.cpp)
+RENDERSOURCES=$(wildcard $(RENDERDIR)/*.cpp)
+PHISOURCES=$(wildcard $(PHIDIR)/*.cpp)
+COLLISIONSOURCES=$(wildcard $(COLLISIONDIR)/*.cpp)
+CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
+RENDEROBJECTS=$(patsubst %.cpp,%.o,$(RENDERSOURCES))
+PHIOBJECTS=$(patsubst %.cpp,%.o,$(PHISOURCES))
+COLLISIONOBJECTS=$(patsubst %.cpp,%.o,$(COLLISIONSOURCES))
+
+SUBOBJECTS=$(CTRLOBJECTS) $(RENDEROBJECTS) $(PHIOBJECTS) $(COLLISIONOBJECTS)
+
+# === 
 
 
-all: config wrapper $(PROGRAM)
+frog: $(FROG)
 
-
-show:
+show: generic_show
 	@echo "-Program : $(PROGRAM)"
 	@echo "-sources : $(SOURCES)"
 	@echo "-objects : $(OBJECTS)"
-	@echo "-compiler : $(CXX)"
-	@echo "-compiler options : $(CXXFLAGS)"
 	@echo "-librairies directory : $(LIBDIR)"
-	@echo "-libraries : $(LIBS)"
 	@echo "-includes : $(INC)"
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
- %.d: %.cpp
-	@set -e; rm -f $@; \
-	$(CXX) -M $(CXXFLAGS) -I$(INC) $< > $@.$$$$; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-	rm -f $@.$$$$
+$(FROG): $(OBJECTS) $(SUBOBJECTS)
+	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) -o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$(@).$(VERSION)
 
-include $(SOURCES:.cpp=.d)
+%.d: %.cpp
+	$(CXX) $(CXXFLAGS) -M $< > $@
 
-$(PROGRAM):$(OBJECTS)
-	$(CXX) $(CXXFLAGS) $^ -L$(LIBDIR) $(LIBS) -o $@ 
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
 
-%.o:%.cpp
-	$(CXX) -c $(CXXFLAGS) -I$(INC) $<
+clean: 
+	rm -f *.o *.d *.d.* *~ *# *.gch *.gcno *.gcda
 
-clean:
-	rm -f $(OBJECTS) *.d *~ *# *.gch
-
-proper:clean
+proper:
 	rm -f $(PROGRAM)
 
 start:
 	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) 2> errlog
+
+valgrind:
+	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) 2> valgrind_log
+
+-include $(SOURCES:.cpp=.d)
+-include $(SUBSOURCES:.cpp=.d)
