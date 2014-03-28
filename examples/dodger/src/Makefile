@@ -42,7 +42,7 @@ show: generic_show
 	@echo "-path : $(PATH)"
 
 $(PROGRAM): $(OBJECTS) $(SUBOBJECTS)
-	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
 
 clean: generic_clean
 	cd $(CTRLDIR); rm -f *.o *.d *.d* *~ *#

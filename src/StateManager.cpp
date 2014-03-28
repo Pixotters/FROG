@@ -57,15 +57,20 @@ namespace frog{
     if( not m_stateStack.empty() )
       {
         m_stateStack.top()->update();
+        std::cerr << "StateManager updated" << std::endl;
       }
+    std::cerr << "StateManager empty" << std::endl;
   }
 
   void StateManager::render(sf::RenderTarget& rt)
   {
     if( not m_stateStack.empty() )
       {
-        m_stateStack.top()->render(rt);
+        m_stateStack.top()->render(rt);        
+        std::cerr << "StateManager rendered" << std::endl;
       }
+    std::cerr << "StateManager empty" << std::endl;
+
   }
 
 }

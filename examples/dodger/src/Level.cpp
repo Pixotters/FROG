@@ -123,17 +123,21 @@ Level::~Level()
 void Level::update()
 {  
   Scene::update();
-  //  std::cout<< "handling..." << std::endl;
+  std::cerr<< "handling..." << std::endl;
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
   //  std::cout<< "handled..." << std::endl;
-  m_collider->updateObject(m_player);
+  std::cerr<< "colliding..." << std::endl;
+  //  m_collider->updateObject(m_player);
+  std::cerr<< "enemies..." << std::endl;
   updateEnemies();
+  std::cerr<< "targets..." << std::endl;
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
-  if( t.asSeconds() > 0.2f && m_targets.size() < 1000 ){
+  if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
+    std::cerr<< "spawning targets..." << std::endl;
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
@@ -182,7 +186,7 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       (*it)->update();      
-      m_collider->updateObject(*it);
+      //      m_collider->updateObject(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32

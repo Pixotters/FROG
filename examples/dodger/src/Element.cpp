@@ -1,6 +1,6 @@
 #include "Element.hpp"
 
-#include "Physics/PhysicEngine.hpp"
+//#include "Physics/PhysicEngine.hpp"
 
 
 using namespace frog;
@@ -8,7 +8,7 @@ using namespace frog;
 Element::Element()
   : GameObject() 
 {
-  addComponent<phi::Physics>( new phi::Physics() );
+  //  addComponent<phi::Physics>( new phi::Physics() );
 }
 
 Element::~Element()
@@ -36,7 +36,7 @@ void Element::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 void Element::update()
 {
   GameObject::update();
-  phi::PhysicEngine::update(this, getComponent<phi::Physics>() );
+  //phi::PhysicEngine::update(this, getComponent<phi::Physics>() );
   //  m_physics.update();
   
 }

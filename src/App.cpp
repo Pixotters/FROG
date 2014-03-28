@@ -2,11 +2,13 @@
 #include "Random.hpp"
 
 
-#include "StartState.hpp"
+#include "State.hpp"
+
+#include <iostream> // TODO remove
 
 namespace frog{
 
-  void App::init()
+  void App::init(State * startstate)
   {
     m_window = new sf::RenderWindow(sf::VideoMode(
                                                   m_config.getWindowWidth(), 
@@ -15,7 +17,7 @@ namespace frog{
                                     sf::Style::Close);
     m_window->setPosition(sf::Vector2i(0,0) );
     m_window->setKeyRepeatEnabled(false);
-    m_stateManager.push(new StartState() );
+    m_stateManager.push(startstate );
     m_isRunning = true;
   }
 
@@ -26,8 +28,11 @@ namespace frog{
     while(m_isRunning)
       {
         m_deltaTime = t0.restart();
+        std::cerr << "updating..." <<std::endl;
         update();
-        render();
+        std::cerr << "rendering..." <<std::endl;
+        render();        
+        std::cerr << "rendered..." <<std::endl;
       }
   }
 

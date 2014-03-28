@@ -4,6 +4,7 @@
 #include "Config.hpp"
 #include "Control/ControlHandler.hpp"
 #include "StateManager.hpp"
+#include "State.hpp"
 #include "Singleton.hpp"
 
 #include <SFML/Window.hpp>
@@ -53,7 +54,7 @@ public:
   /*
     process prelude code that may be required before starting the loop
    */
-  void init();
+  void init(State *);
   
   /*
     make a looping : handle events, compute logic, render

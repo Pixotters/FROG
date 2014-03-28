@@ -1,6 +1,8 @@
 #include "Main/App.hpp"
 #include "Main/Random.hpp"
 
+#include "Level.hpp"
+
 #include <iostream>
 
 using namespace frog;
@@ -8,7 +10,7 @@ using namespace frog;
 int main()
 {
   std::cout << "Starting game" << std::endl;
-  App::instance()->init();
+  App::instance()->init(new Level() );
   Random::init();
   std::cout << "Initialization successful. Running..." << std::endl;
   App::instance()->run();

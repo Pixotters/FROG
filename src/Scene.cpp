@@ -22,10 +22,12 @@ namespace frog{
 
   void Scene::update()
   {
+    std::cerr << "updating scene" << std::endl;
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
       {
         (*it)->update();
-      }
+      }    
+    std::cerr << "updated scene" << std::endl;
   }
 
   bool Scene::addObject(GameObject * go)

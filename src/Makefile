@@ -44,7 +44,11 @@ show: generic_show
 	@echo "-path : $(PATH)"
 
 $(FROG): $(OBJECTS) $(SUBOBJECTS)
-	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) -o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$(@).$(VERSION)
+	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
+-o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$@.$(VERSION)
+	ldconfig -l $@.$(VERSION).$(SUBVERSION)
+	rm $@
+	ln -s $@.$(VERSION) $@
 
 %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -M $< > $@
