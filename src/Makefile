@@ -59,7 +59,7 @@ clean: local_clean
 	make -C .. clean
 
 proper:
-	rm -f $(PROGRAM)
+	rm -f $(FROG)* $(PROGRAM)
 
 start:
 	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) 2> errlog
