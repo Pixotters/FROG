@@ -1,7 +1,7 @@
 template <typename ID, typename R>
 AssetManager<ID,R>::AssetManager()
 {
-loadCount = 0;
+
 }
 
 template <typename ID, typename R>
@@ -51,9 +51,3 @@ void AssetManager<ID,R>::loadFromFile(const std::string& path, const ID& id)
 
 }
 
-
-template <typename ID, typename R>
-unsigned int AssetManager<ID,R>::getLoadCount() const
-{
-        return loadCount:
-}

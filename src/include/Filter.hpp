@@ -3,8 +3,6 @@
 
 #include <list>
 
-#include <iostream> // TODO remove
-
 
 namespace frog{
 

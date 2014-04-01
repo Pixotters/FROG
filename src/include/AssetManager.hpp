@@ -17,7 +17,6 @@ namespace frog
     //// attributes ////
   protected:
     std::map< ID, std::unique_ptr<R> > m_files;
-    unsigned int loadCount;
 
     //// operations ////
   public:
@@ -47,8 +46,6 @@ namespace frog
      */
     void loadFromFile(const std::string& path, const ID& id) 
     throw (std::runtime_error);
-
-    unsigned int getLoadCount() const;
 
   };
 

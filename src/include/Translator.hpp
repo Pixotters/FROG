@@ -5,15 +5,13 @@
 #include <iterator>
 #include <map>
 
-#include <iostream> //TODO remove
-
 
 namespace frog{
 
   template <typename IN, typename OUT>
   class Translator{
 
-
+  public:
     class NotFound: public std::exception{};
 
     //// attributes ////
