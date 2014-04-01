@@ -40,10 +40,26 @@ namespace frog{
     void Controller::unbind(Input * i,
                             const unsigned short& n)
     {
-      if(n < m_mapping.size() and m_mapping.at(n) != nullptr){
+      unsigned int size = m_mapping.size();
+      if(n < size and m_mapping.at(n) != nullptr){
         m_mapping.at(n)->unsuscribe(i);        
       }
       // TODO check if the input is present in an other map before unhandling it
+      Command * test;
+      for(int it = 0; it < size; it++)
+        {
+          try{
+            test = m_mapping.at(it)->get(i);
+            if(test != nullptr)
+              return;
+          }catch(InputMap::NotFound ex){
+
+          }
+          
+        }
+      /* here, we have searched for the input without finding it : it is now 
+         registered although no inputmap uses it : let's remove it.
+       */
       unhandle(i);
     }
 
@@ -106,7 +122,6 @@ namespace frog{
       auto end = m_mapping.size();
       auto endmap = im->end();
       Input * input;
-      // TODO : find a way to iterate through an InputMap
       for(auto mapit = im->begin(); mapit != endmap; mapit++)
         {
           input = mapit->first;
