@@ -1,8 +1,11 @@
 #ifndef ASSET_MANAGER_HPP
 #define ASSET_MANAGER_HPP
 
-#include <map>
 #include <exception>
+#include <iostream>
+#include <map>
+#include <memory>
+#include <string>
 
 namespace frog
 {
@@ -14,6 +17,7 @@ namespace frog
     //// attributes ////
   protected:
     std::map< ID, std::unique_ptr<R> > m_files;
+    unsigned int loadCount;
 
     //// operations ////
   public:
@@ -43,7 +47,12 @@ namespace frog
      */
     void loadFromFile(const std::string& path, const ID& id) 
     throw (std::runtime_error);
+
+    unsigned int getLoadCount() const;
+
   };
+
+  #include "AssetManager.inl"
 
 }
 
