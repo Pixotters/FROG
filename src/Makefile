@@ -3,6 +3,7 @@ include ../Makefile.generic
 FROG=libfrog.so
 VERSION=0
 SUBVERSION=1
+FROGVERSION=$(FROG).$(VERSION).$(SUBVERSION)
 SOURCES=$(wildcard *.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
@@ -41,11 +42,13 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(FROG): $(OBJECTS) $(SUBOBJECTS)
-	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
-	-o $@.$(VERSION).$(SUBVERSION) $^ $(LDFLAGS) -Wl,-soname,$@.$(VERSION)
+$(FROG): $(FROGVERSION)
 	ldconfig -l $@.$(VERSION).$(SUBVERSION)
 	ln -s $@.$(VERSION) $@
+
+$(FROGVERSION): $(OBJECTS) $(SUBOBJECTS)
+	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
+	-o $@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
 
 %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -M $< > $@
