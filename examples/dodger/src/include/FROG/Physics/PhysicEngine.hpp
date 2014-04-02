@@ -2,10 +2,7 @@
 #define PHYSICENGINE_HPP
 
 #include "FROG/GameObject.hpp"
-<<<<<<< HEAD
-=======
 #include "FROG/Physics/Physics.hpp"
->>>>>>> c4c1e5c390482b243f08d3ec789e32c7bf6c2769
 
 
 namespace frog{
