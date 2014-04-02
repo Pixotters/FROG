@@ -1,17 +1,17 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "Main/GameObject.hpp"
+#include "FROG/GameObject.hpp"
 
-#include "Main/Transform.hpp"
+#include "FROG/Transform.hpp"
 
-#include "SAPList.hpp"
+#include "FROG/Collision/Collisionable.hpp"
 
 
 using namespace frog;
 
 class Player : virtual public GameObject,
-               virtual public Collisionable
+               virtual public sap::Collisionable
 {
 
   //// attributes ////

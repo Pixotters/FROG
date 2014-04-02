@@ -1,5 +1,5 @@
-#include "Main/App.hpp"
-#include "Main/Random.hpp"
+#include "FROG/App.hpp"
+#include "FROG/Random.hpp"
 
 #include "Level.hpp"
 

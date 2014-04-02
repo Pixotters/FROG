@@ -4,25 +4,25 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
-#include "Main/Control.hpp"
-#include "Main/Translator.hpp"
+#include "FROG/Control.hpp"
+#include "FROG/Translator.hpp"
 
-#include "Main/App.hpp"
+#include "FROG/App.hpp"
 
-#include "Main/Random.hpp"
+#include "FROG/Random.hpp"
 
 #include "MovePlayer.hpp"
-#include "JoystickMove.hpp"
+//#include "JoystickMove.hpp"
 #include "Bomb.hpp"
 
-#include "Rendering/RenderingComponent.hpp"
+#include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <iostream> // TODO remove
 
 using namespace frog;
 
-class Collider : virtual public ActionManager{
+class Collider : virtual public sap::ActionManager{
 
 private:
   Player * m_player;
@@ -34,7 +34,7 @@ public:
     : m_player(p), m_targets(t), m_renderer(r)
   {}
 
-  virtual void onCollision(Collisionable * a, Collisionable * b){
+  virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
        
     Player * p;
     Target * t1;
@@ -63,7 +63,7 @@ public:
     //    m_targets -> remove(b);
   }
   
-  virtual void onSeparation(Collisionable * a, Collisionable * b){
+  virtual void onSeparation(sap::Collisionable * a, sap::Collisionable * b){
 
   }
 
@@ -109,7 +109,7 @@ Level::Level()
   m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
                     new Bomb(m_ennemies) );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
-  m_collider = new SAPList(am);  
+  m_collider = new sap::LSAP(am);  
 
   addObject(m_player);
   spawnEnemy();
@@ -171,6 +171,7 @@ void Level::updateEnemies()
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       (*it)->update();
+      PhysicEngine::update(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
         removeObject(*it);    
@@ -186,6 +187,7 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       (*it)->update();      
+      PhysicEngine::update(*it);
       m_collider->updateObject(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 

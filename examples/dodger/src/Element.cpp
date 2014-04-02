@@ -8,7 +8,7 @@ using namespace frog;
 Element::Element()
   : GameObject() 
 {
-  //  addComponent<phi::Physics>( new phi::Physics() );
+    addComponent<phi::Physics>( new phi::Physics() );
 }
 
 Element::~Element()
