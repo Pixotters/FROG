@@ -2,6 +2,10 @@
 
 #include "Transform.hpp"
 
+/* TODO : no map needed, a std::set is enough, 
+   and factorise (collisionManager has the same add, remove, update) */
+
+
 namespace frog{
 
   namespace render{

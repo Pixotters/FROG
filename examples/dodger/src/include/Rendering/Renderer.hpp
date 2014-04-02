@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Main/GameObject.hpp"
+#include "GameObject.hpp"
 
 #include "Rendering/RenderingComponent.hpp"
 

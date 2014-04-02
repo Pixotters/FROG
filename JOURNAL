@@ -1,3 +1,14 @@
+= 03/04 =
+
+Le framework est maintenant bien séparé, et compile avec la commande 
+"make frog", qui crée des bibliothèques partagées //.so//. 
+
+Un //AssetManager// générique a aussi été réalisé, qui associe un type 
+d'identifiant à un type de ressources : AssetManager<string, texture> associe 
+une chaine de caractères à une texture. 
+
+
+
 = 27/03 =
 
 Nicolas a encore touché au Controller, mais il a promis de ne plus y toucher 
@@ -24,7 +35,7 @@ pour les gameobjects, de toutes façons).
 La priorité est la séparation franche du framework. Jusqu'à maintenant, on 
 codait sur le jeu de test //Dodger//. Il faut séparer les composants 
 spécifiques et faire un makefile pour créer de librairies partagées (//.so//).  
-Ensuite, la gestion intelligente de fichiers (//ResourceManager//) est une 
+Ensuite, la gestion intelligente de fichiers (//AssetManager//) est une 
 étape essentielle avant d'entamer le rendu plus en profondeur.  
 La physique basique devrait être refaite, nous esperons pouvoir faire des 
 rebonds. 

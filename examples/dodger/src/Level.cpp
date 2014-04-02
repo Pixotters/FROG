@@ -130,7 +130,7 @@ void Level::update()
   //  delete jm;  
   //  std::cout<< "handled..." << std::endl;
   std::cerr<< "colliding..." << std::endl;
-  //  m_collider->updateObject(m_player);
+  m_collider->updateObject(m_player);
   std::cerr<< "enemies..." << std::endl;
   updateEnemies();
   std::cerr<< "targets..." << std::endl;
@@ -149,7 +149,7 @@ void Level::update()
 void Level::spawnEnemy()
 {
   Enemy * e = new Enemy;
-  //  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
   e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
@@ -186,7 +186,7 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       (*it)->update();      
-      //      m_collider->updateObject(*it);
+      m_collider->updateObject(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32

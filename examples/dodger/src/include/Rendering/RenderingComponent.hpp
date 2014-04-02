@@ -1,7 +1,7 @@
 #ifndef RENDER_RENDERERINGCOMPONENT_HPP
 #define RENDER_RENDERERINGCOMPONENT_HPP
 
-#include "Main/Component.hpp"
+#include "Component.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace frog{
