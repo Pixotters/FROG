@@ -1,7 +1,7 @@
 #ifndef MOVEPLAYER_HPP
 #define MOVEPLAYER_HPP
 
-#include "Main/Command.hpp"
+#include "FROG/Command.hpp"
 #include "Player.hpp"
 
 using namespace frog;

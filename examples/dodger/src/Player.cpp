@@ -1,6 +1,6 @@
 #include "Player.hpp"
 
-#include "Main/App.hpp"
+#include "FROG/App.hpp"
 
 using namespace frog;
 

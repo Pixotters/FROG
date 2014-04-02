@@ -1,7 +1,8 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include "Main/Scene.hpp"
+#include "FROG/Scene.hpp"
+#include "FROG/Physics/PhysicEngine.hpp"
 
 #include "Player.hpp"
 #include "Enemy.hpp"
@@ -24,6 +25,7 @@ protected:
   sf::Texture m_targetTexture;
   sf::Texture m_playerTexture;
   sf::Texture m_enemyTexture;
+  //  PhysicEngine m_phiengine;
 
   //// operations ////
 public:

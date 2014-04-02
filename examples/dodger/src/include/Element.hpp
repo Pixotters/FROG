@@ -1,25 +1,24 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
-#include "Main/GameObject.hpp"
+#include "FROG/GameObject.hpp"
+#include "FROG/Collision/Collisionable.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 
-#include "Physics//Physics.hpp"
-
-#include "SAPList.hpp"
+#include "FROG/Physics/Physics.hpp"
 
 using namespace frog;
 
 class Element : virtual public GameObject,
-                virtual public Collisionable
+                virtual public sap::Collisionable
 {
 
   //// attributes ////
 protected:
 
 public:
-  //  Physics m_physics;
+  //  phi::Physics m_physics;
   sf::Shape * m_boundingBox;
 
   //// operations ////
