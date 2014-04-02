@@ -1,5 +1,5 @@
-#ifndef CTRL_SIMPLEBUTTON_HPP
-#define CTRL_SIMPLEBUTTON_HPP
+#ifndef FROG_CTRL_SIMPLEBUTTON_HPP
+#define FROG_CTRL_SIMPLEBUTTON_HPP
 
 #include "FROG/Control/Button.hpp"
 

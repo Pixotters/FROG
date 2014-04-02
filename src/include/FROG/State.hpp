@@ -1,5 +1,5 @@
-#ifndef STATE_HPP
-#define STATE_HPP
+#ifndef FROG_STATE_HPP
+#define FROG_STATE_HPP
 
 #include "FROG/Rendering/Renderer.hpp"
 

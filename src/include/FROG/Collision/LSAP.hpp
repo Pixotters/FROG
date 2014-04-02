@@ -1,5 +1,5 @@
-#ifndef SAPLIST_HPP
-#define SAPLIST_HPP 1
+#ifndef FROG_LSAP_HPP
+#define FROG_LSAP_HPP 1
 
 #include <functional>
 #include "FROG/Collision/CollisionManager.hpp"

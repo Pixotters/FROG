@@ -1,5 +1,5 @@
-#ifndef FILTER_HPP
-#define FILTER_HPP
+#ifndef FROG_FILTER_HPP
+#define FROG_FILTER_HPP
 
 #include <list>
 

@@ -1,5 +1,5 @@
-#ifndef CTRL_INPUT_HPP
-#define CTRL_INPUT_HPP
+#ifndef FROG_CTRL_INPUT_HPP
+#define FROG_CTRL_INPUT_HPP
 
 #include "FROG/Filter.hpp"
 

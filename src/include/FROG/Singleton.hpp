@@ -1,5 +1,5 @@
-#ifndef SINGLETON_HPP
-#define SINGLETON_HPP
+#ifndef FROG_SINGLETON_HPP
+#define FROG_SINGLETON_HPP
 
 
 namespace frog{

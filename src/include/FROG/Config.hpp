@@ -1,5 +1,5 @@
-#ifndef CONFIG_HPP
-#define CONFIG_HPP
+#ifndef FROG_CONFIG_HPP
+#define FROG_CONFIG_HPP
 
 #include <map>
 #include <string>

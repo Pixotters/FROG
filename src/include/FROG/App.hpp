@@ -1,5 +1,5 @@
-#ifndef APP_HPP
-#define APP_HPP
+#ifndef FROG_APP_HPP
+#define FROG_APP_HPP
 
 #include "FROG/Config.hpp"
 #include "FROG/Control/ControlHandler.hpp"

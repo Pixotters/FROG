@@ -1,5 +1,5 @@
-#ifndef CTRL_INPUTMAP_HPP
-#define CTRL_INPUTMAP_HPP
+#ifndef FROG_CTRL_INPUTMAP_HPP
+#define FROG_CTRL_INPUTMAP_HPP
 
 #include "FROG/Translator.hpp"
 

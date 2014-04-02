@@ -1,5 +1,5 @@
-#ifndef COMPONENT_HPP
-#define COMPONENT_HPP
+#ifndef FROG_COMPONENT_HPP
+#define FROG_COMPONENT_HPP
 
 
 namespace frog{

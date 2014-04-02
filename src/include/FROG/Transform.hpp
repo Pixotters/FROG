@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_HPP
-#define TRANSFORM_HPP
+#ifndef FROG_TRANSFORM_HPP
+#define FROG_TRANSFORM_HPP
 
 #include "FROG/Component.hpp"
 

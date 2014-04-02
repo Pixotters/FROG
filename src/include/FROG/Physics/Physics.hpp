@@ -1,5 +1,5 @@
-#ifndef PHI_PHYSICS_HPP
-#define PHI_PHYSICS_HPP
+#ifndef FROG_PHI_PHYSICS_HPP
+#define FROG_PHI_PHYSICS_HPP
 
 #include "FROG/Component.hpp"
 #include <SFML/System/Vector2.hpp>

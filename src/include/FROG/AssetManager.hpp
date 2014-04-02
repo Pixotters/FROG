@@ -1,5 +1,5 @@
-#ifndef ASSET_MANAGER_HPP
-#define ASSET_MANAGER_HPP
+#ifndef FROG_ASSET_MANAGER_HPP
+#define FROG_ASSET_MANAGER_HPP
 
 #include <exception>
 #include <iostream>

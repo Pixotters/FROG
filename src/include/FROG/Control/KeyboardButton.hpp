@@ -1,5 +1,5 @@
-#ifndef CTRL_KEYBOARDBUTTON_HPP
-#define CTRL_KEYBOARDBUTTON_HPP
+#ifndef FROG_CTRL_KEYBOARDBUTTON_HPP
+#define FROG_CTRL_KEYBOARDBUTTON_HPP
 
 #include "FROG/Control/Button.hpp"
 #include <SFML/Window/Event.hpp>

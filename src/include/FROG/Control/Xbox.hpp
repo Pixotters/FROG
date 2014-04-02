@@ -1,5 +1,5 @@
-#ifndef XBOX_HPP
-#define XBOX_HPP
+#ifndef FROG_XBOX_HPP
+#define FROG_XBOX_HPP
 
 #include <SFML/Window/Event.hpp>
 

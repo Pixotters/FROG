@@ -1,5 +1,5 @@
-#ifndef CTRL_MOUSESIMPLEBUTTON_HPP
-#define CTRL_MOUSESIMPLEBUTTON_HPP
+#ifndef FROG_CTRL_MOUSESIMPLEBUTTON_HPP
+#define FROG_CTRL_MOUSESIMPLEBUTTON_HPP
 
 #include "FROG/Control/MouseButton.hpp"
 #include "FROG/Control/SimpleButton.hpp"

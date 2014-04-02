@@ -1,9 +1,7 @@
-#ifndef PHYSICENGINE_HPP
-#define PHYSICENGINE_HPP
+#ifndef FROG_PHYSICENGINE_HPP
+#define FROG_PHYSICENGINE_HPP
 
 #include "FROG/GameObject.hpp"
-#include "FROG/Physics/Physics.hpp"
-
 
 namespace frog{
 

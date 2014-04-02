@@ -1,5 +1,5 @@
-#ifndef RANDOM_HPP
-#define RANDOM_HPP
+#ifndef FROG_RANDOM_HPP
+#define FROG_RANDOM_HPP
 
 
 namespace frog{

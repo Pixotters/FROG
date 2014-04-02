@@ -1,5 +1,5 @@
-#ifndef COLLISION_MANAGER_HPP
-#define COLLISION_MANAGER_HPP 1
+#ifndef FROG_COLLISION_MANAGER_HPP
+#define FROG_COLLISION_MANAGER_HPP 1
 
 /** Interface for collision managers */
 

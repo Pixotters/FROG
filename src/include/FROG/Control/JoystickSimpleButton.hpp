@@ -1,5 +1,5 @@
-#ifndef CTRL_JOYSTICKSIMPLEBUTTON_HPP
-#define CTRL_JOYSTICKSIMPLEBUTTON_HPP
+#ifndef FROG_CTRL_JOYSTICKSIMPLEBUTTON_HPP
+#define FROG_CTRL_JOYSTICKSIMPLEBUTTON_HPP
 
 #include "FROG/Control/JoystickButton.hpp"
 #include "FROG/Control/SimpleButton.hpp"

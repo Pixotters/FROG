@@ -1,5 +1,5 @@
-#ifndef SCENE_HPP
-#define SCENE_HPP
+#ifndef FROG_SCENE_HPP
+#define FROG_SCENE_HPP
 
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"

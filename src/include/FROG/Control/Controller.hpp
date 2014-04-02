@@ -1,5 +1,5 @@
-#ifndef CTRL_CONTROLLER_HPP
-#define CTRL_CONTROLLER_HPP
+#ifndef FROG_CTRL_CONTROLLER_HPP
+#define FROG_CTRL_CONTROLLER_HPP
 
 #include "FROG/Control/ControlHandler.hpp"
 

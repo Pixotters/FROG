@@ -1,5 +1,5 @@
-#ifndef STATEMANAGER_HPP
-#define STATEMANAGER_HPP
+#ifndef FROG_STATEMANAGER_HPP
+#define FROG_STATEMANAGER_HPP
 
 #include "FROG/Control/ControlHandler.hpp"
 #include "FROG/State.hpp"

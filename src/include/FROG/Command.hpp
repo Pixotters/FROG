@@ -1,5 +1,5 @@
-#ifndef COMMAND_HPP
-#define COMMAND_HPP
+#ifndef FROG_COMMAND_HPP
+#define FROG_COMMAND_HPP
 
 #include <string>
 

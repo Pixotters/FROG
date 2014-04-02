@@ -1,5 +1,5 @@
-#ifndef ACTIONMANAGER_HPP
-#define ACTIONMANAGER_HPP 1
+#ifndef FROG_ACTIONMANAGER_HPP
+#define FROG_ACTIONMANAGER_HPP 1
 
 #include <list>
 #include "FROG/Collision/Collisionable.hpp"

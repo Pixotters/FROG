@@ -1,5 +1,5 @@
-#ifndef COLLISIONABLE_HPP
-#define COLLISIONABLE_HPP 1
+#ifndef FROG_COLLISIONABLE_HPP
+#define FROG_COLLISIONABLE_HPP 1
 
 /**
  * SAPCollisionable is the interface that **MUST** be implemented by

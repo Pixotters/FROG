@@ -1,5 +1,5 @@
-#ifndef GAMEOBJECT_HPP
-#define GAMEOBJECT_HPP
+#ifndef FROG_GAMEOBJECT_HPP
+#define FROG_GAMEOBJECT_HPP
 
 #include "FROG/Transform.hpp"
 #include "FROG/ComponentHolder.hpp"

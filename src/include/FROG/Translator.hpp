@@ -1,5 +1,5 @@
-#ifndef TRANSLATOR_HPP
-#define TRANSLATOR_HPP
+#ifndef FROG_TRANSLATOR_HPP
+#define FROG_TRANSLATOR_HPP
 
 #include <exception>
 #include <iterator>
