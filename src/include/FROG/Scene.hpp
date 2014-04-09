@@ -11,12 +11,18 @@
 
 namespace frog{
 
+  /*!
+   * Scenes are main bricks of a game. They are special states. 
+   */
   class Scene : virtual public State{
 
     //// attributes ////
   protected:
+
     std::list<GameObject * > m_gameObjects;    
+
     sap::LSAP * m_collider;
+
     ctrl::Controller m_controller;
 
 

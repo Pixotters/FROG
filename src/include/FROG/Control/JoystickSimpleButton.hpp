@@ -11,6 +11,9 @@ namespace frog{
 
     class ControlHandler;
 
+    /*!
+     * JoystickSimpleButton is a one-time button pressed on a joystick. 
+     */
     class JoystickSimpleButton : virtual public JoystickButton,
                                  virtual public SimpleButton
     {

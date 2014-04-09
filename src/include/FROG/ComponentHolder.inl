@@ -2,9 +2,10 @@
 namespace frog{
 
   template <typename C>
-  C * const ComponentHolder::getComponent() const{
+  C * const ComponentHolder::getComponent() const
+  {
     auto end = m_components.end();
-    std::shared_ptr<C> res;
+    std::unique_ptr<C> res;
     for(auto it = m_components.begin(); it != end; it++)
       {
         if( (res=std::dynamic_pointer_cast<C>( *it )  )  )
@@ -33,24 +34,27 @@ namespace frog{
 
 
   template <typename C>
-  void ComponentHolder::addComponent(C * const c){
+  void ComponentHolder::addComponent(C * const c)
+  {
     if(not hasComponent<C>() )
       {
-        m_components.push_front(std::shared_ptr<C>(c) );
+        m_components.insert(std::unique_ptr<C>(c) );
       }
   }
 
   template <typename C>
-  void ComponentHolder::addComponent(std::shared_ptr<C> const c){
+  void ComponentHolder::addComponent(std::unique_ptr<C> const c)
+  {
     if( not hasComponent<C>() )
       {    
-        m_components.push_front(std::shared_ptr<C>(c) );
+        m_components.insert(c);
       } 
   }
 
 
   template <typename C>
-  void ComponentHolder::removeComponent(){
+  void ComponentHolder::removeComponent()
+  {
     auto end = m_components.end();
     for(auto it = m_components.begin(); it != end; it++)
       {

@@ -11,6 +11,9 @@ namespace frog{
 
     class ControlHandler;
 
+    /*!
+     * JoystickButton is a real-time button pressed on a joystick. 
+     */
     class JoystickButton : virtual public Button
     {
 

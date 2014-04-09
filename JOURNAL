@@ -7,7 +7,7 @@ Un //AssetManager// générique a aussi été réalisé, qui associe un type
 d'identifiant à un type de ressources : AssetManager<string, texture> associe 
 une chaine de caractères à une texture. 
 
-
+Question déploiement, nous avons vu : pkgconfig (--cflags, --libs), autoconf
 
 = 27/03 =
 

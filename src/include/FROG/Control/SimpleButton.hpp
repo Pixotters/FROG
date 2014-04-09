@@ -7,6 +7,10 @@ namespace frog{
 
   namespace ctrl{
 
+    /*!
+     * SimpleButton is a one-time button, that occurs either by pressing the 
+     * button, either by releasing it. 
+     */
     class SimpleButton : virtual public Button
     {
     public :
@@ -25,6 +29,7 @@ namespace frog{
       SimpleButton(const Trigger& = SimpleButton::PRESSED);
       virtual ~SimpleButton();
       Trigger getTrigger() const;
+
     };
 
   }

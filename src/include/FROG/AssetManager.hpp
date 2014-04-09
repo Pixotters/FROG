@@ -9,13 +9,19 @@
 
 namespace frog
 {
-
+  /*!
+   * AssetManager<ID, R> prevents from loading several times a file as it is 
+   * still in memory. It keeps a cache of <ID> -> unique_ptr<R> to remember 
+   * which file has been loaded at which identifier. 
+   */
   template <typename ID, typename R>
   class AssetManager
   {
 
     //// attributes ////
   protected:
+
+    /// Map of ID -> R
     std::map< ID, std::unique_ptr<R> > m_files;
 
     //// operations ////

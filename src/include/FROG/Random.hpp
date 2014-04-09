@@ -10,7 +10,17 @@ namespace frog{
     static unsigned int sNumbers[100];
 
   public:
+
+    /*!
+     * @brief Initializes the seed
+     */
     static void init();
+
+    /*!
+     * @brief Returns an integer in a given range. 
+     * @param min Minimal value possibly returned. 
+     * @param max Maximal value possibly returned. 
+     */
     static int get(const int& min, const int& max);
 
   };

@@ -11,6 +11,9 @@ namespace frog{
 
   namespace render{
 
+    /*!
+     * Renderer draws objects in a sf::RenderTarget. 
+     */
     class Renderer
     {
 

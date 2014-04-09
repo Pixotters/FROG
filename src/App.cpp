@@ -8,6 +8,16 @@
 
 namespace frog{
 
+  App::App()
+  {
+    m_config.loadFromFile("config.cfg");
+  }
+
+  App::~App()
+  {
+    destroy();
+  }
+
   void App::init(State * startstate)
   {
     m_window = new sf::RenderWindow(sf::VideoMode(
@@ -58,5 +68,43 @@ namespace frog{
     m_window->display();
   }
 
-}
+  bool App::isRunning() const
+  {
+    return m_isRunning;
+  }
 
+  sf::RenderWindow * App::getWindow() const
+  {
+    return m_window;
+  }
+
+  sf::Clock App::getClock() const
+  { 
+    return m_clock; 
+  }
+
+  sf::Time App::getDeltaTime() const
+  { 
+    return m_deltaTime; 
+  }
+
+  Config App::getConfig() const
+  { 
+    return m_config; 
+  }
+
+  StateManager App::getStateManager() const
+  {
+    return m_stateManager; 
+  }
+
+  StateManager& App::getStateManager()
+  {
+    return m_stateManager; 
+  }
+
+
+
+
+
+}

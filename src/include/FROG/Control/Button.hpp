@@ -7,6 +7,9 @@ namespace frog{
 
   namespace ctrl{
 
+    /*!
+     * Button is a real time input
+     */
     class Button : virtual public Input
     {
       //// operations ////

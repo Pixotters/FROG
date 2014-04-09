@@ -9,6 +9,10 @@ namespace frog{
 
     class ControlHandler;
 
+    /*!
+     * Input is an abstract class representing an event that can occur thanks 
+     * to user devices such as Keyboard, Mouse, and Joystick. 
+     */
     class Input
     {
       //// attributes ////

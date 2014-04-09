@@ -8,6 +8,10 @@
 
 namespace frog{
 
+  /*!
+   * StateManager helps diverting the flow by stacking states. Only the top 
+   * state is updated and renderer. 
+   */
   class StateManager
   {
 
@@ -18,7 +22,9 @@ namespace frog{
 
     //// operations ////
   public: 
+
     StateManager();
+
     virtual ~StateManager();
 
     /**

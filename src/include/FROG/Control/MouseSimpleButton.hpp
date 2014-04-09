@@ -11,6 +11,9 @@ namespace frog{
 
     class ControlHandler;
 
+    /*!
+     * MouseSimpleButton is a one-time button pressed on a keyboard. 
+     */
     class MouseSimpleButton : virtual public MouseButton,
                               virtual public SimpleButton
     {

@@ -10,6 +10,9 @@ namespace frog{
 
     class ControlHandler;
 
+    /*!
+     * KeyboardButton is a real-time button pressed on a keyboard. 
+     */
     class KeyboardButton : virtual public Button
     {
 

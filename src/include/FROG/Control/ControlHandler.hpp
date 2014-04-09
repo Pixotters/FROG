@@ -20,23 +20,40 @@ namespace frog{
 
   namespace ctrl{
 
-
+    /*!
+     * ControlHandler gets events that occur, and keeps a list of Input a state 
+     * is interested in. 
+     */
     class ControlHandler: virtual public Filter<Input *>
     {
       //// attributes ////
     protected:
+
       std::list< sf::Event > m_events;
+
       int m_mouseX;
+
       int m_mouseY;
+
       int m_mouseDeltaX;
+
       int m_mouseDeltaY;
+
       sf::Window * const m_window;
 
       //// operations ////
     public:
+
       ControlHandler(sf::Window * const = nullptr);
+
       virtual ~ControlHandler();
+
+      /*!
+       * @brief Computes the list of interesting inputs that actually occured. 
+       * @return List of Inputs that occurred. 
+       */
       std::list<Input *> update();
+
       bool check(Input *);
       bool check(KeyboardButton *);
       bool check(MouseButton *);
@@ -44,6 +61,7 @@ namespace frog{
       bool check(KeyboardSimpleButton *);
       bool check(MouseSimpleButton *);
       bool check(JoystickSimpleButton *);
+
       int getMouseX() const;
       int getMouseY() const;
       sf::Vector2i getMousePosition() const;

@@ -8,6 +8,9 @@
 
 namespace frog{
 
+  /*!
+   * Translator<IN, OUT> acts like a map of < IN -> OUT >
+   */
   template <typename IN, typename OUT>
   class Translator{
 
