@@ -42,15 +42,23 @@ public:
         }
 
         return v;
-
     }
+
+    virtual int getXMin() const { return xMin; }
+
+    virtual int getYMin() const { return yMin; }
+
+    virtual int getXMax() const { return xMax; }
+
+    virtual int getYMax() const { return yMax; }
+
+
 
 protected:
     /* do not react when force applied */
     virtual void applyForce(const sf::Vector2f & f) {}
 
 };
-
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -64,30 +72,36 @@ private:
 
 public:
     Circle(const float& rad = 32,
-            const sf::Color& color = sf::Color::White)
-      : TestBody(), m_radius(rad){
-      sf::Shape * m_sprite = new sf::CircleShape(rad);
-      m_sprite->setFillColor(color);
-      addComponent(new render::RenderingComponent(m_sprite ) );
+           const sf::Color& color = sf::Color::White)
+        : TestBody(), m_radius(rad){
+        sf::Shape * m_sprite = new sf::CircleShape(rad);
+        m_sprite->setFillColor(color);
+        addComponent(new render::RenderingComponent(m_sprite ) );
     };
+
     virtual ~Circle();
-  virtual sf::Vector2f getNormal(int x, int y) {
-    int tx = getTransform().getPosition().x;
-    int ty = getTransform().getPosition().y;
-    float _x = x - tx;
-    float _y = y - ty;
-    float len = sqrt(pow(_x, 2) + pow(_y, 2));
+
+    virtual sf::Vector2f getNormal(int x, int y) {
+        float _x = x - getTransform().getPosition().x;;
+        float _y = y - getTransform().getPosition().y;
+        float len = sqrt(pow(_x, 2) + pow(_y, 2));
     
-    return sf::Vector2f ( _x / len, _y / len);
-        
+        return sf::Vector2f ( _x / len, _y / len);        
     }
 
+    virtual int getXMin() const {
+        return getTransform().getPosition().x - m_radius; }
+
+    virtual int getYMin() const {
+        return getTransform().getPosition().y - m_radius; }
+
+    virtual int getXMax() const {
+        return getTransform().getPosition().x + m_radius; }
+
+    virtual int getYMax() const {
+        return getTransform().getPosition().y + m_radius; }
+
 };
-
-
-
-
-
 
 /* TODO:
  * - Implements a simple CollisionManager
