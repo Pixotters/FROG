@@ -1,3 +1,12 @@
+= 10/04 = 
+
+Niveau physique, il y a maintenant des collisions selon un point précis. Rien 
+n'est encore fourni pour déterminer ce point de collision (du module physique), 
+mais la réaction agit sur les vecteurs des forces qui s'appliquent aux objets 
+concernés. 
+
+La documentation Doxygen a été complétée. 
+
 = 03/04 =
 
 Le framework est maintenant bien séparé, et compile avec la commande 
@@ -8,6 +17,10 @@ d'identifiant à un type de ressources : AssetManager<string, texture> associe
 une chaine de caractères à une texture. 
 
 Question déploiement, nous avons vu : pkgconfig (--cflags, --libs), autoconf
+
+== Objectif de la semaine ==
+
+Plus de documentation, plus de physique.
 
 = 27/03 =
 
