@@ -44,13 +44,13 @@ public:
         return v;
     }
 
-    virtual int getXMin() { return xMin; }
+    virtual int getXMin() const { return xMin; }
 
-    virtual int getYMin() { return yMin; }
+    virtual int getYMin() const { return yMin; }
 
-    virtual int getXMax() { return xMax; }
+    virtual int getXMax() const { return xMax; }
 
-    virtual int getYMax() { return yMax; }
+    virtual int getYMax() const { return yMax; }
 
 
 
@@ -89,13 +89,17 @@ public:
         return sf::Vector2f ( _x / len, _y / len);        
     }
 
-    virtual int getXMin() { return getTransform().getPosition().x - radius; }
+    virtual int getXMin() const {
+        return getTransform().getPosition().x - m_radius; }
 
-    virtual int getYMin() { return getTransform().getPosition().y - radius; }
+    virtual int getYMin() const {
+        return getTransform().getPosition().y - m_radius; }
 
-    virtual int getXMax() { return getTransform().getPosition().x + radius; }
+    virtual int getXMax() const {
+        return getTransform().getPosition().x + m_radius; }
 
-    virtual int getYMax() { return getTransform().getPosition().y + radius; }
+    virtual int getYMax() const {
+        return getTransform().getPosition().y + m_radius; }
 
 };
 
