@@ -52,8 +52,6 @@ public:
 
     virtual int getYMax() const { return yMax; }
 
-
-
 protected:
     /* do not react when force applied */
     virtual void applyForce(const sf::Vector2f & f) {}
