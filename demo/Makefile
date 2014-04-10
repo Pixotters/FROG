@@ -7,7 +7,7 @@ ARGS=7
 SOURCES=$(wildcard *.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
-INC=include
+INC=../src/include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
 
