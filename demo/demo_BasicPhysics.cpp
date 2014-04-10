@@ -59,16 +59,17 @@ class Circle : virtual public TestBody
 {
 
 private:
-    sf::CircleShape m_sprite;
+    sf::CircleShape * m_sprite;
     float m_radius;
 
 public:
     Circle(const float& rad = 32,
             const sf::Color& c = sf::Color::White)
       : TestBody(), m_radius(rad){
-      m_sprite.setRadius(m_radius);
-        m_sprite.setColor(c);
-        addComponent<RenderingComponent>(m_sprite);
+      m_sprite = new sf::CircleShape(m_radius);
+      m_sprite->setRadius(m_radius);
+        m_sprite->setFillColor(c);
+        addComponent(new render::RenderingComponent(new sf::CircleShape(m_radius) ) );
     };
     virtual ~Circle();
   virtual sf::Vector2f getNormal(int x, int y) {
@@ -88,6 +89,51 @@ public:
 
 
 
+
+/* TODO:
+ * - Implements a simple CollisionManager
+ * - Add Walls
+ * - Add Circles with initial random movement
+ * - Render scene and relax
+ */
+
+class BaPhy : virtual public BasicPhysics {};
+
+class AcMan : virtual public sap::ActionManager {
+
+    /* Yep, this is ugly, but ActionManager needs to be improved */
+
+public:
+
+    BaPhy buck;
+
+    /* FIXME: Dummy collision position is center of first cicle */
+  virtual void onCollision(sap::Collisionable * b1, sap::Collisionable * b2) {
+        /* Collision between circle + something else */
+        Circle * c1 = dynamic_cast<Circle*>(b1);
+        int x = c1->getTransform().getPosition().x;
+        int y = c1->getTransform().getPosition().y;
+        if (Circle * c2 = dynamic_cast<Circle*>(b2)) {
+            buck.reaction(c1, c2, x, y);
+        } else if (Walls * w = dynamic_cast<Walls*>(b2)) {
+            buck.reaction(c1, w, x, y);
+        }
+    }
+
+  virtual void onSeparation(sap::Collisionable * b1, sap::Collisionable * b2) {
+        /* Separation: do nothing except if a Circle try to run out Walls */
+        Circle * c = dynamic_cast<Circle*>(b1);
+        Walls * w = dynamic_cast<Walls*>(b2);
+        int x = c->getTransform().getPosition().x;
+        int y = c->getTransform().getPosition().y;
+        if (c != nullptr && w != nullptr) {
+            buck.reaction(c, w, x, y);
+        }
+    }
+
+};
+
+
 class Demo : virtual public Scene
 {
 
@@ -99,7 +145,7 @@ public:
                 unsigned int y = Random::get(0, 600);
                 addCircle(x, y, new Circle() );
             }
-        m_collider = new sap::LSAP(am);  
+        m_collider = new sap::LSAP(new AcMan() );  
     }
 
     virtual ~Demo(){}
@@ -123,47 +169,3 @@ int main(int argc, char ** argv)
     App::instance()->run();
     App::instance()->exit();
 }
-
-/* TODO:
- * - Implements a simple CollisionManager
- * - Add Walls
- * - Add Circles with initial random movement
- * - Render scene and relax
- */
-
-class BaPhy : virtual public BasicPhysics {};
-
-class AcMan : virtual public sap::ActionManager {
-
-    /* Yep, this is ugly, but ActionManager needs to be improved */
-
-public:
-
-    BaPhy buck;
-
-    /* FIXME: Dummy collision position is center of first cicle */
-
-    virtual void onCollision(TestBody * b1, TestBody * b2) {
-        /* Collision between circle + something else */
-        Circle * c1 = dynamic_cast<Circle*>(b1);
-        int x = c1->getTransform().getPosition().x;
-        int y = c1->getTransform().getPosition().y;
-        if (Circle * c2 = dynamic_cast<Circle*>(b2)) {
-            buck.reaction(c1, c2, x, y);
-        } else if (Walls * w = dynamic_cast<Walls*>(b2)) {
-            buck.reaction(c1, w, x, y);
-        }
-    }
-
-    virtual void onSeparation(TestBody * b1, TestBody * b2) {
-        /* Separation: do nothing except if a Circle try to run out Walls */
-        Circle * c = dynamic_cast<Circle*>(b1);
-        Walls * w = dynamic_cast<Walls*>(b2);
-        int x = c->getTransform().getPosition().x;
-        int y = c->getTransform().getPosition().y;
-        if (c != nullptr && w != nullptr) {
-            buck.reaction(c, w, x, y);
-        }
-    }
-
-};
