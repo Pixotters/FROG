@@ -1,6 +1,6 @@
-#include "Control/ControlHandler.hpp"
-#include "Control/Input.hpp"
-#include "App.hpp" // TODO : see that dependencie
+#include "FROG/Control/ControlHandler.hpp"
+#include "FROG/Control/Input.hpp"
+#include "FROG/App.hpp" // TODO : see that dependencie
 #include <SFML/Window/Event.hpp>
 
 namespace frog{

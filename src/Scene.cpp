@@ -1,7 +1,7 @@
-#include "Scene.hpp"
+#include "FROG/Scene.hpp"
 
-#include "Collision/Collisionable.hpp"
-#include "Collision/LSAP.hpp"
+#include "FROG/Collision/Collisionable.hpp"
+#include "FROG/Collision/LSAP.hpp"
 
 namespace frog{
 

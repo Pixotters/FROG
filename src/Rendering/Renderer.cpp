@@ -1,6 +1,6 @@
-#include "Rendering/Renderer.hpp"
+#include "FROG/Rendering/Renderer.hpp"
 
-#include "Transform.hpp"
+#include "FROG/Transform.hpp"
 
 /* TODO : no map needed, a std::set is enough, 
    and factorise (collisionManager has the same add, remove, update) */

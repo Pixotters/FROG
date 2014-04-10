@@ -1,6 +1,6 @@
-#include "Control/Input.hpp"
+#include "FROG/Control/Input.hpp"
 
-#include "Control/ControlHandler.hpp"
+#include "FROG/Control/ControlHandler.hpp"
 
 namespace frog{
 

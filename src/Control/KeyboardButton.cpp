@@ -1,6 +1,6 @@
-#include "Control/KeyboardButton.hpp"
+#include "FROG/Control/KeyboardButton.hpp"
 
-#include "Control/ControlHandler.hpp"
+#include "FROG/Control/ControlHandler.hpp"
 
 namespace frog{
 

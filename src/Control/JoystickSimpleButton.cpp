@@ -1,6 +1,6 @@
-#include "Control/JoystickSimpleButton.hpp"
+#include "FROG/Control/JoystickSimpleButton.hpp"
 
-#include "Control/ControlHandler.hpp"
+#include "FROG/Control/ControlHandler.hpp"
 
 namespace frog{
 

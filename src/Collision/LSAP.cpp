@@ -1,7 +1,7 @@
 #include <map>
 #include <climits>
 
-#include "Collision/LSAP.hpp"
+#include "FROG/Collision/LSAP.hpp"
 
 namespace sap {
 

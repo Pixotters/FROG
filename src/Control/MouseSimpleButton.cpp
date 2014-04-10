@@ -1,6 +1,6 @@
-#include "Control/MouseSimpleButton.hpp"
+#include "FROG/Control/MouseSimpleButton.hpp"
 
-#include "Control/ControlHandler.hpp"
+#include "FROG/Control/ControlHandler.hpp"
 
 namespace frog{
 

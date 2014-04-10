@@ -1,5 +1,5 @@
 
-#include "Rendering/RenderingComponent.hpp"
+#include "FROG/Rendering/RenderingComponent.hpp"
 
 namespace frog{
 
