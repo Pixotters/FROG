@@ -14,6 +14,12 @@
 class BodyTester : virtual public PhysicBody {
 public:
     BodyTester (float x = 0, float y = 0) : PhysicBody (x, y) {}
+protected:
+    /* For testing we will use x and y param to build an excpected
+     * normal vector */
+    virtual sf::Vector2f getNormal(int x, int y) {
+        return sf::Vector2f(x, y);
+    }
 };
 
 /*
@@ -64,7 +70,7 @@ BOOST_AUTO_TEST_SUITE( BasicPhysic_test )
 
 BOOST_FIXTURE_TEST_CASE ( reaction1, PhysicFixture ) {
 
-    physics.reaction(&o1, &o2);
+    physics.reaction(&o1, &o2, 0, 0);
 
     BOOST_CHECK ( o1.force == sf::Vector2f(10, 10) );
     BOOST_CHECK ( o2.force == sf::Vector2f(0, 0) );
