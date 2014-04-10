@@ -23,6 +23,7 @@ public:
 
     Walls (int xi, int xa, int yi, int ya) :
         xMin(xi), xMax(xa), yMin(yi), yMax(ya) {}
+
     ~Walls () {}
 
     virtual sf::Vector2f getNormal(int x, int y) {
@@ -77,7 +78,7 @@ public:
         addComponent(new render::RenderingComponent(m_sprite ) );
     };
 
-    virtual ~Circle();
+    virtual ~Circle() {}
 
     virtual sf::Vector2f getNormal(int x, int y) {
         float _x = x - getTransform().getPosition().x;;
