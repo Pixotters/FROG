@@ -1,5 +1,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include <iostream>
 #include "FROG/App.hpp"
 #include "FROG/Random.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
@@ -12,7 +13,22 @@ using namespace frog;
 
 class TestBody : virtual public GameObject,
                  virtual public PhysicBody, 
-                 virtual public sap::Collisionable {};
+                 virtual public sap::Collisionable {
+
+public:
+  TestBody(const float& x = 1, const float& y = 1)
+    : GameObject(), sap::Collisionable(), PhysicBody(x, y)
+  {
+
+  force += sf::Vector2f(x, y);
+    std::cout << this <<" : "
+               << x << "," 
+               << y <<
+      " + " << force.x << "," << force.y << std::endl;    
+  };
+
+  virtual ~TestBody(){};
+};
 
 class Walls : virtual public TestBody {
 
@@ -22,7 +38,11 @@ public:
     int xMin, xMax, yMin, yMax;
 
     Walls (int xi, int xa, int yi, int ya) :
-        xMin(xi), xMax(xa), yMin(yi), yMax(ya) {}
+      TestBody(), xMin(xi), xMax(xa), yMin(yi), yMax(ya) {
+      sf::Shape * m_sprite = new sf::CircleShape(1);
+      m_sprite->setFillColor(sf::Color::White);
+        addComponent(new render::RenderingComponent(m_sprite ) );
+    }
 
     ~Walls () {}
 
@@ -71,8 +91,9 @@ private:
 
 public:
     Circle(const float& rad = 32,
-           const sf::Color& color = sf::Color::White)
-        : TestBody(), m_radius(rad){
+           const sf::Color& color = sf::Color::White,
+           const int& vx = 1, const int& vy = 1)
+      : TestBody(vx, vy ), m_radius(rad){
         sf::Shape * m_sprite = new sf::CircleShape(rad);
         m_sprite->setFillColor(color);
         addComponent(new render::RenderingComponent(m_sprite ) );
@@ -151,21 +172,62 @@ class Demo : virtual public Scene
 
 public:
     Demo(const unsigned int& n) : Scene(){
+        m_collider = new sap::LSAP(new AcMan() );    
+        addWalls(0, 800, 0, 600);
         for(unsigned int it = 0; it < n; it++)
             {
-                unsigned int x = Random::get(0, 800);
-                unsigned int y = Random::get(0, 600);
-                addCircle(x, y, new Circle() );
+              std::cerr << "adding a circle "<<std::endl;
+                unsigned int x = Random::get(410, 480);
+                unsigned int y = Random::get(100, 200);
+                unsigned int vx = Random::get(1, 10);
+                unsigned int vy = Random::get(1, 10);
+                std::cout << "x, y : "<<x<<","<<y<<
+                  "vx, vy : "<< vx << "," << vy << std::endl;
+                addCircle(x, y, new Circle(16, sf::Color::Red, vx, vy) );
+                
+              std::cerr << "added "<<std::endl;
             }
-        m_collider = new sap::LSAP(new AcMan() );  
+        
+        std::cerr << "declaring collider "<<std::endl;
+        std::cerr << "declared collider "<<std::endl;
+
     }
 
     virtual ~Demo(){}
     void addCircle(const unsigned int& x, const unsigned int& y, Circle * c){
-        Transform& t = c->getTransform();
-        t.setPosition(x, y);
+      std::cerr << "addCircle : 1 "<<std::endl;
+        Transform * t = c->getPTransform();      
+        std::cerr << "addCircle : 2 "<<std::endl;
+        t->setPosition(x, y);
+      std::cerr << "addCircle : 3 "<<std::endl;
         addObject(c);
+              std::cerr << "addCircle : 4 "<<std::endl;
     };
+  void addWalls(const int& x1, const int& y1, const int& x2, const int& y2){
+    Walls * w = new Walls(x1, x2, y1, y2);
+    std::cout<< "created wall"<<std::endl;
+    addObject(w);
+    std::cout<< "added wall"<<std::endl;
+  };
+
+  virtual void update()
+  {
+    Scene::update();
+    auto end = m_gameObjects.end();
+    for(auto it = m_gameObjects.begin(); it != end; it++)
+      {
+        PhysicBody * pb;            
+        if( (pb = dynamic_cast<PhysicBody *>(*it) ) )
+          {
+            Transform * t = (*it)->getPTransform();
+            t->move( pb->getVelocity() );
+           std::cerr << *it <<" : "
+                      << t->getPosition().x << "," 
+                      << t->getPosition().y <<
+                      " + " << pb->getVelocity().x << "," << pb->getVelocity().y << std::endl;
+          }
+      }
+  }
 
 };
 
@@ -176,8 +238,11 @@ int main(int argc, char ** argv)
     int n = 7;
     if(argc > 1)
         n = atoi(argv[1]);
-    App::instance()->init(new Demo(n) );
+    std::cerr << n<<" circles"<< std::endl;
     Random::init();
+    App::instance()->init(new Demo(n) );
+    std::cerr << "App init "<< std::endl;
     App::instance()->run();
+    std::cerr << "App exiting "<< std::endl;
     App::instance()->exit();
 }

@@ -3,6 +3,8 @@
 #include "FROG/Collision/Collisionable.hpp"
 #include "FROG/Collision/LSAP.hpp"
 
+#include <iostream> // TODO remove
+
 namespace frog{
 
   Scene::Scene()
@@ -40,12 +42,15 @@ namespace frog{
           }
       }
     m_gameObjects.push_back(go);
+    std::cerr << "pushed back "<<std::endl;
     // adding the object's components to managers 
     sap::Collisionable * c;
     if( (c=dynamic_cast<sap::Collisionable *>(go) )  )
       {
+        std::cerr << "collider : "<<m_collider<< " -> "<< c<<std::endl;
         m_collider->addObject(c);
       }
+    std::cerr << "renderer "<<std::endl;
     m_renderer->addObject(go);
     return true;
   }
