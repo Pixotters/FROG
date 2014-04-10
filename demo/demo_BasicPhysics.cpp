@@ -42,15 +42,23 @@ public:
         }
 
         return v;
-
     }
+
+    virtual int getXMin() { return xMin; }
+
+    virtual int getYMin() { return yMin; }
+
+    virtual int getXMax() { return xMax; }
+
+    virtual int getYMax() { return yMax; }
+
+
 
 protected:
     /* do not react when force applied */
     virtual void applyForce(const sf::Vector2f & f) {}
 
 };
-
 
 ////////////////////////////////////////////////////////////////////////
 
@@ -64,23 +72,30 @@ private:
 
 public:
     Circle(const float& rad = 32,
-            const sf::Color& color = sf::Color::White)
-      : TestBody(), m_radius(rad){
-      sf::Shape * m_sprite = new sf::CircleShape(rad);
-      m_sprite->setFillColor(color);
-      addComponent(new render::RenderingComponent(m_sprite ) );
+           const sf::Color& color = sf::Color::White)
+        : TestBody(), m_radius(rad){
+        sf::Shape * m_sprite = new sf::CircleShape(rad);
+        m_sprite->setFillColor(color);
+        addComponent(new render::RenderingComponent(m_sprite ) );
     };
+
     virtual ~Circle();
-  virtual sf::Vector2f getNormal(int x, int y) {
-    int tx = getTransform().getPosition().x;
-    int ty = getTransform().getPosition().y;
-    float _x = x - tx;
-    float _y = y - ty;
-    float len = sqrt(pow(_x, 2) + pow(_y, 2));
+
+    virtual sf::Vector2f getNormal(int x, int y) {
+        float _x = x - getTransform().getPosition().x;;
+        float _y = y - getTransform().getPosition().y;
+        float len = sqrt(pow(_x, 2) + pow(_y, 2));
     
-    return sf::Vector2f ( _x / len, _y / len);
-        
+        return sf::Vector2f ( _x / len, _y / len);        
     }
+
+    virtual int getXMin() { return getTransform().getPosition().x - radius; }
+
+    virtual int getYMin() { return getTransform().getPosition().y - radius; }
+
+    virtual int getXMax() { return getTransform().getPosition().x + radius; }
+
+    virtual int getYMax() { return getTransform().getPosition().y + radius; }
 
 };
 
