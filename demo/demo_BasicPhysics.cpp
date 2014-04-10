@@ -52,8 +52,6 @@ public:
 
     virtual int getYMax() const { return yMax; }
 
-
-
 protected:
     /* do not react when force applied */
     virtual void applyForce(const sf::Vector2f & f) {}
@@ -102,11 +100,6 @@ public:
         return getTransform().getPosition().y + m_radius; }
 
 };
-
-
-
-
-
 
 /* TODO:
  * - Implements a simple CollisionManager
