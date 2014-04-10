@@ -21,7 +21,7 @@ namespace frog{
   protected:
 
     /// set of components hold by the component holder
-    std::set< std::unique_ptr<Component> > m_components;
+    std::set< std::shared_ptr<Component> > m_components;
 
     //// operations ////
   public:
@@ -56,7 +56,7 @@ namespace frog{
      * @param c Component to add.  
      */
     template <typename C>
-    void addComponent(std::unique_ptr<C> const c);
+    void addComponent(std::shared_ptr<C> const c);
 
     /*!
      * @brief Removes the component of the given type. 
@@ -69,6 +69,7 @@ namespace frog{
   };
 
 }
+
 #include "ComponentHolder.inl"
 
 #endif

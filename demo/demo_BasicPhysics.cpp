@@ -64,12 +64,11 @@ private:
 
 public:
     Circle(const float& rad = 32,
-            const sf::Color& c = sf::Color::White)
+            const sf::Color& color = sf::Color::White)
       : TestBody(), m_radius(rad){
-      m_sprite = new sf::CircleShape(m_radius);
-      m_sprite->setRadius(m_radius);
-        m_sprite->setFillColor(c);
-        addComponent(new render::RenderingComponent(new sf::CircleShape(m_radius) ) );
+      sf::Shape * m_sprite = new sf::CircleShape(rad);
+      m_sprite->setFillColor(color);
+      addComponent(new render::RenderingComponent(m_sprite ) );
     };
     virtual ~Circle();
   virtual sf::Vector2f getNormal(int x, int y) {
