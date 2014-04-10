@@ -1,9 +1,13 @@
 #include "FROG/Component.hpp"
 
-Component::Component()
-{
-}
+namespace frog{
 
-Component::~Component()
-{
+  Component::Component()
+  {
+  }
+
+  Component::~Component()
+  {
+  }
+
 }

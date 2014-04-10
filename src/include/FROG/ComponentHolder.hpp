@@ -3,7 +3,7 @@
 
 #include "FROG/Component.hpp"
 
-#include <list>
+#include <set>
 
 #include <memory>
 

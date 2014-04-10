@@ -1,5 +1,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
+#include "FROG/App.hpp"
+#include "FROG/Random.hpp"
+#include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Physics/BasicPhysics.hpp"
 #include "FROG/Scene.hpp"
 #include "FROG/GameObject.hpp"
@@ -7,7 +10,9 @@
 
 using namespace frog;
 
-class TestBody : virtual public PhysicBody, virtual public sap::Collisionable {};
+class TestBody : virtual public GameObject,
+                 virtual public PhysicBody, 
+                 virtual public sap::Collisionable {};
 
 class Walls : virtual public TestBody {
 
@@ -46,30 +51,38 @@ protected:
 
 };
 
-class Circle : virtual public TestBody {
-
-public:
-
-    int x, y;
-    int r;
-
-    Circle (int _x, int _y, int _r) : x(_x), y(_y), r(_r) {}
-    ~Circle () {}
-
-    virtual sf::Vector2f getNormal(int x, int y) {
-
-        float _x = x - this->x;
-        float _y = y - this->y;
-        float len = sqrt(pow(_x, 2) + pow(_y, 2));
-
-        return sf::Vector2f ( _x / len, _y / len);
-        
-    }
-};
-
-
 
 ////////////////////////////////////////////////////////////////////////
+
+
+class Circle : virtual public TestBody
+{
+
+private:
+    sf::CircleShape m_sprite;
+    float m_radius;
+
+public:
+    Circle(const float& rad = 32,
+            const sf::Color& c = sf::Color::White)
+      : TestBody(), m_radius(rad){
+      m_sprite.setRadius(m_radius);
+        m_sprite.setColor(c);
+        addComponent<RenderingComponent>(m_sprite);
+    };
+    virtual ~Circle();
+  virtual sf::Vector2f getNormal(int x, int y) {
+    int tx = getTransform().getPosition().x;
+    int ty = getTransform().getPosition().y;
+    float _x = x - tx;
+    float _y = y - ty;
+    float len = sqrt(pow(_x, 2) + pow(_y, 2));
+    
+    return sf::Vector2f ( _x / len, _y / len);
+        
+    }
+
+};
 
 
 
@@ -84,33 +97,18 @@ public:
             {
                 unsigned int x = Random::get(0, 800);
                 unsigned int y = Random::get(0, 600);
-                addCircle(x, y, new GCircle() );
+                addCircle(x, y, new Circle() );
             }
         m_collider = new sap::LSAP(am);  
     }
 
     virtual ~Demo(){}
-    void addCircle(const unsigned int& x, const unsigned int& y, GCircle * c){
-        Transform * t = c->getTransform();
-        t->setPosition(x, y);
+    void addCircle(const unsigned int& x, const unsigned int& y, Circle * c){
+        Transform& t = c->getTransform();
+        t.setPosition(x, y);
         addObject(c);
     };
-};
 
-class GCircle : virtual public GameObject
-{
-
-private:
-    sf::CircleShape m_sprite;
-
-public:
-    GCircle(const float& rad = 32,
-            const sf::Color& c = sf::Color::White){
-        m_sprite.setRadius(rad);
-        m_sprite.setColor(c);
-        addComponent<RenderingComponent>(m_sprite);
-    };
-    virtual ~GCircle();
 };
 
 /////////////////////////:
@@ -148,11 +146,12 @@ public:
     virtual void onCollision(TestBody * b1, TestBody * b2) {
         /* Collision between circle + something else */
         Circle * c1 = dynamic_cast<Circle*>(b1);
-
+        int x = c1->getTransform().getPosition().x;
+        int y = c1->getTransform().getPosition().y;
         if (Circle * c2 = dynamic_cast<Circle*>(b2)) {
-            buck.reaction(c1, c2, c1->x, c1->y);
+            buck.reaction(c1, c2, x, y);
         } else if (Walls * w = dynamic_cast<Walls*>(b2)) {
-            buck.reaction(c1, w, c1->x, c1->y);
+            buck.reaction(c1, w, x, y);
         }
     }
 
@@ -160,8 +159,10 @@ public:
         /* Separation: do nothing except if a Circle try to run out Walls */
         Circle * c = dynamic_cast<Circle*>(b1);
         Walls * w = dynamic_cast<Walls*>(b2);
-        if (c != NULL && w != NULL) {
-            buck.reaction(c, w, c->x, c->y);
+        int x = c->getTransform().getPosition().x;
+        int y = c->getTransform().getPosition().y;
+        if (c != nullptr && w != nullptr) {
+            buck.reaction(c, w, x, y);
         }
     }
 

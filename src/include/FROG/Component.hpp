@@ -2,7 +2,6 @@
 #define FROG_COMPONENT_HPP
 
 #include <memory>
-#include "FROG/GameObject.hpp"
 
 namespace frog{
 
@@ -15,7 +14,6 @@ namespace frog{
   {
     //// attributes ////
   protected:
-    std::weak_ptr<GameObject> m_parent;
 
     //// operations ////
   public:

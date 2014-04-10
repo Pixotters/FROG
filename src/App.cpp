@@ -1,8 +1,8 @@
-#include "App.hpp"
-#include "Random.hpp"
+#include "FROG/App.hpp"
+#include "FROG/Random.hpp"
 
 
-#include "State.hpp"
+#include "FROG/State.hpp"
 
 #include <iostream> // TODO remove
 

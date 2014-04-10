@@ -14,7 +14,7 @@ namespace frog{
 
   bool Command::operator()()
   {
-    execute();
+    return execute();
   }
 
 }
