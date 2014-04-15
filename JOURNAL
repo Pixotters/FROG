@@ -7,6 +7,14 @@ concernés.
 
 La documentation Doxygen a été complétée. 
 
+== Objectifs des vacances ==
+
+Un travail sur l'utilisation mémoire va être fait, par l'utilisation de 
+pointeurs intelligents : en passant un pointeur à une fonction, on ne sait pas 
+si il est alloué directement en paramètre, ou avant. On ne peut donc pas savoir 
+quand l'objet sera libéré. 
+Nous devrions aussi avancer sur la physique. 
+
 = 03/04 =
 
 Le framework est maintenant bien séparé, et compile avec la commande 
