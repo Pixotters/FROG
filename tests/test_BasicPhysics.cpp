@@ -5,7 +5,7 @@
 /* make everything public for testing */
 #define private public
 #define protected public
-#include "include/Physics/BasicPhysics.hpp"
+#include "FROG/Physics/BasicPhysics.hpp"
 
 /* 
  * USER DEFINED CLASSES

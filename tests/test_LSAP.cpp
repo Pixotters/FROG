@@ -6,8 +6,8 @@
 /* make everything public for testing */
 #define private public
 #define protected public
-#include "include/Collision/Collisionable.hpp"
-#include "include/Collision/LSAP.hpp"
+#include "FROG/Collision/Collisionable.hpp"
+#include "FROG/Collision/LSAP.hpp"
 
 /* 
  * USER DEFINED CLASSES
