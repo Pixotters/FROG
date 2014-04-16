@@ -25,9 +25,9 @@ protected:
     /* FIXME:
      * making it virtual could be interesting if we want some objects
      * to act different, but we want this? */
-  virtual void applyForce(const sf::Vector2f & f){
+    virtual void applyForce(const sf::Vector2f & f){
         force += f;
-  };
+    };
 
     /**
      * Gives the normal vector (collision reponse)
@@ -38,13 +38,13 @@ protected:
 
 public:
 
-  PhysicBody(const float& x = 0, const float& y = 0);
+    PhysicBody(const float& x = 0, const float& y = 0);
 
     virtual ~PhysicBody() {}
 
-  sf::Vector2f getVelocity() const{
-    return force;
-  }
+    sf::Vector2f getVelocity() const{
+        return force;
+    }
 };
 
 class BasicPhysics {
