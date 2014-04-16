@@ -3,12 +3,13 @@
 template <typename ID, typename R>
 AssetManager<ID,R>::AssetManager()
 {
-
+  m_loadCount = 0;
 }
 
 template <typename ID, typename R>
 AssetManager<ID,R>::~AssetManager()
 {
+  std::cout << "Destroying" <<std::endl;
   m_files.clear();
 }
 
@@ -38,6 +39,7 @@ void AssetManager<ID,R>::loadFromFile(const std::string& path, const ID& id)
   if( m_files.find(id) == m_files.end() )
     {
       std::unique_ptr<R> pr(new R() );  
+      m_loadCount++;
       if( not pr->loadFromFile(path) )
         {
           std::string err = "Impossible to create asset because a problem \
@@ -52,3 +54,8 @@ void AssetManager<ID,R>::loadFromFile(const std::string& path, const ID& id)
 
 }
 
+template <typename ID, typename R>
+unsigned int AssetManager<ID,R>::getLoadCount() const
+{
+  return m_loadCount;
+}
