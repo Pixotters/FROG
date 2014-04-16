@@ -1,16 +1,22 @@
-# Nicolas CAILLOUX & Julien SAGOT
-
 include ../Makefile.generic
 
 PHYSICS_DEMO=physics_demo
 
 SOURCES=$(wildcard *.cpp) $(wildcard */*.cpp)
-HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 
-INC=../src/include
 LIBDIR=lib
+INC=../src/include
 CXXFLAGS+= -I$(INC)
+
+export LD_LIBRARY_PATH+=:$(LIBDIR)
+
+.PHONY: lib
+
+lib:
+	make -C ../src frog
+	mkdir -p $(LIBDIR)
+	cp ../src/libfrog.so* $(LIBDIR)/
 
 show: generic_show
 	@echo "-sources : $(SOURCES)"
@@ -20,16 +26,17 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PHYSICS_DEMO): $(OBJECTS)
+$(PHYSICS_DEMO): demo_BasicPhysics.o
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
 
 local_clean:
 	rm -f $(PHYSICS_DEMO)
+	rm -rf $(LIBDIR)
 
-exportlib:
-	export LD_LIBRARY_PATH=$(LIBDIR)
+clean:
+	make -C .. clean
 
-run-$(PHYSICS_DEMO): $(PHYSICS_DEMO) exportlib
-	 $(VALGRIND) ./$< 7
+run-$(PHYSICS_DEMO): $(PHYSICS_DEMO)
+	$(VALGRIND) ./$< 7
 
 -include $(SOURCES:.cpp=.d)
