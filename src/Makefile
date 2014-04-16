@@ -5,7 +5,6 @@ VERSION=0
 SUBVERSION=1
 FROGVERSION=$(FROG).$(VERSION).$(SUBVERSION)
 
-
 SOURCES=$(wildcard *.cpp) $(wildcard */*.cpp)
 HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
@@ -37,4 +36,3 @@ local_clean:
 	rm -f $(FROG) $(FROG).$(VERSION) $@.$(VERSION).$(SUBVERSION)
 
 -include $(SOURCES:.cpp=.d)
--include $(SUBSOURCES:.cpp=.d)
