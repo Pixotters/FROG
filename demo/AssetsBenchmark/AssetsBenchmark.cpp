@@ -1,5 +1,5 @@
-#include "AssetManager.hpp"
-#include "GameObject.hpp"
+#include "FROG/AssetManager.hpp"
+#include "FROG/GameObject.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -7,12 +7,13 @@
 
 static int LOAD_COUNT = 0;
 
-typedef sf::Texture Tex;
+#include "TestFile.hpp"
+//typedef sf::Texture Tex;
 
 void loadFromFile(const std::string& path, const std::string& id) 
 throw (std::runtime_error)
 {
-  std::unique_ptr<Tex> pr(new Tex() );  
+  std::unique_ptr<TestFile> pr(new TestFile() );  
   LOAD_COUNT++;
   if( not pr->loadFromFile(path) )
     {
@@ -45,12 +46,12 @@ int main(int charc, char ** argv)
           std::cout<< "Without AssetManager -> "<<LOAD_COUNT<<"/"<<ceiling<<std::endl;
         }else{
         // using asset manager
-        frog::AssetManager<std::string, Tex> am;
+        frog::AssetManager<std::string, TestFile> am;
         for(int i = 0; i < ceiling; i++)
-          am.loadFromFile("test.png", "a");
+          am.loadFromFile("makelog", "a");
         std::cout<< "With AssetManager -> "<<am.getLoadCount()<<"/"<<ceiling<<std::endl;
 
       }
     }
-
+  std::cout << "Ending..." <<std::endl;
 }
