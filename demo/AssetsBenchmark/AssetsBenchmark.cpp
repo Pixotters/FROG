@@ -1,9 +1,7 @@
-#include "AssetManager.hpp"
-#include "GameObject.hpp"
-
-#include <SFML/Graphics.hpp>
-
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include "FROG/AssetManager.hpp"
+#include "FROG/GameObject.hpp"
 
 static int LOAD_COUNT = 0;
 
