@@ -26,7 +26,7 @@ show: generic_show
 
 $(FROG): $(FROGVERSION)
 	ldconfig -l $@.$(VERSION).$(SUBVERSION)
-	ln -s $@.$(VERSION) $@
+	ln -sf $@.$(VERSION) $@
 
 $(FROGVERSION): $(OBJECTS)
 	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
