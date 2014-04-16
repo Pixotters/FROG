@@ -2,24 +2,17 @@
 
 include ../Makefile.generic
 
-PROGRAM=DEMO_PHI
-ARGS=7
-SOURCES=$(wildcard *.cpp)
-HEADERS=$(wildcard *.hpp)
+PHYSICS_DEMO=physics_demo
+
+SOURCES=$(wildcard *.cpp) $(wildcard */*.cpp)
+HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
+
 INC=../src/include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
 
-# Put here if there are some sub-directories to manage
-
-# === 
-
-
-game: $(PROGRAM)
-
 show: generic_show
-	@echo "-Program : $(PROGRAM)"
 	@echo "-sources : $(SOURCES)"
 	@echo "-objects : $(OBJECTS)"
 	@echo "-librairies directory : $(LIBDIR)"
@@ -27,20 +20,16 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PROGRAM): $(OBJECTS)
+$(PHYSICS_DEMO): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
 
-clean: generic_clean
-	cd $(CTRLDIR); rm -f *.o *.d *.d* *~ *#
+local_clean:
+	rm -f $(PHYSICS_DEMO)
 
-proper:
-	rm -f $(PROGRAM)
+exportlib:
+	export LD_LIBRARY_PATH=$(LIBDIR)
 
-start:
-	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) $(ARGS) 2> errlog
-
-valgrind:
-	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) 2> valgrind_log
+run-$(PHYSICS_DEMO): $(PHYSICS_DEMO) exportlib
+	 $(VALGRIND) ./$< 7
 
 -include $(SOURCES:.cpp=.d)
--include $(SUBSOURCES:.cpp=.d)
