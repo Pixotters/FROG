@@ -1,6 +1,6 @@
-#include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <iostream>
+#include <SFML/System/Vector2.hpp>
 #include "FROG/App.hpp"
 #include "FROG/Random.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
