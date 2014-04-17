@@ -12,10 +12,15 @@ else
 endif
 endif
 
+CPPCHECK=cppcheck --enable=style,performance -q
+
 generic_show:
 	@echo "-compiler : $(CXX)"
 	@echo "-compiler options : $(CXXFLAGS)"
 	@echo "-linker flag : $(LDFLAGS)"
+
+cppcheck:
+	$(CPPCHECK) .
 
 %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -M $< > $@

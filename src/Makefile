@@ -1,5 +1,7 @@
 include ../Makefile.generic
 
+CPPCHECK+= --rule-file=../cppcheck_custom_rules.xml
+
 FROG=libfrog.so
 VERSION=0
 SUBVERSION=1
