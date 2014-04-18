@@ -1,5 +1,6 @@
 #include "FROG/GameObject.hpp"
 
+#include <iostream>
 
 namespace frog{
 
@@ -11,7 +12,9 @@ namespace frog{
 
   GameObject::~GameObject()
   {
-
+#ifdef DEBUG
+    std::cerr << "Destroying GameObject "<< this << std::endl;
+#endif
   }
 
 

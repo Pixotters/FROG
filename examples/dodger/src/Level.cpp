@@ -54,8 +54,8 @@ public:
   }
 
   void onCollision(Player * a, Target * b){
-    m_targets->remove(b);
-    m_renderer->removeObject(b);
+    //    m_targets->remove(b);
+    //    m_renderer->removeObject(b);
     
   }
 
@@ -71,19 +71,18 @@ public:
 
 
 Level::Level()
-  : Scene()
+  : Scene(), m_player(new Player)
 { 
-  m_player = new Player;
   m_playerTexture.loadFromFile("assets/frog.png");
   m_targetTexture.loadFromFile("assets/donut.png");
   m_enemyTexture.loadFromFile("assets/troll.png");
   sf::Sprite * s = new sf::Sprite;
   s->setTexture(m_playerTexture);
   m_player->addComponent(new render::RenderingComponent(s) );
-  auto moveleft = new MovePlayer(m_player, -4, 0);
-  auto moveright = new MovePlayer(m_player, 4, 0);
-  auto moveup = new MovePlayer(m_player, 0, -8);
-  auto movedown = new MovePlayer(m_player, 0, 8);
+  auto moveleft = new MovePlayer(m_player.get(), -4, 0);
+  auto moveright = new MovePlayer(m_player.get(), 4, 0);
+  auto moveup = new MovePlayer(m_player.get(), 0, -8);
+  auto movedown = new MovePlayer(m_player.get(), 0, 8);
 
   auto qkey = new ctrl::KeyboardButton(sf::Keyboard::Q);
   auto dkey = new ctrl::KeyboardButton(sf::Keyboard::D);
@@ -101,15 +100,15 @@ Level::Level()
 
   m_controller.bind(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
-                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
+  //                       new Bomb(m_ennemies) );
 
-  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
-                       new Bomb(m_ennemies) );
-  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-                    new Bomb(m_ennemies) );
-  Collider * am = new Collider(m_player, &m_targets, m_renderer);
-  m_collider = new sap::LSAP(am);  
+  //  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+  //                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+  //                    new Bomb(m_ennemies) );
+  //  Collider * am = new Collider(m_player, &m_targets, m_renderer);
+  //  m_collider = new sap::LSAP(am);  
 
   addObject(m_player);
   spawnEnemy();
@@ -117,7 +116,7 @@ Level::Level()
 
 Level::~Level()
 {
-  delete m_player;
+  //  delete m_player;
 }
 
 void Level::update()
@@ -130,7 +129,7 @@ void Level::update()
   //  delete jm;  
   //  std::cout<< "handled..." << std::endl;
   std::cerr<< "colliding..." << std::endl;
-  m_collider->updateObject(m_player);
+  //  m_collider->updateObject(m_player);
   std::cerr<< "enemies..." << std::endl;
   updateEnemies();
   std::cerr<< "targets..." << std::endl;
@@ -148,7 +147,8 @@ void Level::update()
 
 void Level::spawnEnemy()
 {
-  Enemy * e = new Enemy;
+  //  Enemy * e = new Enemy;
+  std::shared_ptr<Enemy> e(new Enemy);
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
   e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
@@ -158,7 +158,8 @@ void Level::spawnEnemy()
 
 void Level::spawnTarget()
 {
-  Target * e = new Target;
+  //  Target * e = new Target;
+  std::shared_ptr<Target> e(new Target);
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
@@ -171,15 +172,16 @@ void Level::updateEnemies()
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       (*it)->update();
-      PhysicEngine::update(*it);
+      PhysicEngine::update( it->get() );
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
         removeObject(*it);    
-        delete (*it);
+        it->reset();
         *it = nullptr;
       }
     }
   m_ennemies.remove(nullptr);
+  std::cerr << "now " << m_ennemies.size()<< " enemies" << std::endl;
 }
 
 void Level::updateTargets()
@@ -187,19 +189,24 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       (*it)->update();      
-      PhysicEngine::update(*it);
-      m_collider->updateObject(*it);
+      PhysicEngine::update( it->get() );
+      //      m_collider->updateObject(*it);
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
+        std::cerr << "need to delete target" << std::endl;
         removeObject(*it);
-        delete (*it);
+        it->reset();
         *it = nullptr;
+        //        m_targets.erase(it);
+        //        delete (*it);
+        //        *it = nullptr;
       }  
-
+      
     }
-  m_targets.remove(nullptr);
+    m_targets.remove(nullptr);
+
 }
 
 

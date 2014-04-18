@@ -48,18 +48,21 @@ namespace frog{
       m_texture.clear();
     }
 
-    bool Renderer::addObject(GameObject * go)
+    bool Renderer::addObject(const std::shared_ptr<GameObject>& go)
     {
-      return m_objects.insert(std::pair<GameObject *, RenderingComponent *>(go, nullptr) ).second;
+      auto inserted = m_objects.insert( 
+                                       std::pair< 
+                                         std::shared_ptr<GameObject>,
+                                         RenderingComponent *
+                                         >
+                                       (go, nullptr) 
+                                        );
+      return inserted.second;
     }
 
-    void Renderer::removeObject(GameObject * go)
+    void Renderer::removeObject(const std::shared_ptr<GameObject>& go)
     {
-      auto it = m_objects.find(go);
-      if (it != m_objects.end() )
-        {
-          m_objects.erase(it);
-        }
+      m_objects.erase(go);
     }
 
     void Renderer::setTarget(sf::RenderTarget * rt)
@@ -67,7 +70,7 @@ namespace frog{
       m_target = rt;
     }
 
-    void Renderer::updateObject(GameObject * go)
+    void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
     {
       // TODO : see the best -> pointer comparison, dirty flag, observer ?
       RenderingComponent * rc = go->getComponent<RenderingComponent>();
