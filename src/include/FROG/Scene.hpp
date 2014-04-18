@@ -6,7 +6,7 @@
 #include "FROG/Collision/LSAP.hpp"
 #include "FROG/Control/Controller.hpp"
 
-#include <list>
+#include <set>
 
 
 namespace frog{
@@ -19,7 +19,7 @@ namespace frog{
     //// attributes ////
   protected:
 
-    std::list<GameObject * > m_gameObjects;    
+    std::set<GameObject * > m_gameObjects;    
 
     sap::LSAP * m_collider;
 
