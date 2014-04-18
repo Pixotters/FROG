@@ -1,13 +1,14 @@
 #ifndef BASICPHYSICS_HPP
 #define BASICPHYSICS_HPP 1
 
+#include <iostream>
 #include <SFML/System/Vector2.hpp>
+
 
 /**
  * This first physic engine only deals with basic collisions
  * (i.e. rotations are not supported yet)
  */
-
 class PhysicBody {
 
     /**
@@ -25,30 +26,27 @@ protected:
     /* FIXME:
      * making it virtual could be interesting if we want some objects
      * to act different, but we want this? */
-    virtual void applyForce(const sf::Vector2f & f) {
+    virtual void applyForce(const sf::Vector2f & f){
         force += f;
-    }
-
-    /**
-     * Gives the normal vector (collision reponse)
-     * @param x X axis coordinate of collision
-     * @param y Y axis coordinate of collision
-     */
-    virtual sf::Vector2f getNormal(int x, int y) = 0;
+    };
 
 public:
 
     PhysicBody(float x = 0, float y = 0) : force(x, y) {}
 
     virtual ~PhysicBody() {}
+
+    sf::Vector2f getVelocity() const{
+        return force;
+    }
 };
 
 class BasicPhysics {
 
 protected:
 
-    sf::Vector2f dotProduct (const sf::Vector2f & v1, const sf::Vector2f & v2) {
-        return sf::Vector2f(v1.x + v2.x, v1.y + v2.y);
+    float dotProduct (const sf::Vector2f & v1, const sf::Vector2f & v2) {
+        return v1.x * v2.x + v1.y * v2.y;
     }
 
     // Projection of vector v on axis a
@@ -69,23 +67,21 @@ public:
      * @param y Y axis coordinate of collision point
      */
 
-    void reaction(PhysicBody * b1, PhysicBody * b2, int x, int y){
+    void reaction(PhysicBody * b1, PhysicBody * b2,
+                  const sf::Vector2f & normal) {
 
 
         // see http://elancev.name/oliver/2D%20polygon.htm#tut4
         // ELASTICITY should be replaced by a object property
+        // also, here we assume thant b1 and b2 have the same elasticity
 #define ELASTICITY 1.0f
 
-        sf::Vector2f n1 = b1->getNormal(x, y);
-        sf::Vector2f n2 = b2->getNormal(x, y);
+        sf::Vector2f v = b1->force - b2->force;
+        sf::Vector2f n = dotProduct (v, normal) * normal * -(1 + ELASTICITY);
 
-        /* Apply force to each other + force reaction */
-        b1->applyForce( - dotProduct
-                        (((1.0f + ELASTICITY) * projection (b1->force, n2)),
-                         n2));
-        b2->applyForce( - dotProduct
-                        (((1.0f + ELASTICITY) * projection (b2->force, n1)),
-                         n1));
+        b1->applyForce (n * 0.5f);
+        b2->applyForce (- n * 0.5f);
+
     }
 };
 

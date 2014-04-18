@@ -47,6 +47,8 @@ namespace frog{
      */
     Transform& getTransform();
 
+    Transform * getPTransform();
+
     //    virtual Transform * getComponent<Transform>();
 
   };

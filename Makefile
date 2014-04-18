@@ -18,8 +18,11 @@ clean-docs:
 clean-test:
 	make -C tests/ local_clean
 
+clean-demo:
+	make -C demo/ local_clean
+
 clean:
 	find -regex '.*\.\(o\|d\|gcda\|gcno\|info\)' -delete
 	find -name *~ -delete
 
-proper: clean clean-src clean-docs clean-test
+proper: clean clean-src clean-docs clean-test clean-demo

@@ -3,6 +3,8 @@
 #include "FROG/Collision/Collisionable.hpp"
 #include "FROG/Collision/LSAP.hpp"
 
+#include <iostream> // TODO remove
+
 namespace frog{
 
   Scene::Scene()

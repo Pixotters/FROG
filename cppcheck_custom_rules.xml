@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<rule>
+  <pattern>.{80,}</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>80+ chars lines.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>\t</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Hard tab used instead of spaces.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern> +$</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Trailing spaces.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>![\s^]{</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space before '{'.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>}![\s$]</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space after '}'.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>,![\s$]</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space after ','.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>\(\(</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space between two '('.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>\)\)</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space between two ')'.</summary>
+  </message>
+</rule>

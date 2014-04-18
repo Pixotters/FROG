@@ -2,10 +2,25 @@ CXX=g++
 CXXFLAGS+= -std=c++0x -Wall -Wextra -pedantic-errors -g
 LDFLAGS+= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 
+ifeq ($(MEMCHECK), yes)
+  VALGRIND=valgrind
+else 
+ifeq ($(MEMCHECK), full)
+  VALGRIND=valgrind --leak-check=full --track-origins=yes --show-reachable=yes
+else
+  VALGRIND=
+endif
+endif
+
+CPPCHECK=cppcheck --enable=style,performance -q
+
 generic_show:
 	@echo "-compiler : $(CXX)"
 	@echo "-compiler options : $(CXXFLAGS)"
 	@echo "-linker flag : $(LDFLAGS)"
+
+cppcheck:
+	$(CPPCHECK) .
 
 %.d: %.cpp
 	$(CXX) $(CXXFLAGS) -M $< > $@

@@ -8,16 +8,6 @@ TEST_OUTPUT_DIR=cov-report
 LDFLAGS+= -lboost_unit_test_framework --coverage
 CXXFLAGS+= -DBOOST_TEST_DYN_LINK --coverage $(TEST_INC)
 
-ifeq ($(MEMCHECK), no)
-  VALGRIND=
-else 
-ifeq ($(MEMCHECK), full)
-  VALGRIND=valgrind --leak-check=full
-else
-  VALGRIND=valgrind
-endif
-endif
-
 test: $(TEST_TARGETS) run cov cov-report
 
 run: $(addprefix run-, $(TEST_TARGETS))
@@ -41,8 +31,6 @@ local_clean:
 
 clean:
 	make -C .. clean
-
--include $(TEST_TARGETS:=.d)
 
 test_LSAP: test_LSAP.o $(TEST_SRC_DIR)/Collision/LSAP.o
 test_BasicPhysics: test_BasicPhysics.o $(TEST_SRC_DIR)/Physics/BasicPhysics.o
