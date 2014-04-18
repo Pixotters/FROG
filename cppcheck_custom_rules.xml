@@ -35,6 +35,13 @@
   </message>
 </rule>
 <rule>
+  <pattern>,![\s$]</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space after ','.</summary>
+  </message>
+</rule>
+<rule>
   <pattern>\(\(</pattern>
   <message>
     <severity>style</severity>
