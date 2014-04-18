@@ -34,3 +34,17 @@
     <summary>Missing space after '}'.</summary>
   </message>
 </rule>
+<rule>
+  <pattern>\(\(</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space between two '('.</summary>
+  </message>
+</rule>
+<rule>
+  <pattern>\)\)</pattern>
+  <message>
+    <severity>style</severity>
+    <summary>Missing space between two ')'.</summary>
+  </message>
+</rule>
