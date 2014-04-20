@@ -11,19 +11,6 @@ namespace frog{
   App::App(const std::string& cfg)
   {
     m_config.loadFromFile(cfg);
-    m_appInfo = new AppInfo(m_window, m_clock);
-    std::cerr << "App : AppInfos are at " << &m_appInfo << "/" << m_appInfo << std::endl;
-    //    std::cerr << "App : window is at " << &m_window               \
-    //              << " -> appinfo : " << & (m_appInfo->window) << std::endl;
-    
-  }
-
-  App::~App()
-  {
-  }
-
-  void App::init(State * startstate)
-  {
     m_window.create(sf::VideoMode(
                                   m_config.getWindowWidth(), 
                                   m_config.getWindowHeight() ),
@@ -32,7 +19,15 @@ namespace frog{
     // TODO center the window
     m_window.setPosition(sf::Vector2i(0,0) );
     m_window.setKeyRepeatEnabled(false);
-    std::cerr << "App : window is at " << &m_window << std::endl;
+    m_appInfo = new AppInfo(m_window, m_clock);
+  }
+
+  App::~App()
+  {
+  }
+
+  void App::init(State * startstate)
+  {
     if(startstate != nullptr){
       m_stateManager.push( startstate );
     }
@@ -46,8 +41,6 @@ namespace frog{
       {
         m_appInfo->deltaTime = t0.restart(); 
         m_window.clear();
-        std::cerr << "App : loop: AppInfos are at " << m_appInfo << std::endl;
-        //        std::cerr << "App : loop: window is at " << &m_window << std::endl;
         m_stateManager.loop(*m_appInfo);
         m_window.display();
       }
