@@ -7,6 +7,8 @@ A game can be created in just a bunch of steps !
 You would probably create a file for your game. Let's say *MyGame.cpp*.  
 This file just has to declare ``main``and create an **App** inside. 
 ```
+#include <FROG/App.hpp>
+
 int main()
 {
   App mygame;
