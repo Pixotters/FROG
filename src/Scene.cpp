@@ -3,13 +3,17 @@
 #include "FROG/Collision/Collisionable.hpp"
 #include "FROG/Collision/LSAP.hpp"
 
+// TODO : try to remove that dependencies
+#include <SFML/Window/Window.hpp>
+
 #include <iostream> // TODO remove
 
 namespace frog{
 
-  Scene::Scene()
-    : State()
+  Scene::Scene(sf::Window& win)
+    : State(), m_controller(win)
   {
+
   }
 
   Scene::~Scene()
@@ -22,7 +26,7 @@ namespace frog{
   }
 
 
-  void Scene::update()
+  void Scene::update(const AppInfo& appinfo)
   {
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it)
       {

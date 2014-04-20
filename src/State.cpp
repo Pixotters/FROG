@@ -13,6 +13,12 @@ namespace frog{
     delete m_renderer;
   }
 
+  void State::loop(const AppInfo& appinfo)
+  {
+    update(appinfo);
+    render(appinfo.window);
+  }
+
   void State::render(sf::RenderTarget& rt) const
   {
     // TODO : do this properly, no need to set target each frame

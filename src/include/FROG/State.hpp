@@ -3,6 +3,7 @@
 
 #include "FROG/Rendering/Renderer.hpp"
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/Command.hpp"
 
 #include <SFML/Graphics.hpp>
@@ -15,6 +16,8 @@ namespace frog{
    * A State is a point of the program. They are used by the State Manager. 
    */
   class State{
+
+    friend class StateManager;
 
     //// attributes ////
   protected : 
@@ -30,9 +33,17 @@ namespace frog{
     virtual ~State();
 
     /*!
-     * @brief Updates the state. 
+     * @brief Updates and renders the state
+     * @param appinfo AppInfo containing at least the RenderTarget and delta-time
      */
-    virtual void update() = 0;
+    void loop(const AppInfo& appinfo);
+
+  protected:
+    /*!
+     * @brief Updates the state. 
+     * @param appinfo AppInfo containing at least a good delta-time
+     */
+    virtual void update(const AppInfo& appinfo) = 0;
 
     /*!
      * @brief Renders the state in the given RenderTarget. 

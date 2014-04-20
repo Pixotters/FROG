@@ -7,7 +7,7 @@ namespace frog{
 
   namespace ctrl{
 
-    ControlHandler::ControlHandler(sf::Window * const w)
+    ControlHandler::ControlHandler(sf::Window& w)
       : Filter<Input *>(), m_window(w)
     {
 
@@ -22,10 +22,7 @@ namespace frog{
     {
       sf::Event event;
       m_events.clear();
-      sf::Window * win = m_window;
-      if(not win)
-        win = App::instance()->getWindow(); // TODO : replace by a service locator
-      while(win->pollEvent(event) ){
+      while(m_window.pollEvent(event) ){
         if(event.type == sf::Event::Closed){
           /* TODO : close the program */
         } else if ( event.type == sf::Event::MouseMoved){

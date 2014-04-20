@@ -39,12 +39,12 @@ namespace frog{
 
       int m_mouseDeltaY;
 
-      sf::Window * const m_window;
+      sf::Window & m_window;
 
       //// operations ////
     public:
 
-      ControlHandler(sf::Window * const = nullptr);
+      ControlHandler(sf::Window&);
 
       virtual ~ControlHandler();
 

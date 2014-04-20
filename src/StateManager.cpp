@@ -13,6 +13,7 @@ namespace frog{
 
   StateManager::~StateManager()
   { 
+    clear();
   }
 
   void StateManager::push(State * s)
@@ -52,25 +53,14 @@ namespace frog{
       }
   }
 
-  void StateManager::update()
+  void StateManager::loop(const AppInfo& appinfo)
   {
-    if( not m_stateStack.empty() )
-      {
-        m_stateStack.top()->update();
-        std::cerr << "StateManager updated" << std::endl;
-      }
-    std::cerr << "StateManager empty" << std::endl;
+    if( not m_stateStack.empty() ) {
+      State * top = m_stateStack.top();
+      top->update(appinfo);
+      top->render(appinfo.window); 
+    }
   }
 
-  void StateManager::render(sf::RenderTarget& rt)
-  {
-    if( not m_stateStack.empty() )
-      {
-        m_stateStack.top()->render(rt);        
-        std::cerr << "StateManager rendered" << std::endl;
-      }
-    std::cerr << "StateManager empty" << std::endl;
-
-  }
 
 }

@@ -10,7 +10,7 @@ namespace frog{
   namespace ctrl{
 
     /*!
-     * Controller make the link between ControlHandler and InputMap. 
+     * Controller makes the link between ControlHandler and InputMap. 
      */
     class Controller
     {
@@ -27,10 +27,12 @@ namespace frog{
       /*!
        * \brief Constructor
        * \details If given args are nullptr, real ones will be created
+       * \param win Window where inputs can be read
        * \param ch ControlHandler to use
        * \param im InputMap to place at the index 0
        */
-      Controller(ControlHandler * ch = nullptr, 
+      Controller(sf::Window& win, 
+                 ControlHandler * ch = nullptr, 
                  InputMap * im = nullptr);
 
       /*!

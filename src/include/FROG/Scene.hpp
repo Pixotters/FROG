@@ -6,6 +6,8 @@
 #include "FROG/Collision/LSAP.hpp"
 #include "FROG/Control/Controller.hpp"
 
+// TODO : try to remove that dependencies
+#include <SFML/Window/Window.hpp>
 #include <list>
 
 
@@ -25,10 +27,10 @@ namespace frog{
 
     ctrl::Controller m_controller;
 
-
     //// operations ////
   public:
-    Scene();
+
+    Scene(sf::Window&);
 
     virtual ~Scene();
 
@@ -36,7 +38,7 @@ namespace frog{
       updates the scene. eg updates all the scene's gameObjects + some codes we 
       may want to add
     */
-    virtual void update();
+    virtual void update(const AppInfo& appinfo);
 
     /*!
      * \brief Adds a GameObject to the scene's systems
