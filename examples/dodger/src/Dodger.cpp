@@ -7,15 +7,20 @@
 
 using namespace frog;
 
+class Dodger : virtual public App
+{
+};
+
 int main()
 {
+  Dodger d;
   std::cout << "Starting game" << std::endl;
-  App::instance()->init(new Level() );
+  d.init(  new Level( *(d.m_appInfo) )  );
   Random::init();
   std::cout << "Initialization successful. Running..." << std::endl;
-  App::instance()->run();
+  d.loop();
   std::cout << "Stopping game..." << std::endl;
-  App::instance()->exit();
+  d.exit();
   std::cout << "Ended game properly" << std::endl;
 
 

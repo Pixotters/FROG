@@ -70,8 +70,8 @@ public:
 };
 
 
-Level::Level()
-  : Scene()
+Level::Level(const AppInfo& appinfo)
+  : Scene(appinfo.window)
 { 
   m_player = new Player;
   m_playerTexture.loadFromFile("assets/frog.png");
@@ -120,11 +120,11 @@ Level::~Level()
   delete m_player;
 }
 
-void Level::update()
+void Level::update(const AppInfo& appinfo)
 {  
-  Scene::update();
+  Scene::update(appinfo);
   std::cerr<< "handling..." << std::endl;
-  handleCommands( m_controller.update() );
+  //  handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
