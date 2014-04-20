@@ -1,0 +1,22 @@
+= How to install FROG =
+
+== Directly from the sources == 
+
+Here, you should have downloaded and installed properly SFML and all its 
+dependencies (see SFML-dev website if you experience issues). 
+If you are reading this section, you should have downloaded FROG sources. Now 
+open a terminal in the ``src`` directory.  
+Run the following commands : 
+- ``make frog`` : this should compile the library and create **.so** files whose 
+name are like "libfrog.so.x.y" (where *x* and *y* depend on the downloaded 
+version). 
+- ``make install`` : this command should copy for you the libraries in 
+*/usr/local/lib* and the include directory in */usr/local/include/FROG/*. Make 
+sure these directories are in your path, in order for the compiler and the 
+linker to find them. 
+- that's all. 
+
+== Uninstall FROG ==
+
+Reach the sources directory, and run the following command :  
+``make uninstall``
