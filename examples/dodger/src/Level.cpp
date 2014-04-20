@@ -73,6 +73,7 @@ public:
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window)
 { 
+  std::cerr << "Level : window = " << &appinfo.window << std::endl;
   m_player = new Player;
   m_playerTexture.loadFromFile("assets/frog.png");
   m_targetTexture.loadFromFile("assets/donut.png");
@@ -124,7 +125,7 @@ void Level::update(const AppInfo& appinfo)
 {  
   Scene::update(appinfo);
   std::cerr<< "handling..." << std::endl;
-  //  handleCommands( m_controller.update() );
+  handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  

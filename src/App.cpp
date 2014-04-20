@@ -12,6 +12,10 @@ namespace frog{
   {
     m_config.loadFromFile(cfg);
     m_appInfo = new AppInfo(m_window, m_clock);
+    std::cerr << "App : AppInfos are at " << &m_appInfo << "/" << m_appInfo << std::endl;
+    //    std::cerr << "App : window is at " << &m_window               \
+    //              << " -> appinfo : " << & (m_appInfo->window) << std::endl;
+    
   }
 
   App::~App()
@@ -28,6 +32,7 @@ namespace frog{
     // TODO center the window
     m_window.setPosition(sf::Vector2i(0,0) );
     m_window.setKeyRepeatEnabled(false);
+    std::cerr << "App : window is at " << &m_window << std::endl;
     if(startstate != nullptr){
       m_stateManager.push( startstate );
     }
@@ -39,8 +44,10 @@ namespace frog{
     sf::Clock t0; // clock for counting delta-time
     while(m_appInfo->running)
       {
-        m_appInfo->deltaTime = t0.restart();
+        m_appInfo->deltaTime = t0.restart(); 
         m_window.clear();
+        std::cerr << "App : loop: AppInfos are at " << m_appInfo << std::endl;
+        //        std::cerr << "App : loop: window is at " << &m_window << std::endl;
         m_stateManager.loop(*m_appInfo);
         m_window.display();
       }
@@ -66,6 +73,9 @@ namespace frog{
   {
     return m_stateManager; 
   }
-
+  
+  AppInfo& App::getAppInfo() const{
+    return *m_appInfo;
+  }
 
 }

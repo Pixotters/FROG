@@ -92,6 +92,8 @@ namespace frog{
      */
     StateManager& getStateManager();
 
+    AppInfo& getAppInfo() const;
+
   };
 
 }

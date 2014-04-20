@@ -57,6 +57,8 @@ namespace frog{
   {
     if( not m_stateStack.empty() ) {
       State * top = m_stateStack.top();
+      std::cerr << "StateManager : updating "<< top << std::endl;
+      std::cerr << "StateManager :window is at "<< &appinfo.window << std::endl;
       top->update(appinfo);
       top->render(appinfo.window); 
     }
