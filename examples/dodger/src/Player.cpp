@@ -80,12 +80,5 @@ void Player::removeScore(const unsigned long& s)
     }
 }
 
-void Player::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
-{
-  GameObject::draw(rt, rs);
-  m_boundingBox->setPosition( m_transform.getPosition().x, 
-                              m_transform.getPosition().y );
-  rt.draw( *m_boundingBox, rs );
-}
 
 

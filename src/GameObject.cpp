@@ -5,22 +5,13 @@
 namespace frog{
 
   GameObject::GameObject()
-    : sf::Drawable() 
+    : ComponentHolder()
   {
 
   }
 
   GameObject::~GameObject()
   {
-#ifdef DEBUG
-    std::cerr << "Destroying GameObject "<< this << std::endl;
-#endif
-  }
-
-
-  void GameObject::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
-  {
-    rs.transform *= m_transform.getTransform();
   }
 
 

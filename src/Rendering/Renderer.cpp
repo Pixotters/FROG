@@ -82,6 +82,8 @@ namespace frog{
       // or maybe we should do this in "draw"
       Transform tr = go->getTransform();
       rc->setPosition( tr.getPosition() );
+      // next line : conditional move depend on uninitialized value
+      // (created by heap allocation, at Element.cpp (l11)
       rc->setRotation( tr.getRotation() );
       rc->setScale( tr.getScale() );
     }

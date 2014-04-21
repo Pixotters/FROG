@@ -5,6 +5,7 @@
 #include "FROG/Collision/Collisionable.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Shape.hpp>
 
 #include "FROG/Physics/Physics.hpp"
 
@@ -27,12 +28,6 @@ public:
   Element();
 
   virtual ~Element();
-
-  /*
-    Renders the Element. Must call `rt.draw(drawable, rs)` where drawable 
-    is the appearence of the Element
-   */
-  virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
 
   /*
     Optionnal code, adds behaviour

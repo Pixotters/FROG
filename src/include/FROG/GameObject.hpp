@@ -4,17 +4,12 @@
 #include "FROG/Transform.hpp"
 #include "FROG/ComponentHolder.hpp"
 
-#include <SFML/Graphics.hpp>
-
-// TODO remove function "draw"
-
 namespace frog{
 
   /*!
    * GameObjects are main bricks of a scene. 
    */
-  class GameObject : virtual public sf::Drawable,
-                     virtual public ComponentHolder
+  class GameObject : virtual public ComponentHolder
   {
     //// attributes ////
   protected:
@@ -27,8 +22,6 @@ namespace frog{
     GameObject();
 
     virtual ~GameObject();
-
-    virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
     /*!
      * @brief Updates the gameobject. 
