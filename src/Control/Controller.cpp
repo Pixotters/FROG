@@ -1,5 +1,4 @@
 #include "FROG/Control/Controller.hpp"
-#include <iostream>
 
 namespace frog{
 
@@ -12,7 +11,6 @@ namespace frog{
     {
       if(m_handler == nullptr)
         {
-          std::cerr << "Controller : window " << &win << std::endl;
           m_handler = new ControlHandler(win);
         }
 
@@ -162,9 +160,7 @@ namespace frog{
     std::list<Command *> Controller::update()
     {
       std::list<Command *> res;
-      std::cerr << "Controller : updating Control handler " << std::endl;
       std::list<Input *> inputs = m_handler->update();
-      std::cerr << "Controller : ok " << std::endl;
       if(m_mapping.empty() or inputs.empty() )
         {
           return res;

@@ -55,11 +55,13 @@ namespace frog{
 
   void StateManager::loop(const AppInfo& appinfo)
   {
+    print_debug("StateManager - loop("+&appinfo+")");
     if( not m_stateStack.empty() ) {
+      print_debug("StateManager - loop("+&appinfo+") : not empty");
       State * top = m_stateStack.top();
-      std::cerr << "StateManager : updating "<< top << std::endl;
-      std::cerr << "StateManager :window is at "<< &appinfo.window << std::endl;
+      print_debug("StateManager - loop("+&appinfo+") : updating "+top);
       top->update(appinfo);
+      print_debug("StateManager - loop("+&appinfo+") : rendering "+top);
       top->render(appinfo.window); 
     }
   }

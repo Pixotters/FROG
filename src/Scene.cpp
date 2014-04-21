@@ -3,6 +3,8 @@
 #include "FROG/Collision/Collisionable.hpp"
 #include "FROG/Collision/LSAP.hpp"
 
+#include "FROG/Debug.hpp"
+
 // TODO : try to remove that dependencies
 #include <SFML/Window/Window.hpp>
 
@@ -13,7 +15,6 @@ namespace frog{
   Scene::Scene(sf::Window& win)
     : State(), m_controller(win)
   {
-    std::cerr << "Scene : window = "<< &win << std::endl;
   }
 
   Scene::~Scene()
@@ -37,24 +38,26 @@ namespace frog{
   bool Scene::addObject(GameObject * go)
   {
     // adding the object only if it is not present
+    print_debug("Scene - addObject("+go+")");
     auto end = m_gameObjects.end();
     for(auto it = m_gameObjects.begin(); it != end; it++)
       {
         if(*it == go)
           {            
+            print_debug("Scene - addObject("+go+") : has alreayd been added");
             return false;
           }
       }
     m_gameObjects.push_back(go);
-    std::cerr << "pushed back "<<std::endl;
+    print_debug("Scene - addObject("+go+") : added to scene' list");
     // adding the object's components to managers 
     sap::Collisionable * c;
     if( (c=dynamic_cast<sap::Collisionable *>(go) )  )
       {
-        std::cerr << "collider : "<<m_collider<< " -> "<< c<<std::endl;
+        print_debug("Scene - addObject("+go+") : adding to collider");
         m_collider->addObject(c);
-      }
-    std::cerr << "renderer "<<std::endl;
+      }    
+    print_debug("Scene - addObject("+go+") : added to renderer");
     m_renderer->addObject(go);
     return true;
   }
@@ -65,7 +68,7 @@ namespace frog{
     for(auto it = m_gameObjects.begin(); it != end; it++)
       {
         if(*it == go)
-          {    
+          {                
             // removing the object from managers
             m_renderer->removeObject(go);        
             // TODO : replace this crap by a component
