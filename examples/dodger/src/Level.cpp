@@ -72,12 +72,12 @@ public:
 
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window), m_player(new Player)
-{ 
-  m_playerTexture.loadFromFile("assets/frog.png");
-  m_targetTexture.loadFromFile("assets/donut.png");
-  m_enemyTexture.loadFromFile("assets/troll.png");
+{
+  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
+  m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
+  m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);
   sf::Sprite * s = new sf::Sprite;
-  s->setTexture(m_playerTexture);
+  s->setTexture(m_textureManager.get(PLAYER_TEXTURE) );
   m_player->addComponent(new render::RenderingComponent(s) );
   auto moveleft = new MovePlayer(m_player.get(), -4, 0);
   auto moveright = new MovePlayer(m_player.get(), 4, 0);
@@ -149,8 +149,8 @@ void Level::spawnEnemy()
 {
   //  Enemy * e = new Enemy;
   std::shared_ptr<Enemy> e(new Enemy);
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
-  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(ENEMY_TEXTURE) ) ) );
+  //  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
   addObject(e);
@@ -160,7 +160,7 @@ void Level::spawnTarget()
 {
   //  Target * e = new Target;
   std::shared_ptr<Target> e(new Target);
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(TARGET_TEXTURE) ) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
   addObject(e);
