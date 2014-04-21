@@ -4,13 +4,14 @@ namespace frog{
 
   namespace ctrl{
 
-    Controller::Controller(ControlHandler * ch, 
+    Controller::Controller(sf::Window& win, 
+                           ControlHandler * ch, 
                            InputMap * im)
       : m_handler(ch)
     {
       if(m_handler == nullptr)
         {
-          m_handler = new ControlHandler();
+          m_handler = new ControlHandler(win);
         }
 
       if(im == nullptr)

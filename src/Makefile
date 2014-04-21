@@ -34,6 +34,9 @@ $(FROGVERSION): $(OBJECTS)
 	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
 	-o $@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
 
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
+
 local_clean: 
 	rm -f $(FROG) $(FROG).$(VERSION) $@.$(VERSION).$(SUBVERSION)
 

@@ -3,6 +3,7 @@
 
 #include "FROG/Control/ControlHandler.hpp"
 #include "FROG/State.hpp"
+#include "FROG/AppInfo.hpp"
 #include <stack>
 
 
@@ -55,15 +56,10 @@ namespace frog{
     virtual void clear();
 
     /**
-     * @brief Calls @e update of the current state (top of the stack).
+     * @brief Updates and renders the current state
+     * @param appinfo AppInfo containing the RenderTarget and delta-time
      */
-    virtual void update();
- 
-    /**
-     * @brief Draws the current state (top of the stack) in a target.
-     * @param rt Target where we have draw the state. 
-     */ 
-    virtual void render(sf::RenderTarget& rt);
+    virtual void loop(const AppInfo& appinfo);
 
 
   };

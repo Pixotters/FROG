@@ -29,9 +29,9 @@ protected:
 
   //// operations ////
 public:
-  Level();
+  Level(const AppInfo& );
   virtual ~Level();
-  virtual void update();
+  virtual void update(const AppInfo&);
   void removeTarget(Target *);
 
 private:

@@ -6,17 +6,23 @@
 #include <iostream>
 
 using namespace frog;
-
+/*
+class Dodger : public App
+{
+public:
+  Dodger():App(){
+  std::cerr << "Dodger CTOR: APPInfos are at " << m_appInfo << std::endl;
+  }
+  virtual ~Dodger(){};
+};
+*/
 int main()
 {
+  App d;
   std::cout << "Starting game" << std::endl;
-  App::instance()->init(new Level() );
-  Random::init();
-  std::cout << "Initialization successful. Running..." << std::endl;
-  App::instance()->run();
-  std::cout << "Stopping game..." << std::endl;
-  App::instance()->exit();
-  std::cout << "Ended game properly" << std::endl;
-
-
+  AppInfo& i = d.getAppInfo();
+  //  std::cerr << "Dodger : APPInfos are at " << &i << "-" << (&i)+dec << "/" << i+dec << std::endl;
+  //  std::cerr << "Dodger : Window is at " << &d.m_appInfo->window << std::endl;
+  State * level = new Level(i);
+  d.start(  level  );
 }

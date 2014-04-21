@@ -25,12 +25,12 @@ using namespace frog;
 class Collider : virtual public sap::ActionManager{
 
 private:
-  Player * m_player;
+  std::shared_ptr<Player> m_player;
   render::Renderer * m_renderer;
-  std::list<Target *> * m_targets;
+  std::list<std::shared_ptr<Target> > * m_targets;
 
 public:
-  Collider(Player * p, std::list<Target *> * t, render::Renderer * r) 
+  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<Target> > * t, render::Renderer * r) 
     : m_player(p), m_targets(t), m_renderer(r)
   {}
 
@@ -70,8 +70,8 @@ public:
 };
 
 
-Level::Level()
-  : Scene(), m_player(new Player)
+Level::Level(const AppInfo& appinfo)
+  : Scene(appinfo.window), m_player(new Player)
 { 
   m_playerTexture.loadFromFile("assets/frog.png");
   m_targetTexture.loadFromFile("assets/donut.png");
@@ -107,8 +107,8 @@ Level::Level()
   //                       new Bomb(m_ennemies) );
   //  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
   //                    new Bomb(m_ennemies) );
-  //  Collider * am = new Collider(m_player, &m_targets, m_renderer);
-  //  m_collider = new sap::LSAP(am);  
+  Collider * am = new Collider(m_player, &m_targets, m_renderer);
+  m_collider = new sap::LSAP(am);  
 
   addObject(m_player);
   spawnEnemy();
@@ -119,9 +119,9 @@ Level::~Level()
   //  delete m_player;
 }
 
-void Level::update()
+void Level::update(const AppInfo& appinfo)
 {  
-  Scene::update();
+  Scene::update(appinfo);
   std::cerr<< "handling..." << std::endl;
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
@@ -129,7 +129,7 @@ void Level::update()
   //  delete jm;  
   //  std::cout<< "handled..." << std::endl;
   std::cerr<< "colliding..." << std::endl;
-  //  m_collider->updateObject(m_player);
+  m_collider->updateObject( m_player.get() );
   std::cerr<< "enemies..." << std::endl;
   updateEnemies();
   std::cerr<< "targets..." << std::endl;
@@ -190,7 +190,7 @@ void Level::updateTargets()
     {      
       (*it)->update();      
       PhysicEngine::update( it->get() );
-      //      m_collider->updateObject(*it);
+      m_collider->updateObject( it->get() );
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32

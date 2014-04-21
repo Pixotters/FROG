@@ -1,0 +1,48 @@
+= How to create a first game = 
+
+A game can be created in just a bunch of steps ! 
+
+== Example == 
+
+You would probably create a file for your game. Let's say *MyGame.cpp*.  
+This file just has to declare ``main``and create an **App** inside. 
+```
+#include <FROG/App.hpp>
+
+int main()
+{
+  App mygame;  
+  mygame.init(new StartState( mygame.getAppInfos() ) );
+  mygame.loop();
+  mygame.exit();
+  // or just mygame.start(new StartState( mygame.getAppInfos() ) );
+}
+```
+
+== Explanations == 
+
+The line ``App mygame`` creates the general engine for the game : loading a 
+configuration file, creating a *sf::RenderWindow*, a **StateManager**, and 
+starting a timer.  
+However, the game doesn't run now. It needs an entry point : that's the purpose 
+of the next line.  
+Let analyze it. ``init`` functions takes a **State** as parameter and inserts 
+it in the **StateManager**. You can learn more on states on the appropriate 
+tutorial. In the example, the given state is called ``StartState`` and takes as 
+parameters the **AppInfo** : it contains useful informations such as the 
+**RenderWindow** (required by the **Renderer** and the **Controller**), or a 
+*sf::Time* containing the delta-time. 
+Finally, the function ``loop`` starts the application and begins looping two 
+steps : updating the current state, and rendering it. 
+Don't forget to call ``exit`` because it could result in memory leak : this is 
+where **App**'s dynamic data is released and everything is closed properly. 
+
+== More ==
+
+With no argument, ``App`` constructor loads file ``config.cfg`` as 
+configuration reference file. You can pass a filepath as argument to replace 
+this. Just keep in mind that the path has to be relative to the executable's 
+folder. For instance : 
+```
+App mygame("assets/config_en.cfg");
+```
