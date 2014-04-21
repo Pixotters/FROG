@@ -28,6 +28,7 @@ namespace frog{
 
   void App::init(State * startstate)
   {
+    Random::init();
     if(startstate != nullptr){
       m_stateManager.push( startstate );
     }
@@ -50,6 +51,13 @@ namespace frog{
   {
     m_window.clear();
     m_window.close();
+  }
+
+  void App::start(State * s)
+  {
+    init(s);
+    loop();
+    exit();
   }
 
   Config App::getConfig() const
