@@ -15,7 +15,6 @@ namespace frog{
   {
     //// attributes ////
   protected:
-    /// Transform component
     Transform m_transform;
 
     //// operations ////

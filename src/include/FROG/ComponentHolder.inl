@@ -36,6 +36,7 @@ namespace frog{
   template <typename C>
   void ComponentHolder::addComponent(C * const c)
   {
+    std::cerr << "allo "<< c << std::endl;
     if(not hasComponent<C>() )
       {
         m_components.insert(std::shared_ptr<C>(c) );
@@ -45,6 +46,7 @@ namespace frog{
   template <typename C>
   void ComponentHolder::addComponent(std::shared_ptr<C> const c)
   {
+    std::cerr << "al'huile "<< c << std::endl;
     if( not hasComponent<C>() )
       {    
         m_components.insert(c);

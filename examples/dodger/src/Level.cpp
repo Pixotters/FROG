@@ -10,10 +10,9 @@
 #include "FROG/App.hpp"
 
 #include "FROG/Random.hpp"
-
+#include "FROG/Rendering/Sprite.hpp"
 #include "MovePlayer.hpp"
 //#include "JoystickMove.hpp"
-#include "Bomb.hpp"
 
 #include "FROG/Rendering/RenderingComponent.hpp"
 
@@ -119,12 +118,14 @@ Level::~Level()
 void Level::update(const AppInfo& appinfo)
 {  
   Scene::update(appinfo);
-  sf::Sprite * s = new sf::Sprite;
-  s->setTexture(m_textureManager.get("FROG_TEXTURE") );
-  m_player->addComponent(new render::RenderingComponent(s) );
-  sf::Sprite * s2 = new sf::Sprite;
-  s2->setTexture(m_textureManager.get("TERRAIN_TEXTURE") );
-  m_terrain->addComponent(new render::RenderingComponent(s2) );
+  static Sprite * s = new Sprite(m_textureManager.get("FROG_TEXTURE") );
+  std::cerr << "Sprite is "<< s <<std::endl;
+  m_player->addComponent<Transform>( &m_player->getTransform() );
+  m_player->addComponent<Sprite>( s );
+
+  //  sf::Sprite * s2 = new sf::Sprite;
+  //  s2->setTexture(m_textureManager.get("TERRAIN_TEXTURE") );
+  //  m_terrain->addComponent(new render::RenderingComponent(s2) );
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
@@ -144,25 +145,28 @@ void Level::update(const AppInfo& appinfo)
 
 void Level::spawnEnemy()
 {
-  std::shared_ptr<Enemy> e(new Enemy);
   /*
+    std::shared_ptr<Enemy> e(new Enemy);
+  
     sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
     r->setFillColor(sf::Color::Red);
     e->addComponent(new render::RenderingComponent( r ) );
-  */
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
-  e->getTransform().setPosition(Random::get(100, 700), 50);
-  m_ennemies.push_back(e );
-  addObject(e);
+  
+    //e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
+    e->getTransform().setPosition(Random::get(100, 700), 50);
+    m_ennemies.push_back(e );
+    addObject(e);*/
 }
 
 void Level::spawnTarget()
 {
-  std::shared_ptr<Target> e(new Target);
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
-  e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
-  m_targets.push_back(e);
-  addObject(e);
+  /*
+    std::shared_ptr<Target> e(new Target);
+    //  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
+    e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
+    m_targets.push_back(e);
+    addObject(e);
+  */
 }
 
 void Level::updateEnemies()
@@ -203,7 +207,3 @@ void Level::updateTargets()
 }
 
 
-void Level::movePlayer(const short& x)
-{
-  m_player->getTransform().move(x, 0);
-}

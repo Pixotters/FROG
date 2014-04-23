@@ -45,7 +45,6 @@ private:
   void spawnTarget();
   void updateEnemies();
   void updateTargets();
-  void movePlayer(const short&);
 };
 
 #endif

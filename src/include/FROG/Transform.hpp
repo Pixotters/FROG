@@ -27,7 +27,7 @@ namespace frog{
 
     virtual ~Transform();
 
-    virtual void update();
+    virtual void update(const ComponentHolder& parent);
 
     int getZIndex() const;
 

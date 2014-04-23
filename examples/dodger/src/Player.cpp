@@ -24,9 +24,6 @@ Player::~Player()
   delete m_boundingBox;
 }
 
-void Player::update(){
-
-}
 
 unsigned short Player::getLives() const
 {

@@ -31,13 +31,6 @@ public:
   virtual ~Player();
 
   /*
-    updates the player : currently, just changing its positions to the mouse's 
-    position
-  */
-  virtual void update();
-
-
-  /*
     returns the number of lives
   */
   unsigned short getLives() const;
