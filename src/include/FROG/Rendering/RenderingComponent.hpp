@@ -28,7 +28,7 @@ namespace frog{
        * @param d sf::Drawable that will be kept in order to be rendered by a 
        * Renderer. 
        */
-      RenderingComponent(sf::Drawable * d);
+      RenderingComponent(sf::Drawable * const d);
 
       virtual ~RenderingComponent();
 

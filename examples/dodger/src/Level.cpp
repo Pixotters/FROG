@@ -74,8 +74,8 @@ Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window), m_player(new Player), m_terrain(new GameObject)
 {
   /*  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
-  m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
-  m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);*/
+      m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
+      m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);*/
   auto moveleft = new MovePlayer(m_player.get(), -4, 0);
   auto moveright = new MovePlayer(m_player.get(), 4, 0);
   auto moveup = new MovePlayer(m_player.get(), 0, -8);
@@ -125,21 +125,15 @@ void Level::update(const AppInfo& appinfo)
   sf::Sprite * s2 = new sf::Sprite;
   s2->setTexture(m_textureManager.get("TERRAIN_TEXTURE") );
   m_terrain->addComponent(new render::RenderingComponent(s2) );
-  std::cerr<< "handling..." << std::endl;
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
-  //  std::cout<< "handled..." << std::endl;
-  std::cerr<< "colliding..." << std::endl;
   m_collider->updateObject( m_player.get() );
-  std::cerr<< "enemies..." << std::endl;
   updateEnemies();
-  std::cerr<< "targets..." << std::endl;
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
   if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
-    std::cerr<< "spawning targets..." << std::endl;
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
@@ -150,10 +144,13 @@ void Level::update(const AppInfo& appinfo)
 
 void Level::spawnEnemy()
 {
-  //  Enemy * e = new Enemy;
   std::shared_ptr<Enemy> e(new Enemy);
+  /*
+    sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
+    r->setFillColor(sf::Color::Red);
+    e->addComponent(new render::RenderingComponent( r ) );
+  */
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
-  //  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
   addObject(e);
@@ -161,7 +158,6 @@ void Level::spawnEnemy()
 
 void Level::spawnTarget()
 {
-  //  Target * e = new Target;
   std::shared_ptr<Target> e(new Target);
   e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
@@ -184,7 +180,6 @@ void Level::updateEnemies()
       }
     }
   m_ennemies.remove(nullptr);
-  std::cerr << "now " << m_ennemies.size()<< " enemies" << std::endl;
 }
 
 void Level::updateTargets()
@@ -198,18 +193,13 @@ void Level::updateTargets()
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
-        std::cerr << "need to delete target" << std::endl;
         removeObject(*it);
         it->reset();
         *it = nullptr;
-        //        m_targets.erase(it);
-        //        delete (*it);
-        //        *it = nullptr;
       }  
       
     }
-    m_targets.remove(nullptr);
-
+  m_targets.remove(nullptr);
 }
 
 
