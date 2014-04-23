@@ -106,8 +106,8 @@ Level::Level(const AppInfo& appinfo)
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
   addObject(m_player);
-  m_player->getComponent<Transform>()->setPosition( 400, 560 );
-  //m_player->transform.setPosition( 400, 560 );
+  //m_player->getComponent<Transform>()->setPosition( 400, 560 );
+  m_player->transform.setPosition( 400, 560 );
   m_terrain->getComponent<Transform>()->setPosition(0, 0);
   addObject(m_terrain);
 }
