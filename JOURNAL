@@ -23,8 +23,13 @@ D'abord pour charger la configuration de l'application, mais aussi pour charger
 des données (Scene + GameObject), nous avons dû utiliser un parseur XML. 
 Nous avions en premier lieu considéré IncredibleXMLParser, mais pour l'obtenir 
 il faut envoyer un mail à l'auteur, ce qui est très louche. Nous nous sommes 
-finalement portés sur TinyXML 2, qui semble plus répandu. Il a quand même 
-fallu faire des proxy car l'utilisation est plutôt verbeuse. 
+finalement portés sur TinyXML 2, qui semble plus répandu. 
+La configuration est lancée depuis un fichier .cfg (qui est un fait un fichier 
+XML.
+On peut aussi définir dans un fichier quelles vont être les textures qui seront 
+chargées par une scène. C'est une première étape vers ue conception orientée 
+vers les données. Toutefois, tant qu'on n'aura pas fait l'embarcation d'un 
+langage de script, on ne pourra pas s'affranchir totalement du code C++. 
 
 == Divers ==
 
