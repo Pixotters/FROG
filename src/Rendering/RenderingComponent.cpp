@@ -21,7 +21,6 @@ namespace frog{
       rt.draw(*m_drawable, rs);
     }
 
-    void RenderingComponent::update(){}
 
   }
 

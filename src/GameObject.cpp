@@ -2,15 +2,19 @@
 
 #include "FROG/XML/tinyxml2.hpp"
 
+#include "FROG/Rendering/Sprite.hpp" // TODO remove
 
 #include <iostream>
+#include <memory>
 
 namespace frog{
 
   GameObject::GameObject()
     : ComponentHolder()
   {
-
+    std::shared_ptr<Transform> p(&m_transform);
+    std::cerr << "Transform is "<< p << std::endl;
+    addComponent<Transform>(&m_transform);
   }
 
   GameObject::~GameObject()
@@ -30,9 +34,21 @@ namespace frog{
     
   }
 
-
   void GameObject::update()
   { 
+    std::cerr << "GameObject: update() : "<< m_components.size() << std::endl;
+    auto end = m_components.end();
+    for(auto it = m_components.begin(); it != end; it++)
+      {
+        std::cerr << "GameObject: update() - updating "<< *it << std::endl;
+        std::shared_ptr<Sprite> s;
+        if( (s = std::dynamic_pointer_cast<Sprite>(*it) ) ){
+          std::cerr << "GameObject: update(), it's a Sprite !" << std::endl;
+        }
+        (*it)->update(*this);
+        std::cerr << "GameObject: update() - updated "<< (*it).get() << std::endl;
+
+      }
 
   }
 
@@ -46,7 +62,7 @@ namespace frog{
     return m_transform;
   }
 
-   Transform * GameObject::getPTransform()
+  Transform * GameObject::getPTransform()
   {
     return &m_transform;
   }

@@ -1,10 +1,11 @@
 #ifndef FROG_COMPONENT_HPP
 #define FROG_COMPONENT_HPP
 
-#include <memory>
+//#include "FROG/ComponentHolder.hpp"
 
 namespace frog{
 
+  class ComponentHolder;
 
   /*!
    * Component is an extra behaviour that can be added to a ComponentHolder 
@@ -22,7 +23,7 @@ namespace frog{
 
     virtual ~Component();
 
-    virtual void update() = 0;
+    virtual void update(const ComponentHolder& parent);
   
 
   };
