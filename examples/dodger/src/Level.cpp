@@ -72,9 +72,6 @@ public:
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window), m_player(new Player), m_terrain(new GameObject)
 {
-  /*  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
-      m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
-      m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);*/
   auto moveleft = new MovePlayer(m_player.get(), -4, 0);
   auto moveright = new MovePlayer(m_player.get(), 4, 0);
   auto moveup = new MovePlayer(m_player.get(), 0, -8);
@@ -120,12 +117,9 @@ void Level::update(const AppInfo& appinfo)
   Scene::update(appinfo);
   static Sprite * s = new Sprite(m_textureManager.get("FROG_TEXTURE") );
   std::cerr << "Sprite is "<< s <<std::endl;
-  //  m_player->addComponent<Transform>( &m_player->getComponent<Transform>() );
   m_player->addComponent<Sprite>( s );
 
-  //  sf::Sprite * s2 = new sf::Sprite;
-  //  s2->setTexture(m_textureManager.get("TERRAIN_TEXTURE") );
-  //  m_terrain->addComponent(new render::RenderingComponent(s2) );
+  m_terrain->addComponent(new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ) );
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
@@ -145,28 +139,26 @@ void Level::update(const AppInfo& appinfo)
 
 void Level::spawnEnemy()
 {
-  /*
+  
     std::shared_ptr<Enemy> e(new Enemy);
   
     sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
     r->setFillColor(sf::Color::Red);
-    e->addComponent(new render::RenderingComponent( r ) );
-  
-    //e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
+    e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ) );
     e->getComponent<Transform>()->setPosition(Random::get(100, 700), 50);
     m_ennemies.push_back(e );
-    addObject(e);*/
+    addObject(e);
 }
 
 void Level::spawnTarget()
 {
-  /*
+  
     std::shared_ptr<Target> e(new Target);
-    //  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
+    e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ) );
     e->getComponent<Transform>()->setPosition(Random::get(100, 700), Random::get(50, 550) );
     m_targets.push_back(e);
     addObject(e);
-  */
+  
 }
 
 void Level::updateEnemies()
@@ -205,5 +197,3 @@ void Level::updateTargets()
     }
   m_targets.remove(nullptr);
 }
-
-
