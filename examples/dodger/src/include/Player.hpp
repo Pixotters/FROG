@@ -71,22 +71,22 @@ public:
   void removeScore(const unsigned long& = 1);
 
   int getXMin() const{
-    return m_transform.getPosition().x+m_boundingBox->getLocalBounds().left;
+    return transform.getPosition().x+m_boundingBox->getLocalBounds().left;
   }
 
   int getXMax() const{
     sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return m_transform.getPosition().x+fr.left+ fr.width;
+    return transform.getPosition().x+fr.left+ fr.width;
   }
 
   int getYMin() const{
-    return m_transform.getPosition().y+m_boundingBox->getLocalBounds().top;
+    return transform.getPosition().y+m_boundingBox->getLocalBounds().top;
 
   }
 
   int getYMax() const{
     sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return m_transform.getPosition().y+fr.top+fr.height;
+    return transform.getPosition().y+fr.top+fr.height;
   }
 
 

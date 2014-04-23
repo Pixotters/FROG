@@ -14,7 +14,7 @@ namespace frog{
 
   void Transform::update(const ComponentHolder& parent)
   { 
-
+    
   }
 
   int Transform::getZIndex() const

@@ -17,5 +17,5 @@ MovePlayer::~MovePlayer()
 
 bool MovePlayer::execute()
 {
-  m_player->getTransform().move(m_x, m_y);
+  m_player->transform.move(m_x, m_y);
 }

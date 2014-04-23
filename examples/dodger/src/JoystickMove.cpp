@@ -26,8 +26,8 @@ bool JoystickMove::execute()
   std::cout << "joystick : "<<x<<","<<y<<std::endl;
   if( x > DEADZONE || y > DEADZONE || x < -DEADZONE || y < -DEADZONE){
       std::cout << "moved player"<<std::endl;
-    float px = m_gameobject->getTransform().getPosition().x+x/10.f;
-    float py = m_gameobject->getTransform().getPosition().y+y/10.f;
+    float px = m_gameobject->transform.getPosition().x+x/10.f;
+    float py = m_gameobject->transform.getPosition().y+y/10.f;
     if( px < 0){
       px = 0;
     }
@@ -40,7 +40,7 @@ bool JoystickMove::execute()
     if(py > 600){
       py = 600;
     }      
-    m_gameobject->getTransform().setPosition(px, py);  
+    m_gameobject->transform.setPosition(px, py);  
 
     return true;
   }

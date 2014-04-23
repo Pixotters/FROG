@@ -106,7 +106,7 @@ Level::Level(const AppInfo& appinfo)
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
   addObject(m_player);
-  m_terrain->getTransform().setPosition(0, 0);
+  m_terrain->getComponent<Transform>()->setPosition(0, 0);
   addObject(m_terrain);
 }
 
@@ -120,7 +120,7 @@ void Level::update(const AppInfo& appinfo)
   Scene::update(appinfo);
   static Sprite * s = new Sprite(m_textureManager.get("FROG_TEXTURE") );
   std::cerr << "Sprite is "<< s <<std::endl;
-  m_player->addComponent<Transform>( &m_player->getTransform() );
+  //  m_player->addComponent<Transform>( &m_player->getComponent<Transform>() );
   m_player->addComponent<Sprite>( s );
 
   //  sf::Sprite * s2 = new sf::Sprite;
@@ -153,7 +153,7 @@ void Level::spawnEnemy()
     e->addComponent(new render::RenderingComponent( r ) );
   
     //e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
-    e->getTransform().setPosition(Random::get(100, 700), 50);
+    e->getComponent<Transform>()->setPosition(Random::get(100, 700), 50);
     m_ennemies.push_back(e );
     addObject(e);*/
 }
@@ -163,7 +163,7 @@ void Level::spawnTarget()
   /*
     std::shared_ptr<Target> e(new Target);
     //  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
-    e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
+    e->getComponent<Transform>()->setPosition(Random::get(100, 700), Random::get(50, 550) );
     m_targets.push_back(e);
     addObject(e);
   */
@@ -176,8 +176,8 @@ void Level::updateEnemies()
     {      
       (*it)->update();
       PhysicEngine::update( it->get() );
-      if((*it)->getTransform().getPosition().x > 800 
-         || (*it)->getTransform().getPosition().y > 600  ){
+      if((*it)->getComponent<Transform>()->getPosition().x > 800 
+         || (*it)->getComponent<Transform>()->getPosition().y > 600  ){
         removeObject(*it);    
         it->reset();
         *it = nullptr;
@@ -193,10 +193,10 @@ void Level::updateTargets()
       (*it)->update();      
       PhysicEngine::update( it->get() );
       m_collider->updateObject( it->get() );
-      if((*it)->getTransform().getPosition().x > 800 
-         || (*it)->getTransform().getPosition().y > 600 
-         || (*it)->getTransform().getPosition().x < -32
-         || (*it)->getTransform().getPosition().y < -32){
+      if((*it)->getComponent<Transform>()->getPosition().x > 800 
+         || (*it)->getComponent<Transform>()->getPosition().y > 600 
+         || (*it)->getComponent<Transform>()->getPosition().x < -32
+         || (*it)->getComponent<Transform>()->getPosition().y < -32){
         removeObject(*it);
         it->reset();
         *it = nullptr;

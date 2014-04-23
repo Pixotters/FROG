@@ -28,7 +28,7 @@ namespace frog{
     std::cerr << "Sprite:update" << std::endl;
     Transform * t = parent.getComponent<Transform>();
     std::cerr << "Sprite:update - parent is at "
-              << t->getPosition().x 
+              << t->getPosition().x << "," 
               << t->getPosition().y << std::endl;
     m_sprite.setPosition( t->getPosition() );
     m_sprite.setRotation( t->getRotation() );

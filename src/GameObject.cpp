@@ -12,9 +12,7 @@ namespace frog{
   GameObject::GameObject()
     : ComponentHolder()
   {
-    std::cerr << "Transform is "<< &m_transform << std::endl;
-    addComponent(std::shared_ptr<Transform>(&m_transform) );
-    std::cerr << "yepip" << std::endl;
+    addComponent(std::shared_ptr<Transform>(&transform) );
   }
 
   GameObject::~GameObject()
@@ -51,20 +49,6 @@ namespace frog{
       }
 
   }
-
-  Transform GameObject::getTransform() const
-  {
-    return m_transform;
-  }
-
-  Transform& GameObject::getTransform()
-  {
-    return m_transform;
-  }
-
-  Transform * GameObject::getPTransform()
-  {
-    return &m_transform;
-  }
  
+
 }

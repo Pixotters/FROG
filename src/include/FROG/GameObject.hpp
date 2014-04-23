@@ -15,10 +15,11 @@ namespace frog{
   {
     //// attributes ////
   protected:
-    Transform m_transform;
 
     //// operations ////
   public : 
+
+    Transform transform;
 
     GameObject();
 
@@ -35,22 +36,6 @@ namespace frog{
      */
     virtual void update();
   
-    /*!
-     * @brief Returns the Transform component
-     * @return Default Transform of the gameobject
-     */
-    Transform getTransform() const;
-
-    /*!
-     * @brief Returns the Transform component
-     * @return Default Transform of the gameobject
-     */
-    Transform& getTransform();
-
-    Transform * getPTransform();
-
-    //    virtual Transform * getComponent<Transform>();
-
   };
 
 }
