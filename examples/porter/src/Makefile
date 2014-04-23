@@ -2,13 +2,14 @@
 
 include ../Makefile.generic
 
-PROGRAM=Dodger
+PROGRAM=Porter
 SOURCES=$(wildcard *.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 INC=include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
+
 
 game: $(PROGRAM)
 
@@ -21,7 +22,7 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PROGRAM): $(OBJECTS)
+$(PROGRAM): $(OBJECTS) $(SUBOBJECTS)
 	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
 
 clean: generic_clean

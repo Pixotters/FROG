@@ -1,0 +1,15 @@
+= Porter =
+
+== Presentation ==
+
+In *Porter*, you can control a baggage carrier whose job is to bring back a 
+precious luggage to its owner. 
+You need to transport the baggage from the beginning to the end of the airport. 
+
+== Controls ==
+
+- A/D  : move left/right
+- S : crawl
+- Z : push a button
+- SPACE : jump
+- Hold direction while close to the luggage : push/pull luggage
