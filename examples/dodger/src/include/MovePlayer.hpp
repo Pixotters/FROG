@@ -1,6 +1,7 @@
 #ifndef MOVEPLAYER_HPP
 #define MOVEPLAYER_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/Command.hpp"
 #include "Player.hpp"
 
@@ -13,10 +14,11 @@ protected:
   Player * m_player;
   short m_x;
   short m_y;
+  const AppInfo& m_appInfo;
 
   //// operations ////
 public:
-  MovePlayer(Player *, const short & = 0, const short& = 0);
+  MovePlayer(Player *, const short &, const short&, const AppInfo& );
   virtual ~MovePlayer();
   virtual bool execute();
 };

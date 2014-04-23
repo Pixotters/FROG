@@ -6,8 +6,8 @@
 
 using namespace frog;
 
-Target::Target()
-  : Element()
+Target::Target(const AppInfo& appinfo)
+  : Element(appinfo)
 {
   m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Green);

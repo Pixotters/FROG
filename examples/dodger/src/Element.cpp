@@ -5,10 +5,10 @@
 
 using namespace frog;
 
-Element::Element()
+Element::Element(const AppInfo& appinfo)
   : GameObject() 
 {
-    addComponent<phi::Physics>( new phi::Physics() );
+    addComponent<phi::Physics>( new phi::Physics(appinfo) );
 }
 
 Element::~Element()

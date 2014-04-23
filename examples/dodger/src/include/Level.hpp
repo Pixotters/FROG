@@ -41,8 +41,8 @@ public:
   void removeTarget(Target *);
 
 private:
-  void spawnEnemy();
-  void spawnTarget();
+  void spawnEnemy(const AppInfo&);
+  void spawnTarget(const AppInfo&);
   void updateEnemies();
   void updateTargets();
 };

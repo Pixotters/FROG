@@ -34,18 +34,11 @@ namespace frog{
 
   void GameObject::update()
   { 
-    std::cerr << "GameObject: update() : "<< m_components.size() << std::endl;
+    std::cerr << "GameObject: update ["<< this <<"]"<< std::endl;
     auto end = m_components.end();
     for(auto it = m_components.begin(); it != end; it++)
       {
-        std::cerr << "GameObject: update() - updating "<< *it << std::endl;
-        std::shared_ptr<Sprite> s;
-        if( (s = std::dynamic_pointer_cast<Sprite>(*it) ) ){
-          std::cerr << "GameObject: update(), it's a Sprite !" << std::endl;
-        }
         (*it)->update(*this);
-        std::cerr << "GameObject: update() - updated "<< (*it).get() << std::endl;
-
       }
 
   }

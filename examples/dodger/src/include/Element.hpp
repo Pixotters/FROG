@@ -1,6 +1,7 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/Collisionable.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -25,7 +26,7 @@ public:
   //// operations ////
 public:
 
-  Element();
+  Element(const AppInfo& appinfo);
 
   virtual ~Element();
 

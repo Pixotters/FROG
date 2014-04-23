@@ -11,7 +11,7 @@
 
 using namespace frog;
 
-class Player : virtual public GameObject,
+class Player : public GameObject,
                virtual public sap::Collisionable
 {
 

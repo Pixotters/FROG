@@ -16,7 +16,7 @@ protected:
 
   //// operations ////
 public:
-  Enemy();
+  Enemy(const AppInfo& appinfo);
   virtual ~Enemy();
 
 };

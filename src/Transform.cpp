@@ -6,9 +6,12 @@ namespace frog{
   Transform::Transform() 
     : Component(), sf::Transformable() 
   {
+    setPosition(0, 0);
+    setRotation(0);
+    setScale(1.0f, 1.0f);
   }
 
-  Transform(const Transform& other)
+  Transform::Transform(const Transform& other)
   {
     setPosition( other.getPosition() );
     setRotation( other.getRotation() );

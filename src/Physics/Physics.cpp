@@ -2,14 +2,22 @@
 
 #include "FROG/Physics/PhysicEngine.hpp"
 
+#include "FROG/Transform.hpp"
 
 namespace frog{
 
   namespace phi{
 
-    Physics::Physics()
+    Physics::Physics(const AppInfo& appinfo)
       : Component(), 
-        m_growth(sf::Vector2f(1, 1) )
+        m_velocity(sf::Vector2f(1, 1) ),
+        m_rotationForce(0.0f),
+        m_growth(sf::Vector2f(1, 1) ),
+        m_acceleration(sf::Vector2f(1, 1) ),
+        m_rotationAcc(0.0f),
+        m_growthAcc(sf::Vector2f(1, 1) ),
+        m_mass(0.0),
+        m_appinfo(appinfo)
     {
     }
 
@@ -19,9 +27,16 @@ namespace frog{
     }
 
 
-    void Physics::update()
+    void Physics::update(const ComponentHolder& parent)
     {
-      //  PhysicEngine::update(this);
+      float dt = m_appinfo.deltaTime;
+      addVelocity( m_acceleration * dt );
+      addRotationForce( m_rotationAcc * dt );
+      addGrowth( m_growthAcc *dt );
+      Transform * t = parent.getComponent<Transform>();
+      t->move( m_velocity * dt );
+      t->rotate( m_rotationForce * dt);
+      t->scale( m_growth * dt );
     }
 
     void Physics::setVelocity(const sf::Vector2f& values )
