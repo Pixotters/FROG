@@ -71,7 +71,7 @@ public:
 
 
 Level::Level(const AppInfo& appinfo)
-  : Scene(appinfo.window), m_player(new Player)
+  : Scene(appinfo.window), m_player(new Player), m_terrain(new GameObject)
 {
   /*  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
   m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
@@ -106,8 +106,9 @@ Level::Level(const AppInfo& appinfo)
   //                    new Bomb(m_ennemies) );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
-
   addObject(m_player);
+  m_terrain->getTransform().setPosition(0, 0);
+  addObject(m_terrain);
 }
 
 Level::~Level()
@@ -121,6 +122,9 @@ void Level::update(const AppInfo& appinfo)
   sf::Sprite * s = new sf::Sprite;
   s->setTexture(m_textureManager.get("FROG_TEXTURE") );
   m_player->addComponent(new render::RenderingComponent(s) );
+  sf::Sprite * s2 = new sf::Sprite;
+  s2->setTexture(m_textureManager.get("TERRAIN_TEXTURE") );
+  m_terrain->addComponent(new render::RenderingComponent(s2) );
   std::cerr<< "handling..." << std::endl;
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
