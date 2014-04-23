@@ -11,6 +11,8 @@
 #include <memory>
 #include <iostream> // TODO remove
 
+#include "FROG/XML/tinyxml2.hpp"
+
 namespace frog{
 
   Scene::Scene(sf::Window& win)
@@ -26,6 +28,42 @@ namespace frog{
     m_gameObjects.clear();
   }
 
+  // TODO complete
+  bool Scene::loadFromFile(const std::string& file)
+  {
+    tinyxml2::XMLDocument doc;
+    std::cerr << "Scene: loadFromFile("<< file << ")" << std::endl;
+    if ( doc.LoadFile( file.c_str() ) == tinyxml2::XML_NO_ERROR )
+      {
+        std::cerr << "Scene: loadFromFile("<< file << ") - file loaded" << std::endl;
+        tinyxml2::XMLElement * scene = doc.RootElement();
+        if(scene)
+          std::cerr << "scene node" << std::endl;
+        tinyxml2::XMLElement * assets = scene->FirstChildElement("ASSETS");
+        if(assets)
+          std::cerr << "assets node" << std::endl;
+        tinyxml2::XMLElement * objects = scene->FirstChildElement("OBJECTS");
+        tinyxml2::XMLElement * textures = assets->FirstChildElement("TEXTURES");
+        if(textures)
+          std::cerr << "textures node" << std::endl;
+        // loading textures 
+        if(textures)         
+          std::cerr << "Scene: loadFromFile("<< file << ") - textures "<< std::endl;
+        for(tinyxml2::XMLElement * texture = textures->FirstChildElement();
+            texture != nullptr; texture = texture->NextSiblingElement() )
+          {
+            std::cerr << "Scene: loadFromFile("<< file << ") - found texture" << std::endl;
+            const char * file = texture->Attribute("filename");
+            const char * id = texture->Attribute("ID");
+            m_textureManager.loadFromFile(file, id);
+          }
+        //
+        return true;
+      } else
+      {
+        return false;
+      }
+  }
 
   void Scene::update(const AppInfo& appinfo)
   {

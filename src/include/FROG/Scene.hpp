@@ -1,6 +1,7 @@
 #ifndef FROG_SCENE_HPP
 #define FROG_SCENE_HPP
 
+#include "FROG/AssetManager.hpp"
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/LSAP.hpp"
@@ -9,6 +10,7 @@
 #include <set>
 #include <memory>
 
+#include <SFML/Graphics/Texture.hpp>
 // TODO : try to remove that dependencies
 #include <SFML/Window/Window.hpp>
 
@@ -23,6 +25,8 @@ namespace frog{
   protected:
 
     std::set< std::shared_ptr<GameObject> > m_gameObjects;    
+    
+    AssetManager< std::string, sf::Texture > m_textureManager;
 
     sap::LSAP * m_collider;
 
@@ -34,6 +38,13 @@ namespace frog{
     Scene(sf::Window&);
 
     virtual ~Scene();
+
+    /*!
+     * @brief Loads the state from a file
+     * @param file File to extract data from     
+     * @return True if the loading has succeeded
+     */
+    bool loadFromFile(const std::string& file);
 
     /*
       updates the scene. eg updates all the scene's gameObjects + some codes we 
