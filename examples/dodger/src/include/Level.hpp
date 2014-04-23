@@ -26,6 +26,7 @@ class Level : virtual public Scene
   //// attributes ////
 protected:
   sf::Clock m_clock;
+  std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<Player> m_player;
   std::list< std::shared_ptr<Enemy> > m_ennemies;
   std::list< std::shared_ptr<Target> > m_targets;
