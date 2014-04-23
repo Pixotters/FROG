@@ -1,23 +1,29 @@
 #include "FROG/GameObject.hpp"
-
+#include "FROG/XML/tinyxml2.hpp"
+#include <iostream>
 
 namespace frog{
 
   GameObject::GameObject()
-    : sf::Drawable() 
+    : ComponentHolder()
   {
 
   }
 
   GameObject::~GameObject()
   {
-
   }
 
-
-  void GameObject::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
+  bool GameObject::loadFromFile(const std::string& file)
   {
-    rs.transform *= m_transform.getTransform();
+    tinyxml2::XMLDocument doc;
+    if ( doc.LoadFile(file.c_str() ) ){
+
+      return true;
+    }else{
+      return false;
+    }
+    
   }
 
 
