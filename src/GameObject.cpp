@@ -1,5 +1,8 @@
 #include "FROG/GameObject.hpp"
+
 #include "FROG/XML/tinyxml2.hpp"
+
+
 #include <iostream>
 
 namespace frog{
@@ -12,6 +15,7 @@ namespace frog{
 
   GameObject::~GameObject()
   {
+
   }
 
   bool GameObject::loadFromFile(const std::string& file)

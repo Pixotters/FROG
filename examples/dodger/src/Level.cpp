@@ -25,12 +25,12 @@ using namespace frog;
 class Collider : virtual public sap::ActionManager{
 
 private:
-  Player * m_player;
+  std::shared_ptr<Player> m_player;
   render::Renderer * m_renderer;
-  std::list<Target *> * m_targets;
+  std::list<std::shared_ptr<Target> > * m_targets;
 
 public:
-  Collider(Player * p, std::list<Target *> * t, render::Renderer * r) 
+  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<Target> > * t, render::Renderer * r) 
     : m_player(p), m_targets(t), m_renderer(r)
   {}
 
@@ -54,8 +54,8 @@ public:
   }
 
   void onCollision(Player * a, Target * b){
-    m_targets->remove(b);
-    m_renderer->removeObject(b);
+    //    m_targets->remove(b);
+    //    m_renderer->removeObject(b);
     
   }
 
@@ -71,20 +71,18 @@ public:
 
 
 Level::Level(const AppInfo& appinfo)
-  : Scene(appinfo.window)
-{ 
-  std::cerr << "Level : window = " << &appinfo.window << std::endl;
-  m_player = new Player;
-  m_playerTexture.loadFromFile("assets/frog.png");
-  m_targetTexture.loadFromFile("assets/donut.png");
-  m_enemyTexture.loadFromFile("assets/troll.png");
+  : Scene(appinfo.window), m_player(new Player)
+{
+  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
+  m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
+  m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);
   sf::Sprite * s = new sf::Sprite;
-  s->setTexture(m_playerTexture);
+  s->setTexture(m_textureManager.get(PLAYER_TEXTURE) );
   m_player->addComponent(new render::RenderingComponent(s) );
-  auto moveleft = new MovePlayer(m_player, -4, 0);
-  auto moveright = new MovePlayer(m_player, 4, 0);
-  auto moveup = new MovePlayer(m_player, 0, -8);
-  auto movedown = new MovePlayer(m_player, 0, 8);
+  auto moveleft = new MovePlayer(m_player.get(), -4, 0);
+  auto moveright = new MovePlayer(m_player.get(), 4, 0);
+  auto moveup = new MovePlayer(m_player.get(), 0, -8);
+  auto movedown = new MovePlayer(m_player.get(), 0, 8);
 
   auto qkey = new ctrl::KeyboardButton(sf::Keyboard::Q);
   auto dkey = new ctrl::KeyboardButton(sf::Keyboard::D);
@@ -102,13 +100,13 @@ Level::Level(const AppInfo& appinfo)
 
   m_controller.bind(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
-                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
+  //                       new Bomb(m_ennemies) );
 
-  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
-                       new Bomb(m_ennemies) );
-  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-                    new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+  //                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+  //                    new Bomb(m_ennemies) );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
 
@@ -118,7 +116,7 @@ Level::Level(const AppInfo& appinfo)
 
 Level::~Level()
 {
-  delete m_player;
+  //  delete m_player;
 }
 
 void Level::update(const AppInfo& appinfo)
@@ -131,7 +129,7 @@ void Level::update(const AppInfo& appinfo)
   //  delete jm;  
   //  std::cout<< "handled..." << std::endl;
   std::cerr<< "colliding..." << std::endl;
-  m_collider->updateObject(m_player);
+  m_collider->updateObject( m_player.get() );
   std::cerr<< "enemies..." << std::endl;
   updateEnemies();
   std::cerr<< "targets..." << std::endl;
@@ -149,9 +147,10 @@ void Level::update(const AppInfo& appinfo)
 
 void Level::spawnEnemy()
 {
-  Enemy * e = new Enemy;
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
-  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
+  //  Enemy * e = new Enemy;
+  std::shared_ptr<Enemy> e(new Enemy);
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(ENEMY_TEXTURE) ) ) );
+  //  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
   addObject(e);
@@ -159,8 +158,9 @@ void Level::spawnEnemy()
 
 void Level::spawnTarget()
 {
-  Target * e = new Target;
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
+  //  Target * e = new Target;
+  std::shared_ptr<Target> e(new Target);
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(TARGET_TEXTURE) ) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
   addObject(e);
@@ -172,15 +172,16 @@ void Level::updateEnemies()
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       (*it)->update();
-      PhysicEngine::update(*it);
+      PhysicEngine::update( it->get() );
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600  ){
         removeObject(*it);    
-        delete (*it);
+        it->reset();
         *it = nullptr;
       }
     }
   m_ennemies.remove(nullptr);
+  std::cerr << "now " << m_ennemies.size()<< " enemies" << std::endl;
 }
 
 void Level::updateTargets()
@@ -188,19 +189,24 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       (*it)->update();      
-      PhysicEngine::update(*it);
-      m_collider->updateObject(*it);
+      PhysicEngine::update( it->get() );
+      m_collider->updateObject( it->get() );
       if((*it)->getTransform().getPosition().x > 800 
          || (*it)->getTransform().getPosition().y > 600 
          || (*it)->getTransform().getPosition().x < -32
          || (*it)->getTransform().getPosition().y < -32){
+        std::cerr << "need to delete target" << std::endl;
         removeObject(*it);
-        delete (*it);
+        it->reset();
         *it = nullptr;
+        //        m_targets.erase(it);
+        //        delete (*it);
+        //        *it = nullptr;
       }  
-
+      
     }
-  m_targets.remove(nullptr);
+    m_targets.remove(nullptr);
+
 }
 
 

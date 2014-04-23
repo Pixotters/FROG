@@ -2,7 +2,6 @@
 #include "FROG/Control/Input.hpp"
 #include "FROG/App.hpp" // TODO : see that dependencie
 #include <SFML/Window/Event.hpp>
-#include <iostream>
 
 namespace frog{
 
@@ -11,8 +10,6 @@ namespace frog{
     ControlHandler::ControlHandler(sf::Window& w)
       : Filter<Input *>(), m_window(w)
     {
-      std::cerr << "ControlHandler : window " << &w \
-                << &m_window << std::endl;
     }
 
     ControlHandler::~ControlHandler()
@@ -24,8 +21,6 @@ namespace frog{
     {
       sf::Event event;
       m_events.clear();
-      std::cerr << "ControlHandler : reading inputs from window " \
-                << &m_window << std::endl;
       while(m_window.pollEvent(event) ){
         if(event.type == sf::Event::Closed){
           /* TODO : close the program */
@@ -40,7 +35,6 @@ namespace frog{
       
         m_events.push_back(event);
       }
-      std::cerr << "Done " <<std::endl;
       return in;      
     }
 

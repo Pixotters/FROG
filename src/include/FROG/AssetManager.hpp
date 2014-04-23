@@ -33,14 +33,14 @@ namespace frog
 
     /*!
      * @brief Returns the T associated to the ID id
-     * @details If it has noot been loaded, will fail
+     * @details If it has not been loaded, will fail
      * @return R for Asset[id]
      */
     R& get(const ID& id);
 
     /*!
      * @brief Returns the const T associated to the ID id
-     * @details If it has noot been loaded, will fail
+     * @details If it has not been loaded, will fail
      * @return const R for Asset[id]
      */
     const R& get(const ID& id) const;

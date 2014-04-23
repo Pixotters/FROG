@@ -54,25 +54,11 @@ namespace frog{
     virtual ~App();
 
     /*!
-     * @brief Initializes the game engine at the given state. 
-     * @details Processes prelude code that may be required before starting the 
-     loop. The given state will be the entry state. 
-     * @param s initial state
+     * @brief Initializes, loops, and exits properly the App
+     * @details Calls init(s), loop(), and exit()
+     * @param s State to initialize App with
      */
-    void init(State * s = nullptr);
-  
-    /*!
-     * @brief Starts the game loop
-     * @details The game loop will update current state and render it. 
-     */
-    void loop();
-  
-    /*!
-     * @brief Shuts down the engine. 
-     * @details Before closing, users may have to process different kind of 
-     * things such as freeing memory. 
-    */
-    void exit();
+    void start(State * s = nullptr);
   
     /*!
      * @brief Returns current config. 
@@ -93,6 +79,27 @@ namespace frog{
     StateManager& getStateManager();
 
     AppInfo& getAppInfo() const;
+
+    /*!
+     * @brief Initializes the game engine at the given state. 
+     * @details Processes prelude code that may be required before starting the 
+     loop. The given state will be the entry state. 
+     * @param s initial state
+     */
+    void init(State * s = nullptr);
+  
+    /*!
+     * @brief Starts the game loop
+     * @details The game loop will update current state and render it. 
+     */
+    void loop();
+  
+    /*!
+     * @brief Shuts down the engine. 
+     * @details Before closing, users may have to process different kind of 
+     * things such as freeing memory. 
+    */
+    void exit();
 
   };
 

@@ -6,6 +6,7 @@
 #include "FROG/Transform.hpp"
 
 #include "FROG/Collision/Collisionable.hpp"
+#include <SFML/Graphics/Shape.hpp>
 
 
 using namespace frog;
@@ -35,11 +36,6 @@ public:
   */
   virtual void update();
 
-  /*
-    draws the player : just its bounding box, created in the constructor to
-    save instructions. only the position changes.
-  */
-  virtual void draw(sf::RenderTarget&, sf::RenderStates) const;
 
   /*
     returns the number of lives
