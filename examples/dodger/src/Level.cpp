@@ -73,12 +73,9 @@ public:
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window), m_player(new Player)
 {
-  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
+  /*  m_textureManager.loadFromFile("assets/frog.png", PLAYER_TEXTURE);
   m_textureManager.loadFromFile("assets/donut.png", TARGET_TEXTURE);
-  m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);
-  sf::Sprite * s = new sf::Sprite;
-  s->setTexture(m_textureManager.get(PLAYER_TEXTURE) );
-  m_player->addComponent(new render::RenderingComponent(s) );
+  m_textureManager.loadFromFile("assets/troll.png", ENEMY_TEXTURE);*/
   auto moveleft = new MovePlayer(m_player.get(), -4, 0);
   auto moveright = new MovePlayer(m_player.get(), 4, 0);
   auto moveup = new MovePlayer(m_player.get(), 0, -8);
@@ -111,7 +108,6 @@ Level::Level(const AppInfo& appinfo)
   m_collider = new sap::LSAP(am);  
 
   addObject(m_player);
-  spawnEnemy();
 }
 
 Level::~Level()
@@ -122,6 +118,9 @@ Level::~Level()
 void Level::update(const AppInfo& appinfo)
 {  
   Scene::update(appinfo);
+  sf::Sprite * s = new sf::Sprite;
+  s->setTexture(m_textureManager.get("FROG_TEXTURE") );
+  m_player->addComponent(new render::RenderingComponent(s) );
   std::cerr<< "handling..." << std::endl;
   handleCommands( m_controller.update() );
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
@@ -149,7 +148,7 @@ void Level::spawnEnemy()
 {
   //  Enemy * e = new Enemy;
   std::shared_ptr<Enemy> e(new Enemy);
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(ENEMY_TEXTURE) ) ) );
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("ENEMY_TEXTURE") ) ) );
   //  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
   e->getTransform().setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
@@ -160,7 +159,7 @@ void Level::spawnTarget()
 {
   //  Target * e = new Target;
   std::shared_ptr<Target> e(new Target);
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get(TARGET_TEXTURE) ) ) );
+  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_textureManager.get("BONUS_TEXTURE") ) ) );
   e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
   addObject(e);

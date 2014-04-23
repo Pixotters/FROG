@@ -29,7 +29,7 @@ protected:
   std::shared_ptr<Player> m_player;
   std::list< std::shared_ptr<Enemy> > m_ennemies;
   std::list< std::shared_ptr<Target> > m_targets;
-  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
+  //  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
   //  PhysicEngine m_phiengine;
 
   //// operations ////
