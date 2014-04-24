@@ -24,7 +24,6 @@ namespace frog{
       }
     tinyxml2::XMLElement * sprt, sprites, animations;
     sprt = doc.RootElement();
-    
     sprites = sprt->FirstChildElement("SPRITES");
     if( not sprites)
       {
@@ -41,7 +40,11 @@ namespace frog{
         unsigned height = sprite->UnsignedAttribute("height");
         int hot_x = sprite = sprite->IntAttribute("hot_x");
         int hot_y = sprite = sprite->IntAttribute("hot_y");
+<<<<<<< HEAD
         addClip( new Clip(id, x, y, width, height, hot_x, hot_y) );
+=======
+        spritesheet.addClip( new Clip(id, x, y, width, height, hot_x, hot_y) );
+>>>>>>> 3450c08994674b00ebfe84fbed45d3f668b5eb0b
       }
     animations = sprt->FirstChildElement("ANIMATIONS");
     if ( animations )
