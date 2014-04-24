@@ -1,8 +1,8 @@
 namespace frog{
 
   template <typename ID>
-  Animator<ID>::Animator()
-    : RenderingComponent(new sf::Sprite)
+  Animator<ID>::Animator(sf::Texture& tex)
+    : RenderingComponent(new sf::Sprite), m_texture(tex)
   {
   }
 
@@ -21,30 +21,18 @@ namespace frog{
   }
 
   template <typename ID>
-  void Animator<ID>::addAnimation(const Animation& a, ID id)
-  {
-    m_animations.insert( std::make_pair<Animation, ID>(id, a) );
-  }
-
-  template <typename ID>
   void Animator<ID>::playAnimation(ID id, bool loop) throw (NoSuchAnimation)
   {
     try{
-      Animation anim = m_animations.get(id);
-      m_drawable->setTexture( anim.getSpritesheet() );
-      m_drawable->setTextureRect( anim.getClip() );
-      m_drawable->transform *= anim.getTransform();
+      Animation * anim = m_spritesheet.getAnimation(id);
+      m_drawable->setTexture( anim->getSpritesheet() );
+      m_drawable->setTextureRect( anim->getClip() );
+      m_drawable->transform *= anim->getTransform();
     }catch(out_of_range e){
       throw NoSuchAnimation();
     }
   }
 
-  template <typename ID>
-  void Animator<ID>::removeAnimation(ID id)
-  {
-    m_animations.erase(id);
-  }
-  
   template <typename ID>
   ID Animator<ID>::setDefaultAnimation(ID id) throw (NoSuchAnimation)
   {
@@ -58,6 +46,11 @@ namespace frog{
         throw NoSuchAnimation();
       }
   }
-  
+
+  template <typename ID>
+  void Animator<ID>::changeTexture(sf::Texture& tex)
+  {
+    m_texture = tex;
+  }  
 
 }

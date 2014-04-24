@@ -1,7 +1,7 @@
 #ifndef FROG_ANIMATION_HPP
 #define FROG_ANIMATION_HPP
 
-#include "FROG/Rendering/Clip.hpp"
+#include "FROG/Rendering/AnimationClip.hpp"
 #include <SFML/Graphics/Texture.hpp>
 
 #include <list>
@@ -12,22 +12,19 @@ namespace frog{
   {
 
   protected:
-    sf::Texture& m_spritesheet;
-    std::list<Clip *> m_clips;
+    std::list<AnimationClip *> m_clips;
   
   public:
 
-    Animation(sf::Texture&);
+    Animation();
 
     virtual ~Animation();
 
-    void addClip(Clip * clip);
+    void addClip(AnimationClip * clip);
 
-    void removeClip(Clip * clip);
+    void removeClip(AnimationClip * clip);
 
-    std::list<Clip *> getClips() const;
-
-    sf::Texture& getSpritesheet() const;
+    std::list<AnimationClip *> getClips() const;
 
   };
 
