@@ -1,3 +1,5 @@
+#include "FROG/XML/tinyxml2.hpp"
+
 namespace frog{
 
   template <typename ID>
@@ -23,7 +25,7 @@ namespace frog{
       {
         return false;
       }
-    tinyxml2::XMLElement * sprt, sprites, animations;
+    tinyxml2::XMLElement * sprt, * sprites, * animations;
     sprt = doc.RootElement();
     sprites = sprt->FirstChildElement("SPRITES");
     if( not sprites)
@@ -32,7 +34,7 @@ namespace frog{
       }
     for(tinyxml2::XMLElement * sprite = sprites->FirstChildElement(); 
         sprite != nullptr; 
-        sprite = sprite->nextSiblingElement() )
+        sprite = sprite->NextSiblingElement() )
       {
         unsigned id = sprite = sprite->UnsignedAttribute("id");
         int x = sprite = sprite->IntAttribute("x");
@@ -41,7 +43,7 @@ namespace frog{
         unsigned height = sprite->UnsignedAttribute("height");
         int hot_x = sprite = sprite->IntAttribute("hot_x");
         int hot_y = sprite = sprite->IntAttribute("hot_y");
-        addClip( new Clip(id, x, y, width, height, hot_x, hot_y) );
+        addClip( new Clip(x, y, width, height, hot_x, hot_y), id );
       }
     animations = sprt->FirstChildElement("ANIMATIONS");
     if ( animations )
@@ -55,16 +57,20 @@ namespace frog{
             tinyxml2::XMLElement * clips = anim->FirstChildElement("CLIPS");
             for(tinyxml2::XMLElement * clip = clips->FirstChildElement();
                 clip != nullptr;
-                cli = clip->NextSiblingElement() )
+                clip = clip->NextSiblingElement() )
               {
-                unsigned id = clip->UnsignedAttribute("id");
-                unsigned duration = clip->UnsignedAttribute("duration");
+                unsigned short id = clip->UnsignedAttribute("id");
+                unsigned short duration = clip->UnsignedAttribute("duration");
                 float move_x = clip->FloatAttribute("move_x");
                 float move_y = clip->FloatAttribute("move_y");
                 float rotation = clip->FloatAttribute("rotation");
                 float scale_x = clip->FloatAttribute("scale_x");
                 float scale_y = clip->FloatAttribute("scale_y");
-                a->addClip( new AnimationClip(id, duration, sf::Vector2f(move_x, move_y), ) );
+                sf::Transform t = sf::Transform::Identity;
+                t.translate( sf::Vector2f(move_x, move_y) );
+                t.rotate( rotation );
+                t.scale( sf::Vector2f(scale_x, scale_y) );
+                a->addClip( new AnimationClip(id, duration, t ) );
               }
             addAnimation(a, id);
           }
@@ -80,15 +86,21 @@ namespace frog{
   }
 
   template <typename ID>
+  Clip * Spritesheet<ID>::getClip(const unsigned short& id) const
+  {
+    return m_clips.at(id);
+  }
+
+  template <typename ID>
   void Spritesheet<ID>::addAnimation(Animation * a, ID id)
   {
     m_animations.insert( std::make_pair<Animation *, ID>(a, id) );
   }
 
   template <typename ID>
-  void Spritesheet<ID>::addClip(Clip * c)
+  void Spritesheet<ID>::addClip(Clip * c, const unsigned short& id)
   {
-    m_clips.push_back(c);
+    m_clips.at(id) = c;
   }
 
   template <typename ID>

@@ -14,8 +14,7 @@
 namespace frog{
 
   template <typename ID>
-  class Animator : virtual public RenderingComponent
-  {
+  class Animator : virtual public render::RenderingComponent{
 
   public:
     class NoSuchAnimation : virtual public std::exception{
@@ -28,22 +27,33 @@ namespace frog{
     };
 
   protected:
-    Spritesheet& m_spritesheet;
+    Spritesheet<ID>& m_spritesheet;
     sf::Texture& m_texture;
+    sf::Sprite m_sprite;
+    Animation * m_played;
+    Animation * m_defaultAnimation;
+    unsigned short m_frameKey;
+    bool m_loop;
 
   public:
 
-    Animator(Spritesheet&, sf::Texture&);
+    Animator(Spritesheet<ID>&, sf::Texture&);
 
     virtual ~Animator();
 
     virtual void update(const ComponentHolder& parent);
 
+    virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
+
     void playAnimation(ID id, bool loop = false) throw (NoSuchAnimation);
+
+    void playAnimation(Animation * a, bool loop = false) throw (NoSuchAnimation);
   
-    ID setDefaultAnimation(ID id) throw (NoSuchAnimation);
+    Animation * setDefaultAnimation(ID id) throw (NoSuchAnimation);
 
     void changeTexture(sf::Texture& );
+
+    void changeSpritesheet(Spritesheet<ID>& );
 
   };
 

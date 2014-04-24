@@ -11,11 +11,13 @@ namespace frog{
     
   protected:
     unsigned short m_sprite;
-    unsigned int m_duration;
+    unsigned short m_duration;
     sf::Transform m_transform;
     
   public:
-    AnimationClip();
+    AnimationClip(const unsigned short& id = 0,
+                  const unsigned short& duration = 1,
+                  const sf::Transform& scale = sf::Transform::Identity);
     virtual ~AnimationClip();
     // TODO delete getters / setters
     void setSprite(const unsigned short& id){ m_sprite = id; };

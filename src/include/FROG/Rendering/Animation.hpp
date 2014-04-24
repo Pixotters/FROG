@@ -4,7 +4,7 @@
 #include "FROG/Rendering/AnimationClip.hpp"
 #include <SFML/Graphics/Texture.hpp>
 
-#include <list>
+#include <vector>
 
 namespace frog{
 
@@ -12,7 +12,7 @@ namespace frog{
   {
 
   protected:
-    std::list<AnimationClip *> m_clips;
+    std::vector<AnimationClip *> m_clips;
   
   public:
 
@@ -24,7 +24,9 @@ namespace frog{
 
     void removeClip(AnimationClip * clip);
 
-    std::list<AnimationClip *> getClips() const;
+    std::vector<AnimationClip *> getClips() const;
+
+    AnimationClip * getClipAt(const unsigned int&) const;
 
   };
 

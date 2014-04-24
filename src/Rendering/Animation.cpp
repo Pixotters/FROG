@@ -19,13 +19,19 @@ namespace frog{
 
   void Animation::removeClip(AnimationClip * c)
   {
-    m_clips.remove(c);
+    // TODO
+    //    m_clips.remove(c);
   }
 
-  std::list<AnimationClip *> Animation::getClips() const
+  std::vector<AnimationClip *> Animation::getClips() const
   {
     return m_clips;
   }
 
+
+  AnimationClip * Animation::getClipAt(const unsigned int& i) const
+  {
+    return m_clips.at(i);
+  }
 
 }

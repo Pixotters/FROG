@@ -24,7 +24,7 @@ void Level::update(const AppInfo& appinfo)
     {
       GameObject * g = new GameObject();  
       sf::Texture tex = m_textureManager.get("PORTER_SPRITESHEET");
-      Spritesheet sprt = m_spritesheetManager.get("");
+      frog::Spritesheet sprt = m_spritesheetManager.get("");
       g->addComponent< Animator<std::string> >(new Animator(sprt, tex) );
       done = true;
     }
