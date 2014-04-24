@@ -1,7 +1,7 @@
 namespace frog{
 
   template <typename ID>
-  Animator<ID>::Animator(sf::Texture& tex)
+  Animator<ID>::Animator(Spritesheet&, sf::Texture& tex)
     : RenderingComponent(new sf::Sprite), m_texture(tex)
   {
   }

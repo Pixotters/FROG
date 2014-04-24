@@ -17,6 +17,7 @@ namespace frog{
   template <typename ID>
   bool Spritesheet<ID>::loadFromFile(const std::string& file)
   {
+           std::cerr << "starting reading spritesheet " << std::endl;
     tinyxml2::XMLDocument doc;
     if (doc.LoadFile( file.c_str() ) != tinyxml2::XML_NO_ERROR )
       {
@@ -40,11 +41,7 @@ namespace frog{
         unsigned height = sprite->UnsignedAttribute("height");
         int hot_x = sprite = sprite->IntAttribute("hot_x");
         int hot_y = sprite = sprite->IntAttribute("hot_y");
-<<<<<<< HEAD
         addClip( new Clip(id, x, y, width, height, hot_x, hot_y) );
-=======
-        spritesheet.addClip( new Clip(id, x, y, width, height, hot_x, hot_y) );
->>>>>>> 3450c08994674b00ebfe84fbed45d3f668b5eb0b
       }
     animations = sprt->FirstChildElement("ANIMATIONS");
     if ( animations )
@@ -72,6 +69,7 @@ namespace frog{
             addAnimation(a, id);
           }
       }
+      std::cerr << "finished reading spritesheet " << std::endl;
     return true;
   }
 

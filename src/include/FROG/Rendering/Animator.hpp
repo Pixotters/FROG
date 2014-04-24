@@ -28,12 +28,12 @@ namespace frog{
     };
 
   protected:
-    Spritesheet m_spritesheet;
+    Spritesheet& m_spritesheet;
     sf::Texture& m_texture;
 
   public:
 
-    Animator(const std::string& file);
+    Animator(Spritesheet&, sf::Texture&);
 
     virtual ~Animator();
 

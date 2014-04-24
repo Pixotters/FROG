@@ -15,21 +15,7 @@ bool okay(){
 int main()
 {
   frog::App porter;
-  FSM<PlayerState> player_machine;
-  player_machine.push(PlayerStateFactory::create(okay, okay) );
-  try
-    {
-      player_machine.pop();
-    }catch(std::exception& e)
-    {
-      std::cout << e.what() << std::endl;
-    }
-  try
-    {
-      player_machine.pop();
-    }catch(std::exception& e)
-    {
-      std::cout << e.what() << std::endl;
-    }
-  
+  Scene * l = new Level( porter.getAppInfo() );
+  if ( l->loadFromFile("assets/scenes/level1.xml") )
+    porter.start(l);
 }
