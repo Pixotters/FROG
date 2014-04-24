@@ -2,7 +2,7 @@ namespace frog{
 
   template <typename ID>
   Animator<ID>::Animator()
-    : Component()
+    : RenderingComponent(new sf::Sprite)
   {
   }
 
@@ -15,9 +15,9 @@ namespace frog{
   void Animator<ID>::update(const ComponentHolder& parent)
   {
     Transform * t = parent->getComponent<Transform>();
-    m_sprite.setPosition( t->getPosition() );
-    m_sprite.setRotation( t->getRotation() );
-    m_sprite.setScale( t->getScale() );
+    m_drawable->setPosition( t->getPosition() );
+    m_drawable->setRotation( t->getRotation() );
+    m_drawable->setScale( t->getScale() );
   }
 
   template <typename ID>
@@ -31,9 +31,9 @@ namespace frog{
   {
     try{
       Animation anim = m_animations.get(id);
-      m_sprite.setTexture( anim.getSpritesheet() );
-      m_sprite.setTextureRect( anim.getClip() );
-      m_sprite.transform *= anim.getTransform();
+      m_drawable->setTexture( anim.getSpritesheet() );
+      m_drawable->setTextureRect( anim.getClip() );
+      m_drawable->transform *= anim.getTransform();
     }catch(out_of_range e){
       throw NoSuchAnimation();
     }
