@@ -1,31 +1,23 @@
 #ifndef FROG_CLIP_HPP
 #define FROG_CLIP_HPP
 
-#include <SFML/Graphics/Transform.hpp>
 #include <SFML/Graphics/Rect.hpp>
-
+#include <SFML/System/Vector2.hpp>
 
 namespace frog{
 
-  class Clip{
+  struct Clip{
     
-  protected:
-    unsigned int m_duration;
-    sf::IntRect m_clip;
-    sf::Transform m_transform;
+    unsigned id;
+    sf::IntRect clip;
+    sf::Vector2i hotpoint;
     
-  public:
-    Clip();
+    Clip(const unsigned& id = 0, 
+         const int& x = 0, const int& y = 0, 
+         const unsigned& w = 0, const unsigned& h = 0,
+         const int& hx = 0, const int& hy = 0);
     virtual ~Clip();
-    // TODO delete getters / setters
-    void setDuration(const unsigned int& d){ m_duration = d; };
-    void setTransform(const sf::Transform& t){ m_transform = t; };
-    void setClip(const sf::IntRect& r){ m_clip = r; };
-    unsigned int getDuration() const{ return m_duration; };
-    sf::Transform getTransform() const{ return m_transform; };
-    sf::IntRect getClip() const{ return m_clip; };
     
-
   };
 
 }
