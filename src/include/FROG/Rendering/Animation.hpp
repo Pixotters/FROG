@@ -13,7 +13,7 @@ namespace frog{
 
   protected:
     sf::Texture& m_spritesheet;
-    std::list<Clip> m_clips;
+    std::list<Clip *> m_clips;
   
   public:
 
@@ -25,7 +25,7 @@ namespace frog{
 
     void removeClip(Clip * clip);
 
-    std::list<Clip> getClips() const;
+    std::list<Clip *> getClips() const;
 
     sf::Texture& getSpritesheet() const;
 

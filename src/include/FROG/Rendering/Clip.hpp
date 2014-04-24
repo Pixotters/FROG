@@ -19,7 +19,7 @@ namespace frog{
     virtual ~Clip();
     // TODO delete getters / setters
     void setDuration(const unsigned int& d){ m_duration = d; };
-    void setTransform(const Transform& t){ m_transform = d; };
+    void setTransform(const sf::Transform& t){ m_transform = t; };
     void setClip(const sf::IntRect& r){ m_clip = r; };
     unsigned int getDuration() const{ return m_duration; };
     sf::Transform getTransform() const{ return m_transform; };

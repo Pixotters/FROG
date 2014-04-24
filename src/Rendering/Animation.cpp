@@ -23,7 +23,7 @@ namespace frog{
     m_clips.remove(c);
   }
 
-  std::list<Clip> Animation::getClips() const
+  std::list<Clip *> Animation::getClips() const
   {
     return m_clips;
   }

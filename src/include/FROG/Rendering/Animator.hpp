@@ -1,8 +1,9 @@
 #ifndef FROG_ANIMATOR_HPP
 #define FROG_ANIMATOR_HPP
 
+#include "FROG/ComponentHolder.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/Animation.hpp"
+#include "FROG/Rendering/Animation.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -27,7 +28,6 @@ namespace frog{
 
   protected:
     std::map< ID, Animation > m_animations;
-    sf::Sprite m_sprite;
     ID m_defaultAnim;
 
   public:
