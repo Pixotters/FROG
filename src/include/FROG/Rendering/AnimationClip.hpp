@@ -18,8 +18,10 @@ namespace frog{
     AnimationClip();
     virtual ~AnimationClip();
     // TODO delete getters / setters
+    void setSprite(const unsigned short& id){ m_sprite = id; };
     void setDuration(const unsigned int& d){ m_duration = d; };
     void setTransform(const sf::Transform& t){ m_transform = t; };
+    unsigned short getSprite() const{ return m_sprite; };
     unsigned int getDuration() const{ return m_duration; };
     sf::Transform getTransform() const{ return m_transform; };
     

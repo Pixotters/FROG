@@ -9,6 +9,7 @@
 
 #include <exception>
 #include <map>
+#include <string>
 
 namespace frog{
 
@@ -27,24 +28,22 @@ namespace frog{
     };
 
   protected:
-    std::map< ID, Animation > m_animations;
-    ID m_defaultAnim;
+    Spritesheet m_spritesheet;
+    sf::Texture& m_texture;
 
   public:
 
-    Animator();
+    Animator(const std::string& file);
 
     virtual ~Animator();
 
     virtual void update(const ComponentHolder& parent);
 
-    void addAnimation(const Animation& a, ID id);
-
     void playAnimation(ID id, bool loop = false) throw (NoSuchAnimation);
   
-    void removeAnimation(ID id);
-
     ID setDefaultAnimation(ID id) throw (NoSuchAnimation);
+
+    void changeTexture(sf::Texture& );
 
   };
 

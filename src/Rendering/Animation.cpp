@@ -2,8 +2,7 @@
 
 namespace frog{
 
-  Animation::Animation(sf::Texture& tex)
-    : m_spritesheet(tex)
+  Animation::Animation()
   {
 
   }
@@ -13,25 +12,20 @@ namespace frog{
 
   }
 
-  void Animation::addClip(Clip * c)
+  void Animation::addClip(AnimationClip * c)
   {
     m_clips.push_back(c);
   }
 
-  void Animation::removeClip(Clip * c)
+  void Animation::removeClip(AnimationClip * c)
   {
     m_clips.remove(c);
   }
 
-  std::list<Clip *> Animation::getClips() const
+  std::list<AnimationClip *> Animation::getClips() const
   {
     return m_clips;
   }
 
-
-  sf::Texture& Animation::getSpritesheet() const
-  {
-    return m_spritesheet;
-  }
 
 }
