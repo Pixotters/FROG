@@ -25,7 +25,9 @@ namespace frog{
 
     void removeClip(Clip * clip);
 
-    std::list<Clip> getClipAt() const;
+    std::list<Clip> getClips() const;
+
+    sf::Texture& getSpritesheet() const;
 
   };
 

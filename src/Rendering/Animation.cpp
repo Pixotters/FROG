@@ -23,9 +23,15 @@ namespace frog{
     m_clips.remove(c);
   }
 
-  std::list<Clip> getClipList() const
+  std::list<Clip> Animation::getClips() const
   {
     return m_clips;
+  }
+
+
+  sf::Texture& Animation::getSpritesheet() const
+  {
+    return m_spritesheet;
   }
 
 }
