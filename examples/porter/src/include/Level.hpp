@@ -17,7 +17,7 @@ protected:
   frog::AssetManager<std::string, frog::Spritesheet<std::string> > m_spritesheetManager;   // first string is ID of spritesheet, second string is ID of animations
 
 public:
-  Level();
+  Level(const frog::AppInfo&);
   virtual ~Level();
   virtual void update(const frog::AppInfo&);
 

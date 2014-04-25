@@ -1,8 +1,8 @@
 namespace frog{
 
   template <typename ID>
-  Animator<ID>::Animator(Spritesheet<ID>&, sf::Texture& tex)
-    : RenderingComponent(new sf::Sprite), m_texture(tex)
+  Animator<ID>::Animator(Spritesheet<ID>& sprt, sf::Texture& tex)
+    : RenderingComponent(new sf::Sprite), m_spritesheet(sprt), m_texture(tex)
   {
   }
 
@@ -23,9 +23,11 @@ namespace frog{
     auto animClip = m_played->getClipAt( m_frameKey );
     auto clip = m_spritesheet.getClip( animClip->getSprite() );
     m_sprite.setTexture( m_texture );
-    m_sprite.setTextureRect( clip.rectangle );
-    m_sprite.getTransform() *= animClip->getTransform();
-    m_sprite.move( clip.hotpoint );
+    m_sprite.setTextureRect( clip->rectangle );
+/*    m_sprite.rotate( animClip->getRotation() );
+    m_sprite.scale( animClip->getScale() );
+    m_sprite.move( animClip->getPosition() + clip->hotpoint );*/
+    m_sprite.move( static_cast<sf::Vector2f>(clip->hotpoint) ); // TODO delete this when previous lines are restored
     m_frameKey++;
     // changing (or not) anim when it's done
     if( m_frameKey >= animClip->getDuration() )

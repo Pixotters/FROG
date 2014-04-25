@@ -36,13 +36,13 @@ namespace frog{
         sprite != nullptr; 
         sprite = sprite->NextSiblingElement() )
       {
-        unsigned id = sprite = sprite->UnsignedAttribute("id");
-        int x = sprite = sprite->IntAttribute("x");
-        int y = sprite = sprite->IntAttribute("y");
+        unsigned id = sprite->UnsignedAttribute("id");
+        int x = sprite->IntAttribute("x");
+        int y = sprite->IntAttribute("y");
         unsigned width = sprite->UnsignedAttribute("width");
         unsigned height = sprite->UnsignedAttribute("height");
-        int hot_x = sprite = sprite->IntAttribute("hot_x");
-        int hot_y = sprite = sprite->IntAttribute("hot_y");
+        int hot_x = sprite->IntAttribute("hot_x");
+        int hot_y = sprite->IntAttribute("hot_y");
         addClip( new Clip(x, y, width, height, hot_x, hot_y), id );
       }
     animations = sprt->FirstChildElement("ANIMATIONS");
@@ -94,7 +94,7 @@ namespace frog{
   template <typename ID>
   void Spritesheet<ID>::addAnimation(Animation * a, ID id)
   {
-    m_animations.insert( std::make_pair<Animation *, ID>(a, id) );
+    m_animations.insert( std::make_pair(id, a) );
   }
 
   template <typename ID>

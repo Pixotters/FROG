@@ -1,6 +1,7 @@
 #include "FROG/App.hpp"
 
 #include "FSM.hpp"
+#include "Level.hpp"
 #include "PlayerState.hpp"
 #include "PlayerStateFactory.hpp"
 
@@ -15,7 +16,7 @@ bool okay(){
 int main()
 {
   frog::App porter;
-  Scene * l = new Level( porter.getAppInfo() );
+  Level * l = new Level( porter.getAppInfo() );
   if ( l->loadFromFile("assets/scenes/level1.xml") )
     porter.start(l);
 }

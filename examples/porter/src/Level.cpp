@@ -1,3 +1,4 @@
+
 #include "Level.hpp"
 
 #include "FROG/Rendering/Animator.hpp"
@@ -9,7 +10,8 @@ using namespace frog;
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window)
 {
-  m_spritesheetManager.loadFromFile("assets/spritesheets/porter_animation.xml");
+  m_spritesheetManager.loadFromFile("assets/spritesheets/porter_animation.xml",
+                                    "Porter_anim");
 }
 
 Level::~Level()
@@ -24,8 +26,8 @@ void Level::update(const AppInfo& appinfo)
     {
       GameObject * g = new GameObject();  
       sf::Texture tex = m_textureManager.get("PORTER_SPRITESHEET");
-      frog::Spritesheet sprt = m_spritesheetManager.get("");
-      g->addComponent< Animator<std::string> >(new Animator(sprt, tex) );
+      auto sprt = m_spritesheetManager.get("Porter_anim");
+      g->addComponent< Animator<std::string> >(new Animator<std::string>(sprt, tex) );
       done = true;
     }
 
