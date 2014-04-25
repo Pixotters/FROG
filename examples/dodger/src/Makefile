@@ -33,6 +33,9 @@ proper:
 start:
 	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) 2> errlog
 
+debug:
+	export LD_LIBRARY_PATH=$(LIBDIR) && gdb ./$(PROGRAM) 2> errlog
+
 valgrind:
 	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) 2> valgrind_log
 
