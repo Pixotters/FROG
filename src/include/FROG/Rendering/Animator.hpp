@@ -30,7 +30,7 @@ namespace frog{
   protected:
     Spritesheet<ID> * m_spritesheet;
     //sf::Texture& m_texture;
-    sf::Sprite * m_sprite;
+    sf::Sprite m_sprite;
     Animation * m_defaultAnimation;
     unsigned short m_frameKey;
     unsigned short m_timer;
@@ -44,8 +44,6 @@ namespace frog{
     virtual ~Animator();
 
     virtual void update(const ComponentHolder& parent);
-
-    virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
 
     void playAnimation(ID id, bool loop = false) throw (NoSuchAnimation);
 
