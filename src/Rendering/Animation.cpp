@@ -1,5 +1,7 @@
 #include "FROG/Rendering/Animation.hpp"
 
+#include <iostream>
+
 namespace frog{
 
   Animation::Animation()

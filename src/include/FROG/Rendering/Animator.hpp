@@ -28,14 +28,13 @@ namespace frog{
     };
 
   protected:
-    Spritesheet<ID>& m_spritesheet;
-    //sf::Texture& m_texture;
     sf::Sprite m_sprite;
-    const Animation * m_defaultAnimation;
+    Spritesheet<ID>& m_spritesheet;
     unsigned short m_frameKey;
     unsigned short m_timer;
-    bool m_loop;
+    const Animation * m_defaultAnimation;
     const Animation * m_played;
+    bool m_loop;
 
   public:
 

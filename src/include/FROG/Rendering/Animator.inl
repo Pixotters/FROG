@@ -6,8 +6,9 @@ namespace frog{
       m_sprite( tex ),
       m_spritesheet(sprt),
       m_frameKey(0), 
-      m_loop(true), 
-      m_played(m_defaultAnimation)
+      m_timer(0),
+      m_played(m_defaultAnimation),
+      m_loop(true)
   {
   }
 
