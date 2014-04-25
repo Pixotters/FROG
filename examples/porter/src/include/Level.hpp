@@ -16,6 +16,7 @@ protected:
   //  frog::AssetManager<std::string, sf::Texture> m_textureManager;
   frog::AssetManager<std::string, frog::Spritesheet<std::string> > m_spritesheetManager;   // first string is ID of spritesheet, second string is ID of animations
   frog::GameObject * m_player;
+  frog::GameObject * m_terrain;  
 
 public:
   Level(const frog::AppInfo&);

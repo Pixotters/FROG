@@ -34,9 +34,11 @@ void Level::update(const AppInfo& appinfo)
       std::cerr << "size is : "<< sprt.getSize() << std::endl;
       m_player->addComponent< Animator<std::string> >(new Animator<std::string>(&sprt, tex) );
       m_player->getComponent<Animator<std::string> >()->setDefaultAnimation("stand");
-      done = true;
-      std::cerr << "player init" << std::endl;
+      m_terrain = new GameObject();
+      m_terrain->addComponent<Sprite>(new Sprite(m_textureManager.get("TERRAIN") ) );
+      addObject(m_terrain);
       addObject(m_player);
+      done = true;
     }
   static bool anim = false;
   if( appinfo.timer.getElapsedTime().asSeconds() > 2.0f && not anim)
