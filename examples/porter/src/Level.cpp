@@ -4,6 +4,7 @@
 #include "FROG/Rendering/Animator.hpp"
 
 #include <string>
+#include <iostream>
 
 using namespace frog;
 
@@ -27,8 +28,10 @@ void Level::update(const AppInfo& appinfo)
       GameObject * g = new GameObject();  
       sf::Texture tex = m_textureManager.get("PORTER_SPRITESHEET");
       auto sprt = m_spritesheetManager.get("Porter_anim");
+      std::cerr << "adding animator" << std::endl;
       g->addComponent< Animator<std::string> >(new Animator<std::string>(sprt, tex) );
       done = true;
+      std::cerr << "player init" << std::endl;
     }
 
 }

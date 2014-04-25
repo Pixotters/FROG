@@ -24,15 +24,13 @@
 
   <ANIMATIONS>
 
-    <ANIMATION>
-      <NAME>stand</NAME>
+    <ANIMATION id="stand">
       <CLIPS>
         <clip id="0" duration="1" move_x="0" move_y="0" />
       </CLIPS>
     </ANIMATION>
 
-    <ANIMATION>
-      <NAME>tap foot</NAME>
+    <ANIMATION id="tap_foot">
       <CLIPS>
         <clip id="1" duration="2" move_x="0" move_y="0" />
         <clip id="2" duration="1" move_x="0" move_y="0" />

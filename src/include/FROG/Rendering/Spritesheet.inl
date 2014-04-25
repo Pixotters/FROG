@@ -19,12 +19,13 @@ namespace frog{
   template <typename ID>
   bool Spritesheet<ID>::loadFromFile(const std::string& file)
   {
-           std::cerr << "starting reading spritesheet " << std::endl;
+    std::cerr << "starting reading spritesheet " << std::endl;
     tinyxml2::XMLDocument doc;
     if (doc.LoadFile( file.c_str() ) != tinyxml2::XML_NO_ERROR )
       {
         return false;
       }
+    std::cerr << "file found " << std::endl;
     tinyxml2::XMLElement * sprt, * sprites, * animations;
     sprt = doc.RootElement();
     sprites = sprt->FirstChildElement("SPRITES");
@@ -32,6 +33,7 @@ namespace frog{
       {
         return false;
       }
+    std::cerr << "SPRITES node found " << std::endl;
     for(tinyxml2::XMLElement * sprite = sprites->FirstChildElement(); 
         sprite != nullptr; 
         sprite = sprite->NextSiblingElement() )
@@ -43,11 +45,14 @@ namespace frog{
         unsigned height = sprite->UnsignedAttribute("height");
         int hot_x = sprite->IntAttribute("hot_x");
         int hot_y = sprite->IntAttribute("hot_y");
+        std::cerr << "Adding clip " << std::endl;
         addClip( new Clip(x, y, width, height, hot_x, hot_y), id );
       }
+    std::cerr << "finished reading clips " << std::endl;
     animations = sprt->FirstChildElement("ANIMATIONS");
     if ( animations )
       {
+        std::cerr << "animations found " << std::endl;
         for(tinyxml2::XMLElement * anim = animations->FirstChildElement();
             anim != nullptr;
             anim = anim->NextSiblingElement() )
@@ -69,13 +74,15 @@ namespace frog{
                 sf::Transform t = sf::Transform::Identity;
                 t.translate( sf::Vector2f(move_x, move_y) );
                 t.rotate( rotation );
-                t.scale( sf::Vector2f(scale_x, scale_y) );
+                t.scale( sf::Vector2f(scale_x, scale_y) );                
+                std::cerr << "adding clip to animation " << std::endl;
                 a->addClip( new AnimationClip(id, duration, t ) );
               }
+            std::cerr << "adding animation "<< id << std::endl;
             addAnimation(a, id);
           }
       }
-      std::cerr << "finished reading spritesheet " << std::endl;
+    std::cerr << "finished reading spritesheet " << std::endl;
     return true;
   }
 
@@ -100,7 +107,12 @@ namespace frog{
   template <typename ID>
   void Spritesheet<ID>::addClip(Clip * c, const unsigned short& id)
   {
-    m_clips.at(id) = c;
+    try{
+      m_clips.at(id) = c;
+    }catch(std::out_of_range e){
+      m_clips.resize(id+1); // TODO : allocate good size at the beginning ?
+      m_clips.at(id) = c;
+    }
   }
 
   template <typename ID>

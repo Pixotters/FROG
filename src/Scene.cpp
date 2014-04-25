@@ -56,6 +56,7 @@ namespace frog{
             const char * file = texture->Attribute("filename");
             const char * id = texture->Attribute("ID");
             m_textureManager.loadFromFile(file, id);
+            std::cerr << "Scene: loadFromFile("<< file << ") - loaded texture"<< id << std::endl;
           }
         //
         return true;

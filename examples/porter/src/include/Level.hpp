@@ -13,7 +13,7 @@ class Level : virtual public frog::Scene
 {
 
 protected:
-  frog::AssetManager<std::string, sf::Texture> m_textureManager;
+  //  frog::AssetManager<std::string, sf::Texture> m_textureManager;
   frog::AssetManager<std::string, frog::Spritesheet<std::string> > m_spritesheetManager;   // first string is ID of spritesheet, second string is ID of animations
 
 public:
