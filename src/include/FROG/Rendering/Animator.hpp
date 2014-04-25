@@ -4,6 +4,7 @@
 #include "FROG/ComponentHolder.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Animation.hpp"
+#include "FROG/Rendering/Spritesheet.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -43,11 +44,13 @@ namespace frog{
 
     virtual void update(const ComponentHolder& parent);
 
-    void playAnimation(ID id, bool loop = false) throw (NoSuchAnimation);
+    void playAnimation(ID id, bool loop = false) 
+    throw(NoSuchAnimation);
 
-    void playAnimation(const Animation& a, bool loop = false) throw (NoSuchAnimation);
+    void playAnimation(const Animation& a, bool loop = false);
   
-    const Animation& setDefaultAnimation(ID id) throw (NoSuchAnimation);
+    const Animation& setDefaultAnimation(ID id) 
+      throw(NoSuchAnimation);
 
     void changeTexture(sf::Texture& );
 

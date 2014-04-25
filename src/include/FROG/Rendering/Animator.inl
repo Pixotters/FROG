@@ -38,8 +38,8 @@ namespace frog{
         m_sprite.setTextureRect( clip.rectangle );
         /*        auto tr = animClip.getTransform();
                   m_sprite.rotate( tr.getRotation() );
-        m_sprite.scale( tr.getScale() );
-        m_sprite.move( tr.getPosition() + clip.hotpoint );*/
+                  m_sprite.scale( tr.getScale() );
+                  m_sprite.move( tr.getPosition() + clip.hotpoint );*/
         m_sprite.scale( 3.0f, 3.0f); // TODO remove this
         m_sprite.move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
         m_timer++;
@@ -65,7 +65,8 @@ namespace frog{
   }
 
   template <typename ID>
-  void Animator<ID>::playAnimation(ID id, bool loop) throw (NoSuchAnimation)
+  void Animator<ID>::playAnimation(ID id, bool loop) 
+    throw (NoSuchAnimation)
   {
     try{
       m_frameKey = 0;
@@ -77,19 +78,16 @@ namespace frog{
   }
 
   template <typename ID>
-  void Animator<ID>::playAnimation(const Animation& a, bool loop) throw (NoSuchAnimation)
+  void Animator<ID>::playAnimation(const Animation& a, bool loop)
   {
-    try{
-      m_frameKey = 0;
-      m_played = &a;
-      m_loop = loop;
-    }catch(std::out_of_range e){
-      throw NoSuchAnimation();
-    }
+    m_frameKey = 0;
+    m_played = &a;
+    m_loop = loop;
   }
 
   template <typename ID>
-  const Animation& Animator<ID>::setDefaultAnimation(ID id) throw (NoSuchAnimation)
+  const Animation& Animator<ID>::setDefaultAnimation(ID id) 
+    throw (NoSuchAnimation)
   {
     try{
       auto old = m_defaultAnimation;

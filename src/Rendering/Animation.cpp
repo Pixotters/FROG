@@ -1,5 +1,7 @@
 #include "FROG/Rendering/Animation.hpp"
 
+#include <iostream>
+
 namespace frog{
 
   Animation::Animation()
@@ -33,8 +35,17 @@ namespace frog{
   }
 
   const AnimationClip& Animation::getClipAt(const unsigned int& i) const
+    throw (NoSuchAnimClip)
   {
-    return m_clips.at(i);
+    std::cerr << "getting clip n°"<< i << std::endl;
+    try
+      {
+        return m_clips.at(i);
+      }catch(std::out_of_range e)
+      {
+        std::cerr << "out of range " << std::endl;
+        throw NoSuchAnimClip(i);
+      }
   }
 
   unsigned short Animation::getClipCount() const

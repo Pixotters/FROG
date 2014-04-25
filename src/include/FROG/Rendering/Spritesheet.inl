@@ -96,6 +96,7 @@ namespace frog{
 
   template <typename ID>
   const Animation& Spritesheet<ID>::getAnimation(ID id) const
+  throw(NoSuchAnimation)
   {
     return m_animations.at(id);
   }

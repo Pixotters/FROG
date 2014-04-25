@@ -14,6 +14,16 @@ namespace frog{
   class Spritesheet
   {
 
+  public:
+    class NoSuchAnimation : virtual public std::exception{
+
+      virtual const char* what() const throw()
+      {        
+        return "Couldn't play missing animation.";
+      }
+
+    };
+
   private:
     std::map<ID, Animation> m_animations;
     std::vector<Clip> m_clips;
@@ -23,7 +33,7 @@ namespace frog{
     Spritesheet(const Spritesheet&);
     virtual ~Spritesheet();
     bool loadFromFile(const std::string& file);
-    const Animation& getAnimation(ID id) const;
+    const Animation& getAnimation(ID id) const throw(NoSuchAnimation);
     const Clip& getClip(const unsigned short&) const;
     void addAnimation(const Animation& a, ID id);
     void addClip(const Clip& c, const unsigned short&);
