@@ -30,7 +30,7 @@ namespace frog{
     ComponentHolder();
 
     // TODO : enable this dtor makes everything bug
-    //    virtual ~ComponentHolder();
+    virtual ~ComponentHolder();
 
     /*!
      * @brief Returns the component of given type. 
