@@ -28,7 +28,7 @@ namespace frog{
     };
 
   protected:
-    Spritesheet<ID> * m_spritesheet;
+    Spritesheet<ID>& m_spritesheet;
     //sf::Texture& m_texture;
     sf::Sprite m_sprite;
     Animation * m_defaultAnimation;
@@ -39,7 +39,7 @@ namespace frog{
 
   public:
 
-    Animator(Spritesheet<ID> *, sf::Texture&);
+    Animator(Spritesheet<ID>& , sf::Texture&);
 
     virtual ~Animator();
 
@@ -53,7 +53,7 @@ namespace frog{
 
     void changeTexture(sf::Texture& );
 
-    void changeSpritesheet(Spritesheet<ID> * );
+    void changeSpritesheet(Spritesheet<ID>& );
 
   };
 

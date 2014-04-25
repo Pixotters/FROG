@@ -1,15 +1,14 @@
 namespace frog{
 
   template <typename ID>
-  Animator<ID>::Animator(Spritesheet<ID> * sprt, sf::Texture& tex)
+  Animator<ID>::Animator(Spritesheet<ID>& sprt, sf::Texture& tex)
     : RenderingComponent(&m_sprite), 
-      m_spritesheet(new Spritesheet<ID>(*sprt) ), 
       m_sprite( tex ),
+      m_spritesheet(sprt),
       m_frameKey(0), 
       m_loop(true), 
       m_played(m_defaultAnimation)
   {
-
   }
 
   template <typename ID>
@@ -21,7 +20,7 @@ namespace frog{
   void Animator<ID>::update(const ComponentHolder& parent)
   {
     std::cout << "ANIMATOR : keyframe = "<< m_frameKey << std::endl;
-    std::cerr << "ANIMATOR : spritesheet "<< m_spritesheet << "(" << m_spritesheet->getSize() <<")" << std::endl;
+    std::cerr << "ANIMATOR : spritesheet "<< &m_spritesheet << "(" << m_spritesheet.getSize() <<")" << std::endl;
 
     if (m_played == nullptr)
       {
@@ -41,7 +40,7 @@ namespace frog{
         // getting the clip to display
         auto animClip = m_played->getClipAt( m_frameKey );
         std::cerr << "got animClip : "<< animClip->getSprite() << std::endl;
-        auto clip = m_spritesheet->getClip( animClip->getSprite() );
+        auto clip = m_spritesheet.getClip( animClip->getSprite() );
         std::cerr << "got Clip" << std::endl;
         std::cout << "ANIMATOR : clip n°"<< animClip->getSprite() << std::endl;
         m_sprite.setTextureRect( clip->rectangle );
@@ -82,7 +81,7 @@ namespace frog{
   {
     try{
       m_frameKey = 0;
-      m_played = m_spritesheet->getAnimation(id);
+      m_played = m_spritesheet.getAnimation(id);
       m_loop = loop;
     }catch(std::out_of_range e){
       throw NoSuchAnimation();
@@ -106,7 +105,7 @@ namespace frog{
   {
     try{
       auto old =  m_defaultAnimation;
-      m_defaultAnimation = m_spritesheet->getAnimation(id);
+      m_defaultAnimation = m_spritesheet.getAnimation(id);
       return old;
     }catch(std::out_of_range e){
       throw NoSuchAnimation();
@@ -120,7 +119,7 @@ namespace frog{
   }  
 
   template <typename ID>
-  void Animator<ID>::changeSpritesheet(Spritesheet<ID> * sprt)
+  void Animator<ID>::changeSpritesheet(Spritesheet<ID>& sprt)
   {
     m_spritesheet = sprt;
   }  

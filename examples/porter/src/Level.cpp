@@ -29,10 +29,10 @@ void Level::update(const AppInfo& appinfo)
     {
       m_player = new GameObject();  
       sf::Texture& tex = m_textureManager.get("PORTER_SPRITESHEET");
-      auto sprt = m_spritesheetManager.get("Porter_anim");
+      Spritesheet<std::string>& sprt = m_spritesheetManager.get("Porter_anim");
       std::cerr << "adding animator with sprt "<< &sprt << std::endl;
       std::cerr << "size is : "<< sprt.getSize() << std::endl;
-      m_player->addComponent< Animator<std::string> >(new Animator<std::string>(&sprt, tex) );
+      m_player->addComponent< Animator<std::string> >(new Animator<std::string>(sprt, tex) );
       m_player->getComponent<Animator<std::string> >()->setDefaultAnimation("stand");
       m_terrain = new GameObject();
       m_terrain->addComponent<Sprite>(new Sprite(m_textureManager.get("TERRAIN") ) );
