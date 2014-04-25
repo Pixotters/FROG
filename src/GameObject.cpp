@@ -34,7 +34,6 @@ namespace frog{
 
   void GameObject::update()
   { 
-    std::cerr << "GameObject: update ["<< this <<"]"<< std::endl;
     auto end = m_components.end();
     for(auto it = m_components.begin(); it != end; it++)
       {
