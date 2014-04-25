@@ -10,7 +10,6 @@
 #include <exception>
 #include <map>
 #include <string>
-#include <iostream> // TODO remove
 
 namespace frog{
 

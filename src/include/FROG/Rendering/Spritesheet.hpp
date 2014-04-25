@@ -7,7 +7,6 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <iostream> // delete
 
 namespace frog{
 
@@ -28,12 +27,6 @@ namespace frog{
     const Clip& getClip(const unsigned short&) const;
     void addAnimation(const Animation& a, ID id);
     void addClip(const Clip& c, const unsigned short&);
-    //TODO remove
-    unsigned short getSize() const
-    {
-      std::cerr << "SPRITESHEET : Spritesheet "<<this<<" getting size of "<<&m_clips<<std::endl;
-      return m_clips.size();
-    }
 
   protected:
     void deleteAnimations();

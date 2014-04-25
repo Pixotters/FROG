@@ -1,7 +1,5 @@
 #include "FROG/Rendering/Animation.hpp"
 
-#include <iostream>
-
 namespace frog{
 
   Animation::Animation()
@@ -36,7 +34,6 @@ namespace frog{
 
   const AnimationClip& Animation::getClipAt(const unsigned int& i) const
   {
-    std::cerr << "ANIMATION : getting clip "<<i<<"/"<<m_clips.size() << std::endl;
     return m_clips.at(i);
   }
 

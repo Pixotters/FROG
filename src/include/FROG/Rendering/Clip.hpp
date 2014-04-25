@@ -4,7 +4,6 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -24,9 +23,7 @@ namespace frog{
       hotpoint.x = hx;
       hotpoint.y = hy;
     }
-    virtual ~Clip(){
-      std::cerr << "DESTROYING CLIP" << std::endl;
-    }
+    virtual ~Clip(){}
     
   };
 
