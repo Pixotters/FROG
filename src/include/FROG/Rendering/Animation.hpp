@@ -12,21 +12,21 @@ namespace frog{
   {
 
   protected:
-    std::vector<AnimationClip *> m_clips;
+    std::vector<AnimationClip> m_clips;
   
   public:
 
     Animation();
 
+    Animation(const Animation&);
+
     virtual ~Animation();
 
-    void addClip(AnimationClip * clip);
+    void addClip(const AnimationClip& clip);
 
-    void removeClip(AnimationClip * clip);
+    std::vector<AnimationClip> getClips() const;
 
-    std::vector<AnimationClip *> getClips() const;
-
-    AnimationClip * getClipAt(const unsigned int&) const;
+    const AnimationClip& getClipAt(const unsigned int&) const;
 
     unsigned short getClipCount() const;
 

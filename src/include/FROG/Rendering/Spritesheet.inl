@@ -15,12 +15,12 @@ namespace frog{
     m_clips.resize(sizeclip);
     for(auto itclip = 0; itclip < sizeclip; itclip++)
       {
-        m_clips.at(itclip) = other.m_clips.at(itclip);
+        m_clips.at(itclip) = Clip(other.m_clips.at(itclip) );
       }
     auto endanim = other.m_animations.end();
     for(auto itanim = other.m_animations.begin(); itanim != endanim; itanim++)
       {
-        m_animations.insert( std::make_pair(itanim->first, itanim->second) );
+        m_animations.insert( std::make_pair(itanim->first, Animation(itanim->second) )  );
       }
     
   }
@@ -75,7 +75,8 @@ namespace frog{
             anim = anim->NextSiblingElement() )
           {
             const char* id = anim->Attribute("id");
-            Animation * a = new Animation();
+            std::cerr << "adding animation "<< id << std::endl;
+            Animation a;
             tinyxml2::XMLElement * clips = anim->FirstChildElement("CLIPS");
             for(tinyxml2::XMLElement * clip = clips->FirstChildElement();
                 clip != nullptr;
@@ -93,10 +94,9 @@ namespace frog{
                 t.rotate( rotation );
                 t.scale( sf::Vector2f(scale_x, scale_y) );                
                 std::cerr << "adding clip to animation " << std::endl;
-                a->addClip( new AnimationClip(id, duration, t ) );
+                a.addClip( AnimationClip(id, duration, t ) );
               }
-            std::cerr << "adding animation "<< id << std::endl;
-            addAnimation(a, id);
+            addAnimation( a, id);
           }
       }
     std::cerr << "finished reading spritesheet " << std::endl;
@@ -104,7 +104,7 @@ namespace frog{
   }
 
   template <typename ID>
-  Animation * Spritesheet<ID>::getAnimation(ID id) const
+  const Animation& Spritesheet<ID>::getAnimation(ID id) const
   {
     return m_animations.at(id);
   }
@@ -117,7 +117,7 @@ namespace frog{
   }
 
   template <typename ID>
-  void Spritesheet<ID>::addAnimation(Animation * a, ID id)
+  void Spritesheet<ID>::addAnimation(const Animation& a, ID id)
   {
     m_animations.insert( std::make_pair(id, a) );
   }

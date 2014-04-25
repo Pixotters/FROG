@@ -31,11 +31,11 @@ namespace frog{
     Spritesheet<ID>& m_spritesheet;
     //sf::Texture& m_texture;
     sf::Sprite m_sprite;
-    Animation * m_defaultAnimation;
+    const Animation * m_defaultAnimation;
     unsigned short m_frameKey;
     unsigned short m_timer;
     bool m_loop;
-    Animation * m_played;
+    const Animation * m_played;
 
   public:
 
@@ -47,9 +47,9 @@ namespace frog{
 
     void playAnimation(ID id, bool loop = false) throw (NoSuchAnimation);
 
-    void playAnimation(Animation * a, bool loop = false) throw (NoSuchAnimation);
+    void playAnimation(const Animation& a, bool loop = false) throw (NoSuchAnimation);
   
-    Animation * setDefaultAnimation(ID id) throw (NoSuchAnimation);
+    const Animation& setDefaultAnimation(ID id) throw (NoSuchAnimation);
 
     void changeTexture(sf::Texture& );
 
