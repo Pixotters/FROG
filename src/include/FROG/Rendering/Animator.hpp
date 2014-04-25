@@ -10,6 +10,7 @@
 #include <exception>
 #include <map>
 #include <string>
+#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -27,17 +28,17 @@ namespace frog{
     };
 
   protected:
-    Spritesheet<ID>& m_spritesheet;
+    Spritesheet<ID> * m_spritesheet;
     sf::Texture& m_texture;
     sf::Sprite m_sprite;
-    Animation * m_played;
     Animation * m_defaultAnimation;
     unsigned short m_frameKey;
     bool m_loop;
+    Animation * m_played;
 
   public:
 
-    Animator(Spritesheet<ID>&, sf::Texture&);
+    Animator(Spritesheet<ID> *, sf::Texture&);
 
     virtual ~Animator();
 
@@ -53,7 +54,7 @@ namespace frog{
 
     void changeTexture(sf::Texture& );
 
-    void changeSpritesheet(Spritesheet<ID>& );
+    void changeSpritesheet(Spritesheet<ID> * );
 
   };
 

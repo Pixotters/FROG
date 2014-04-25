@@ -15,18 +15,25 @@ namespace frog{
   class Spritesheet
   {
 
-  protected:
+  private:
     std::map<ID, Animation *> m_animations;
     std::vector<Clip * > m_clips;
 
   public:
     Spritesheet();
+    Spritesheet(const Spritesheet&);
     virtual ~Spritesheet();
     bool loadFromFile(const std::string& file);
     Animation * getAnimation(ID id) const;
     Clip * getClip(const unsigned short&) const;
     void addAnimation(Animation * a, ID id);
     void addClip(Clip * c, const unsigned short&);
+    //TODO remove
+    unsigned short getSize() const
+    {
+      std::cerr << "SPRITESHEET : Spritesheet "<<this<<" getting size of "<<&m_clips<<std::endl;
+      return m_clips.size();
+    }
 
   protected:
     void deleteAnimations();

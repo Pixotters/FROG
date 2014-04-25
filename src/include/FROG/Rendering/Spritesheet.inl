@@ -9,6 +9,23 @@ namespace frog{
   }
 
   template <typename ID>
+  Spritesheet<ID>::Spritesheet(const Spritesheet& other)
+  {
+    auto sizeclip = other.m_clips.size();
+    m_clips.resize(sizeclip);
+    for(auto itclip = 0; itclip < sizeclip; itclip++)
+      {
+        m_clips.at(itclip) = other.m_clips.at(itclip);
+      }
+    auto endanim = other.m_animations.end();
+    for(auto itanim = other.m_animations.begin(); itanim != endanim; itanim++)
+      {
+        m_animations.insert( std::make_pair(itanim->first, itanim->second) );
+      }
+    
+  }
+
+  template <typename ID>
   Spritesheet<ID>::~Spritesheet()
   {
     deleteAnimations();
@@ -95,6 +112,7 @@ namespace frog{
   template <typename ID>
   Clip * Spritesheet<ID>::getClip(const unsigned short& id) const
   {
+    std::cerr << "getting clip "<<id<<"/"<<m_clips.size() << std::endl;
     return m_clips.at(id);
   }
 
@@ -108,10 +126,14 @@ namespace frog{
   void Spritesheet<ID>::addClip(Clip * c, const unsigned short& id)
   {
     try{
+      std::cerr << "adding clip "<<id <<"("<<m_clips.size()<<")"<< "in" << this << std::endl;
       m_clips.at(id) = c;
     }catch(std::out_of_range e){
+      std::cerr << "need to resize " << std::endl;
       m_clips.resize(id+1); // TODO : allocate good size at the beginning ?
       m_clips.at(id) = c;
+      std::cerr << "resized "<< m_clips.size()  << std::endl;
+      
     }
   }
 
