@@ -52,7 +52,7 @@ namespace frog{
     const Animation& setDefaultAnimation(ID id) 
       throw(NoSuchAnimation);
 
-    void changeTexture(sf::Texture& );
+    void changeTexture(sf::Texture&);
 
     void changeSpritesheet(Spritesheet<ID>& );
 

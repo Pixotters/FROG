@@ -96,15 +96,33 @@ namespace frog{
 
   template <typename ID>
   const Animation& Spritesheet<ID>::getAnimation(ID id) const
-  throw(NoSuchAnimation)
+    throw(NoSuchAnimation)
   {
-    return m_animations.at(id);
+    try
+      {
+        return m_animations.at(id);
+      }catch(std::out_of_range e)
+      {
+        std::cerr << "Animation "<< id \
+                  <<" does not exist in Spritesheet "<< this << std::endl;
+        throw NoSuchAnimation();
+      }
   }
 
   template <typename ID>
   const Clip& Spritesheet<ID>::getClip(const unsigned short& id) const
+    throw(NoSuchClip)
   {
-    return m_clips.at(id);
+    try
+      {
+        auto clip = m_clips.at(id);
+        return clip;
+      }catch(std::out_of_range e)
+      {
+        std::cerr << "Clip "<<id \
+                  <<" does not exist in Spritesheet "<< this << std::endl;
+        throw NoSuchClip();
+      }
   }
 
   template <typename ID>

@@ -23,7 +23,6 @@ Level::~Level()
 
 void Level::update(const AppInfo& appinfo)
 {
-  //  std::cout << "update : timer "<<appinfo.timer.getElapsedTime().asSeconds() << std::endl;
   static bool done = false;
   if ( not done )
     {
