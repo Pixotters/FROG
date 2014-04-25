@@ -2,6 +2,7 @@
 #include "Level.hpp"
 
 #include "FROG/Rendering/Animator.hpp"
+#include "FROG/Rendering/Sprite.hpp"
 
 #include <string>
 #include <iostream>
@@ -22,12 +23,12 @@ Level::~Level()
 
 void Level::update(const AppInfo& appinfo)
 {
-  std::cout << "update : timer "<<appinfo.timer.getElapsedTime().asSeconds() << std::endl;
+  //  std::cout << "update : timer "<<appinfo.timer.getElapsedTime().asSeconds() << std::endl;
   static bool done = false;
   if ( not done )
     {
       m_player = new GameObject();  
-      sf::Texture tex = m_textureManager.get("PORTER_SPRITESHEET");
+      sf::Texture& tex = m_textureManager.get("PORTER_SPRITESHEET");
       auto sprt = m_spritesheetManager.get("Porter_anim");
       std::cerr << "adding animator with sprt "<< &sprt << std::endl;
       std::cerr << "size is : "<< sprt.getSize() << std::endl;

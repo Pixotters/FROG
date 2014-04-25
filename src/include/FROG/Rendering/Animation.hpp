@@ -28,6 +28,8 @@ namespace frog{
 
     AnimationClip * getClipAt(const unsigned int&) const;
 
+    unsigned short getClipCount() const;
+
   };
 
 }

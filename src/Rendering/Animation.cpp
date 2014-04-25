@@ -34,4 +34,9 @@ namespace frog{
     return m_clips.at(i);
   }
 
+  unsigned short Animation::getClipCount() const
+  {
+    return m_clips.size();
+  }
+
 }

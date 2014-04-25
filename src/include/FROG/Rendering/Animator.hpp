@@ -29,10 +29,11 @@ namespace frog{
 
   protected:
     Spritesheet<ID> * m_spritesheet;
-    sf::Texture& m_texture;
-    sf::Sprite m_sprite;
+    //sf::Texture& m_texture;
+    sf::Sprite * m_sprite;
     Animation * m_defaultAnimation;
     unsigned short m_frameKey;
+    unsigned short m_timer;
     bool m_loop;
     Animation * m_played;
 
