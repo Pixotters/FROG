@@ -17,7 +17,7 @@ namespace frog{
 
   private:
     std::map<ID, Animation *> m_animations;
-    std::vector<Clip * > m_clips;
+    std::vector<Clip> m_clips;
 
   public:
     Spritesheet();
@@ -25,9 +25,9 @@ namespace frog{
     virtual ~Spritesheet();
     bool loadFromFile(const std::string& file);
     Animation * getAnimation(ID id) const;
-    Clip * getClip(const unsigned short&) const;
+    const Clip& getClip(const unsigned short&) const;
     void addAnimation(Animation * a, ID id);
-    void addClip(Clip * c, const unsigned short&);
+    void addClip(const Clip& c, const unsigned short&);
     //TODO remove
     unsigned short getSize() const
     {

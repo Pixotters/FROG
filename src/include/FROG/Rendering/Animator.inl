@@ -43,14 +43,14 @@ namespace frog{
         auto clip = m_spritesheet.getClip( animClip->getSprite() );
         std::cerr << "got Clip" << std::endl;
         std::cout << "ANIMATOR : clip n°"<< animClip->getSprite() << std::endl;
-        m_sprite.setTextureRect( clip->rectangle );
+        m_sprite.setTextureRect( clip.rectangle );
         std::cerr << "cut clip" << std::endl;
         /*        auto tr = animClip->getTransform();
                   m_sprite.rotate( tr.getRotation() );
         m_sprite.scale( tr.getScale() );
-        m_sprite.move( tr.getPosition() + clip->hotpoint );*/
+        m_sprite.move( tr.getPosition() + clip.hotpoint );*/
         m_sprite.scale( 3.0f, 3.0f); // TODO remove this
-        m_sprite.move( static_cast<sf::Vector2f>(clip->hotpoint) ); // TODO delete this when previous lines are restored
+        m_sprite.move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
         std::cerr << "transformed clip" << std::endl;
         m_timer++;
         // changing (or not) anim when it's done

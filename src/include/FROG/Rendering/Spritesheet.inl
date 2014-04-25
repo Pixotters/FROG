@@ -63,7 +63,7 @@ namespace frog{
         int hot_x = sprite->IntAttribute("hot_x");
         int hot_y = sprite->IntAttribute("hot_y");
         std::cerr << "Adding clip " << std::endl;
-        addClip( new Clip(x, y, width, height, hot_x, hot_y), id );
+        addClip( Clip(x, y, width, height, hot_x, hot_y), id );
       }
     std::cerr << "finished reading clips " << std::endl;
     animations = sprt->FirstChildElement("ANIMATIONS");
@@ -110,7 +110,7 @@ namespace frog{
   }
 
   template <typename ID>
-  Clip * Spritesheet<ID>::getClip(const unsigned short& id) const
+  const Clip& Spritesheet<ID>::getClip(const unsigned short& id) const
   {
     std::cerr << "getting clip "<<id<<"/"<<m_clips.size() << std::endl;
     return m_clips.at(id);
@@ -123,7 +123,7 @@ namespace frog{
   }
 
   template <typename ID>
-  void Spritesheet<ID>::addClip(Clip * c, const unsigned short& id)
+  void Spritesheet<ID>::addClip(const Clip& c, const unsigned short& id)
   {
     try{
       std::cerr << "adding clip "<<id <<"("<<m_clips.size()<<")"<< "in" << this << std::endl;
