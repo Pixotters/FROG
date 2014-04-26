@@ -28,6 +28,14 @@ chargées par une scène. C'est une première étape vers ue conception orienté
 vers les données. Toutefois, tant qu'on n'aura pas fait l'embarcation d'un 
 langage de script, on ne pourra pas s'affranchir totalement du code C++. 
 
+== Rendu ==
+
+Le Renderer a été amélioré avec un wrapper pour afficher des images (Component 
+*Sprite*), et des animations (Component *Animator*). Le système d'animation lie 
+un *Spritesheet* (fichier XML) à une *Texture* (fichier image) pour offrir une 
+plus grand flexibilité (utiliser un même spritesheet pour plusieurs images et 
+vice-versa, changer l'un des deux en cours de jeu...). 
+
 == Divers ==
 
 Nous avons aussi implémenté plusieurs proxy et wrappers pour simplifier 
