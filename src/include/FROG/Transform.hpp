@@ -18,20 +18,22 @@ namespace frog{
     //// attributs ////
   protected:
 
-    int m_zindex;
+    int m_layer;
 
     //// operations ////
   public:
 
     Transform();
 
+    Transform(const Transform&);
+
     virtual ~Transform();
 
-    virtual void update();
+    virtual void update(const ComponentHolder& parent);
 
-    int getZIndex() const;
+    int getLayer() const;
 
-    void setZIndex(const int& z);
+    void setLayer(const int& z);
 
   };
 

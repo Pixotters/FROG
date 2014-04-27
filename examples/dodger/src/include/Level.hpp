@@ -3,6 +3,7 @@
 
 #include "FROG/Scene.hpp"
 #include "FROG/Physics/PhysicEngine.hpp"
+#include "FROG/AssetManager.hpp"
 
 #include "Player.hpp"
 #include "Enemy.hpp"
@@ -14,17 +15,22 @@
 
 using namespace frog;
 
+typedef enum {
+  PLAYER_TEXTURE, 
+  ENEMY_TEXTURE, 
+  TARGET_TEXTURE
+} TEXTURE_ID;
+
 class Level : virtual public Scene
 {
   //// attributes ////
 protected:
   sf::Clock m_clock;
-  Player * m_player;
-  std::list<Enemy *> m_ennemies;
-  std::list<Target *> m_targets;
-  sf::Texture m_targetTexture;
-  sf::Texture m_playerTexture;
-  sf::Texture m_enemyTexture;
+  std::shared_ptr<GameObject> m_terrain;
+  std::shared_ptr<Player> m_player;
+  std::list< std::shared_ptr<Enemy> > m_ennemies;
+  std::list< std::shared_ptr<Target> > m_targets;
+  //  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
   //  PhysicEngine m_phiengine;
 
   //// operations ////
@@ -35,11 +41,10 @@ public:
   void removeTarget(Target *);
 
 private:
-  void spawnEnemy();
-  void spawnTarget();
+  void spawnEnemy(const AppInfo&);
+  void spawnTarget(const AppInfo&);
   void updateEnemies();
   void updateTargets();
-  void movePlayer(const short&);
 };
 
 #endif

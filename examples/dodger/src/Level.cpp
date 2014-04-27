@@ -5,15 +5,15 @@
 #include "Target.hpp"
 
 #include "FROG/Control.hpp"
+#include "FROG/Debug.hpp"
 #include "FROG/Translator.hpp"
 
 #include "FROG/App.hpp"
 
 #include "FROG/Random.hpp"
-
+#include "FROG/Rendering/Sprite.hpp"
 #include "MovePlayer.hpp"
 //#include "JoystickMove.hpp"
-#include "Bomb.hpp"
 
 #include "FROG/Rendering/RenderingComponent.hpp"
 
@@ -25,12 +25,12 @@ using namespace frog;
 class Collider : virtual public sap::ActionManager{
 
 private:
-  Player * m_player;
+  std::shared_ptr<Player> m_player;
   render::Renderer * m_renderer;
-  std::list<Target *> * m_targets;
+  std::list<std::shared_ptr<Target> > * m_targets;
 
 public:
-  Collider(Player * p, std::list<Target *> * t, render::Renderer * r) 
+  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<Target> > * t, render::Renderer * r) 
     : m_player(p), m_targets(t), m_renderer(r)
   {}
 
@@ -54,8 +54,8 @@ public:
   }
 
   void onCollision(Player * a, Target * b){
-    m_targets->remove(b);
-    m_renderer->removeObject(b);
+    //    m_targets->remove(b);
+    //    m_renderer->removeObject(b);
     
   }
 
@@ -71,20 +71,15 @@ public:
 
 
 Level::Level(const AppInfo& appinfo)
-  : Scene(appinfo.window)
-{ 
-  std::cerr << "Level : window = " << &appinfo.window << std::endl;
-  m_player = new Player;
-  m_playerTexture.loadFromFile("assets/frog.png");
-  m_targetTexture.loadFromFile("assets/donut.png");
-  m_enemyTexture.loadFromFile("assets/troll.png");
-  sf::Sprite * s = new sf::Sprite;
-  s->setTexture(m_playerTexture);
-  m_player->addComponent(new render::RenderingComponent(s) );
-  auto moveleft = new MovePlayer(m_player, -4, 0);
-  auto moveright = new MovePlayer(m_player, 4, 0);
-  auto moveup = new MovePlayer(m_player, 0, -8);
-  auto movedown = new MovePlayer(m_player, 0, 8);
+  : Scene(appinfo.window), m_player(new Player), m_terrain(new GameObject)
+{
+  std::cerr << "Player is " << m_player << "/" << m_player.get() << std::endl;
+  GameObject * g = dynamic_cast<GameObject *>(m_player.get());
+  std::cerr << "Player converted is "<< g << std::endl;
+  auto moveleft = new MovePlayer(m_player.get(), -128, 0, appinfo);
+  auto moveright = new MovePlayer(m_player.get(), 128, 0, appinfo);
+  auto moveup = new MovePlayer(m_player.get(), 0, -128, appinfo);
+  auto movedown = new MovePlayer(m_player.get(), 0, 128, appinfo);
 
   auto qkey = new ctrl::KeyboardButton(sf::Keyboard::Q);
   auto dkey = new ctrl::KeyboardButton(sf::Keyboard::D);
@@ -102,68 +97,74 @@ Level::Level(const AppInfo& appinfo)
 
   m_controller.bind(new ctrl::JoystickButton(XBOX::A), movedown );
 
-  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
-                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::MouseButton(sf::Mouse::Left),
+  //                       new Bomb(m_ennemies) );
 
-  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
-                       new Bomb(m_ennemies) );
-  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
-                    new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::MouseSimpleButton(sf::Mouse::Right),
+  //                       new Bomb(m_ennemies) );
+  //  m_controller.bind(new ctrl::JoystickSimpleButton(XBOX::HOME), 
+  //                    new Bomb(m_ennemies) );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
-
   addObject(m_player);
-  spawnEnemy();
+  //m_player->getComponent<Transform>()->setPosition( 400, 560 );
+  m_player->transform->setPosition( 400, 560 );
+  m_terrain->getComponent<Transform>()->setPosition(0, 0);
+  addObject(m_terrain);
 }
 
 Level::~Level()
 {
-  delete m_player;
+  //  delete m_player;
 }
 
 void Level::update(const AppInfo& appinfo)
 {  
   Scene::update(appinfo);
-  std::cerr<< "handling..." << std::endl;
+  static Sprite * s = new Sprite(m_textureManager.get("FROG_TEXTURE") );
+  static Sprite * s2 = new Sprite(m_textureManager.get("TERRAIN_TEXTURE") );
+  std::cerr << "Sprite is "<< s <<std::endl;
+  m_player->addComponent<Sprite>( s );
+  m_terrain->addComponent<Sprite>( s2 );
   handleCommands( m_controller.update() );
+  print_debug("wesh gros");
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
-  //  std::cout<< "handled..." << std::endl;
-  std::cerr<< "colliding..." << std::endl;
-  m_collider->updateObject(m_player);
-  std::cerr<< "enemies..." << std::endl;
+  m_collider->updateObject( m_player.get() );
   updateEnemies();
-  std::cerr<< "targets..." << std::endl;
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
   if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
-    std::cerr<< "spawning targets..." << std::endl;
-    spawnTarget();
+    spawnTarget(appinfo);
   }
   if(t.asSeconds() > 0.4f ){
-    spawnEnemy();
+    spawnEnemy(appinfo);
     m_clock.restart();
   }
 }
 
-void Level::spawnEnemy()
+void Level::spawnEnemy(const AppInfo& appinfo)
 {
-  Enemy * e = new Enemy;
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_enemyTexture) ) );
-  e->addComponent(new render::RenderingComponent(new sf::RectangleShape(sf::Vector2f(25, 25)) ) );
-  e->getTransform().setPosition(Random::get(100, 700), 50);
+  
+  std::shared_ptr<Enemy> e(new Enemy(appinfo) );
+  sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
+  r->setFillColor(sf::Color::Red);
+  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ) );
+  e->getComponent<Transform>()->setPosition(Random::get(100, 700), 50);
   m_ennemies.push_back(e );
   addObject(e);
 }
 
-void Level::spawnTarget()
+void Level::spawnTarget(const AppInfo& appinfo)
 {
-  Target * e = new Target;
-  e->addComponent(new render::RenderingComponent(new sf::Sprite(m_targetTexture) ) );
-  e->getTransform().setPosition(Random::get(100, 700), Random::get(50, 550) );
+  
+  std::shared_ptr<Target> e(new Target(appinfo) );
+  e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ) );
+  e->getComponent<Transform>()->setPosition(Random::get(100, 700), Random::get(50, 550) );
   m_targets.push_back(e);
   addObject(e);
+  
 }
 
 void Level::updateEnemies()
@@ -171,12 +172,11 @@ void Level::updateEnemies()
   
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
-      (*it)->update();
-      PhysicEngine::update(*it);
-      if((*it)->getTransform().getPosition().x > 800 
-         || (*it)->getTransform().getPosition().y > 600  ){
+      PhysicEngine::update( it->get() );
+      if((*it)->getComponent<Transform>()->getPosition().x > 800 
+         || (*it)->getComponent<Transform>()->getPosition().y > 600  ){
         removeObject(*it);    
-        delete (*it);
+        it->reset();
         *it = nullptr;
       }
     }
@@ -187,24 +187,17 @@ void Level::updateTargets()
 {
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
-      (*it)->update();      
-      PhysicEngine::update(*it);
-      m_collider->updateObject(*it);
-      if((*it)->getTransform().getPosition().x > 800 
-         || (*it)->getTransform().getPosition().y > 600 
-         || (*it)->getTransform().getPosition().x < -32
-         || (*it)->getTransform().getPosition().y < -32){
+      PhysicEngine::update( it->get() );
+      m_collider->updateObject( it->get() );
+      if((*it)->getComponent<Transform>()->getPosition().x > 800 
+         || (*it)->getComponent<Transform>()->getPosition().y > 600 
+         || (*it)->getComponent<Transform>()->getPosition().x < -32
+         || (*it)->getComponent<Transform>()->getPosition().y < -32){
         removeObject(*it);
-        delete (*it);
+        it->reset();
         *it = nullptr;
       }  
-
+      
     }
   m_targets.remove(nullptr);
-}
-
-
-void Level::movePlayer(const short& x)
-{
-  m_player->getTransform().move(x, 0);
 }

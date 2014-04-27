@@ -9,19 +9,19 @@ namespace frog{
 
   void PhysicEngine::update(GameObject * o)
   {
-    phi::Physics * p = o->getComponent<phi::Physics>();
+    /*    phi::Physics * p = o->getComponent<phi::Physics>();
     if(p != nullptr){
       // position
       p->addVelocity( p->getAcceleration() );
-      o->getTransform().move( p->getVelocity() );
+      o->transform.move( p->getVelocity() );
       // rotation
       p->addRotationForce( p->getRotationAcceleration() );
-      o->getTransform().rotate( p->getRotationForce() );
+      o->transform.rotate( p->getRotationForce() );
       // scale
       p->addGrowth( p->getGrowthAcceleration() );
-      o->getTransform().scale( p->getGrowth() );
+      o->transform.scale( p->getGrowth() );
     }
-
+    */
   }
 
 }

@@ -7,6 +7,8 @@
 
 #include "FROG/Rendering/RenderingComponent.hpp"
 
+#include <memory>
+
 namespace frog{
 
   namespace render{
@@ -24,7 +26,7 @@ namespace frog{
       sf::RenderTexture m_texture;
       sf::RenderTarget * m_target;
       // sf::View m_view;
-      std::map< GameObject *, RenderingComponent *> m_objects;
+      std::map< std::shared_ptr<GameObject>, RenderingComponent *> m_objects;
 
       //// operations ////
     public:
@@ -64,14 +66,14 @@ namespace frog{
        * \param go GameObject to add
        * \return True if go has been successfully added
        */
-      bool addObject(GameObject * go);
+      bool addObject(const std::shared_ptr<GameObject>& go);
 
       /*!
        * \brief Removes an object from the rendering pipe
        * \details If the given object isn't here, nothing happens
        * \param go GameObject to remove
        */
-      void removeObject(GameObject * go);
+      void removeObject(const std::shared_ptr<GameObject>& go);
 
 
       /*!
@@ -87,7 +89,7 @@ namespace frog{
        * still valid. If not, it is updated with the new component. 
        * \param go GameObject whose RenderingComponent has to be updated.
        */
-      void updateObject(GameObject * go);
+      void updateObject(const std::shared_ptr<GameObject>& go);
 
       /*!
        * \brief Draws a GameObject on the renderer's texture

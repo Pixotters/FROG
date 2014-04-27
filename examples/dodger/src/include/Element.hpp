@@ -1,10 +1,12 @@
 #ifndef ELEMENT_HPP
 #define ELEMENT_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/Collisionable.hpp"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
+#include <SFML/Graphics/Shape.hpp>
 
 #include "FROG/Physics/Physics.hpp"
 
@@ -24,15 +26,9 @@ public:
   //// operations ////
 public:
 
-  Element();
+  Element(const AppInfo& appinfo);
 
   virtual ~Element();
-
-  /*
-    Renders the Element. Must call `rt.draw(drawable, rs)` where drawable 
-    is the appearence of the Element
-   */
-  virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
 
   /*
     Optionnal code, adds behaviour

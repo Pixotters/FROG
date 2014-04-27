@@ -1,4 +1,53 @@
-= 10/04 = 
+= 27/04 - fin des vacances =
+
+== Travail mémoire ==
+   
+Il a été mis en évidence que l'utilisation de pointeurs bruts peut causer pas 
+mal de problèmes. De toutes façons, utiliser des pointeurs est toujours un peu 
+dangereux. Nous avons modifé certaines parties, soit pour mettre en statique 
+certaines choses qui pouvaient l'être, soit pour remplacer des pointeurs bruts 
+par des pointeurs intelligents (*std::shared_ptr* et *std::unique_ptr*).  
+Nous avons aussi supprimé le Singleton App. Les informations de l'application 
+auxquelles on doit accéder sont wrappées dans une struct **AppInfo**, qui est 
+passée en paramètre aux états. Ceci permet de réduire la dépendance 
+Scene <-> App. 
+
+== Physique ==
+
+== XML ==
+
+D'abord pour charger la configuration de l'application, mais aussi pour charger 
+des données (Scene + GameObject), nous avons dû utiliser un parseur XML. 
+Nous avions en premier lieu considéré IncredibleXMLParser, mais pour l'obtenir 
+il faut envoyer un mail à l'auteur, ce qui est très louche. Nous nous sommes 
+finalement portés sur TinyXML 2, qui semble plus répandu. 
+La configuration est lancée depuis un fichier .cfg (qui est un fait un fichier 
+XML.
+On peut aussi définir dans un fichier quelles vont être les textures qui seront 
+chargées par une scène. C'est une première étape vers ue conception orientée 
+vers les données. Toutefois, tant qu'on n'aura pas fait l'embarcation d'un 
+langage de script, on ne pourra pas s'affranchir totalement du code C++. 
+
+== Rendu ==
+
+Le Renderer a été amélioré avec un wrapper pour afficher des images (Component 
+*Sprite*), et des animations (Component *Animator*). Le système d'animation lie 
+un *Spritesheet* (fichier XML) à une *Texture* (fichier image) pour offrir une 
+plus grand flexibilité (utiliser un même spritesheet pour plusieurs images et 
+vice-versa, changer l'un des deux en cours de jeu...). 
+
+== Divers ==
+
+Nous avons aussi implémenté plusieurs proxy et wrappers pour simplifier 
+l'utilisation. Plus le framework est facile à utiliser, mieux c'est : la 
+simplicité est notre priorité.  
+Un peu de documentation a aussi été faite, notamment sur les nouvelles choses. 
+
+== Objectifs de la semaine ==
+
+
+
+= 10/04 - réunion avant vacances = 
 
 Niveau physique, il y a maintenant des collisions selon un point précis. Rien 
 n'est encore fourni pour déterminer ce point de collision (du module physique), 

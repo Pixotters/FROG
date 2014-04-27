@@ -28,7 +28,7 @@ namespace frog{
        * @param d sf::Drawable that will be kept in order to be rendered by a 
        * Renderer. 
        */
-      RenderingComponent(sf::Drawable * d);
+      RenderingComponent(sf::Drawable * const d);
 
       virtual ~RenderingComponent();
 
@@ -37,10 +37,8 @@ namespace frog{
        * @param rt RenderTarget where component should be drawn. 
        * @param rs RenderStates to apply. Default : nothing. 
        */
-      virtual void draw(sf::RenderTarget& rt, 
-                        sf::RenderStates rs = sf::RenderStates::Default) const;
-
-      virtual void update();
+      void draw(sf::RenderTarget& rt, 
+                sf::RenderStates rs = sf::RenderStates::Default) const;
 
     };
 

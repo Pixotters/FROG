@@ -1,0 +1,15 @@
+<? xml version="1.0" ?>
+<SCENE>
+  <ASSETS>
+    <TEXTURES>
+      <texture filename="assets/images/frog.png" ID="FROG_TEXTURE" />
+      <texture filename="assets/images/troll.png" ID="ENEMY_TEXTURE" />
+      <texture filename="assets/images/donut.png" ID="BONUS_TEXTURE" />
+      <texture filename="assets/images/tile.jpg" ID="TERRAIN_TEXTURE" />
+    </TEXTURES>
+  </ASSETS>
+  <OBJECTS>
+    <object filename="frog.xml" x="400" y="550"/>
+    <object filename="enemy.xml" x="random[0,800]" y="-60" initscript="enemyspawner.script" />
+  </OBJECTS>
+</SCENE>

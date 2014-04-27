@@ -7,7 +7,6 @@
 
 #include <memory>
 
-
 namespace frog{
 
   /*!
@@ -25,6 +24,11 @@ namespace frog{
 
     //// operations ////
   public:
+
+    ComponentHolder();
+
+    // TODO : enable this dtor makes everything bug
+    virtual ~ComponentHolder();
 
     /*!
      * @brief Returns the component of given type. 
@@ -71,5 +75,6 @@ namespace frog{
 }
 
 #include "ComponentHolder.inl"
+
 
 #endif

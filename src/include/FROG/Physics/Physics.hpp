@@ -2,6 +2,7 @@
 #define FROG_PHI_PHYSICS_HPP
 
 #include "FROG/Component.hpp"
+#include "FROG/AppInfo.hpp"
 #include <SFML/System/Vector2.hpp>
 
 
@@ -20,15 +21,16 @@ namespace frog{
       float m_rotationAcc;
       sf::Vector2f m_growthAcc;
       double m_mass;
-  
+      const AppInfo& m_appinfo;
   
 
       //// operations ////
     public:
-      Physics();
+
+      Physics(const AppInfo&);
       virtual ~Physics();
 
-      virtual void update();
+      virtual void update(const ComponentHolder& parent);
 
       void setVelocity(const sf::Vector2f&);
       sf::Vector2f getVelocity() const;

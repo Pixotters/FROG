@@ -5,10 +5,9 @@ namespace frog{
 
   namespace render{
 
-    RenderingComponent::RenderingComponent(sf::Drawable * d)
-      : Component(), sf::Drawable(), sf::Transformable()
+    RenderingComponent::RenderingComponent(sf::Drawable * const d)
+      : Component(), sf::Drawable(), sf::Transformable(), m_drawable(d)
     {
-      m_drawable = d;
     }
 
     RenderingComponent::~RenderingComponent()
@@ -22,9 +21,6 @@ namespace frog{
       rt.draw(*m_drawable, rs);
     }
 
-    void RenderingComponent::update(){
-      // TODO : check if transforms can be set here (see Renderer : 84)
-    }
 
   }
 

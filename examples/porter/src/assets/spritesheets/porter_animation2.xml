@@ -1,0 +1,40 @@
+<? xml version="1.0" ?>
+<SPRITESHEET>
+
+  <SPRITES>
+    <!-- stand -->
+    <sprite id="0" x="0" y="0" width="48" height="48" hot_x="0" hot_y="0" />
+    <!-- tap foot -->
+    <sprite id="1" x="0" y="49" width="48" height="48" hot_x="0" hot_y="0" />
+    <sprite id="2" x="48" y="49" width="48" height="48" hot_x="0" hot_y="0" />
+    <sprite id="3" x="96" y="49" width="48" height="48" hot_x="0" hot_y="0" />
+    <!-- yeah -->
+    <sprite id="4" x="145" y="105" width="48" height="48" hot_x="0" hot_y="0" />
+    <!-- hurt -->
+    <sprite id="5" x="0" y="145" width="48" height="48" hot_x="0" hot_y="0" />
+    <sprite id="6" x="48" y="145" width="48" height="48" hot_x="0" hot_y="0" />
+    <!-- dead -->
+    <sprite id="7" x="0" y="193" width="48" height="48" hot_x="0" hot_y="0" />
+    <sprite id="8" x="48" y="193" width="48" height="48" hot_x="0" hot_y="0" />
+    <!-- turning -->
+    <sprite id="9" x="0" y="241" width="48" height="48" hot_x="0" hot_y="0" />
+  </SPRITES>
+
+  <ANIMATIONS>
+
+    <ANIMATION id="stand">
+      <CLIPS>
+        <clip id="0" duration="1" move_x="0" move_y="0" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="tap_foot">
+      <CLIPS>
+        <clip id="0" duration="10" />
+        <clip id="4" duration="40" />
+      </CLIPS>
+    </ANIMATION>
+
+  </ANIMATIONS>
+
+</SPRITESHEET>

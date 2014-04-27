@@ -8,8 +8,8 @@
 
 using namespace frog;
 
-Enemy::Enemy()
-  : Element()
+Enemy::Enemy(const AppInfo& appinfo)
+  : Element(appinfo)
 {
   m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Red);

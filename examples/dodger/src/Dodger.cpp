@@ -23,6 +23,10 @@ int main()
   AppInfo& i = d.getAppInfo();
   //  std::cerr << "Dodger : APPInfos are at " << &i << "-" << (&i)+dec << "/" << i+dec << std::endl;
   //  std::cerr << "Dodger : Window is at " << &d.m_appInfo->window << std::endl;
-  State * level = new Level(i);
-  d.start(  level  );
+  std::cerr << "creating level" << std::endl;
+  Scene * level = new Level(i);
+  std::cerr << "loading file" << std::endl;
+  if( level->loadFromFile("assets/scenes/main_scene/main_scene.xml") )
+    d.start(  level  );
+
 }

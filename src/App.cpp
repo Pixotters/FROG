@@ -40,7 +40,7 @@ namespace frog{
     sf::Clock t0; // clock for counting delta-time
     while(m_appInfo->running)
       {
-        m_appInfo->deltaTime = t0.restart(); 
+        m_appInfo->deltaTime = t0.restart().asSeconds(); 
         m_window.clear();
         m_stateManager.loop(*m_appInfo);
         m_window.display();

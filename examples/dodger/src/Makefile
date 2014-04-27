@@ -10,26 +10,6 @@ INC=include
 LIBDIR=lib
 CXXFLAGS+= -I$(INC)
 
-# Put here if there are some sub-directories to manage
-
-MAINDIR=Main
-CTRLDIR=Control
-RENDERDIR=Rendering
-PHIDIR=Physics
-MAINSOURCES=$(wildcard $(MAINDIR)/*.cpp)
-CTRLSOURCES=$(wildcard $(CTRLDIR)/*.cpp)
-RENDERSOURCES=$(wildcard $(RENDERDIR)/*.cpp)
-PHISOURCES=$(wildcard $(PHIDIR)/*.cpp)
-MAINOBJECTS=$(patsubst %.cpp,%.o,$(MAINSOURCES))
-CTRLOBJECTS=$(patsubst %.cpp,%.o,$(CTRLSOURCES))
-RENDEROBJECTS=$(patsubst %.cpp,%.o,$(RENDERSOURCES))
-PHIOBJECTS=$(patsubst %.cpp,%.o,$(PHISOURCES))
-
-SUBOBJECTS=$(CTRLOBJECTS) $(RENDEROBJECTS) $(PHIOBJECTS) $(MAINOBJECTS)
-
-# === 
-
-
 game: $(PROGRAM)
 
 show: generic_show
@@ -41,8 +21,8 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(PROGRAM): $(OBJECTS) $(SUBOBJECTS)
-	$(CXX) $(CXXFLAGS) -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
+$(PROGRAM): $(OBJECTS)
+	$(CXX) $(CXXFLAGS) -DFROG_DEBUG -L$(LIBDIR) -o $@ $^ $(LDFLAGS) -lfrog
 
 clean: generic_clean
 	cd $(CTRLDIR); rm -f *.o *.d *.d* *~ *#
@@ -52,6 +32,9 @@ proper:
 
 start:
 	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) 2> errlog
+
+debug:
+	export LD_LIBRARY_PATH=$(LIBDIR) && gdb ./$(PROGRAM) 2> errlog
 
 valgrind:
 	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) 2> valgrind_log

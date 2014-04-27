@@ -13,7 +13,7 @@ protected:
 
   //// operations ////
 public:
-  Target();
+  Target(const AppInfo& appinfo);
   virtual ~Target();
 };
 

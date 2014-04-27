@@ -1,12 +1,18 @@
 #include "FROG/GameObject.hpp"
 
+#include "FROG/XML/tinyxml2.hpp"
+
+#include "FROG/Rendering/Sprite.hpp" // TODO remove
+
+#include <iostream>
+#include <memory>
 
 namespace frog{
 
   GameObject::GameObject()
-    : sf::Drawable() 
+    : ComponentHolder(), transform(new Transform)
   {
-
+    addComponent( transform );
   }
 
   GameObject::~GameObject()
@@ -14,31 +20,27 @@ namespace frog{
 
   }
 
-
-  void GameObject::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
+  bool GameObject::loadFromFile(const std::string& file)
   {
-    rs.transform *= m_transform.getTransform();
-  }
+    tinyxml2::XMLDocument doc;
+    if ( doc.LoadFile(file.c_str() ) ){
 
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
 
   void GameObject::update()
   { 
+    auto end = m_components.end();
+    for(auto it = m_components.begin(); it != end; it++)
+      {
+        (*it)->update(*this);
+      }
 
-  }
-
-  Transform GameObject::getTransform() const
-  {
-    return m_transform;
-  }
-
-  Transform& GameObject::getTransform()
-  {
-    return m_transform;
-  }
-
-   Transform * GameObject::getPTransform()
-  {
-    return &m_transform;
   }
  
+
 }
