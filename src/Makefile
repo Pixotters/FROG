@@ -6,6 +6,7 @@ FROG=libfrog.so
 VERSION=0
 SUBVERSION=1
 FROGVERSION=$(FROG).$(VERSION).$(SUBVERSION)
+DEBUGFLAG=-DFROG_DEBUG
 
 SOURCES=$(wildcard *.cpp) $(wildcard */*.cpp)
 HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
@@ -31,11 +32,11 @@ $(FROG): $(FROGVERSION)
 	ln -sf $@.$(VERSION) $@
 
 $(FROGVERSION): $(OBJECTS)
-	$(CXX) -shared $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
+	$(CXX) -shared $(DEBUGFLAG) $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
 	-o $@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
 
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
+	$(CXX) $(DEBUGFLAG) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
 
 local_clean: 
 	rm -f $(FROG) $(FROG).$(VERSION) $@.$(VERSION).$(SUBVERSION)

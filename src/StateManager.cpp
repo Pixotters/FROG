@@ -1,9 +1,8 @@
 #include "FROG/StateManager.hpp"
 
+#include "FROG/Debug.hpp"
+
 #include <stack>
-
-#include <iostream>
-
 
 namespace frog{
 
@@ -25,7 +24,7 @@ namespace frog{
   {
     if( m_stateStack.empty() )
       {
-        std::cerr << "Cannot pop a state : StateManager is empty" << std::endl;
+        print_debug("Cannot pop a state : StateManager is empty");
         return nullptr; // TODO : throw exception ??
       }
     State * s = m_stateStack.top();
@@ -55,13 +54,9 @@ namespace frog{
 
   void StateManager::loop(const AppInfo& appinfo)
   {
-    print_debug("StateManager - loop("+&appinfo+")");
     if( not m_stateStack.empty() ) {
-      print_debug("StateManager - loop("+&appinfo+") : not empty");
       State * top = m_stateStack.top();
-      print_debug("StateManager - loop("+&appinfo+") : updating "+top);
       top->update(appinfo);
-      print_debug("StateManager - loop("+&appinfo+") : rendering "+top);
       top->render(appinfo.window); 
     }
   }

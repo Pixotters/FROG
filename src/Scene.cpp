@@ -38,26 +38,32 @@ namespace frog{
   bool Scene::addObject(GameObject * go)
   {
     // adding the object only if it is not present
-    print_debug("Scene - addObject("+go+")");
+    std::ostringstream err;
+    err<<"Scene - addObject("<<go<<")";
+    print_debug(err);
     auto end = m_gameObjects.end();
     for(auto it = m_gameObjects.begin(); it != end; it++)
       {
         if(*it == go)
-          {            
-            print_debug("Scene - addObject("+go+") : has alreayd been added");
+          {        
+            err.flush();
+            err.str();
+            err << "Scene - addObject("<<go<<") : has already been added";
+            print_debug(err);
             return false;
           }
       }
     m_gameObjects.push_back(go);
-    print_debug("Scene - addObject("+go+") : added to scene' list");
+    err.flush();
+    err.str();
+    err << "Scene - addObject("<<go<<") : added to scene' list";
+    print_debug(err);
     // adding the object's components to managers 
     sap::Collisionable * c;
     if( (c=dynamic_cast<sap::Collisionable *>(go) )  )
       {
-        print_debug("Scene - addObject("+go+") : adding to collider");
         m_collider->addObject(c);
       }    
-    print_debug("Scene - addObject("+go+") : added to renderer");
     m_renderer->addObject(go);
     return true;
   }
