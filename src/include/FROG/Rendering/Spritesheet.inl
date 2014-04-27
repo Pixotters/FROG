@@ -52,11 +52,38 @@ namespace frog{
         sprite != nullptr; 
         sprite = sprite->NextSiblingElement() )
       {
-        unsigned id = sprite->UnsignedAttribute("id");
-        int x = sprite->IntAttribute("x");
-        int y = sprite->IntAttribute("y");
-        unsigned width = sprite->UnsignedAttribute("width");
-        unsigned height = sprite->UnsignedAttribute("height");
+        unsigned id = 0;
+        if( sprite->QueryUnsignedAttribute("id", &id) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip without ID" << std::endl;
+            continue;
+          }
+        int x = 0, y = 0;
+        if( sprite->QueryIntAttribute("x", &x) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because position (x) is missing" << std::endl;
+            continue;
+          }
+        unsigned width = 1, height = 1;   
+        if( sprite->QueryIntAttribute("y", &y) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because position (y) is missing" << std::endl;
+            continue;
+          }
+        if( sprite->QueryUnsignedAttribute("width", &width) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because width is missing" << std::endl;
+            continue;
+          }
+        if( sprite->QueryUnsignedAttribute("height", &height) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because height is missing" << std::endl;
+            continue;
+          }
         int hot_x = sprite->IntAttribute("hot_x");
         int hot_y = sprite->IntAttribute("hot_y");
         addClip( Clip(x, y, width, height, hot_x, hot_y), id );
