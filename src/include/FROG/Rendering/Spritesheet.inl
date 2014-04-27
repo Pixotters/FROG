@@ -52,11 +52,38 @@ namespace frog{
         sprite != nullptr; 
         sprite = sprite->NextSiblingElement() )
       {
-        unsigned id = sprite->UnsignedAttribute("id");
-        int x = sprite->IntAttribute("x");
-        int y = sprite->IntAttribute("y");
-        unsigned width = sprite->UnsignedAttribute("width");
-        unsigned height = sprite->UnsignedAttribute("height");
+        unsigned id = 0;
+        if( sprite->QueryUnsignedAttribute("id", &id) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip without ID" << std::endl;
+            continue;
+          }
+        int x = 0, y = 0;
+        if( sprite->QueryIntAttribute("x", &x) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because position (x) is missing" << std::endl;
+            continue;
+          }
+        unsigned width = 1, height = 1;   
+        if( sprite->QueryIntAttribute("y", &y) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because position (y) is missing" << std::endl;
+            continue;
+          }
+        if( sprite->QueryUnsignedAttribute("width", &width) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because width is missing" << std::endl;
+            continue;
+          }
+        if( sprite->QueryUnsignedAttribute("height", &height) != tinyxml2::XML_NO_ERROR )
+          {
+            std::cerr << "Could not create Clip "<< id \
+                      << " because height is missing" << std::endl;
+            continue;
+          }
         int hot_x = sprite->IntAttribute("hot_x");
         int hot_y = sprite->IntAttribute("hot_y");
         addClip( Clip(x, y, width, height, hot_x, hot_y), id );
@@ -68,25 +95,39 @@ namespace frog{
             anim != nullptr;
             anim = anim->NextSiblingElement() )
           {
-            const char* id = anim->Attribute("id");
+            const char* id;
+            if ( (id = anim->Attribute("id") ) == NULL )
+              {
+                std::cerr << "Could not create animation without ID" << std::endl;
+                continue;                                    
+              }
+            
             Animation a;
             tinyxml2::XMLElement * clips = anim->FirstChildElement("CLIPS");
             for(tinyxml2::XMLElement * clip = clips->FirstChildElement();
                 clip != nullptr;
                 clip = clip->NextSiblingElement() )
               {
-                unsigned short id = clip->UnsignedAttribute("id");
-                unsigned short duration = clip->UnsignedAttribute("duration");
-                float move_x = clip->FloatAttribute("move_x");
-                float move_y = clip->FloatAttribute("move_y");
+                unsigned clipid; 
+                if( clip->QueryUnsignedAttribute("id", &clipid) != tinyxml2::XML_NO_ERROR)
+                  {
+                    std::cerr << "Could not create animation clip without ID" << std::endl;
+                    continue;                    
+                  }
+                unsigned duration = 1;
+                clip->QueryUnsignedAttribute("duration", &duration);
+                float move_x, move_y; 
+                clip->QueryFloatAttribute("move_x", &move_x);
+                clip->QueryFloatAttribute("move_y", &move_y);
                 float rotation = clip->FloatAttribute("rotation");
-                float scale_x = clip->FloatAttribute("scale_x");
-                float scale_y = clip->FloatAttribute("scale_y");
+                float scale_x = 1.0f, scale_y = 1.0f; 
+                clip->QueryFloatAttribute("scale_x", &scale_x);
+                clip->QueryFloatAttribute("scale_y", &scale_y);
                 sf::Transform t = sf::Transform::Identity;
                 t.translate( sf::Vector2f(move_x, move_y) );
                 t.rotate( rotation );
                 t.scale( sf::Vector2f(scale_x, scale_y) );                
-                a.addClip( AnimationClip(id, duration, t ) );
+                a.addClip( AnimationClip(clipid, duration, t ) );
               }
             addAnimation( a, id);
           }

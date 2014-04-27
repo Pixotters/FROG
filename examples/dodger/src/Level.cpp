@@ -5,6 +5,7 @@
 #include "Target.hpp"
 
 #include "FROG/Control.hpp"
+#include "FROG/Debug.hpp"
 #include "FROG/Translator.hpp"
 
 #include "FROG/App.hpp"
@@ -107,7 +108,7 @@ Level::Level(const AppInfo& appinfo)
   m_collider = new sap::LSAP(am);  
   addObject(m_player);
   //m_player->getComponent<Transform>()->setPosition( 400, 560 );
-  m_player->transform.setPosition( 400, 560 );
+  m_player->transform->setPosition( 400, 560 );
   m_terrain->getComponent<Transform>()->setPosition(0, 0);
   addObject(m_terrain);
 }
@@ -126,6 +127,7 @@ void Level::update(const AppInfo& appinfo)
   m_player->addComponent<Sprite>( s );
   m_terrain->addComponent<Sprite>( s2 );
   handleCommands( m_controller.update() );
+  print_debug("wesh gros");
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  

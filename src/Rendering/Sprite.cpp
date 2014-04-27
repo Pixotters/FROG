@@ -2,8 +2,6 @@
 
 #include "FROG/Transform.hpp"
 
-#include <iostream>
-
 namespace frog{
 
   Sprite::Sprite(const sf::Texture& texture)

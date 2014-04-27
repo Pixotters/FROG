@@ -10,9 +10,9 @@
 namespace frog{
 
   GameObject::GameObject()
-    : ComponentHolder()
+    : ComponentHolder(), transform(new Transform)
   {
-    addComponent(std::shared_ptr<Transform>( &transform ) );
+    addComponent( transform );
   }
 
   GameObject::~GameObject()
