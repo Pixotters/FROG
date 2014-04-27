@@ -73,9 +73,7 @@ public:
 Level::Level(const AppInfo& appinfo)
   : Scene(appinfo.window), m_player(new Player), m_terrain(new GameObject)
 {
-  std::cerr << "Player is " << m_player << "/" << m_player.get() << std::endl;
   GameObject * g = dynamic_cast<GameObject *>(m_player.get());
-  std::cerr << "Player converted is "<< g << std::endl;
   auto moveleft = new MovePlayer(m_player.get(), -128, 0, appinfo);
   auto moveright = new MovePlayer(m_player.get(), 128, 0, appinfo);
   auto moveup = new MovePlayer(m_player.get(), 0, -128, appinfo);
@@ -123,7 +121,6 @@ void Level::update(const AppInfo& appinfo)
   Scene::update(appinfo);
   static Sprite * s = new Sprite(m_textureManager.get("FROG_TEXTURE") );
   static Sprite * s2 = new Sprite(m_textureManager.get("TERRAIN_TEXTURE") );
-  std::cerr << "Sprite is "<< s <<std::endl;
   m_player->addComponent<Sprite>( s );
   m_terrain->addComponent<Sprite>( s2 );
   handleCommands( m_controller.update() );
