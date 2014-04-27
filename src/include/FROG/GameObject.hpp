@@ -19,7 +19,7 @@ namespace frog{
     //// operations ////
   public : 
 
-    Transform transform;
+    std::shared_ptr<Transform> transform;
 
     GameObject();
 
