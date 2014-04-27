@@ -95,25 +95,39 @@ namespace frog{
             anim != nullptr;
             anim = anim->NextSiblingElement() )
           {
-            const char* id = anim->Attribute("id");
+            const char* id;
+            if ( (id = anim->Attribute("id") ) == NULL )
+              {
+                std::cerr << "Could not create animation without ID" << std::endl;
+                continue;                                    
+              }
+            
             Animation a;
             tinyxml2::XMLElement * clips = anim->FirstChildElement("CLIPS");
             for(tinyxml2::XMLElement * clip = clips->FirstChildElement();
                 clip != nullptr;
                 clip = clip->NextSiblingElement() )
               {
-                unsigned short id = clip->UnsignedAttribute("id");
-                unsigned short duration = clip->UnsignedAttribute("duration");
-                float move_x = clip->FloatAttribute("move_x");
-                float move_y = clip->FloatAttribute("move_y");
+                unsigned clipid; 
+                if( clip->QueryUnsignedAttribute("id", &clipid) != tinyxml2::XML_NO_ERROR)
+                  {
+                    std::cerr << "Could not create animation clip without ID" << std::endl;
+                    continue;                    
+                  }
+                unsigned duration = 1;
+                clip->QueryUnsignedAttribute("duration", &duration);
+                float move_x, move_y; 
+                clip->QueryFloatAttribute("move_x", &move_x);
+                clip->QueryFloatAttribute("move_y", &move_y);
                 float rotation = clip->FloatAttribute("rotation");
-                float scale_x = clip->FloatAttribute("scale_x");
-                float scale_y = clip->FloatAttribute("scale_y");
+                float scale_x = 1.0f, scale_y = 1.0f; 
+                clip->QueryFloatAttribute("scale_x", &scale_x);
+                clip->QueryFloatAttribute("scale_y", &scale_y);
                 sf::Transform t = sf::Transform::Identity;
                 t.translate( sf::Vector2f(move_x, move_y) );
                 t.rotate( rotation );
                 t.scale( sf::Vector2f(scale_x, scale_y) );                
-                a.addClip( AnimationClip(id, duration, t ) );
+                a.addClip( AnimationClip(clipid, duration, t ) );
               }
             addAnimation( a, id);
           }
