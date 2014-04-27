@@ -1,8 +1,6 @@
 <? xml version="1.0" ?>
 <SPRITESHEET>
 
-  <image src="assets/images/porter.png" />
-
   <SPRITES>
     <!-- stand -->
     <sprite id="0" x="0" y="0" width="48" height="48" hot_x="0" hot_y="0" />
