@@ -7,8 +7,6 @@
 
 #include <memory>
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   /*!
