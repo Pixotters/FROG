@@ -18,10 +18,10 @@ namespace frog{
     //// attributs ////
   protected:
 
-    int m_layer;
-
     //// operations ////
   public:
+
+    int layer;
 
     Transform();
 
@@ -30,10 +30,6 @@ namespace frog{
     virtual ~Transform();
 
     virtual void update(const ComponentHolder& parent);
-
-    int getLayer() const;
-
-    void setLayer(const int& z);
 
   };
 

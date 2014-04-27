@@ -4,7 +4,7 @@
 namespace frog{
 
   Transform::Transform() 
-    : Component(), sf::Transformable() 
+    : Component(), sf::Transformable() , layer(0)
   {
     setPosition(0, 0);
     setRotation(0);
@@ -16,7 +16,7 @@ namespace frog{
     setPosition( other.getPosition() );
     setRotation( other.getRotation() );
     setScale( other.getScale() );
-    setLayer( other.getLayer() );
+    layer = other.layer;
   }
 
   Transform::~Transform()
@@ -26,16 +26,6 @@ namespace frog{
   void Transform::update(const ComponentHolder& parent)
   { 
     
-  }
-
-  int Transform::getLayer() const
-  { 
-    return m_layer; 
-  }
-  
-  void Transform::setLayer(const int& z)
-  { 
-    m_layer = z; 
   }
 
 }

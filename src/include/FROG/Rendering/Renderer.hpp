@@ -8,6 +8,7 @@
 #include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <memory>
+#include <forward_list>
 
 namespace frog{
 
@@ -20,13 +21,17 @@ namespace frog{
     {
 
       // TODO : consider the z-index, and sort the map
+      // TODO allow to define number of layers
 
       //// attributes ////
     protected:
       sf::RenderTexture m_texture;
       sf::RenderTarget * m_target;
       // sf::View m_view;
-      std::map< std::shared_ptr<GameObject>, RenderingComponent *> m_objects;
+      std::forward_list< std::pair<
+                           std::shared_ptr<GameObject>, 
+                           RenderingComponent *>
+                         > m_objects;
 
       //// operations ////
     public:

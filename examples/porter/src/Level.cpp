@@ -31,10 +31,12 @@ void Level::update(const AppInfo& appinfo)
       m_player = new GameObject();  
       sf::Texture& tex = m_textureManager.get("PORTER_SPRITESHEET");
       Spritesheet<std::string>& sprt = m_spritesheetManager.get("Porter_anim");
+      m_player->transform->layer = 2;
       m_player->addComponent< Animator<std::string> >(new Animator<std::string>(sprt, tex) );
       m_player->getComponent<Animator<std::string> >()->setDefaultAnimation("stand");
       m_terrain = new GameObject();
-      //      m_terrain->addComponent<Sprite>(new Sprite(m_textureManager.get("TERRAIN") ) );
+      m_terrain->transform->layer = 1;
+      m_terrain->addComponent<Sprite>(new Sprite(m_textureManager.get("TERRAIN") ) );
       addObject(m_terrain);
       addObject(m_player);
       done = true;
