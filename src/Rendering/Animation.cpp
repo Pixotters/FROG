@@ -1,6 +1,6 @@
 #include "FROG/Rendering/Animation.hpp"
 
-#include <iostream>
+#include <iostream> // TODO remove
 
 namespace frog{
 

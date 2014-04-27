@@ -40,8 +40,8 @@ void AssetManager<ID,R>::loadFromFile(const std::string& path, const ID& id)
       std::unique_ptr<R> pr(new R() );  
       if( not pr->loadFromFile(path) )
         {
-          std::string err = "Impossible to create asset because a problem" 
-            + " occured while loading " + path;
+          std::string err = "Impossible to create asset because a problem"; 
+          err += " occured while loading " + path;
           throw std::runtime_error(err);
         }
       auto check = m_files.insert(  std::make_pair( id, std::move(pr) )  );

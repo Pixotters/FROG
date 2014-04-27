@@ -5,6 +5,7 @@
 #include "Target.hpp"
 
 #include "FROG/Control.hpp"
+#include "FROG/Debug.hpp"
 #include "FROG/Translator.hpp"
 
 #include "FROG/App.hpp"
@@ -126,6 +127,7 @@ void Level::update(const AppInfo& appinfo)
   m_player->addComponent<Sprite>( s );
   m_terrain->addComponent<Sprite>( s2 );
   handleCommands( m_controller.update() );
+  print_debug("wesh gros");
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
