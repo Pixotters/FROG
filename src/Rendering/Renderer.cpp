@@ -2,8 +2,6 @@
 
 #include "FROG/Transform.hpp"
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   namespace render{
@@ -36,10 +34,8 @@ namespace frog{
     void Renderer::update()
     {
       auto end = m_objects.end();
-      std::cout << "rendering objects"<<std::endl;
       for(auto it = m_objects.begin(); it != end; it++)
         {
-          std::cout << "rendering "<< it->first <<","<<it->second << std::endl;
           updateObject( it->first );         
           draw( it->second );
         }      
@@ -75,21 +71,17 @@ namespace frog{
     if ( (where == m_objects.begin() ) 
          or ( where == m_objects.end() and m_objects.empty() ) )
       {
-        std::cout << "push front "<<go << std::endl;
         m_objects.push_front( insert );
       }else if (where == m_objects.end() )
       {
-        std::cout << "insert (after end) "<<go << std::endl;
         auto before_end = m_objects.before_begin();
         for (auto& _ : m_objects)
           ++ before_end;
         m_objects.insert_after(before_end, insert);
       }else
       {
-        std::cout << "insert (middle) "<<go << std::endl;
         m_objects.insert_after(where, insert);
       }
-    std::cout << "added" << std::endl;
     return true;
   }
     
