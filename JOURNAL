@@ -35,6 +35,10 @@ Le Renderer a été amélioré avec un wrapper pour afficher des images (Compone
 un *Spritesheet* (fichier XML) à une *Texture* (fichier image) pour offrir une 
 plus grand flexibilité (utiliser un même spritesheet pour plusieurs images et 
 vice-versa, changer l'un des deux en cours de jeu...). 
+Il utilise aussi la valeur //layer// du Component Transform, pour afficher les 
+objets dans un ordre défini par l'utilisateur (et non pas selon l'ordre 
+d'ajout). Attention : ce ne sont pas encore des plans différentiels. De plus, 
+cette valeur n'est pas utilisée par le collisionneur pour certaines raisons. 
 
 == Divers ==
 
@@ -45,7 +49,11 @@ Un peu de documentation a aussi été faite, notamment sur les nouvelles choses.
 
 == Objectifs de la semaine ==
 
-
+Il va falloir finir une bonne fois pour toutes le Controller : prise en charge 
+des inputs en temps réel, abstraction (en vue d'être utilisé aussi pour une IA 
+ou un réseau), et éventuellement le changer en Component. 
+On devrait aussi avoir le temps de faire des *TileMap* : c'est rapide, en 
+supposant qu'elles s'intègrent bien avec le système de collisions. 
 
 = 10/04 - réunion avant vacances = 
 
@@ -53,7 +61,6 @@ Niveau physique, il y a maintenant des collisions selon un point précis. Rien
 n'est encore fourni pour déterminer ce point de collision (du module physique), 
 mais la réaction agit sur les vecteurs des forces qui s'appliquent aux objets 
 concernés. 
-
 La documentation Doxygen a été complétée. 
 
 == Objectifs des vacances ==
