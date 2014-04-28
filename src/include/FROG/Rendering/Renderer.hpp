@@ -12,8 +12,6 @@
 
 namespace frog{
 
-  namespace render{
-
     /*!
      * Renderer draws objects in a sf::RenderTarget. 
      */
@@ -105,8 +103,6 @@ namespace frog{
 
 
     };
-
-  }
 
 }
 
