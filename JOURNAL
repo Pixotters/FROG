@@ -46,6 +46,8 @@ Nous avons aussi implémenté plusieurs proxy et wrappers pour simplifier
 l'utilisation. Plus le framework est facile à utiliser, mieux c'est : la 
 simplicité est notre priorité.  
 Un peu de documentation a aussi été faite, notamment sur les nouvelles choses. 
+Des essais ont été faits sur les FSM. Tout fonctionne (changement d'animation 
+via cette FSM et non pas par la scène), mais n'est pas très simple à utiliser. 
 
 == Objectifs de la semaine ==
 
