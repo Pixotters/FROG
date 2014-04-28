@@ -6,8 +6,6 @@
 
 namespace frog{
 
-  namespace render{
-
     /*!
      * RenderingComponent is drawn by the scene's renderer
      */
@@ -41,8 +39,6 @@ namespace frog{
                 sf::RenderStates rs = sf::RenderStates::Default) const;
 
     };
-
-  }
 
 }
 

@@ -3,8 +3,6 @@
 
 namespace frog{
 
-  namespace render{
-
     RenderingComponent::RenderingComponent(sf::Drawable * const d)
       : Component(), sf::Drawable(), sf::Transformable(), m_drawable(d)
     {
@@ -21,7 +19,5 @@ namespace frog{
       rt.draw(*m_drawable, rs);
     }
 
-
-  }
 
 }
