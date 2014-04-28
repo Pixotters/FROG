@@ -22,7 +22,7 @@ void PlayerMachine::update(const frog::ComponentHolder& parent)
     {
       std::cerr << "Changing state" << std::endl;
       parent.getComponent< frog::Animator<std::string> >()->changeTexture(m_level->m_textureManager.get("PORTER_SPRITESHEET") );
-  parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim") );
+      parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim") );
       parent.getComponent< frog::Animator<std::string> >()->playAnimation("stand", true);
       previous = "stand";
 
@@ -32,7 +32,7 @@ void PlayerMachine::update(const frog::ComponentHolder& parent)
     {
       std::cerr << "Changing state" << std::endl;
       parent.getComponent< frog::Animator<std::string> >()->changeTexture(m_level->m_textureManager.get("PORTER_SPRITESHEET") );
-parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim") );
+      parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim") );
       parent.getComponent< frog::Animator<std::string> >()->playAnimation("tap_foot", true);
       previous = "wait";
     }
@@ -41,10 +41,10 @@ parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level-
     {
       std::cerr << "Changing state" << std::endl;
       parent.getComponent< frog::Animator<std::string> >()->changeTexture(m_level->m_textureManager.get("PORTER2_SPRITESHEET") );
-  parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim2") );
-parent.getComponent< frog::Animator<std::string> >()->playAnimation("tap_foot", true);
-previous = "rapping";
-}
+      parent.getComponent< frog::Animator<std::string> >()->changeSpritesheet(m_level->m_spritesheetManager.get("Porter_anim2") );
+      parent.getComponent< frog::Animator<std::string> >()->playAnimation("tap_foot", true);
+      previous = "rapping";
+    }
   
 
 }
