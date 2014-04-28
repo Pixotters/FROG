@@ -7,7 +7,8 @@ class PlayerStateFactory
 {
 
 public:
-  static PlayerState * create(std::function<bool()> enter,
+  static PlayerState * create(const std::string& id,
+                              std::function<bool()> enter,
                               std::function<bool()> exit);
 
 };

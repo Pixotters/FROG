@@ -2,7 +2,8 @@
 
 #include <iostream> // TODO remove
 
-PlayerState::PlayerState()
+PlayerState::PlayerState(const std::string& id)
+  : m_id(id)
 {
 
 }
@@ -22,4 +23,9 @@ bool PlayerState::onExit()
 {
   std::cout << "Player leaves state "<< this << std::endl;
   return m_exit();
+}
+
+std::string PlayerState::getId() const
+{
+  return m_id;
 }
