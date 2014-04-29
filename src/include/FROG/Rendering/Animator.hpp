@@ -15,7 +15,7 @@
 namespace frog{
 
   template <typename ID>
-  class Animator : virtual public render::RenderingComponent{
+  class Animator : virtual public RenderingComponent{
 
   public:
     class NoSuchAnimation : virtual public std::exception{
