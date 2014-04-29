@@ -23,7 +23,7 @@ namespace frog{
   protected : 
 
     /// Default renderer of the state
-    render::Renderer * m_renderer;
+    Renderer * m_renderer;
 
     //// operations ////
   public :

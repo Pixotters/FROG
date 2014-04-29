@@ -2,17 +2,19 @@
 
 namespace frog{
 
-  AnimationClip::AnimationClip(const unsigned short& id,
-                               const unsigned short& duration,
-                               const sf::Transform& trans)
-    : m_sprite(id), m_duration(duration), m_transform(trans)
-  {
+  AnimationClip::AnimationClip(const unsigned short& _id,
+                  const unsigned short& _duration,
+                  const sf::Transform& _transform)
+      : sprite(_id), duration(_duration), transform(_transform)
+    {
 
-  }
+    }
 
-  AnimationClip::~AnimationClip()
-  {
-  }
+
+    AnimationClip::~AnimationClip()
+    {
+    
+    }
 
 }
 

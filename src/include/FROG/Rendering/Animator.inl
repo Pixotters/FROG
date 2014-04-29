@@ -35,9 +35,9 @@ namespace frog{
         // getting the clip to display
         try{
           auto animClip = m_played->getClipAt( m_frameKey );
-          auto clip = m_spritesheet.getClip( animClip.getSprite() );
+          auto clip = m_spritesheet.getClip( animClip.sprite );
           m_sprite.setTextureRect( clip.rectangle );
-          /*        auto tr = animClip.getTransform();
+          /*        auto tr = animClip.transform;
                     m_sprite.rotate( tr.getRotation() );
                     m_sprite.scale( tr.getScale() );
                     m_sprite.move( tr.getPosition() + clip.hotpoint );*/
@@ -45,7 +45,7 @@ namespace frog{
           m_sprite.move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
           m_timer++;
           // changing (or not) anim when it's done
-          if ( m_timer >= animClip.getDuration() )
+          if ( m_timer >= animClip.duration )
             {
               m_timer = 0;
               // duration of the current sprite is elapsed, passing to next sprite

@@ -7,26 +7,20 @@
 
 namespace frog{
 
-  class AnimationClip{
+  /*!
+   * AnimationClip is a part of an animation. They are composed by 
+   * an id 'sprite" refering to a Clip in the owner Spritesheet, a 
+   * duration (in number of frames), and transforms that can be applied.
+   */
+  struct AnimationClip{
     
-  protected:
-    unsigned short m_sprite;
-    unsigned short m_duration;
-    sf::Transform m_transform;
-    
-  public:
+    unsigned short sprite;
+    unsigned short duration;
+    sf::Transform transform;
     AnimationClip(const unsigned short& id = 0,
                   const unsigned short& duration = 1,
-                  const sf::Transform& scale = sf::Transform::Identity);
-    virtual ~AnimationClip();
-    // TODO delete getters / setters
-    void setSprite(const unsigned short& id){ m_sprite = id; };
-    void setDuration(const unsigned int& d){ m_duration = d; };
-    void setTransform(const sf::Transform& t){ m_transform = t; };
-    unsigned short getSprite() const{ return m_sprite; };
-    unsigned int getDuration() const{ return m_duration; };
-    sf::Transform getTransform() const{ return m_transform; };
-    
+                  const sf::Transform& transform = sf::Transform::Identity);
+    virtual ~AnimationClip();    
 
   };
 

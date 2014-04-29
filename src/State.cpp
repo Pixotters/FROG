@@ -5,7 +5,7 @@ namespace frog{
 
   State::State()
   {
-    m_renderer = new render::Renderer(800, 600);
+    m_renderer = new Renderer(800, 600);
   }
 
   State::~State()

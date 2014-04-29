@@ -7,6 +7,12 @@
 
 namespace frog{
 
+  /*!
+   * Clips are parts of a Spritesheet. They are defined by a rectangle telling 
+   * which prt of an image it should be extracted from, and a hotpoint, 
+   * representing a gap between position of the owner, and position where image 
+   * should be displayed. 
+   */
   struct Clip{
     
     sf::IntRect rectangle;
@@ -14,16 +20,8 @@ namespace frog{
     
     Clip(const int& x = 0, const int& y = 0, 
          const unsigned& w = 0, const unsigned& h = 0,
-         const int& hx = 0, const int& hy = 0)
-    {
-      rectangle.left = x;
-      rectangle.top = y;
-      rectangle.width = w;
-      rectangle.height = h;
-      hotpoint.x = hx;
-      hotpoint.y = hy;
-    }
-    virtual ~Clip(){}
+         const int& hx = 0, const int& hy = 0);
+    virtual ~Clip();
     
   };
 

@@ -1,5 +1,5 @@
-#ifndef FROG_RENDER_RENDERERINGCOMPONENT_HPP
-#define FROG_RENDER_RENDERERINGCOMPONENT_HPP
+#ifndef FROG_RENDERERINGCOMPONENT_HPP
+#define FROG_RENDERERINGCOMPONENT_HPP
 
 #include "FROG/Component.hpp"
 #include <SFML/Graphics.hpp>
@@ -7,7 +7,7 @@
 namespace frog{
 
     /*!
-     * RenderingComponent is drawn by the scene's renderer
+     * RenderingComponent is drawn by the scene's renderer. 
      */
     class RenderingComponent : virtual public Component,
                                virtual public sf::Drawable,
