@@ -6,6 +6,9 @@
 
 namespace frog{
 
+  /*!
+   * Sprite allows to display an image easily. 
+   */
   class Sprite : virtual public RenderingComponent
   {
 

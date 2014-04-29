@@ -7,7 +7,7 @@
 namespace frog{
 
     /*!
-     * RenderingComponent is drawn by the scene's renderer
+     * RenderingComponent is drawn by the scene's renderer. 
      */
     class RenderingComponent : virtual public Component,
                                virtual public sf::Drawable,

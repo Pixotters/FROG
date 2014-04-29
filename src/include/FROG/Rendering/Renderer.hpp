@@ -14,6 +14,10 @@ namespace frog{
 
     /*!
      * Renderer draws objects in a sf::RenderTarget. 
+     * It maps GameObject to their Rendering component in order to make display 
+     * faster. It displays registered Gameobjects in the order defined by 
+     * the "layer" attribute of their Transform component. A lower layer is 
+     * displayed first, that means they are behind objets in a higher layer. 
      */
     class Renderer
     {
@@ -65,7 +69,8 @@ namespace frog{
        * \brief Adds an object to the set of objects to draw
        * \details If the given object doesn't have a rendering component, it 
        * is still added. If the given object has already been added, nothing 
-       * happens and False is returned.
+       * happens and False is returned. Objects added are sorted by layer, 
+       * allowing the renderer to display them in proper position. 
        * \param go GameObject to add
        * \return True if go has been successfully added
        */

@@ -7,6 +7,11 @@
 
 namespace frog{
 
+  /*!
+   * AnimationClip is a part of an animation. They are composed by 
+   * an id 'sprite" refering to a Clip in the owner Spritesheet, a 
+   * duration (in number of frames), and transforms that can be applied.
+   */
   struct AnimationClip{
     
     unsigned short sprite;
