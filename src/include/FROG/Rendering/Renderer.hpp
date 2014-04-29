@@ -1,5 +1,5 @@
-#ifndef FROG_RENDER_RENDERER_HPP
-#define FROG_RENDER_RENDERER_HPP
+#ifndef FROG_RENDERER_HPP
+#define FROG_RENDERER_HPP
 
 #include <SFML/Graphics.hpp>
 
