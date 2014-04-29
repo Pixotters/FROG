@@ -6,7 +6,7 @@
 
 namespace frog{
 
-  class Sprite : virtual public render::RenderingComponent
+  class Sprite : virtual public RenderingComponent
   {
 
   private:

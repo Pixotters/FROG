@@ -5,7 +5,7 @@
 namespace frog{
 
   Sprite::Sprite(const sf::Texture& texture)
-    : render::RenderingComponent(&m_sprite)
+    : RenderingComponent(&m_sprite)
   {
     m_sprite.setTexture(texture);
   }
