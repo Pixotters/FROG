@@ -14,6 +14,13 @@ Scene <-> App.
 
 == Physique ==
 
+La physique permet d'appliquer des forces, qui modifient la vélocité de 
+l'objet. 
+Les polygones sont capables de donner le vecteur de translation minimal (pour 
+la séparation des deux corps en collision), qui sert de vecteur normal. 
+Si deux polygones entrent en collision l'un dans l'autre, ils seront remis à un 
+état stable (pas d'entrelacement). 
+
 == XML ==
 
 D'abord pour charger la configuration de l'application, mais aussi pour charger 
