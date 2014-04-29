@@ -25,9 +25,9 @@ namespace frog{
 
       //// operations ////
     public:
-      JoystickSimpleButton(const unsigned int&, 
+      JoystickSimpleButton(unsigned int, 
                            const SimpleButton::Trigger& = SimpleButton::PRESSED,
-                           const unsigned int& = 0);
+                           unsigned int = 0);
       virtual ~JoystickSimpleButton();
       bool check(ControlHandler *);
 

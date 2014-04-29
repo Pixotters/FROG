@@ -29,7 +29,7 @@ namespace frog{
 
     Command * Controller::bind(Input * i,
                                Command * c,
-                               const unsigned short& n)
+                               unsigned short n)
     {
       if(n >= m_mapping.size() or m_mapping.at(n) == nullptr){
         m_mapping.at(n) = new InputMap();
@@ -39,7 +39,7 @@ namespace frog{
     }
 
     void Controller::unbind(Input * i,
-                            const unsigned short& n)
+                            unsigned short n)
     {
       unsigned int size = m_mapping.size();
       if(n < size and m_mapping.at(n) != nullptr){
@@ -96,7 +96,7 @@ namespace frog{
       return it;
     }
 
-    void Controller::removeInputMap(const unsigned short& i)
+    void Controller::removeInputMap(unsigned short i)
     {
       if(i < m_mapping.size() )
         {
@@ -105,7 +105,7 @@ namespace frog{
     }
 
     InputMap * Controller::changeInputMap(InputMap * im, 
-                                          const unsigned short& i)
+                                          unsigned short i)
     {
       InputMap * res = im;
       if( i < m_mapping.size() )

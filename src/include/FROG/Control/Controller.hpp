@@ -50,7 +50,7 @@ namespace frog{
        * \param n (optionnal) index of the InputMap to modify
        * \return the Command previously bound, c is there was none
        */
-      Command * bind(Input * i, Command * c, const unsigned short& n = 0);
+      Command * bind(Input * i, Command * c, unsigned short n = 0);
 
       /*!
        * \brief Removes a binding from a given InputMap's index.
@@ -59,7 +59,7 @@ namespace frog{
        * \param i Input to remove
        * \param n index of the InputMap in which the Input should be removed
        */
-      void unbind(Input * i, const unsigned short& n = 0);
+      void unbind(Input * i, unsigned short n = 0);
 
       /*!
        * \brief Removes a binding from all InputMaps
@@ -71,7 +71,8 @@ namespace frog{
        * \brief Adds an InputMap to the Controller
        * \details The InputMap tries to insert in the first available place (if 
        * an other InputMap is nullptr. If there is none, a new entry is created. 
-       * If the passed map is nullptr, a new InputMap is created instead and added.
+       * If the passed map is nullptr, a new InputMap is created instead and 
+       * added.
        * \param im InputMap to add. If nullptr, a new InputMap will be created.
        * \return the index in which the InputMap has been inserted.
        */
@@ -83,18 +84,18 @@ namespace frog{
        * bounds of the maps, nothing appens. 
        * \param i Index of the InputMap to remove
        */
-      void removeInputMap(const unsigned short& i);
+      void removeInputMap(unsigned short i);
 
       /*!
        * \brief Changes an InputMap
-       * \details The old InputMap is returned. The new InputMap is placed at the 
-       * same location. If the index doesn't refer to a valid map, a new entry is 
-       * created. 
+       * \details The old InputMap is returned. The new InputMap is placed at 
+       * the  same location. If the index doesn't refer to a valid map, a new 
+       * entry is created. 
        * \param im new InputMap
        * \param i index of the InputMap to replace
        * \return old map if we replaced one, the current one if there was none.
        */
-      InputMap * changeInputMap(InputMap * im, const unsigned short& i = 0);
+      InputMap * changeInputMap(InputMap * im, unsigned short i = 0);
 
       /*!
        * \brief Computes a list of command that should be executed

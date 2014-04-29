@@ -18,9 +18,9 @@ namespace frog{
     sf::IntRect rectangle;
     sf::Vector2i hotpoint;
     
-    Clip(const int& x = 0, const int& y = 0, 
-         const unsigned& w = 0, const unsigned& h = 0,
-         const int& hx = 0, const int& hy = 0);
+    Clip(int x = 0, int y = 0, 
+         unsigned w = 0, unsigned h = 0,
+         int hx = 0, int hy = 0);
     virtual ~Clip();
     
   };

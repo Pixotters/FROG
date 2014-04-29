@@ -17,8 +17,8 @@ namespace frog{
     unsigned short sprite;
     unsigned short duration;
     sf::Transform transform;
-    AnimationClip(const unsigned short& id = 0,
-                  const unsigned short& duration = 1,
+    AnimationClip(unsigned short id = 0,
+                  unsigned short duration = 1,
                   const sf::Transform& transform = sf::Transform::Identity);
     virtual ~AnimationClip();    
 

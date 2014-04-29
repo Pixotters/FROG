@@ -34,7 +34,7 @@ namespace frog{
     return m_clips;
   }
 
-  const AnimationClip& Animation::getClipAt(const unsigned int& i) const
+  const AnimationClip& Animation::getClipAt(unsigned int i) const
     throw (NoSuchAnimClip)
   {
     std::cerr << "getting clip n°"<< i <<"/" << m_clips.size()<< std::endl; // TODO remove

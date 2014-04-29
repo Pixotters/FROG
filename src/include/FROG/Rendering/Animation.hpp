@@ -63,7 +63,7 @@ namespace frog{
      * @param i Index of the AnimationClip to get.
      * @return AnimationClip at position i.
      */
-    const AnimationClip& getClipAt(const unsigned int& i) const
+    const AnimationClip& getClipAt(unsigned int i) const
       throw (NoSuchAnimClip);
 
     /*!

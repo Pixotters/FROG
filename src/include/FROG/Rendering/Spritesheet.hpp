@@ -50,7 +50,7 @@ namespace frog{
 
     const Animation& getAnimation(ID id) const throw(NoSuchAnimation);
 
-    const Clip& getClip(const unsigned short&) const throw(NoSuchClip);
+    const Clip& getClip(unsigned short) const throw(NoSuchClip);
 
     /*!
      * @brief Add an animation associated to the given ID. 
@@ -66,7 +66,7 @@ namespace frog{
      * @param c Clip to add.
      * @param i index at which Clip should be added.
      */
-    void addClip(const Clip& c, const unsigned short& i);
+    void addClip(const Clip& c, unsigned short i);
 
   protected:
 

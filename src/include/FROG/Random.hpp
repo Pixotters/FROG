@@ -21,7 +21,7 @@ namespace frog{
      * @param min Minimal value possibly returned. 
      * @param max Maximal value possibly returned. 
      */
-    static int get(const int& min, const int& max);
+    static int get(int min, int max);
 
   };
 

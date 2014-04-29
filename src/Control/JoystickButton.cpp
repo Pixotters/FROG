@@ -6,8 +6,8 @@ namespace frog{
   namespace ctrl{
 
 
-    JoystickButton::JoystickButton(const unsigned int& b, 
-                                   const unsigned int& i)
+    JoystickButton::JoystickButton(unsigned int b, 
+                                   unsigned int i)
       : Button(), m_button(b), m_id(i) {
 
     }

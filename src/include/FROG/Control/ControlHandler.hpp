@@ -68,7 +68,7 @@ namespace frog{
       int getMouseDeltaX() const;
       int getMouseDeltaY() const;
       sf::Vector2i getMouseDelta() const;
-      float getJoystickAxis(const unsigned int& id,
+      float getJoystickAxis(unsigned int id,
                             const sf::Joystick::Axis& ax) const;
 
     protected:

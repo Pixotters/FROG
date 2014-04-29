@@ -24,8 +24,8 @@ namespace frog{
 
       //// operations ////
     public:
-      JoystickButton(const unsigned int&, 
-                     const unsigned int& = 0);
+      JoystickButton(unsigned int, 
+                     unsigned int = 0);
       virtual ~JoystickButton();
       unsigned int getButton() const;
       unsigned int getID() const;

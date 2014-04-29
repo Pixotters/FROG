@@ -151,7 +151,7 @@ namespace frog{
   }
 
   template <typename ID>
-  const Clip& Spritesheet<ID>::getClip(const unsigned short& id) const
+  const Clip& Spritesheet<ID>::getClip(unsigned short id) const
     throw(NoSuchClip)
   {
     try
@@ -173,7 +173,7 @@ namespace frog{
   }
 
   template <typename ID>
-  void Spritesheet<ID>::addClip(const Clip& c, const unsigned short& id)
+  void Spritesheet<ID>::addClip(const Clip& c, unsigned short id)
   {
     try{
       m_clips.at(id) = c;

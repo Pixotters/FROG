@@ -5,8 +5,8 @@
 namespace frog{
 
   Renderer::Renderer(sf::RenderTarget * rt,
-                     const unsigned int& w,
-                     const unsigned int& h)
+                     unsigned int w,
+                     unsigned int h)
       
   {
     // TODO : get the windows size with a service locator
@@ -15,8 +15,8 @@ namespace frog{
     //      m_texture.initialize();
   }
 
-  Renderer::Renderer(const unsigned int& w,
-                     const unsigned int& h)
+  Renderer::Renderer(unsigned int w,
+                     unsigned int h)
       
   {
     // TODO : get the windows size with a service locator

@@ -146,7 +146,7 @@ namespace frog{
       return sf::Vector2i(m_mouseDeltaX, m_mouseDeltaY);
     }
 
-    float ControlHandler::getJoystickAxis(const unsigned int& id,
+    float ControlHandler::getJoystickAxis(unsigned int id,
                                           const sf::Joystick::Axis& ax) const{
       return sf::Joystick::getAxisPosition(id, ax);
     }

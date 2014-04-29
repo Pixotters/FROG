@@ -7,9 +7,9 @@ namespace frog{
   namespace ctrl{
 
 
-    JoystickSimpleButton::JoystickSimpleButton(const unsigned int& b, 
+    JoystickSimpleButton::JoystickSimpleButton(unsigned int b, 
                                                const SimpleButton::Trigger& t,
-                                               const unsigned int& i)
+                                               unsigned int i)
       : JoystickButton(b,i), SimpleButton(t){
 
     }
