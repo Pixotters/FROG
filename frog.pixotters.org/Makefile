@@ -1,12 +1,15 @@
 # TODO: allow any depth int wildcard
+BUILDDIR=frog
 SRC=$(wildcard *.pa) $(wildcard */*.pa)
-GEN=$(patsubst %.pa,%.html,$(SRC))
+OBJ=$(patsubst %.pa,%.html,$(SRC)) api
+INC=$(wildcard css/*.css) img
 
-all: $(GEN) api
+all: build
 
 info:
 	@echo "SRC:" $(SRC)
-	@echo "GEN:" $(GEN)
+	@echo "OBJ:" $(OBJ)
+	@echo "BUILDIR:" $(BUILDDIR)
 
 %.html: %.pa
 	cat template/inc.before.html > $@
@@ -16,14 +19,26 @@ info:
 api:
 	doxygen doxygen.conf
 
-serve:
+build: $(OBJ) $(INC)
+	mkdir -p $(BUILDDIR)
+	cp -R --parent $^ $(BUILDDIR)
+
+# browse localhost:8000/frog/
+serve: $(BUILDIR)
 	python -m SimpleHTTPServer
 
-upload: .upload-script all
-	lftp -f $<
+# -e: execute what is quoted
+# mirror: exact copy
+# mirror -e: remove file not existing anymore
+# -R from local to host
+upload: $(BUILDIR)
+	lftp ftp.cluster014.ovh.net -e "mirror -e -R frog/ /www/frog/; quit"
 
 # TODO: find some doxygen -clean command? 
 clean:
 	find -name "*~" -delete
-	rm -rf $(GEN)
+	rm -rf $(OBJ)
 	rm -rf api
+
+proper:
+	rm -rf $(BUILDDIR)
