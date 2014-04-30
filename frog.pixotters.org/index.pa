@@ -1,11 +1,8 @@
 = FROG =
 
-[[ http://frog.pixotters.org/img/frog_logo.png? || frog logo ]]
+[[ /img/frog_logo.png? || frog logo ]]
 
 For Really Outstanding Games. A library for game developers, by 
 [[pixotters]].
-
-- [[api/ << Online documentation]]
-- [[howto/ << HOWTOs]]
 
 [[pixotters]] :: [[http://www.pixotters.org]]
