@@ -1,7 +1,6 @@
 #ifndef FROG_STATEMANAGER_HPP
 #define FROG_STATEMANAGER_HPP
 
-#include "FROG/Control/ControlHandler.hpp"
 #include "FROG/State.hpp"
 #include "FROG/AppInfo.hpp"
 #include <stack>

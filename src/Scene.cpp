@@ -14,8 +14,8 @@
 
 namespace frog{
 
-  Scene::Scene(sf::Window& win)
-    : State(), m_controller(win)
+  Scene::Scene()
+    : State()
   {
   }
 

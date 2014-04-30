@@ -21,13 +21,13 @@ protected:
   frog::GameObject * m_terrain;  
 
 public:
-  Level(const frog::AppInfo&);
+  Level();
   virtual ~Level();
   virtual void update(const frog::AppInfo&);
 
 private:
   static bool okay();
-  void createPlayer();
+  void createPlayer(const frog::AppInfo&);
   void createTerrain();
 
 };
