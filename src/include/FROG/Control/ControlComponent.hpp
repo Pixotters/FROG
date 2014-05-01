@@ -4,14 +4,17 @@
 #include "FROG/Control/InputComponent.hpp"
 #include "FROG/ComponentHolder.hpp"
 #include "FROG/Command.hpp"
+#include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 #include <vector>
 
 namespace frog{
 
-  class ControlComponent : virtual public InputComponent<sf::Event, Command>
+  class ControlComponent : virtual public InputComponent<Input, Command>
   {
 
   protected:
@@ -20,7 +23,10 @@ namespace frog{
   public:
     ControlComponent(const std::vector<sf::Event>& );
     virtual ~ControlComponent();
-    virtual bool check(sf::Event *, const ComponentHolder&) const;
+    virtual bool check(Input *, const ComponentHolder&) const;
+    static bool isKeyboardPressed(sf::Keyboard::Key);
+    static bool isMousePressed(sf::Mouse::Button);
+    /*
     virtual bool check(const sf::Event&, const ComponentHolder&) const;
     bool equals(const sf::Event&, const sf::Event&) const;
     bool equals(const sf::Event::SizeEvent&, 
@@ -41,6 +47,7 @@ namespace frog{
                 const sf::Event::JoystickButtonEvent&) const;
     bool equals(const sf::Event::Event::JoystickConnectEvent&, 
                 const sf::Event::Event::JoystickConnectEvent&) const;
+    */
   };
 
 }

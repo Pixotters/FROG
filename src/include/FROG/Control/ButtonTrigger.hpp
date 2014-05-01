@@ -6,8 +6,9 @@ namespace frog{
   namespace Trigger{
 
     typedef enum{
+      RELEASED,
       PRESSED,
-      RELEASED
+      CONTINUOUS
     } ButtonTrigger;
 
   }

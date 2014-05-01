@@ -1,34 +1,41 @@
 #include "FROG/Control/ControlComponent.hpp"
-
+#include "FROG/Control/KeyboardButton.hpp"
+#include "FROG/Control/MouseButton.hpp"
 #include <iostream>
+
 
 namespace frog{
 
   ControlComponent::ControlComponent(const std::vector<sf::Event>& eventlist)
     : InputComponent(), m_eventList(eventlist)
   {
-
   }
 
   ControlComponent::~ControlComponent()
   {
   }
 
-  bool ControlComponent::check(sf::Event * event, 
-                               const ComponentHolder& p) const
-  {
-    std::cerr << "testing " << event << std::endl;
-    return check(*event, p);
-  }
-
-  bool ControlComponent::check(const sf::Event& event, 
+  bool ControlComponent::check(Input * event, 
                                const ComponentHolder& parent) const
   {
     std::cerr << "has to test equality with " << m_eventList.size() << std::endl;
+    KeyboardButton * kb;
+    if ( (kb = dynamic_cast<KeyboardButton *>(event) )
+         and kb->trigger == Trigger::CONTINUOUS)
+      {
+        return isKeyboardPressed(kb->code);
+      }
+    MouseButton * mb;
+    if ( (mb = dynamic_cast<MouseButton *>(event) ) 
+         and mb->trigger == Trigger::CONTINUOUS)
+      {
+        return isMousePressed(mb->code);
+      }
+
     for (auto e: m_eventList)
       {
         std::cerr << "checking equality" << std::endl;
-        if ( equals(event, e) )
+        if ( (*event) == e )
           {
             std::cerr << "input occured" << std::endl;
             return true;
@@ -36,9 +43,21 @@ namespace frog{
       }
     return false;
   }
+  
+  bool ControlComponent::isKeyboardPressed(sf::Keyboard::Key k)
+  {
+    return (sf::Keyboard::isKeyPressed(k) );
+  }
+  
+  bool ControlComponent::isMousePressed(sf::Mouse::Button b)
+  {
+    return (sf::Mouse::isButtonPressed(b) );
+  }
 
-  bool ControlComponent::equals(const sf::Event& e1, 
-                                const sf::Event& e2) const
+
+  /*
+  bool ControlComponent::equals(const Input& e1, 
+                                const Input& e2) const
   {
     if (e1.type != e2.type)
       {
@@ -48,55 +67,55 @@ namespace frog{
         switch (e1.type)
           {
 
-          case sf::Event::Resized:
+          case Input::Resized:
             return equals(e1.size, e2.size);
             break;
 
-          case sf::Event::KeyPressed:
+          case Input::KeyPressed:
             return equals(e1.key, e2.key);
             break;
             
-          case sf::Event::KeyReleased:
+          case Input::KeyReleased:
             return equals(e1.key, e2.key);
             break;
 
-          case sf::Event::TextEntered:
+          case Input::TextEntered:
             return equals(e1.text, e2.text);
             break;
 
-          case sf::Event::MouseMoved:
+          case Input::MouseMoved:
             return equals(e1.mouseMove, e2.mouseMove);
             break;
 
-          case sf::Event::MouseButtonPressed:
+          case Input::MouseButtonPressed:
             return equals(e1.mouseButton, e2.mouseButton);
             break;
 
-          case sf::Event::MouseButtonReleased:
+          case Input::MouseButtonReleased:
             return equals(e1.mouseButton, e2.mouseButton);
             break;
 
-          case sf::Event::MouseWheelMoved:
+          case Input::MouseWheelMoved:
             return equals(e1.mouseWheel, e2.mouseWheel);
             break;
 
-          case sf::Event::JoystickMoved:
+          case Input::JoystickMoved:
             return equals(e1.joystickMove, e2.joystickMove);
             break;
 
-          case sf::Event::JoystickButtonPressed:
+          case Input::JoystickButtonPressed:
             return equals(e1.joystickButton, e2.joystickButton);
             break;
 
-          case sf::Event::JoystickButtonReleased:
+          case Input::JoystickButtonReleased:
             return equals(e1.joystickButton, e2.joystickButton);
             break;
 
-          case sf::Event::JoystickConnected:
+          case Input::JoystickConnected:
             return equals(e1.joystickConnect, e2.joystickConnect);
             break;
 
-          case sf::Event::JoystickDisconnected:
+          case Input::JoystickDisconnected:
             return equals(e1.joystickConnect, e2.joystickConnect);
             break;
 
@@ -105,16 +124,18 @@ namespace frog{
           }
       }
   }
+  */
 
-  bool ControlComponent::equals(const sf::Event::SizeEvent& e1, 
-                                const sf::Event::SizeEvent& e2) const
+  /*
+  bool ControlComponent::equals(const Input::SizeEvent& e1, 
+                                const Input::SizeEvent& e2) const
   {
     //    return (e1.width == e2.width and e1.height == e2.height);
     return true;
   }
 
-  bool ControlComponent::equals(const sf::Event::KeyEvent& e1, 
-                                const sf::Event::KeyEvent& e2) const
+  bool ControlComponent::equals(const Input::KeyEvent& e1, 
+                                const Input::KeyEvent& e2) const
   {
     std::cerr << "both are key events : " \
               << e1.code <<"=="<< e2.code << std::endl \
@@ -129,55 +150,52 @@ namespace frog{
             and e1.system == e2.system);
   }
 
-  bool ControlComponent::equals(const sf::Event::TextEvent& e1, 
-                                const sf::Event::TextEvent& e2) const
+  bool ControlComponent::equals(const Input::TextEvent& e1, 
+                                const Input::TextEvent& e2) const
   {
     return (e1.unicode == e2.unicode);
   }
 
-  bool ControlComponent::equals(const sf::Event::MouseMoveEvent& e1, 
-                                const sf::Event::MouseMoveEvent& e2) const
+  bool ControlComponent::equals(const Input::MouseMoveEvent& e1, 
+                                const Input::MouseMoveEvent& e2) const
   {
     //    return (e1.x == e2.x and e1.y == e2.y);
     return true;
   }
 
-  bool ControlComponent::equals(const sf::Event::MouseButtonEvent& e1, 
-                                const sf::Event::MouseButtonEvent& e2) const
+  bool ControlComponent::equals(const Input::MouseButtonEvent& e1, 
+                                const Input::MouseButtonEvent& e2) const
   {
     //    return (e1.button == e2.button and e1.x == e2.x and e1.y == e2.y);
     return (e1.button == e2.button);
   }
 
-  bool ControlComponent::equals(const sf::Event::MouseWheelEvent& e1, 
-                                const sf::Event::MouseWheelEvent& e2) const
+  bool ControlComponent::equals(const Input::MouseWheelEvent& e1, 
+                                const Input::MouseWheelEvent& e2) const
   {
     //    return (e1.delta == e2.delta and e1.x == e2.x and e1.y == e2.y);
     return true;
   }
 
-  bool ControlComponent::equals(const sf::Event::JoystickMoveEvent& e1, 
-                                const sf::Event::JoystickMoveEvent& e2) const
+  bool ControlComponent::equals(const Input::JoystickMoveEvent& e1, 
+                                const Input::JoystickMoveEvent& e2) const
   {
-    /*    return (e1.joystickId == e2.joystickId 
-            and e1.axis == e2.axis 
-            and e1.position == e2.position); */
     return (e1.joystickId == e2.joystickId);
   }
 
-  bool ControlComponent::equals(const sf::Event::JoystickButtonEvent& e1, 
-                                const sf::Event::JoystickButtonEvent& e2) const
+  bool ControlComponent::equals(const Input::JoystickButtonEvent& e1, 
+                                const Input::JoystickButtonEvent& e2) const
   {
     return (e1.joystickId == e2.joystickId
             and e1.button == e2.button);
   }
 
-  bool ControlComponent::equals(const sf::Event::JoystickConnectEvent& e1, 
-                                const sf::Event::JoystickConnectEvent& e2) const
+  bool ControlComponent::equals(const Input::JoystickConnectEvent& e1, 
+                                const Input::JoystickConnectEvent& e2) const
   {
     return (e1.joystickId == e2.joystickId);
   }
-
+*/
 
 
 
