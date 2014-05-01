@@ -7,6 +7,8 @@
 #include "FROG/Rendering/Animator.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 
+
+#include "FROG/Control/KeyboardButton.hpp"
 #include "FROG/Control/ControlComponent.hpp"
 
 #include <string>
@@ -47,7 +49,7 @@ void Level::createPlayer(const AppInfo& appinfo)
   m_player->addComponent< PlayerMachine >(pm);
   //
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList) );
-  sf::Event::KeyEvent d;
+  /*  sf::Event::KeyEvent d;
   d.code = sf::Keyboard::D;
   sf::Event * e = new sf::Event();
   e->type = sf::Event::KeyPressed;
@@ -55,8 +57,15 @@ void Level::createPlayer(const AppInfo& appinfo)
   e->key.control = 0;
   e->key.alt = 0;
   e->key.shift = 0;
-  e->key.system = 0;
-  ctrl->bind(e, new MoveObject(m_player, 32, 0) );
+  e->key.system = 0;*/
+  KeyboardButton * u = new KeyboardButton(sf::Keyboard::Z, Trigger::CONTINUOUS);
+  KeyboardButton * d = new KeyboardButton(sf::Keyboard::S, Trigger::CONTINUOUS);
+  KeyboardButton * l = new KeyboardButton(sf::Keyboard::Q, Trigger::RELEASED);
+  KeyboardButton * r = new KeyboardButton(sf::Keyboard::D, Trigger::PRESSED);
+  ctrl->bind(u, new MoveObject(m_player, 0, -32) );
+  ctrl->bind(d, new MoveObject(m_player, 0, 32) );
+  ctrl->bind(l, new MoveObject(m_player, -32, 0) );
+  ctrl->bind(r, new MoveObject(m_player, 32, 0) );
   m_player->addComponent< ControlComponent >(ctrl);
   //
   addObject(m_player);
