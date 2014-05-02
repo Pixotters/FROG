@@ -126,13 +126,11 @@ void Level::update(const AppInfo& appinfo)
       m_terrain->addComponent<Sprite>( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ) );
       m_player->addComponent<Sprite>( new Sprite(m_textureManager.get("FROG_TEXTURE") ) );
       addObject(m_terrain);
-      m_player->transform->layer = 3;
+      m_player->transform->layer = 2;
+      m_terrain->transform->layer = 0;
       addObject(m_player);
-      std::cerr<<"player at " << m_player->transform->getPosition().x \
-               <<"," << m_player->transform->getPosition().y << std::endl;
       added = true;
     }
-  print_debug("wesh gros");
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
   //  jm->execute();
   //  delete jm;  
@@ -157,6 +155,7 @@ void Level::spawnEnemy(const AppInfo& appinfo)
   r->setFillColor(sf::Color::Red);
   e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ) );
   e->getComponent<Transform>()->setPosition(Random::get(100, 700), 50);
+  e->transform->layer = 3;
   m_ennemies.push_back(e );
   addObject(e);
 }
@@ -167,6 +166,7 @@ void Level::spawnTarget(const AppInfo& appinfo)
   std::shared_ptr<Target> e(new Target(appinfo) );
   e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ) );
   e->getComponent<Transform>()->setPosition(Random::get(100, 700), Random::get(50, 550) );
+  e->transform->layer = 1;
   m_targets.push_back(e);
   addObject(e);
   
