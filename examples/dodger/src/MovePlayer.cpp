@@ -4,7 +4,7 @@
 
 using namespace frog;
 
-MovePlayer::MovePlayer(Player * p, 
+MovePlayer::MovePlayer(GameObject * p, 
                        const short& x,
                        const short& y,
                        const AppInfo& appinfo)
