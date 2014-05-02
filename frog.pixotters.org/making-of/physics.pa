@@ -1,0 +1,58 @@
+= Basic physics =
+
+Phyics engine will manage collision reactions (i.e. modify object 
+velocity, which should be used by game loop to update objects position). 
+For collision detection, see [[collision manager]].
+
+NB: the use of ``Vector`` type is meant for being as generic as 
+possible. In ``FROG``, the type will be represented by ``sf::Vector2f``.
+
+== About the Minimal Translation Vector (MTV) ==
+
+MTV is the shortest translation which would make to separate two 
+colliding objects.
+
+In order to find it, you have to start finding a list of axes which 
+could separate two objects: the polygons edges.
+
+Translation will operate on an axis perpendicular to an edge, so take 
+the edge vector list, and convert it to perpendicular-to-edge vector 
+list.
+
+You have to project polygons on these axes, and find the one where 
+your polygons are colliding, but with the smallest depth possible. 
+
+MTD will be computed by multiplying the axis by the depth.
+
+=== Extract a hortognal vector from another vector ===
+
+Very simple operation. All you have to do to find a vector perpendicular 
+to ``Vector v(x, y)`` is to swap its coordinates, and apply ``-`` (minus) 
+operator to one of them. (i.e. ``Vector h(-y, x)`` or ``Vector h(y, -x)``)
+
+
+=== Compute the MTV ===
+
+Let ``Vector V(Vx, Vy)`` be a vector perpendicular to an edge. You want 
+to project points on the axis aligned with ``V`` in order to define 
+the depth of polygon collision.
+
+Let ``Point P(Px, Py)`` be the point you want to project, and let 
+``Point A(Ax, Ay)`` and ``Point B(Bx, By)`` two point defining a line 
+(the axis you are working on).
+
+The distance d of ``P`` projection from A is given by dividing the dot 
+product of vectors AP and AB by the square of AB length:
+
+```d = (AP dot AB) / ||AB||^2```
+
+Finding A and B coordinates is easy: take ``A(0, 0)`` and ``B(Vx, Vy)``.
+
+Wich leads you to:
+
+``` d = (Vector(Px, Py) dot V) / sqrt( Bx^2 + By^2 ) ```
+
+Finaly, minimal translation vector on this axis is given by 
+multiplying the axis vector ``V`` by the distance ``d``.
+
+``` mtv = d * V ```
