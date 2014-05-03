@@ -13,6 +13,12 @@ namespace frog{
   {
   }
 
+
+  void ControlComponent::preupdate(const ComponentHolder& parent)
+  {
+    m_previousMouse = sf::Mouse::getPosition();
+  }
+
   bool ControlComponent::check(Input * event, 
                                const ComponentHolder& parent) const
   {
@@ -48,6 +54,25 @@ namespace frog{
   {
     return (sf::Mouse::isButtonPressed(b) );
   }
+  
+  sf::Vector2i ControlComponent::getMousePosition()
+  {
+    return sf::Mouse::getPosition();
+  }
 
+  sf::Vector2i ControlComponent::getMouseDelta()
+  {
+    return sf::Mouse::getPosition() - m_previousMouse;
+  }
+
+  sf::Vector2i ControlComponent::getMousePosition(const sf::Window& w)
+  {
+    return sf::Mouse::getPosition(w);
+  }
+ 
+  sf::Vector2i ControlComponent::getMouseDelta(const sf::Window& w)
+  {
+    return sf::Mouse::getPosition(w) - (m_previousMouse + w.getPosition() );
+  }
 
 }

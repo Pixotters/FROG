@@ -8,9 +8,17 @@ namespace frog{
   {
   }
 
+
+  template <typename IN, typename CMD>
+  void InputComponent<IN, CMD>::preupdate(const ComponentHolder& parent)
+  {
+
+  }
+
   template <typename IN, typename CMD>
   void InputComponent<IN, CMD>::update(const ComponentHolder& parent)
   {
+    preupdate(parent);
     std::cerr << "updating input component " << std::endl;
     for (auto map : m_maps)
       {
@@ -23,6 +31,14 @@ namespace frog{
               }
           } 
       }
+    postupdate(parent);
+  }
+
+
+  template <typename IN, typename CMD>
+  void InputComponent<IN, CMD>::postupdate(const ComponentHolder& parent)
+  {
+
   }
 
   template <typename IN, typename CMD>

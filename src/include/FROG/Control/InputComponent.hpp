@@ -19,7 +19,11 @@ namespace frog{
 
     InputComponent();
 
+    virtual void preupdate(const ComponentHolder& parent);
+
     virtual void update(const ComponentHolder& parent);
+
+    virtual void postupdate(const ComponentHolder& parent);
 
     /*!
      * \brief Binds an IN to a CMD

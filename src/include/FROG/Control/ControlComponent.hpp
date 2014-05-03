@@ -9,6 +9,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Window.hpp>
 
 #include <vector>
 
@@ -18,14 +19,21 @@ namespace frog{
   {
 
   protected:
+    static sf::Vector2i m_previousMouse;
     const std::vector<sf::Event>& m_eventList;
 
   public:
     ControlComponent(const std::vector<sf::Event>& );
     virtual ~ControlComponent();
+    virtual void preupdate(const ComponentHolder&);
     virtual bool check(Input *, const ComponentHolder&) const;
     static bool isKeyboardPressed(sf::Keyboard::Key);
     static bool isMousePressed(sf::Mouse::Button);
+    static sf::Vector2i getMousePosition();
+    static sf::Vector2i getMouseDelta();
+    static sf::Vector2i getMousePosition(const sf::Window&);
+    static sf::Vector2i getMouseDelta(const sf::Window&);
+    
   };
 
 }
