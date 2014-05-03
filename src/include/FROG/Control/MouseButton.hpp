@@ -22,6 +22,8 @@ namespace frog{
     virtual ~MouseButton();
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
+    virtual bool operator==(const sf::Event::MouseButtonEvent&) const;
+    virtual bool operator!=(const sf::Event::MouseButtonEvent&) const;
     bool operator==(const MouseButton&) const;
     bool operator!=(const MouseButton&) const;
 

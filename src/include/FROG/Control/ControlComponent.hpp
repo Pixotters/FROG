@@ -9,6 +9,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Joystick.hpp>
 #include <SFML/Window/Window.hpp>
 
 #include <vector>
@@ -29,10 +30,18 @@ namespace frog{
     virtual bool check(Input *, const ComponentHolder&) const;
     static bool isKeyboardPressed(sf::Keyboard::Key);
     static bool isMousePressed(sf::Mouse::Button);
+    static bool isJoystickPressed(unsigned int button, 
+                                  unsigned int id = 0);
     static sf::Vector2i getMousePosition();
     static sf::Vector2i getMouseDelta();
     static sf::Vector2i getMousePosition(const sf::Window&);
     static sf::Vector2i getMouseDelta(const sf::Window&);
+    static float getJoystickAxis(sf::Joystick::Axis, 
+                                 unsigned int id = 0);
+    static sf::Vector2f getJoystickPosition(unsigned int id = 0);
+    static sf::Vector2f getJoystickPositionBis(unsigned int id = 0);
+    static sf::Vector2f getJoystickPositionTer(unsigned int id = 0);
+    static sf::Vector2f getJoystickPOV(unsigned int id = 0);
     
   };
 
