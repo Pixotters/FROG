@@ -9,6 +9,8 @@
 #include "Enemy.hpp"
 #include "Target.hpp"
 
+#include "FontID.hpp"
+
 #include <SFML/System/Clock.hpp>
 
 #include <SFML/Graphics.hpp>
@@ -28,9 +30,11 @@ protected:
   sf::Clock m_clock;
   std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<Player> m_player;
+  std::shared_ptr<GameObject> m_gui;
   std::list< std::shared_ptr<Enemy> > m_ennemies;
   std::list< std::shared_ptr<Target> > m_targets;
   //  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
+  AssetManager<FONT_ID, sf::Font> m_fontManager;
   //  PhysicEngine m_phiengine;
 
   //// operations ////

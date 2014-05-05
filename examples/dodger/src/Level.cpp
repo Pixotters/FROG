@@ -12,6 +12,7 @@
 #include "FROG/App.hpp"
 
 #include "FROG/Random.hpp"
+#include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 #include "MovePlayer.hpp"
 #include "JoystickMover.hpp"
@@ -74,13 +75,19 @@ public:
 
 
 Level::Level(const AppInfo& appinfo)
-  : Scene(), m_player(new Player), m_terrain(new GameObject)
+  : Scene(), 
+    m_player(new Player), 
+    m_terrain(new GameObject), 
+    m_gui(new GameObject)
 {
-  GameObject * g = dynamic_cast<GameObject *>(m_player.get() );
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
   m_player->transform->setPosition( 400, 60 );
   m_terrain->getComponent<Transform>()->setPosition(0, 0);
+  m_gui->transform->layer = 4;
+  m_player->transform->layer = 2;
+  m_terrain->transform->layer = 0;
+  m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
 Level::~Level()
@@ -97,10 +104,12 @@ void Level::update(const AppInfo& appinfo)
       setControls(m_player.get(), appinfo );
       m_terrain->addComponent<Sprite>( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ) );
       m_player->addComponent<Sprite>( new Sprite(m_textureManager.get("FROG_TEXTURE") ) );
-      //      addObject(m_terrain);
-      m_player->transform->layer = 2;
-      m_terrain->transform->layer = 0;
+      m_gui->addComponent<TextSprite>( new TextSprite("score", m_fontManager.get(GUI_FONT) ) );
+      m_gui->transform->setPosition( 400, 10);
+      m_gui->getComponent<TextSprite>()->setColor(sf::Color::Red);
+      addObject(m_terrain);
       addObject(m_player);
+      addObject(m_gui);
       added = true;
     }
   //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
