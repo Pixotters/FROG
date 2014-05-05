@@ -14,13 +14,7 @@ namespace frog{
   {
 
   }
-
-  void Sprite::draw(sf::RenderTarget& rt, 
-                    sf::RenderStates rs) const
-  {
-    rt.draw(m_sprite, rs);
-  }
-
+  
   void Sprite::update(const ComponentHolder& parent )
   {
     Transform * t = parent.getComponent<Transform>();
@@ -28,6 +22,6 @@ namespace frog{
     m_sprite.setRotation( t->getRotation() );
     m_sprite.setScale( t->getScale() );
   }
-
+  
 
 }
