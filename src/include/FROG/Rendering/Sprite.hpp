@@ -21,7 +21,7 @@ namespace frog{
 
     virtual ~Sprite();
 
-    virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
+    //    virtual void draw(sf::RenderTarget& rt, sf::RenderStates rs) const;
 
     void update(const ComponentHolder& parent);
 

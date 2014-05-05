@@ -15,11 +15,11 @@ namespace frog{
 
   }
 
-  void Sprite::draw(sf::RenderTarget& rt, 
+  /*  void Sprite::draw(sf::RenderTarget& rt, 
                     sf::RenderStates rs) const
   {
-    rt.draw(m_sprite, rs);
-  }
+    //    rt.draw(m_sprite, rs);
+    }*/
 
   void Sprite::update(const ComponentHolder& parent )
   {
