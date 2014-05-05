@@ -9,7 +9,10 @@
 
 
 #include "FROG/Control/KeyboardButton.hpp"
+#include "FROG/Control/MouseButton.hpp"
+#include "FROG/Control/JoystickButton.hpp"
 #include "FROG/Control/ControlComponent.hpp"
+#include "FROG/Control/Xbox.hpp"
 
 #include <string>
 #include <iostream>
@@ -62,10 +65,16 @@ void Level::createPlayer(const AppInfo& appinfo)
   KeyboardButton * d = new KeyboardButton(sf::Keyboard::S, Trigger::CONTINUOUS);
   KeyboardButton * l = new KeyboardButton(sf::Keyboard::Q, Trigger::RELEASED);
   KeyboardButton * r = new KeyboardButton(sf::Keyboard::D, Trigger::PRESSED);
+  MouseButton * lm = new MouseButton(sf::Mouse::Left, Trigger::PRESSED);
+  MouseButton * rm = new MouseButton(sf::Mouse::Right, Trigger::PRESSED);
   ctrl->bind(u, new MoveObject(m_player, 0, -32) );
   ctrl->bind(d, new MoveObject(m_player, 0, 32) );
   ctrl->bind(l, new MoveObject(m_player, -32, 0) );
+  ctrl->bind(lm, new MoveObject(m_player, -32, 0) );
   ctrl->bind(r, new MoveObject(m_player, 32, 0) );
+  ctrl->bind(rm, new MoveObject(m_player, 32, 0) );
+  JoystickButton * j = new JoystickButton(XBOX::A, Trigger::PRESSED);
+  ctrl->bind(j, new MoveObject(m_player, 0, 32) );
   m_player->addComponent< ControlComponent >(ctrl);
   //
   addObject(m_player);

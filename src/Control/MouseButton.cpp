@@ -1,5 +1,7 @@
 #include "FROG/Control/MouseButton.hpp"
 
+#include <iostream>
+
 namespace frog{
 
   MouseButton::MouseButton(sf::Mouse::Button _code,
@@ -29,6 +31,8 @@ namespace frog{
 
   bool MouseButton::operator==(const sf::Event& event) const
   {
+    std::cerr << "testing equality between MouseButton & Event " << std::endl;
+
     if (trigger == Trigger::PRESSED
         && event.type != sf::Event::MouseButtonPressed)
       {
@@ -48,9 +52,22 @@ namespace frog{
   {
     return not ( (*this) == event);
   }
-  
+ 
+  bool MouseButton::operator==(const sf::Event::MouseButtonEvent& event) const
+  {
+    return code == event.button;
+  }
+
+  bool MouseButton::operator!=(const sf::Event::MouseButtonEvent& event) const
+  {
+    return code != event.button;
+  }
+
   bool MouseButton::operator==(const MouseButton& other) const
   {
+    std::cerr << "testing equality mousebutton & another: " << std::endl \
+              << "code : " << code << " - " << other.code << std::endl \
+              << "trigger : " << trigger << " - " <<other.trigger << std::endl;
     return (code == other.code
             and trigger == other.trigger);
   }
