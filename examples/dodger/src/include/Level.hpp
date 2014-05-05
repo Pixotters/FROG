@@ -41,6 +41,7 @@ public:
   void removeTarget(Target *);
 
 private:
+  void setControls(GameObject *, const AppInfo&);
   void spawnEnemy(const AppInfo&);
   void spawnTarget(const AppInfo&);
   void updateEnemies();
