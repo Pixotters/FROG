@@ -20,24 +20,24 @@ class PhysicBody {
 
 protected:
 
-    sf::Vector2f force;
+    sf::Vector2f velocity;
 
 
     /* FIXME:
      * making it virtual could be interesting if we want some objects
      * to act different, but we want this? */
     virtual void applyForce(const sf::Vector2f & f){
-        force += f;
+        velocity += f;
     };
 
 public:
 
-    PhysicBody(float x = 0, float y = 0) : force(x, y) {}
+    PhysicBody(float x = 0, float y = 0) : velocity(x, y) {}
 
     virtual ~PhysicBody() {}
 
     sf::Vector2f getVelocity() const{
-        return force;
+        return velocity;
     }
 };
 
@@ -76,7 +76,7 @@ public:
         // also, here we assume thant b1 and b2 have the same elasticity
 #define ELASTICITY 1.0f
 
-        sf::Vector2f v = b1->force - b2->force;
+        sf::Vector2f v = b1->velocity - b2->velocity;
         sf::Vector2f n = dotProduct (v, normal) * normal * -(1 + ELASTICITY);
 
         b1->applyForce (n * 0.5f);
