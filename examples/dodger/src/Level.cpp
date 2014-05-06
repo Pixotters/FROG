@@ -35,7 +35,7 @@ private:
 
 public:
   Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<Target> > * t, Renderer * r) 
-    : m_player(p), m_targets(t), m_renderer(r)
+    : m_player(p), m_renderer(r), m_targets(t)
   {}
 
   virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
@@ -57,24 +57,24 @@ public:
     }
   }
 
-  void onCollision(Player * a, Target * b){
+  void onCollision(Player *, Target *){
     //    m_targets->remove(b);
     //    m_renderer->removeObject(b);
     
   }
 
-  void onCollision(Target * a, Target * b){
+  void onCollision(Target *, Target *){
     //    m_targets -> remove(b);
   }
   
-  virtual void onSeparation(sap::Collisionable * a, sap::Collisionable * b){
+  virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
 
   }
 
 };
 
 
-Level::Level(const AppInfo& appinfo)
+Level::Level()
   : Scene(), 
     m_player(new Player), 
     m_terrain(new GameObject), 

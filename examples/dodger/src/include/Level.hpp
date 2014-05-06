@@ -28,8 +28,8 @@ class Level : virtual public Scene
   //// attributes ////
 protected:
   sf::Clock m_clock;
-  std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<Player> m_player;
+  std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;
   std::list< std::shared_ptr<Enemy> > m_ennemies;
   std::list< std::shared_ptr<Target> > m_targets;
@@ -39,7 +39,7 @@ protected:
 
   //// operations ////
 public:
-  Level(const AppInfo& );
+  Level();
   virtual ~Level();
   virtual void update(const AppInfo&);
   void removeTarget(Target *);
