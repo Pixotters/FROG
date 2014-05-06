@@ -4,7 +4,7 @@
 namespace frog{
 
   template <typename C>
-  C * const ComponentHolder::getComponent(const std::string& id) const
+  C * ComponentHolder::getComponent(const std::string& id) const
   {
     auto end = m_components.end();
     std::shared_ptr<C> res;
@@ -12,7 +12,7 @@ namespace frog{
       {
         if( (res=std::dynamic_pointer_cast<C>( (it->second) )  )  )
           {
-            return res.get();
+            return ( res.get() );
           }
       }
     std::cerr << "No such component : " << id << " in " << this << std::endl;

@@ -35,7 +35,7 @@ namespace frog{
      * @returns Pointer to Component is present, nullptr if not. 
      */
     template <typename C>
-    C * const getComponent(const std::string& ) const;
+    C * getComponent(const std::string& ) const;
     
     /*!
      * @brief Tells if a component of a given id is kept. 
