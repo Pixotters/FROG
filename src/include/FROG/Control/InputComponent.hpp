@@ -12,8 +12,12 @@ namespace frog{
   class InputComponent : virtual public Component
   {
 
+    typedef std::shared_ptr<IN> PTR_IN;
+    typedef std::shared_ptr<CMD> PTR_CMD;
+    typedef std::map<PTR_IN, PTR_CMD > INPUT_MAP;
+
   protected:
-    std::vector< std::map<std::shared_ptr<IN>, std::shared_ptr<CMD> > > m_maps;
+    std::vector< INPUT_MAP > m_maps;
 
   public:
 
@@ -34,8 +38,8 @@ namespace frog{
      * \param c CMD to which bind the IN
      * \param n (optionnal) index of the map to modify
      */
-    void bind(std::shared_ptr<IN> i, 
-              std::shared_ptr<CMD> o, 
+    void bind(PTR_IN i, 
+              PTR_CMD o, 
               unsigned short n = 0);
 
     /*!
@@ -45,13 +49,13 @@ namespace frog{
      * \param i IN to remove
      * \param n index of the IN in which the IN should be removed
      */
-    void unbind(std::shared_ptr<IN> i, unsigned short n = 0);
+    void unbind(PTR_IN i, unsigned short n = 0);
 
     /*!
      * \brief Removes a binding from all maps
      * \param i Input to remove
      */
-    void unbindAll(std::shared_ptr<IN> i);
+    void unbindAll(PTR_IN i);
 
     /*!
      * \brief Adds an map to the Controller
@@ -62,7 +66,7 @@ namespace frog{
      * \param im map to add. If nullptr, a new map will be created.
      * \return the index in which the map has been inserted.
      */
-    unsigned short addMap(std::map< std::shared_ptr<IN>, std::shared_ptr<CMD> > * map = nullptr);
+    unsigned short addMap(INPUT_MAP * map = nullptr);
 
     /*!
      * \brief Removes an map from the InputComponent
@@ -80,33 +84,33 @@ namespace frog{
      * \param im new map
      * \param i index of the map to replace
      */
-    void changeMap(const std::map< std::shared_ptr<IN>, std::shared_ptr<CMD> >& map,
+    void changeMap(const INPUT_MAP& map,
                    unsigned short i = 0);
 
 
   protected:
-    virtual bool check(std::shared_ptr<IN>, const ComponentHolder&) const = 0;
+    virtual bool check(PTR_IN, const ComponentHolder&) const = 0;
 
     /*!
      * \brief Removes from the handler all IN of the map
      * \details if an IN is present in another map, it won't be removed.
      * \param im map of which IN have to be unhandled
      */
-    void unhandle(std::map< std::shared_ptr<IN>, std::shared_ptr<CMD> > im);
+    void unhandle(const INPUT_MAP& im);
 
     /*!
      * \brief Removes from the handler all IN of the vector
      * \details if an IN is present in another map, it won't be removed.
      * \param im vector of which IN have to be unhandled
      */
-    void unhandle(std::vector< std::shared_ptr<IN> > im);
+    void unhandle(const std::vector< PTR_IN >& im);
 
     /*!
      * \brief Removes an IN from the handler
      * \details the IN is removed, even if an map still needs it
      * \param i IN to remove from the handler
      */
-    void unhandle(std::shared_ptr<IN> i);
+    void unhandle(PTR_IN i);
 
   };
 

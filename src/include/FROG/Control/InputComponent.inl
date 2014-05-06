@@ -42,8 +42,8 @@ namespace frog{
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::bind(std::shared_ptr<IN> i, 
-                                     std::shared_ptr<CMD> o, 
+  void InputComponent<IN, CMD>::bind(PTR_IN i, 
+                                     PTR_CMD o, 
                                      unsigned short n)
   {
     try
@@ -57,13 +57,13 @@ namespace frog{
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::unbind(std::shared_ptr<IN> i, unsigned short n)
+  void InputComponent<IN, CMD>::unbind(PTR_IN i, unsigned short n)
   {
     m_maps.at(n).erase(i);
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::unbindAll(std::shared_ptr<IN> i)
+  void InputComponent<IN, CMD>::unbindAll(PTR_IN i)
   {
     for (auto map : m_maps)
       {
@@ -84,7 +84,7 @@ namespace frog{
   }
   
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::changeMap(const std::map<std::shared_ptr<IN>, std::shared_ptr<CMD> > & map, unsigned short n)
+  void InputComponent<IN, CMD>::changeMap(const INPUT_MAP & map, unsigned short n)
   {
     try
       {
@@ -103,7 +103,7 @@ namespace frog{
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::unhandle(std::map<std::shared_ptr<IN>, std::shared_ptr<CMD> > im)
+  void InputComponent<IN, CMD>::unhandle(const INPUT_MAP& im)
   {
     for (auto i : im)
       {
@@ -112,7 +112,7 @@ namespace frog{
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::unhandle(std::vector< std::shared_ptr< IN > > im)
+  void InputComponent<IN, CMD>::unhandle(const std::vector< PTR_IN >& im)
   {
     auto end = im.end();
     for (auto it = im.begin(); it != end; it++)
@@ -122,7 +122,7 @@ namespace frog{
   }
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::unhandle(std::shared_ptr<IN> i)
+  void InputComponent<IN, CMD>::unhandle(PTR_IN i)
   {
     for (auto map : m_maps)
       {
