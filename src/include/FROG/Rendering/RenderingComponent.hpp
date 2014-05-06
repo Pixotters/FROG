@@ -2,6 +2,7 @@
 #define FROG_RENDERERINGCOMPONENT_HPP
 
 #include "FROG/Component.hpp"
+#include "FROG/ComponentHolder.hpp"
 #include <SFML/Graphics.hpp>
 
 namespace frog{
@@ -37,6 +38,8 @@ namespace frog{
        */
       void draw(sf::RenderTarget& rt, 
                 sf::RenderStates rs = sf::RenderStates::Default) const;
+
+      void update(const ComponentHolder&);
 
     };
 
