@@ -1,4 +1,7 @@
 #include "FROG/XML/tinyxml2.hpp"
+#include "FROG/Debug.hpp"
+
+#include <sstream>
 
 namespace frog{
 
@@ -55,33 +58,28 @@ namespace frog{
         unsigned id = 0;
         if( sprite->QueryUnsignedAttribute("id", &id) != tinyxml2::XML_NO_ERROR )
           {
-            std::cerr << "Could not create Clip without ID" << std::endl;
+            print_debug("Could not create Clip without ID");
             continue;
           }
         int x = 0, y = 0;
         if( sprite->QueryIntAttribute("x", &x) != tinyxml2::XML_NO_ERROR )
-          {
-            std::cerr << "Could not create Clip "<< id \
-                      << " because position (x) is missing" << std::endl;
+          {           
             continue;
           }
         unsigned width = 1, height = 1;   
         if( sprite->QueryIntAttribute("y", &y) != tinyxml2::XML_NO_ERROR )
           {
-            std::cerr << "Could not create Clip "<< id \
-                      << " because position (y) is missing" << std::endl;
+            print_debug("Could not create Clip because position(y) is missing");
             continue;
           }
         if( sprite->QueryUnsignedAttribute("width", &width) != tinyxml2::XML_NO_ERROR )
           {
-            std::cerr << "Could not create Clip "<< id \
-                      << " because width is missing" << std::endl;
+            print_debug("Could not create Clip because width is missing");
             continue;
           }
         if( sprite->QueryUnsignedAttribute("height", &height) != tinyxml2::XML_NO_ERROR )
           {
-            std::cerr << "Could not create Clip "<< id \
-                      << " because height is missing" << std::endl;
+            print_debug("Could not create Clip because height is missing");
             continue;
           }
         int hot_x = sprite->IntAttribute("hot_x");
@@ -98,7 +96,7 @@ namespace frog{
             const char* id;
             if ( (id = anim->Attribute("id") ) == NULL )
               {
-                std::cerr << "Could not create animation without ID" << std::endl;
+                print_debug("Could not create Animation without ID");
                 continue;                                    
               }
             
@@ -111,7 +109,7 @@ namespace frog{
                 unsigned clipid; 
                 if( clip->QueryUnsignedAttribute("id", &clipid) != tinyxml2::XML_NO_ERROR)
                   {
-                    std::cerr << "Could not create animation clip without ID" << std::endl;
+                    print_debug("Could not create Animation Clip without ID");
                     continue;                    
                   }
                 unsigned duration = 1;
@@ -137,22 +135,22 @@ namespace frog{
 
   template <typename ID>
   const Animation& Spritesheet<ID>::getAnimation(ID id) const
-    throw(NoSuchAnimation)
   {
     try
       {
         return m_animations.at(id);
       }catch(std::out_of_range e)
       {
-        std::cerr << "Animation "<< id \
-                  <<" does not exist in Spritesheet "<< this << std::endl;
-        throw NoSuchAnimation();
+        std::ostringstream oss;
+        oss << "Animation "<< id \
+            <<" does not exist in Spritesheet "<< this;
+        throw std::logic_error( oss.str().c_str() );
+        oss.flush();
       }
   }
 
   template <typename ID>
   const Clip& Spritesheet<ID>::getClip(unsigned short id) const
-    throw(NoSuchClip)
   {
     try
       {
@@ -160,9 +158,11 @@ namespace frog{
         return clip;
       }catch(std::out_of_range e)
       {
-        std::cerr << "Clip "<<id \
-                  <<" does not exist in Spritesheet "<< this << std::endl;
-        throw NoSuchClip();
+        std::ostringstream oss;
+        oss << "Clip "<< id \
+            <<" does not exist in Spritesheet "<< this;
+        throw std::logic_error( oss.str().c_str() );
+        oss.flush();
       }
   }
 
@@ -186,14 +186,12 @@ namespace frog{
   template <typename ID>
   void Spritesheet<ID>::deleteAnimations()
   {
-    // TODO ensure no leak
     m_animations.clear();
   }
 
   template <typename ID>
   void Spritesheet<ID>::deleteClips()
   {
-    // TODO ensure no leak
     m_clips.clear();
   }
 

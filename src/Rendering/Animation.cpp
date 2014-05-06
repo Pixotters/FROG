@@ -34,22 +34,10 @@ namespace frog{
   }
 
   const AnimationClip& Animation::getClipAt(unsigned int i) const
-    throw (NoSuchAnimClip)
   {
-    try
-      {
-        // TODO random segfault here, because "m_clips" has invalid size/content
-        const AnimationClip& clip = m_clips.at(i);
-        return clip;
-      }catch(std::out_of_range e)
-      {
-        print_debug("Animation got out of range");
-        throw NoSuchAnimClip(i);
-      }catch(std::exception e)
-      {
-        std::cerr << e.what() << std::endl;
-        throw NoSuchAnimClip(i);
-      }
+    // TODO random segfault here, because "m_clips" has invalid size/content
+    const AnimationClip& clip = m_clips.at(i);
+    return clip;
   }
 
   unsigned short Animation::getClipCount() const
