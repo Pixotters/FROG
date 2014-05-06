@@ -33,7 +33,7 @@ namespace frog{
       addVelocity( m_acceleration * dt );
       addRotationForce( m_rotationAcc * dt );
       addGrowth( m_growthAcc *dt );
-      Transform * t = parent.getComponent<Transform>();
+      Transform * t = parent.getComponent<Transform>("TRANSFORM");
       t->move( m_velocity * dt );
       t->rotate( m_rotationForce * dt);
       t->scale( m_growth * dt );
