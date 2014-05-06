@@ -12,8 +12,9 @@
 #include "FROG/App.hpp"
 
 #include "FROG/Random.hpp"
-#include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Rendering/Sprite.hpp"
+#include "FROG/Rendering/TextSprite.hpp"
+#include "FROG/Physics/PhysicBody.hpp"
 #include "MovePlayer.hpp"
 #include "JoystickMover.hpp"
 
@@ -154,10 +155,14 @@ void Level::setControls(GameObject * go, const AppInfo& appinfo)
 
 void Level::spawnEnemy(const AppInfo& appinfo)
 {
-  std::shared_ptr<Enemy> e(new Enemy(appinfo) );
+  std::shared_ptr<GameObject> e(new GameObject() );
   sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
-  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ), "RENDERING" );
+  //  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ), "RENDERING" );
+  e->addComponent(new PhysicBody(), "PHYSICS");
+  auto phi = e->getComponent<PhysicBody>("PHYSICS");
+  phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
+  e->addComponent(new RenderingComponent(r), "RENDERING" );
   e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), 50);
   e->transform->layer = 3;
   m_ennemies.push_back(e);
