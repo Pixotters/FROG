@@ -22,7 +22,7 @@ bool MovePlayer::execute()
 {
   std::cerr << "moving player from " << m_player->transform->getPosition().x \
             << "," << m_player->transform->getPosition().y;
-  m_player->getComponent<Transform>()->move(m_x * m_appInfo.deltaTime, m_y*m_appInfo.deltaTime);
+  m_player->getComponent<Transform>("TRANSFORM")->move(m_x * m_appInfo.deltaTime, m_y*m_appInfo.deltaTime);
   std::cerr << " to "<< m_player->transform->getPosition().x \
             << "," << m_player->transform->getPosition().y \
             << " ("<< &m_player->transform << ")"<<std::endl;
