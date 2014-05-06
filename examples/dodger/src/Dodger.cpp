@@ -28,5 +28,5 @@ int main()
   if( level->loadFromFile("assets/scenes/main_scene/main_scene.xml") )
     d.start(  level  );
   delete level;
-
+  std::cout << "Game Exited without any problem" << std::endl;
 }

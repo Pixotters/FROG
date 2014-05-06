@@ -20,6 +20,29 @@ typedef enum {
   TARGET_TEXTURE
 } TEXTURE_ID;
 
+class Collider : virtual public sap::ActionManager{
+
+private:
+  std::shared_ptr<Player> m_player;
+  Renderer * m_renderer;
+  std::list<std::shared_ptr<GameObject> > * m_targets;
+
+public:
+  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
+    : m_player(p), m_renderer(r), m_targets(t)
+  {}
+
+  virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
+       
+  }
+
+  virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
+
+  }
+
+};
+
+
 class Level : virtual public Scene
 {
   //// attributes ////
@@ -32,6 +55,7 @@ protected:
   std::list< std::shared_ptr<GameObject> > m_ennemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
+  Collider m_am;
 
   //// operations ////
 public:
@@ -41,7 +65,7 @@ public:
   virtual void update(const AppInfo&);
 
 private:
-  void setControls(GameObject *, const AppInfo&);
+  void setControls(std::shared_ptr<GameObject>, const AppInfo&);
   void spawnEnemy();
   void spawnTarget();
   void updateEnemies();

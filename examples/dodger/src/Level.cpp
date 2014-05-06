@@ -24,27 +24,6 @@ using namespace frog;
 
 #define PLAYER_SPEED 512
 
-class Collider : virtual public sap::ActionManager{
-
-private:
-  std::shared_ptr<Player> m_player;
-  Renderer * m_renderer;
-  std::list<std::shared_ptr<GameObject> > * m_targets;
-
-public:
-  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
-    : m_player(p), m_renderer(r), m_targets(t)
-  {}
-
-  virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
-       
-  }
-
-  virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
-
-  }
-
-};
 
 const unsigned short TERRAIN_LAYER = 0;
 const unsigned short TARGET_LAYER = 1;
@@ -57,21 +36,23 @@ Level::Level(AppInfo& appinfo)
     m_appinfo(appinfo),
     m_player(new Player), 
     m_terrain(new GameObject), 
-    m_gui(new GameObject)
+    m_gui(new GameObject),
+    m_am(m_player, &m_targets, m_renderer)
 {
-  Collider * am = new Collider(m_player, &m_targets, m_renderer);
-  m_collider = new sap::LSAP(am);  
+  m_collider = new sap::LSAP(&m_am);  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
 Level::~Level()
 {
-  //  delete m_player;
+    delete m_collider;
+    m_ennemies.clear();
+    m_targets.clear();
 }
 
 void Level::enter()
 {
-  setControls(m_player.get(), m_appinfo );
+  setControls(m_player, m_appinfo );
   m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
@@ -105,12 +86,12 @@ void Level::update(const AppInfo& appinfo)
   }
 }
 
-void Level::setControls(GameObject * go, const AppInfo& appinfo)
+void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
 {
-  auto moveleft = new MovePlayer(m_player.get(), -PLAYER_SPEED, 0, appinfo);
-  auto moveright = new MovePlayer(m_player.get(), PLAYER_SPEED, 0, appinfo);
-  auto moveup = new MovePlayer(m_player.get(), 0, -PLAYER_SPEED, appinfo);
-  auto movedown = new MovePlayer(m_player.get(), 0, PLAYER_SPEED, appinfo);
+  auto moveleft = (new MovePlayer(go.get(), -PLAYER_SPEED, 0, appinfo) ;
+  auto moveright = new MovePlayer(go.get(), PLAYER_SPEED, 0, appinfo);
+  auto moveup = new MovePlayer(go.get(), 0, -PLAYER_SPEED, appinfo);
+  auto movedown = new MovePlayer(go.get(), 0, PLAYER_SPEED, appinfo);
 
   auto qkey = new KeyboardButton(sf::Keyboard::Q);
   auto dkey = new KeyboardButton(sf::Keyboard::D);
