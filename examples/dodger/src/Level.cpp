@@ -123,6 +123,7 @@ void Level::spawnEnemy()
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
   e->addComponent(new RenderingComponent( r ), "RENDERING" );
+  //  delete r;
   m_ennemies.push_back(e);
   addObject(e);
 }

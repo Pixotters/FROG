@@ -5,6 +5,8 @@
 #include "FROG/ComponentHolder.hpp"
 #include <SFML/Graphics.hpp>
 
+#include <memory>
+
 namespace frog{
 
     /*!
@@ -17,7 +19,7 @@ namespace frog{
 
       //// attributes //// 
     protected:
-      sf::Drawable * m_drawable;
+      std::shared_ptr<sf::Drawable>  m_drawable;
 
       //// operations ////
     public:
@@ -28,6 +30,7 @@ namespace frog{
        * Renderer. 
        */
       RenderingComponent(sf::Drawable * const d);
+      RenderingComponent(std::shared_ptr<sf::Drawable> const d);
 
       virtual ~RenderingComponent();
 

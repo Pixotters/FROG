@@ -4,6 +4,8 @@
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/ComponentHolder.hpp"
 
+#include <memory>
+
 namespace frog{
 
   /*!
@@ -13,7 +15,7 @@ namespace frog{
   {
 
   private:
-    sf::Sprite m_sprite;
+    std::shared_ptr<sf::Sprite> m_sprite;
 
   public:
 

@@ -10,6 +10,7 @@
 
 #include <exception>
 #include <map>
+#include <memory>
 #include <string>
 
 namespace frog{
@@ -24,7 +25,7 @@ namespace frog{
   class Animator : virtual public RenderingComponent{
 
   protected:
-    sf::Sprite m_sprite;
+    std::shared_ptr<sf::Sprite> m_sprite;
     Spritesheet<ID>& m_spritesheet;
     unsigned short m_frameKey;
     unsigned short m_timer;
