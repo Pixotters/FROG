@@ -26,4 +26,5 @@ bool MovePlayer::execute()
   std::cerr << " to "<< m_player->transform->getPosition().x \
             << "," << m_player->transform->getPosition().y \
             << " ("<< &m_player->transform << ")"<<std::endl;
+  return true;
 }

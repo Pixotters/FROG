@@ -9,8 +9,8 @@ JoystickMover::JoystickMover(int _up, int _down, int _left, int _right,
   : Component(), 
     up_velocity(_up), down_velocity(_down), 
     left_velocity(_left), right_velocity(_right),
-    x(_x), y(_y), joystick_id(_joyId),
-    deadzone(_deadzone)
+    deadzone(_deadzone),
+    joystick_id(_joyId), x(_x), y(_y)
 {
   std::cout << "heavy ctor" << std::endl;
 }
@@ -22,8 +22,8 @@ JoystickMover::JoystickMover(int _velocity,
   : Component(), 
     up_velocity(_velocity), down_velocity(_velocity), 
     left_velocity(_velocity), right_velocity(_velocity),
-    x(_x), y(_y), joystick_id(_joyId),
-    deadzone(_deadzone)
+    deadzone(_deadzone),
+    joystick_id(_joyId), x(_x), y(_y)
 {
   std::cout << "light ctor, deadzone = "<< \
     deadzone <<" / "<< _deadzone  << std::endl;
