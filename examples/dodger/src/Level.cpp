@@ -46,20 +46,21 @@ public:
 
 };
 
+const unsigned short TERRAIN_LAYER = 0;
+const unsigned short TARGET_LAYER = 1;
+const unsigned short PLAYER_LAYER = 2;
+const unsigned short ENEMY_LAYER = 3;
+const unsigned short GUI_LAYER = 4;
 
-Level::Level()
+Level::Level(AppInfo& appinfo)
   : Scene(), 
+    m_appinfo(appinfo),
     m_player(new Player), 
     m_terrain(new GameObject), 
     m_gui(new GameObject)
 {
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
-  m_player->transform->setPosition( 400, 60 );
-  m_terrain->getComponent<Transform>("TRANSFORM")->setPosition(0, 0);
-  m_gui->transform->layer = 4;
-  m_player->transform->layer = 2;
-  m_terrain->transform->layer = 0;
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
@@ -68,35 +69,38 @@ Level::~Level()
   //  delete m_player;
 }
 
+void Level::enter()
+{
+  setControls(m_player.get(), m_appinfo );
+  m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
+  m_terrain->transform->setPosition(0, 0);
+  m_terrain->transform->layer = TERRAIN_LAYER;
+  addObject(m_terrain);
+  m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
+  m_player->transform->setPosition( 400, 400 );
+  m_player->transform->layer = PLAYER_LAYER;
+  addObject(m_player);
+  std::shared_ptr<GUI> pgui(new GUI(800, 64, 
+                                    m_fontManager.get(GUI_FONT),
+                                    3) );
+  m_gui->addComponent( pgui, "GUI" );
+  m_gui->transform->layer = GUI_LAYER;
+  m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
+  addObject(m_gui);
+}
+
 void Level::update(const AppInfo& appinfo)
- {  
+{  
   Scene::update(appinfo);
-  static bool added = false;
-  if ( not added )
-    {
-      setControls(m_player.get(), appinfo );
-      m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
-      m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
-      std::shared_ptr<GUI> pgui(new GUI(800, 64, 
-                                        m_fontManager.get(GUI_FONT),
-                                        3) );
-      m_gui->addComponent( pgui, "GUI" );
-      m_gui->transform->layer = 4;
-      m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
-      addObject(m_terrain);
-      addObject(m_player);
-      addObject(m_gui);
-      added = true;
-    }
   //  m_collider->updateObject( m_player.get() );
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
   if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
-    spawnTarget(appinfo);
+    spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
-    spawnEnemy(appinfo);
+    spawnEnemy();
     m_clock.restart();
   }
 }
@@ -119,43 +123,43 @@ void Level::setControls(GameObject * go, const AppInfo& appinfo)
   ctrl->bind(skey,  movedown );
   go->addComponent(ctrl, "CONTROL");
   go->addComponent( new JoystickMover(PLAYER_SPEED/60.0f, 
-                                                     (sf::Joystick::Axis)XBOX::LSTICK_X, 
-                                                     (sf::Joystick::Axis)XBOX::LSTICK_Y, 
+                                      (sf::Joystick::Axis)XBOX::LSTICK_X, 
+                                      (sf::Joystick::Axis)XBOX::LSTICK_Y, 
                                       25),
                     "JOYSTICK"); 
 }
 
-void Level::spawnEnemy(const AppInfo& appinfo)
+void Level::spawnEnemy()
 {
   std::shared_ptr<GameObject> e(new GameObject() );
+  e->transform->layer = ENEMY_LAYER;
+  e->transform->setPosition(Random::get(100, 700), 50);
   sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
   //  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Red);
-
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
-  e->addComponent(new RenderingComponent(r), "RENDERING" );
-  e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), 50);
-  e->transform->layer = 3;
+  e->addComponent(new RenderingComponent( r ), "RENDERING" );
   m_ennemies.push_back(e);
   addObject(e);
 }
 
-void Level::spawnTarget(const AppInfo& appinfo)
+void Level::spawnTarget()
 {
   
   std::shared_ptr<GameObject> e(new GameObject() );
   //    m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Green);
   e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
-  e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), Random::get(50, 550) );
+  e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
+  e->transform->layer = TARGET_LAYER;
+  e->transform->setScale(0.5f, 0.5f);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                                Random::get(-10, 10) / 10.f ) ); 
-  e->transform->layer = 1;
+                               Random::get(-10, 10) / 10.f ) ); 
   m_targets.push_back(e);
   addObject(e);
   
@@ -169,10 +173,10 @@ void Level::updateEnemies()
       if((*it)->getComponent<Transform>("TRANSFORM")->getPosition().x > 800 
          || (*it)->getComponent<Transform>("TRANSFORM")->getPosition().y > 600)
         {
-        removeObject(*it);
-        it->reset();
-        *it = nullptr;
-      }
+          removeObject(*it);
+          it->reset();
+          *it = nullptr;
+        }
     }
   m_ennemies.remove(nullptr);
 }
@@ -185,9 +189,9 @@ void Level::updateTargets()
       //      m_collider->updateObject( it->get() );
       auto tr = (*it)->getComponent<Transform>("TRANSFORM");
       if ( tr->getPosition().x > 800 
-         || tr->getPosition().y > 600 
-         || tr->getPosition().x < -32
-         || tr->getPosition().y < -32){
+           || tr->getPosition().y > 600 
+           || tr->getPosition().x < -32
+           || tr->getPosition().y < -32){
         removeObject(*it);
         it->reset();
         *it = nullptr;
