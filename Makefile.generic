@@ -27,3 +27,7 @@ cppcheck:
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+clean:
+	find -regex '.*\.\(o\|d\|gcda\|gcno\|info\)' -delete
+	find -name *~ -delete
