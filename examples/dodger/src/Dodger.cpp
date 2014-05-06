@@ -27,5 +27,6 @@ int main()
   std::cerr << "loading file" << std::endl;
   if( level->loadFromFile("assets/scenes/main_scene/main_scene.xml") )
     d.start(  level  );
+  delete level;
 
 }
