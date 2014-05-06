@@ -14,8 +14,8 @@
 
 namespace frog{
 
-  Scene::Scene(sf::Window& win)
-    : State(), m_controller(win)
+  Scene::Scene()
+    : State()
   {
   }
 
@@ -36,7 +36,8 @@ namespace frog{
       {
         tinyxml2::XMLElement * scene = doc.RootElement();
         tinyxml2::XMLElement * assets = scene->FirstChildElement("ASSETS");
-        tinyxml2::XMLElement * objects = scene->FirstChildElement("OBJECTS");
+        // TODO load objects ?
+        //tinyxml2::XMLElement * objects = scene->FirstChildElement("OBJECTS");
         tinyxml2::XMLElement * textures = assets->FirstChildElement("TEXTURES");
         for(tinyxml2::XMLElement * texture = textures->FirstChildElement();
             texture != nullptr; texture = texture->NextSiblingElement() )
@@ -52,7 +53,7 @@ namespace frog{
       }
   }
 
-  void Scene::update(const AppInfo& appinfo)
+  void Scene::update(const AppInfo&)
   {
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it) 
       {

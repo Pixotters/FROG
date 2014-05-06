@@ -23,16 +23,6 @@ namespace frog{
   template <typename ID>
   class Animator : virtual public RenderingComponent{
 
-  public:
-    class NoSuchAnimation : virtual public std::exception{
-
-      virtual const char* what() const throw()
-      {        
-        return "Couldn't play missing animation.";
-      }
-
-    };
-
   protected:
     sf::Sprite m_sprite;
     Spritesheet<ID>& m_spritesheet;
@@ -61,8 +51,7 @@ namespace frog{
      * @param id ID associated with the animation
      * @param loop Tells if the animation should loop or not.
      */
-    void playAnimation(ID id, bool loop = false) 
-    throw(NoSuchAnimation);
+    void playAnimation(ID id, bool loop = false);
 
     /*!
      * @brief Plays the given animation.
@@ -85,8 +74,7 @@ namespace frog{
      * @param id ID associated with the animation.
      * @return Previous default animation. 
      */
-    const Animation& setDefaultAnimation(ID id) 
-      throw(NoSuchAnimation);
+    const Animation& setDefaultAnimation(ID id);
 
     /*!
      * @brief Sets the texture associated to the spritesheet.

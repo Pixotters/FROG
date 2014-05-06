@@ -43,8 +43,8 @@ namespace frog{
        * \param w width of the rendering region
        * \param h height of the rendering region
        */
-      Renderer(const unsigned int& w = 0, 
-               const unsigned int& h= 0);
+      Renderer(unsigned int w = 0, 
+               unsigned int h= 0);
 
       /*!
        * \brief Constructor with a target
@@ -53,8 +53,8 @@ namespace frog{
        * \param h height of the rendering region
        */
       Renderer(sf::RenderTarget * rt,
-               const unsigned int& w = 0, 
-               const unsigned int& h= 0);
+               unsigned int w = 0, 
+               unsigned int h= 0);
 
       virtual ~Renderer();
 

@@ -5,8 +5,8 @@
 namespace frog{
 
   Renderer::Renderer(sf::RenderTarget * rt,
-                     const unsigned int& w,
-                     const unsigned int& h)
+                     unsigned int w,
+                     unsigned int h)
       
   {
     // TODO : get the windows size with a service locator
@@ -15,8 +15,8 @@ namespace frog{
     //      m_texture.initialize();
   }
 
-  Renderer::Renderer(const unsigned int& w,
-                     const unsigned int& h)
+  Renderer::Renderer(unsigned int w,
+                     unsigned int h)
       
   {
     // TODO : get the windows size with a service locator
@@ -46,7 +46,7 @@ namespace frog{
   {
     auto insert = std::pair< std::shared_ptr<GameObject>,
                              RenderingComponent *>(go, 
-                                                   go->getComponent<RenderingComponent>() );    
+                                                   go->getComponent<RenderingComponent>("RENDERING").get() );    
   auto end = m_objects.end();
   auto where = m_objects.end(); // where go should be inserted
   bool found = false;
@@ -85,18 +85,31 @@ namespace frog{
   
   void Renderer::removeObject(const std::shared_ptr<GameObject>& go)
   {
-    m_objects.remove(go);
+    auto end = m_objects.end();
+    for (auto it = m_objects.begin(); it != end; it++)
+      {
+        if (it->first == go)
+          {
+            m_objects.remove(*it);
+            break;
+          }
+
+      }
+
   }
 
   
 void Renderer::removeObject(GameObject * go)
 {
-  for (auto& o : m_objects)
+  auto end = m_objects.end();
+  for (auto it = m_objects.begin(); it != end; it++)
     {
-      if (o.get() == go)
+      if (it->first.get() == go)
         {
-        removeObject(o);
+          m_objects.remove(*it);
+          break;
         }
+
     }
 }
 
@@ -110,7 +123,7 @@ void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
   /* TODO : check if RenderingComponent or layer changed. 
      see the best -> pointer comparison, dirty flag, observer, notifying ?
   */
-  /*    RenderingComponent * rc = go->getComponent<RenderingComponent>();
+  /*    RenderingComponent * rc = go->getComponent<RenderingComponent>("RENDERING");
         if( rc != m_objects.at(go) )
         {
         m_objects.at(go) = rc;

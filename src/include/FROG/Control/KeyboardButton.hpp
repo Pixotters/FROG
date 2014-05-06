@@ -1,35 +1,44 @@
-#ifndef FROG_CTRL_KEYBOARDBUTTON_HPP
-#define FROG_CTRL_KEYBOARDBUTTON_HPP
+#ifndef FROG_KEYBOARDBUTTON_HPP
+#define FROG_KEYBOARDBUTTON_HPP
 
-#include "FROG/Control/Button.hpp"
+#include "FROG/Control/ButtonTrigger.hpp"
+#include "FROG/Control/Input.hpp"
+
 #include <SFML/Window/Event.hpp>
 
 namespace frog{
 
-  namespace ctrl{
+  struct KeyboardButton : virtual public Input
+  {
 
-    class ControlHandler;
+    sf::Keyboard::Key code;
+    /// When does the input is detected: when pressed or released ?
+    Trigger::ButtonTrigger trigger;
+    /// Does the button key have to consider CTRL, ALT, SHIFT and SYS ?
+    bool considering;
+    bool ctrl;
+    bool alt;
+    bool shift;
+    bool sys;
 
-    /*!
-     * KeyboardButton is a real-time button pressed on a keyboard. 
-     */
-    class KeyboardButton : virtual public Button
-    {
+    KeyboardButton(sf::Keyboard::Key code, 
+                   Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
+                   bool considering = false,
+                   bool ctrl = false, 
+                   bool alt = false, 
+                   bool shift = false, 
+                   bool sys = false);
+    KeyboardButton(const KeyboardButton&);
+    KeyboardButton(const sf::Event::KeyEvent&, 
+                   Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
+                   bool considering = false);
+    virtual ~KeyboardButton();
+    virtual bool operator==(const sf::Event&) const;
+    virtual bool operator!=(const sf::Event&) const;
+    bool operator==(const KeyboardButton&) const;
+    bool operator!=(const KeyboardButton&) const;
 
-      //// attributes ////
-    protected:
-      sf::Keyboard::Key m_button;
-
-      //// operations ////
-    public:
-      KeyboardButton(const sf::Keyboard::Key&);
-      virtual ~KeyboardButton();
-      sf::Keyboard::Key getButton() const;
-      virtual bool check(ControlHandler *);
-    };
-
-  }
+  };
 
 }
-
 #endif

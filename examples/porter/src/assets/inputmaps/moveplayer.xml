@@ -1,0 +1,9 @@
+<? xml version="1.0" ?>
+<INPUTMAP>
+  <input type="keyboard" code="z" trigger="continuous" />
+  <input type="keyboard" code="q" trigger="continuous" />
+  <input type="keyboard" code="s" trigger="continuous" />
+  <input type="keyboard" code="f" trigger="continuous" />
+  <input type="mouse" code="left" trigger="pressed" />
+
+</INPUTMAP>

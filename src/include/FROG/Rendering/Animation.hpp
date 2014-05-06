@@ -17,26 +17,6 @@ namespace frog{
   class Animation
   {
 
-  public:
-    class NoSuchAnimClip : virtual public std::exception
-    {
-      unsigned int id;
-    public:
-      NoSuchAnimClip(const unsigned int& i)
-      : id(i)
-      {}
-
-      virtual const char* what() const throw()
-      {
-        std::ostringstream oss;
-        oss << "No such AnimationClip ";
-        oss << id;
-        oss.flush();
-        return oss.str().c_str();
-      }
-      
-    };
-
   protected:
     std::vector<AnimationClip> m_clips;
   
@@ -63,8 +43,7 @@ namespace frog{
      * @param i Index of the AnimationClip to get.
      * @return AnimationClip at position i.
      */
-    const AnimationClip& getClipAt(const unsigned int& i) const
-      throw (NoSuchAnimClip);
+    const AnimationClip& getClipAt(unsigned int i) const;
 
     /*!
      * @brief Returns the number of clips the animation is made of.

@@ -5,7 +5,6 @@
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/LSAP.hpp"
-#include "FROG/Control/Controller.hpp"
 
 #include <set>
 #include <memory>
@@ -30,12 +29,10 @@ namespace frog{
 
     sap::LSAP * m_collider;
 
-    ctrl::Controller m_controller;
-
     //// operations ////
   public:
 
-    Scene(sf::Window&);
+    Scene();
 
     virtual ~Scene();
 

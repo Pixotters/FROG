@@ -20,7 +20,7 @@ public:
     
   } ;
 
-private:
+protected:
   std::stack<State *> m_stack;
 
 public:

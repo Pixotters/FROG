@@ -1,40 +1,37 @@
-#ifndef FROG_CTRL_JOYSTICKBUTTON_HPP
-#define FROG_CTRL_JOYSTICKBUTTON_HPP
+#ifndef FROG_JOYSTICKBUTTON_HPP
+#define FROG_JOYSTICKBUTTON_HPP
 
-#include "FROG/Control/Button.hpp"
+#include "FROG/Control/ButtonTrigger.hpp"
+#include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>
 
 namespace frog{
 
-  namespace ctrl{
+  struct JoystickButton : virtual public Input
+  {
 
-    class ControlHandler;
+    unsigned int id;
+    unsigned int code;
+    /// When does the input is detected: when pressed or released ?
+    Trigger::ButtonTrigger trigger;
 
-    /*!
-     * JoystickButton is a real-time button pressed on a joystick. 
-     */
-    class JoystickButton : virtual public Button
-    {
+    JoystickButton(unsigned int code, 
+                   Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS,
+                   unsigned int id = 0);
+    JoystickButton(const JoystickButton&);
+    JoystickButton(const JoystickButton&, unsigned int id);
+    JoystickButton(const sf::Event::JoystickButtonEvent&, 
+                   Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
+    virtual ~JoystickButton();
+    virtual bool operator==(const sf::Event&) const;
+    virtual bool operator!=(const sf::Event&) const;
+    virtual bool operator==(const sf::Event::JoystickButtonEvent&) const;
+    virtual bool operator!=(const sf::Event::JoystickButtonEvent&) const;
+    bool operator==(const JoystickButton&) const;
+    bool operator!=(const JoystickButton&) const;
 
-      //// attributes ////
-    protected : 
-      unsigned int m_button;
-      unsigned int m_id;
-
-      //// operations ////
-    public:
-      JoystickButton(const unsigned int&, 
-                     const unsigned int& = 0);
-      virtual ~JoystickButton();
-      unsigned int getButton() const;
-      unsigned int getID() const;
-      bool check(ControlHandler *);
-
-    };
-
-  }
+  };
 
 }
-
 #endif

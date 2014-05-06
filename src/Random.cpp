@@ -15,7 +15,7 @@ namespace frog{
       sNumbers[c] = rand();
   }
 
-  int Random::get(const int& min, const int& max){
+  int Random::get(int min, int max){
     unsigned int index = (unsigned int)(rand()%100);
     int res = sNumbers[index];
     sNumbers[index] = rand();
