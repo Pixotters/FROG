@@ -1,7 +1,5 @@
 #include "JoystickMover.hpp"
 
-#include <iostream> // TODO remove
-
 JoystickMover::JoystickMover(int _up, int _down, int _left, int _right,
                              sf::Joystick::Axis _x, sf::Joystick::Axis _y, 
                              unsigned short _deadzone,
@@ -12,7 +10,6 @@ JoystickMover::JoystickMover(int _up, int _down, int _left, int _right,
     deadzone(_deadzone),
     joystick_id(_joyId), x(_x), y(_y)
 {
-  std::cout << "heavy ctor" << std::endl;
 }
 
 JoystickMover::JoystickMover(int _velocity,
@@ -25,8 +22,6 @@ JoystickMover::JoystickMover(int _velocity,
     deadzone(_deadzone),
     joystick_id(_joyId), x(_x), y(_y)
 {
-  std::cout << "light ctor, deadzone = "<< \
-    deadzone <<" / "<< _deadzone  << std::endl;
 }
 
 JoystickMover::~JoystickMover()
