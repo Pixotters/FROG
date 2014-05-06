@@ -27,7 +27,7 @@ namespace frog{
     ControlComponent(const std::vector<sf::Event>& );
     virtual ~ControlComponent();
     virtual void preupdate(const ComponentHolder&);
-    virtual bool check(Input *, const ComponentHolder&) const;
+    virtual bool check(std::shared_ptr<Input>, const ComponentHolder&) const;
     static bool isKeyboardPressed(sf::Keyboard::Key);
     static bool isMousePressed(sf::Mouse::Button);
     static bool isJoystickPressed(unsigned int button, 

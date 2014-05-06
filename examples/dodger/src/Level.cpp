@@ -88,15 +88,15 @@ void Level::update(const AppInfo& appinfo)
 
 void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
 {
-  auto moveleft = (new MovePlayer(go.get(), -PLAYER_SPEED, 0, appinfo) ;
-  auto moveright = new MovePlayer(go.get(), PLAYER_SPEED, 0, appinfo);
-  auto moveup = new MovePlayer(go.get(), 0, -PLAYER_SPEED, appinfo);
-  auto movedown = new MovePlayer(go.get(), 0, PLAYER_SPEED, appinfo);
+  std::shared_ptr<Command> moveleft(new MovePlayer(go.get(), -PLAYER_SPEED, 0, appinfo) );
+  std::shared_ptr<Command> moveright(new MovePlayer(go.get(), PLAYER_SPEED, 0, appinfo) );
+  std::shared_ptr<Command> moveup(new MovePlayer(go.get(), 0, -PLAYER_SPEED, appinfo) );
+  std::shared_ptr<Command> movedown(new MovePlayer(go.get(), 0, PLAYER_SPEED, appinfo) );
 
-  auto qkey = new KeyboardButton(sf::Keyboard::Q);
-  auto dkey = new KeyboardButton(sf::Keyboard::D);
-  auto zkey = new KeyboardButton(sf::Keyboard::Z);
-  auto skey = new KeyboardButton(sf::Keyboard::S);
+  std::shared_ptr<Input> qkey(new KeyboardButton(sf::Keyboard::Q) );
+  std::shared_ptr<Input> dkey(new KeyboardButton(sf::Keyboard::D) );
+  std::shared_ptr<Input> zkey(new KeyboardButton(sf::Keyboard::Z) );
+  std::shared_ptr<Input> skey(new KeyboardButton(sf::Keyboard::S) );
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList));
   ctrl->bind(qkey, moveleft );    
   ctrl->bind(dkey, moveright );
