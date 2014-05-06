@@ -46,7 +46,7 @@ namespace frog{
   {
     auto insert = std::pair< std::shared_ptr<GameObject>,
                              RenderingComponent *>(go, 
-                                                   go->getComponent<RenderingComponent>() );    
+                                                   go->getComponent<RenderingComponent>("RENDERING") );    
   auto end = m_objects.end();
   auto where = m_objects.end(); // where go should be inserted
   bool found = false;
@@ -99,7 +99,7 @@ namespace frog{
   /* TODO : check if RenderingComponent or layer changed. 
      see the best -> pointer comparison, dirty flag, observer, notifying ?
   */
-  /*    RenderingComponent * rc = go->getComponent<RenderingComponent>();
+  /*    RenderingComponent * rc = go->getComponent<RenderingComponent>("RENDERING");
         if( rc != m_objects.at(go) )
         {
         m_objects.at(go) = rc;

@@ -12,7 +12,7 @@ namespace frog{
   GameObject::GameObject(GameObject * _parent)
     : ComponentHolder(), parent(_parent), transform(new Transform)
   {
-    addComponent( transform );
+    addComponent( transform, "TRANSFORM" );
   }
 
   GameObject::~GameObject()
@@ -48,7 +48,7 @@ namespace frog{
     auto end = m_components.end();
     for(auto it = m_components.begin(); it != end; it++)
       {
-        (*it)->update(*this);
+        it->second->update(*this);
       }
 
   }
