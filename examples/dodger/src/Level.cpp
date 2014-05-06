@@ -155,6 +155,7 @@ void Level::spawnTarget()
   e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
+  e->transform->setScale(0.5f, 0.5f);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-10, 10) / 10.f, 
