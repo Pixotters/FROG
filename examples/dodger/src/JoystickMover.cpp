@@ -38,15 +38,12 @@ sf::Vector2f JoystickMover::getMovement() const
 {
   float xmov = sf::Joystick::getAxisPosition(joystick_id, x);
   float ymov = sf::Joystick::getAxisPosition(joystick_id, y);
-  std::cout << "mov : "<<xmov<<", "<<ymov<<" deadzone = "<<deadzone<<std::endl;
   if ( xmov > -deadzone and xmov < deadzone )
     {
-      std::cout << "deadzone X" << std::endl;
       xmov = 0.0f;
     }
   if (ymov > -deadzone and ymov < deadzone )
     {
-      std::cout << "deadzone Y" << std::endl;
       ymov = 0.0f;
     }
   xmov = (xmov > 0.0f) ? xmov*right_velocity/100.0f : xmov*left_velocity/100.0f;
@@ -56,8 +53,6 @@ sf::Vector2f JoystickMover::getMovement() const
 
 void JoystickMover::update(const frog::ComponentHolder& parent)
 {
-  std::cout << "Moving player to "<< getMovement().x << ","  \
-            << getMovement().y << std::endl;
   parent.getComponent<frog::Transform>("TRANSFORM")->move( getMovement() );
 }
 

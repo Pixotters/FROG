@@ -1,6 +1,5 @@
-
+#include "GUI.hpp"
 #include "Level.hpp"
-
 
 #include "FROG/Control.hpp"
 #include "FROG/Control/ControlComponent.hpp"
@@ -70,7 +69,7 @@ Level::~Level()
 }
 
 void Level::update(const AppInfo& appinfo)
-{  
+ {  
   Scene::update(appinfo);
   static bool added = false;
   if ( not added )
@@ -78,9 +77,12 @@ void Level::update(const AppInfo& appinfo)
       setControls(m_player.get(), appinfo );
       m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
       m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
-      m_gui->addComponent( new TextSprite("score", m_fontManager.get(GUI_FONT) ), "RENDERING" );
-      m_gui->transform->setPosition( 400, 10);
-      m_gui->getComponent<TextSprite>("RENDERING")->setColor(sf::Color::Red);
+      std::shared_ptr<GUI> pgui(new GUI(800, 64, 
+                                        m_fontManager.get(GUI_FONT),
+                                        3) );
+      m_gui->addComponent( pgui, "GUI" );
+      m_gui->transform->layer = 4;
+      m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
       addObject(m_terrain);
       addObject(m_player);
       addObject(m_gui);
