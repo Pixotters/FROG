@@ -3,15 +3,15 @@
 
 #include "FROG/Component.hpp"
 
-#include <set>
-
+#include <map>
 #include <memory>
+#include <string>
 
 namespace frog{
 
   /*!
    * A ComponentHolder is an object capable of holding a set of Component to 
-   * customize it. 
+   * customize it. Each component is mapped to a string. 
    */
   class ComponentHolder
   {
@@ -19,8 +19,8 @@ namespace frog{
     //// attributes ////
   protected:
 
-    /// set of components hold by the component holder
-    std::set< std::shared_ptr<Component> > m_components;
+    /// map of components hold by the component holder
+    std::map< std::string, std::shared_ptr<Component> > m_components;
 
     //// operations ////
   public:
@@ -31,27 +31,23 @@ namespace frog{
     virtual ~ComponentHolder();
 
     /*!
-     * @brief Returns the component of given type. 
+     * @brief Returns the component of given ID converted to the given type. 
+     * @returns Pointer to C is present, nullptr if not. 
+     */
+    template <typename C>
+    std::shared_ptr<C> getComponent(const std::string& ) const;
+ 
+   /*!
+     * @brief Returns the component of given ID as a std::shared_ptr<Component>.
      * @returns Pointer to Component is present, nullptr if not. 
      */
-    template <typename C>
-    C * const getComponent() const;
-
+    std::shared_ptr<Component> getComponent(const std::string&) const;
+   
     /*!
-     * @brief Tells if a component of a given type is kept. 
-     * @return True is a component of type <C> is hold, False otherwise. 
+     * @brief Tells if a component of a given id is kept. 
+     * @return True is a component of given id is held, False otherwise. 
      */
-    template <typename C>
-    bool hasComponent() const;
-
-    /*!
-     * @brief Adds a component to the set. 
-     * @details If an other component of the same type is present, nothing will 
-     * be added.
-     * @param c Component to add.  
-     */
-    template <typename C>
-    void addComponent(C * const c);
+    bool hasComponent(const std::string& ) const;
 
     /*!
      * @brief Adds a component to the set. 
@@ -59,16 +55,20 @@ namespace frog{
      * be added.
      * @param c Component to add.  
      */
-    template <typename C>
-    void addComponent(std::shared_ptr<C> const c);
+    void addComponent(Component * const c, const std::string& id);
 
     /*!
-     * @brief Removes the component of the given type. 
-     * @details As it should be only one component of one type, only one 
-     * component is removed. 
+     * @brief Adds a component to the set. 
+     * @details If an other component of the same id is present, nothing will 
+     * be added.
+     * @param c Component to add.  
      */
-    template <typename C>
-    void removeComponent();
+    void addComponent(std::shared_ptr<Component> const c, const std::string& id);
+
+    /*!
+     * @brief Removes the component of the given id. 
+     */
+    void removeComponent(const std::string& id);
 
   };
 

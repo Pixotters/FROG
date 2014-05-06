@@ -9,10 +9,10 @@
 
 namespace frog{
 
-  GameObject::GameObject()
-    : ComponentHolder(), transform(new Transform)
+  GameObject::GameObject(GameObject * _parent)
+    : ComponentHolder(), parent(_parent), transform(new Transform)
   {
-    addComponent( transform );
+    addComponent( transform, "TRANSFORM" );
   }
 
   GameObject::~GameObject()
@@ -34,10 +34,21 @@ namespace frog{
 
   void GameObject::update()
   { 
+    if (parent != nullptr)
+      {
+        // TODO combine with parent's transform
+        /*        auto tr2 = sf::Transform::Identity;
+        tr2 *= transform->getTransform();
+        tr2 *= parent->getTransform();
+        transform->setPosition( tr2.getTransform().getPosition() );
+        transform->setRotation( tr2.getTransform().getRotation() );
+        transform->setScale( tr2.getTransform().getScale() );
+        */
+      }
     auto end = m_components.end();
     for(auto it = m_components.begin(); it != end; it++)
       {
-        (*it)->update(*this);
+        it->second->update(*this);
       }
 
   }

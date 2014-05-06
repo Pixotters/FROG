@@ -83,7 +83,7 @@ Level::Level(const AppInfo& appinfo)
   Collider * am = new Collider(m_player, &m_targets, m_renderer);
   m_collider = new sap::LSAP(am);  
   m_player->transform->setPosition( 400, 60 );
-  m_terrain->getComponent<Transform>()->setPosition(0, 0);
+  m_terrain->getComponent<Transform>("TRANSFORM")->setPosition(0, 0);
   m_gui->transform->layer = 4;
   m_player->transform->layer = 2;
   m_terrain->transform->layer = 0;
@@ -102,11 +102,11 @@ void Level::update(const AppInfo& appinfo)
   if ( not added )
     {
       setControls(m_player.get(), appinfo );
-      m_terrain->addComponent<Sprite>( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ) );
-      m_player->addComponent<Sprite>( new Sprite(m_textureManager.get("FROG_TEXTURE") ) );
-      m_gui->addComponent<TextSprite>( new TextSprite("score", m_fontManager.get(GUI_FONT) ) );
+      m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
+      m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
+      m_gui->addComponent( new TextSprite("score", m_fontManager.get(GUI_FONT) ), "RENDERING" );
       m_gui->transform->setPosition( 400, 10);
-      m_gui->getComponent<TextSprite>()->setColor(sf::Color::Red);
+      m_gui->getComponent<TextSprite>("RENDERING")->setColor(sf::Color::Red);
       addObject(m_terrain);
       addObject(m_player);
       addObject(m_gui);
@@ -144,11 +144,12 @@ void Level::setControls(GameObject * go, const AppInfo& appinfo)
   ctrl->bind(dkey, moveright );
   ctrl->bind(zkey, moveup );  
   ctrl->bind(skey,  movedown );
-  go->addComponent<ControlComponent>(ctrl);
-  go->addComponent<JoystickMover>( new JoystickMover(PLAYER_SPEED/60.0f, 
+  go->addComponent(ctrl, "CONTROL");
+  go->addComponent( new JoystickMover(PLAYER_SPEED/60.0f, 
                                                      (sf::Joystick::Axis)XBOX::LSTICK_X, 
                                                      (sf::Joystick::Axis)XBOX::LSTICK_Y, 
-                                                     25) ); 
+                                      25),
+                    "JOYSTICK"); 
 }
 
 void Level::spawnEnemy(const AppInfo& appinfo)
@@ -156,8 +157,8 @@ void Level::spawnEnemy(const AppInfo& appinfo)
   std::shared_ptr<Enemy> e(new Enemy(appinfo) );
   sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
-  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ) );
-  e->getComponent<Transform>()->setPosition(Random::get(100, 700), 50);
+  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ), "RENDERING" );
+  e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), 50);
   e->transform->layer = 3;
   m_ennemies.push_back(e);
   addObject(e);
@@ -167,8 +168,8 @@ void Level::spawnTarget(const AppInfo& appinfo)
 {
   
   std::shared_ptr<Target> e(new Target(appinfo) );
-  e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ) );
-  e->getComponent<Transform>()->setPosition(Random::get(100, 700), Random::get(50, 550) );
+  e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
+  e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = 1;
   m_targets.push_back(e);
   addObject(e);
@@ -180,8 +181,8 @@ void Level::updateEnemies()
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       PhysicEngine::update( it->get() );
-      if((*it)->getComponent<Transform>()->getPosition().x > 800 
-         || (*it)->getComponent<Transform>()->getPosition().y > 600  ){
+      if((*it)->getComponent<Transform>("TRANSFORM")->getPosition().x > 800 
+         || (*it)->getComponent<Transform>("TRANSFORM")->getPosition().y > 600  ){
         removeObject(*it);    
         it->reset();
         *it = nullptr;
@@ -196,10 +197,11 @@ void Level::updateTargets()
     {      
       PhysicEngine::update( it->get() );
       m_collider->updateObject( it->get() );
-      if((*it)->getComponent<Transform>()->getPosition().x > 800 
-         || (*it)->getComponent<Transform>()->getPosition().y > 600 
-         || (*it)->getComponent<Transform>()->getPosition().x < -32
-         || (*it)->getComponent<Transform>()->getPosition().y < -32){
+      auto tr = (*it)->getComponent<Transform>("TRANSFORM");
+      if ( tr->getPosition().x > 800 
+         || tr->getPosition().y > 600 
+         || tr->getPosition().x < -32
+         || tr->getPosition().y < -32){
         removeObject(*it);
         it->reset();
         *it = nullptr;
