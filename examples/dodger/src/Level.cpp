@@ -134,14 +134,14 @@ void Level::spawnEnemy()
   std::shared_ptr<GameObject> e(new GameObject() );
   e->transform->layer = ENEMY_LAYER;
   e->transform->setPosition(Random::get(100, 700), 50);
-  std::shared_ptr<sf::RectangleShape> r (new sf::RectangleShape(sf::Vector2f(25,25) ) );
+  sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
   //  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Red);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
-  e->addComponent(new RenderingComponent(r.get() ), "RENDERING" );
+  e->addComponent(new RenderingComponent( r ), "RENDERING" );
   m_ennemies.push_back(e);
   addObject(e);
 }
