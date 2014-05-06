@@ -1,6 +1,7 @@
 #include "Enemy.hpp"
 
 #include "FROG/Random.hpp"
+#include "FROG/Physics/PhysicBody.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -13,9 +14,10 @@ Enemy::Enemy(const AppInfo& appinfo)
 {
   m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Red);
-  auto p = getComponent<phi::Physics>("PHYSICS");
-  p->addRotationForce(2.0f);
-  p->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
+  auto phi = getComponent<PhysicBody>("PHYSICS");
+  phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
+  //  p->addRotationForce(2.0f);
+  //  p->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
 
 }
 

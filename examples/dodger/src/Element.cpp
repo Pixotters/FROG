@@ -1,4 +1,5 @@
 #include "Element.hpp"
+#include "FROG/Physics/PhysicBody.hpp"
 
 //#include "Physics/PhysicEngine.hpp"
 
@@ -8,7 +9,7 @@ using namespace frog;
 Element::Element(const AppInfo& appinfo)
   : GameObject() 
 {
-  addComponent( new phi::Physics(appinfo), "PHYSICS" );
+  addComponent( new PhysicBody(), "PHYSICS" );
 }
 
 Element::~Element()
