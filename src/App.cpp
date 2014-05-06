@@ -4,13 +4,13 @@
 
 namespace frog{
 
-  App::App(const std::string& cfg)
+  App::App(const std::string& title, const std::string& cfg)
   {
     m_config.loadFromFile(cfg);
     m_window.create(sf::VideoMode(
                                   m_config.getWindowWidth(), 
                                   m_config.getWindowHeight() ),
-                    m_config.getTitle(), 
+                    title,  
                     sf::Style::Close);
     // TODO center the window
     m_window.setPosition(sf::Vector2i(0,0) );

@@ -18,7 +18,7 @@ public:
 */
 int main()
 {
-  App d;
+  App d("Dodger - A Sample game developed with FROG");
   std::cout << "Starting game" << std::endl;
   //  std::cerr << "Dodger : APPInfos are at " << &i << "-" << (&i)+dec << "/" << i+dec << std::endl;
   //  std::cerr << "Dodger : Window is at " << &d.m_appInfo->window << std::endl;

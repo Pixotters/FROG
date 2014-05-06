@@ -1,8 +1,5 @@
 <?xml version="1.0" ?>
 <configuration>
-  <app>
-    <title>Dodger</title>
-  </app>
   <window>
     <width>800</width>
     <height>600</height>

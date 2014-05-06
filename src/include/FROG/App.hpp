@@ -45,7 +45,8 @@ namespace frog{
      * @details Also loads the config file.
      * @param cfg config file to load. If not given, load "config.cfg"
      */
-    App(const std::string& cfg = "config.cfg");
+    App(const std::string& title = "Frog Game", 
+        const std::string& cfg = "config.xml");
 
     /*!
      * @brief Destructor

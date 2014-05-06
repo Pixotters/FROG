@@ -16,9 +16,6 @@ namespace frog{
     // the window's dimensions
     unsigned int m_windowWidth, m_windowHeight;
 
-    // the window's bar text
-    std::string m_title;
-
     //// operations ////
   public :
     Config();
@@ -39,11 +36,6 @@ namespace frog{
       returns the window's height according to the config file
     */
     unsigned int getWindowHeight() const;
-
-    /*
-      returns the window's title according to the config file
-    */
-    std::string getTitle() const;
 
   };
 
