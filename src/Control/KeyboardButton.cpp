@@ -1,7 +1,5 @@
 #include "FROG/Control/KeyboardButton.hpp"
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   KeyboardButton::KeyboardButton(sf::Keyboard::Key _code, 
@@ -38,7 +36,6 @@ namespace frog{
 
   bool KeyboardButton::operator==(const sf::Event& event) const
   {
-    std::cerr << "testing equality between keyboardButton & Event" << std::endl;
     if (event.type != sf::Event::KeyPressed)
       {
         return operator==( KeyboardButton(event.key, 
@@ -63,7 +60,7 @@ namespace frog{
 
   bool KeyboardButton::operator==(const KeyboardButton& other) const
   {
-    std::cerr << "testing equality between keyboardButton & another" << std::endl;
+    /*
     std::cerr << "code : " << code << "-" << other.code \
               << "trigger : " << trigger << "-" << other.trigger \
               << "considering : "<< considering <<"-"<<other.considering \
@@ -71,7 +68,7 @@ namespace frog{
               << "alt : " << alt <<"-"<< other.alt \
               << "shift : " << shift << "-" << other.shift \
               << "sys : "<< sys << "-" << other.sys << std::endl;
-
+    */
     return ( code == other.code 
              and trigger == other.trigger
              and (not considering 

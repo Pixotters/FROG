@@ -2,9 +2,6 @@
 
 #include "FROG/XML/tinyxml2.hpp"
 
-#include "FROG/Rendering/Sprite.hpp" // TODO remove
-
-#include <iostream>
 #include <memory>
 
 namespace frog{

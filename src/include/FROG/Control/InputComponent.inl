@@ -1,5 +1,6 @@
 #include <exception>
-#include <iostream> // TODO remove
+#include <sstream>
+#include "FROG/Debug.hpp"
 
 namespace frog{
 
@@ -19,14 +20,16 @@ namespace frog{
   void InputComponent<IN, CMD>::update(const ComponentHolder& parent)
   {
     preupdate(parent);
-    std::cerr << "updating input component " << std::endl;
     for (auto map : m_maps)
       {
         for (auto entry : map)
           {
             if ( check(entry.first, parent) )
               {
-                std::cerr << "input is pressed" << std::endl;
+                std::ostringstream oss;
+                oss << "input "<<entry.first<<" occured ";
+                print_debug( oss.str() );
+                oss.flush();
                 (entry.second)->execute();
               }
           } 
@@ -54,7 +57,6 @@ namespace frog{
         m_maps.resize(n+1);
         m_maps.at(n).insert( std::pair<IN *, CMD *>(i, o) );
       }
-    std::cerr << "bound " << std::endl;
   }
 
   template <typename IN, typename CMD>

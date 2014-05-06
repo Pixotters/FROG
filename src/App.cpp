@@ -1,10 +1,6 @@
 #include "FROG/App.hpp"
 #include "FROG/Random.hpp"
-
-
 #include "FROG/State.hpp"
-
-#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -53,7 +49,6 @@ namespace frog{
                     return;
                   } else
                   {
-                    std::cerr << "input occured : pushing - "<< m_appInfo->eventList.size() << std::endl;
                     m_appInfo->eventList.push_back(event);
                   }
               }

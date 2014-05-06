@@ -21,7 +21,7 @@ namespace frog{
 
     virtual ~Component();
 
-    virtual void update(const ComponentHolder& parent);
+    virtual void update(const ComponentHolder& parent) = 0;
   
 
   };

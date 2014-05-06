@@ -1,6 +1,5 @@
 #include "FROG/Rendering/Animation.hpp"
-
-#include <iostream> // TODO remove
+#include "FROG/Debug.hpp"
 
 namespace frog{
 
@@ -37,17 +36,14 @@ namespace frog{
   const AnimationClip& Animation::getClipAt(unsigned int i) const
     throw (NoSuchAnimClip)
   {
-    std::cerr << "getting clip n°"<< i <<"/" << m_clips.size()<< std::endl; // TODO remove
     try
       {
         // TODO random segfault here, because "m_clips" has invalid size/content
-        std::cerr << "from "<< &m_clips << std::endl;
         const AnimationClip& clip = m_clips.at(i);
-        std::cerr << "ok clip n°"<< i << std::endl;
         return clip;
       }catch(std::out_of_range e)
       {
-        std::cerr << "out of range " << std::endl;
+        print_debug("Animation got out of range");
         throw NoSuchAnimClip(i);
       }catch(std::exception e)
       {
