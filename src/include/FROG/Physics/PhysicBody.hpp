@@ -20,7 +20,7 @@ namespace frog{
      * point.
      */
 
-    friend class BasicPhysics;
+    friend class PhysicEngine;
 
   protected:
 
