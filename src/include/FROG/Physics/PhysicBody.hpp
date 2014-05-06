@@ -7,6 +7,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
+const sf::Vector2f ZERO2F = sf::Vector2f(0, 0);
+
 namespace frog{
   /**
    * This first physic engine only deals with basic collisions
@@ -24,23 +26,42 @@ namespace frog{
 
   protected:
 
-    sf::Vector2f force;
+    sf::Vector2f velocity;
+    float rotation;
+    sf::Vector2f growth;
 
   public:
 
-    PhysicBody(float x = 0, float y = 0);
+    PhysicBody(const sf::Vector2f& velocity = sf::Vector2f(0, 0),
+               float rotation = 0.0f,
+               const sf::Vector2f& growth = sf::Vector2f(0, 0) );
 
     virtual ~PhysicBody();
 
     sf::Vector2f getVelocity() const;
+
+    float getRotation() const;
+
+    sf::Vector2f getGrowth() const;
 
     void update(const ComponentHolder& parent);
 
     /* FIXME:
      * making it virtual could be interesting if we want some objects
      * to act different, but we want this? */
-    virtual void applyForce(const sf::Vector2f & f);
+    virtual void addVelocity(const sf::Vector2f & v);
 
+    virtual void addRotation(float r);
+
+    virtual void addGrowth(const sf::Vector2f & g);
+
+    void reset();
+
+    sf::Vector2f resetVelocity();
+
+    float resetRotation();
+    
+    sf::Vector2f resetGrowth();
 
   };
 

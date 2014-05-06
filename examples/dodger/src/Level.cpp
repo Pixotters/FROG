@@ -121,9 +121,12 @@ void Level::spawnEnemy()
   //  m_boundingBox->setFillColor(sf::Color::Red);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
-  phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
+  phi->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
+  phi->addRotation( Random::get(-20, 20) );
   e->addComponent(new RenderingComponent( r ), "RENDERING" );
-  //  delete r;
+  auto x_center = r->getLocalBounds().left + (r->getLocalBounds().width/2.0);
+  auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
+  e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
   m_ennemies.push_back(e);
   addObject(e);
 }
@@ -140,8 +143,10 @@ void Level::spawnTarget()
   e->transform->setScale(0.5f, 0.5f);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
-  phi->applyForce(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                               Random::get(-10, 10) / 10.f ) ); 
+  phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
+                               Random::get(-10, 10) / 10.f ) );  
+  //  phi->addGrowth(sf::Vector2f(-0.5f, -0.5f) );
+  phi->addRotation( Random::get(-20, 20) );  
   m_targets.push_back(e);
   addObject(e);
   
