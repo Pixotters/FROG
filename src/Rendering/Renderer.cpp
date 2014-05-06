@@ -46,7 +46,7 @@ namespace frog{
   {
     auto insert = std::pair< std::shared_ptr<GameObject>,
                              RenderingComponent *>(go, 
-                                                   go->getComponent<RenderingComponent>("RENDERING") );    
+                                                   go->getComponent<RenderingComponent>("RENDERING").get() );    
   auto end = m_objects.end();
   auto where = m_objects.end(); // where go should be inserted
   bool found = false;
