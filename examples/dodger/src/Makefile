@@ -1,6 +1,5 @@
 # Nicolas CAILLOUX & Julien SAGOT
 
-include ../Makefile.generic
 
 PROGRAM=Dodger
 SOURCES=$(wildcard *.cpp)
@@ -11,6 +10,8 @@ LIBDIR=lib
 CXXFLAGS+= -I$(INC)
 
 game: $(PROGRAM)
+
+include ../Makefile.generic
 
 show: generic_show
 	@echo "-Program : $(PROGRAM)"

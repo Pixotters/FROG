@@ -1,8 +1,6 @@
 #ifndef FROG_COMPONENT_HPP
 #define FROG_COMPONENT_HPP
 
-//#include "FROG/ComponentHolder.hpp"
-
 namespace frog{
 
   class ComponentHolder;
@@ -23,7 +21,7 @@ namespace frog{
 
     virtual ~Component();
 
-    virtual void update(const ComponentHolder& parent);
+    virtual void update(const ComponentHolder& parent) = 0;
   
 
   };

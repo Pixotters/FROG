@@ -39,11 +39,22 @@ namespace frog{
     void loop(const AppInfo& appinfo);
 
   protected:
+
+    /*!
+     * @brief function performed when StateManager enters in this scene
+     */
+    virtual void enter() = 0;
+
     /*!
      * @brief Updates the state. 
      * @param appinfo AppInfo containing at least a good delta-time
      */
     virtual void update(const AppInfo& appinfo) = 0;
+
+    /*!
+     * @brief function performed when StateManager exits from the scene
+     */
+    virtual void exit() = 0;
 
     /*!
      * @brief Renders the state in the given RenderTarget. 

@@ -7,7 +7,7 @@ namespace frog{
   const float PhysicEngine::EARTH_GRAVITATION = 9.81f;
 
 
-  void PhysicEngine::update(GameObject * o)
+  void PhysicEngine::update(GameObject *)
   {
     /*    phi::Physics * p = o->getComponent<phi::Physics>();
     if(p != nullptr){

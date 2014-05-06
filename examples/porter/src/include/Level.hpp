@@ -7,6 +7,7 @@
 #include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <string>
 
 class Level : virtual public frog::Scene
@@ -17,17 +18,18 @@ class Level : virtual public frog::Scene
 protected:
   //  frog::AssetManager<std::string, sf::Texture> m_textureManager;
   frog::AssetManager<std::string, frog::Spritesheet<std::string> > m_spritesheetManager;   // first string is ID of spritesheet, second string is ID of animations
+  frog::AssetManager<std::string, sf::SoundBuffer> m_soundManager;
   frog::GameObject * m_player;
   frog::GameObject * m_terrain;  
 
 public:
-  Level(const frog::AppInfo&);
+  Level();
   virtual ~Level();
   virtual void update(const frog::AppInfo&);
 
 private:
   static bool okay();
-  void createPlayer();
+  void createPlayer(const frog::AppInfo&);
   void createTerrain();
 
 };

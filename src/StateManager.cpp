@@ -18,6 +18,7 @@ namespace frog{
   void StateManager::push(State * s)
   {
     m_stateStack.push(s);
+    s->enter();
   }
 
   State * StateManager::pop()
@@ -29,6 +30,7 @@ namespace frog{
       }
     State * s = m_stateStack.top();
     m_stateStack.pop();
+    s->exit();
     return s;
   }
 

@@ -1,5 +1,3 @@
-include ../Makefile.generic
-
 CPPCHECK+= --rule-file=../cppcheck_custom_rules.xml
 
 FROG=libfrog.so
@@ -17,6 +15,8 @@ LIBDIR:=lib/
 CXXFLAGS+= -I$(INC)
 
 frog: $(FROG)
+
+include ../Makefile.generic
 
 show: generic_show
 	@echo "-Program : $(PROGRAM)"

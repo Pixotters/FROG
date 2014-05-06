@@ -1,35 +1,33 @@
-#ifndef FROG_CTRL_MOUSEBUTTON_HPP
-#define FROG_CTRL_MOUSEBUTTON_HPP
+#ifndef FROG_MOUSEBUTTON_HPP
+#define FROG_MOUSEBUTTON_HPP
 
-#include "FROG/Control/Button.hpp"
+#include "FROG/Control/ButtonTrigger.hpp"
+#include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>
 
 namespace frog{
 
-  namespace ctrl{
+  struct MouseButton : virtual public Input
+  {
 
-    class ControlHandler;
+    sf::Mouse::Button code;
+    Trigger::ButtonTrigger trigger;
 
-    /*!
-     * MouseButton is a real-time button pressed on a keyboard. 
-     */
-    class MouseButton : virtual public Button
-    {
+    MouseButton(sf::Mouse::Button code,
+                Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
+    MouseButton(const MouseButton&);
+    MouseButton(const sf::Event::MouseButtonEvent&, 
+                Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
+    virtual ~MouseButton();
+    virtual bool operator==(const sf::Event&) const;
+    virtual bool operator!=(const sf::Event&) const;
+    virtual bool operator==(const sf::Event::MouseButtonEvent&) const;
+    virtual bool operator!=(const sf::Event::MouseButtonEvent&) const;
+    bool operator==(const MouseButton&) const;
+    bool operator!=(const MouseButton&) const;
 
-      //// attributes ////
-    protected : 
-      sf::Mouse::Button m_button;
-
-      //// operations ////
-    public:
-      MouseButton(const sf::Mouse::Button&);
-      virtual ~MouseButton();
-      sf::Mouse::Button getButton() const;
-      bool check(ControlHandler *);
-    };
-
-  }
+  };
 
 }
 

@@ -1,10 +1,6 @@
 #include "FROG/App.hpp"
 #include "FROG/Random.hpp"
-
-
 #include "FROG/State.hpp"
-
-#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -24,6 +20,7 @@ namespace frog{
 
   App::~App()
   {
+    delete m_appInfo;
   }
 
   void App::init(State * startstate)
@@ -40,6 +37,22 @@ namespace frog{
     sf::Clock t0; // clock for counting delta-time
     while(m_appInfo->running)
       {
+        if( m_window.isOpen() )
+          {
+            sf::Event event;
+            m_appInfo->eventList.clear();
+            while( m_window.pollEvent(event) )
+              {
+                if (event.type == sf::Event::Closed)
+                  {
+                    m_appInfo->running = false;
+                    return;
+                  } else
+                  {
+                    m_appInfo->eventList.push_back(event);
+                  }
+              }
+          }
         m_appInfo->deltaTime = t0.restart().asSeconds(); 
         m_window.clear();
         m_stateManager.loop(*m_appInfo);
@@ -51,6 +64,7 @@ namespace frog{
   {
     m_window.clear();
     m_window.close();
+    m_stateManager.clear();
   }
 
   void App::start(State * s)

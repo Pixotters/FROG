@@ -1,33 +1,19 @@
-#ifndef FROG_CTRL_INPUT_HPP
-#define FROG_CTRL_INPUT_HPP
+#ifndef FROG_INPUT_HPP
+#define FROG_INPUT_HPP
 
-#include "FROG/Filter.hpp"
+#include <SFML/Window/Event.hpp>
 
 namespace frog{
 
-  namespace ctrl{
-
-    class ControlHandler;
-
-    /*!
-     * Input is an abstract class representing an event that can occur thanks 
-     * to user devices such as Keyboard, Mouse, and Joystick. 
-     */
-    class Input
-    {
-      //// attributes ////
-    protected:
-
-      //// operations ////
-    public:
-      Input();
-      virtual ~Input();
-      //    template <typename I, typename O>
-      bool check(Filter<Input> *);
-      virtual bool check(ControlHandler *);
-    };
-
-  }
+  /*!
+   * Input is an abstract class representing an event that can occur thanks 
+   * to user devices such as Keyboard, Mouse, and Joystick. 
+   */
+  struct Input
+  {
+    virtual bool operator==(const sf::Event&) const = 0;
+    virtual bool operator!=(const sf::Event&) const = 0;
+  };
 
 }
 

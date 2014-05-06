@@ -16,7 +16,7 @@ bool okay(){
 int main()
 {
   frog::App porter;
-  Level * l = new Level( porter.getAppInfo() );
+  Level * l = new Level( );
   if ( l->loadFromFile("assets/scenes/level1.xml") )
     porter.start(l);
 }

@@ -55,7 +55,7 @@ namespace frog{
       }catch(std::out_of_range e)
       {
         m_maps.resize(n+1);
-        m_maps.at(n).insert( i, o );
+        m_maps.at(n).insert( std::pair<IN *, CMD *>(i, o) );
       }
   }
 

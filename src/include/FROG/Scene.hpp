@@ -5,14 +5,11 @@
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/LSAP.hpp"
-#include "FROG/Control/Controller.hpp"
 
 #include <set>
 #include <memory>
 
 #include <SFML/Graphics/Texture.hpp>
-// TODO : try to remove that dependencies
-#include <SFML/Window/Window.hpp>
 
 namespace frog{
 
@@ -30,12 +27,10 @@ namespace frog{
 
     sap::LSAP * m_collider;
 
-    ctrl::Controller m_controller;
-
     //// operations ////
   public:
 
-    Scene(sf::Window&);
+    Scene();
 
     virtual ~Scene();
 
@@ -46,12 +41,22 @@ namespace frog{
      */
     bool loadFromFile(const std::string& file);
 
+    /*!
+     * @brief function performed when StateManager enters in this scene
+     */
+    virtual void enter();
+
     /*
       updates the scene. eg updates all the scene's gameObjects + some codes we 
       may want to add
     */
     virtual void update(const AppInfo& appinfo);
 
+    /*!
+     * @brief function performed when StateManager exits from the scene
+     */
+    virtual void exit();
+     
     /*!
      * \brief Adds a GameObject to the scene's systems
      * \details A same GameObject cannot be added twice : no doubles

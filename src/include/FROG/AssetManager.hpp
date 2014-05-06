@@ -2,7 +2,6 @@
 #define FROG_ASSET_MANAGER_HPP
 
 #include <exception>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <string>
@@ -55,8 +54,8 @@ namespace frog
 
   };
 
-  #include "AssetManager.inl"
-
 }
+
+#include "FROG/AssetManager.inl"
 
 #endif

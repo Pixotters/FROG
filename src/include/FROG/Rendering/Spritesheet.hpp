@@ -11,20 +11,6 @@
 
 namespace frog{
 
-  class NoSuchAnimation : virtual public std::exception{
-    virtual const char* what() const throw()
-    {        
-      return "Couldn't play missing animation.";
-    }
-  };
-  class NoSuchClip : virtual public std::exception{
-    virtual const char* what() const throw()
-    {        
-      return "Couldn't refer to missing Clip.";
-    }
-  };
-
-
   /*!
    * Spritesheet<ID> is an aggregate of data containing all Animator needs : 
    * animations with their identifier (type ID) and clips to which 
@@ -48,9 +34,9 @@ namespace frog{
 
     bool loadFromFile(const std::string& file);
 
-    const Animation& getAnimation(ID id) const throw(NoSuchAnimation);
+    const Animation& getAnimation(ID id) const;
 
-    const Clip& getClip(unsigned short) const throw(NoSuchClip);
+    const Clip& getClip(unsigned short) const;
 
     /*!
      * @brief Add an animation associated to the given ID. 
