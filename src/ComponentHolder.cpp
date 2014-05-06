@@ -11,6 +11,18 @@ namespace frog{
   {
   }
 
+  std::shared_ptr<Component> ComponentHolder::getComponent(const std::string& id) const
+  {
+    auto it = m_components.find(id);
+    if (it != m_components.end() )
+      {
+        return (it->second);
+      }else
+      {
+        throw std::logic_error("No such component");
+      }
+  }
+
   bool ComponentHolder::hasComponent(const std::string& id) const
   {
     auto it = m_components.find(id);

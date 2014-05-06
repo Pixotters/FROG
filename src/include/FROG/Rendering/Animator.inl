@@ -28,7 +28,7 @@ namespace frog{
     if (m_played != nullptr)
       {
         // placing drawable where GameObject is
-        Transform * t = parent.getComponent<Transform>("TRANSFORM");
+        auto t = parent.getComponent<Transform>("TRANSFORM");
         m_sprite.setPosition( t->getPosition() );
         m_sprite.setRotation( t->getRotation() );
         m_sprite.setScale( t->getScale() );

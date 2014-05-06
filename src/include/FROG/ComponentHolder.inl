@@ -1,22 +1,27 @@
 
 #include <iostream>
+#include <exception>
 
 namespace frog{
 
   template <typename C>
-  C * ComponentHolder::getComponent(const std::string& id) const
+  std::shared_ptr<C> ComponentHolder::getComponent(const std::string& id) const
   {
-    auto end = m_components.end();
-    std::shared_ptr<C> res;
-    for(auto it = m_components.begin(); it != end; it++)
+    auto it = m_components.find(id);
+    if (it != m_components.end() )
       {
-        if( (res=std::dynamic_pointer_cast<C>( (it->second) )  )  )
+        std::shared_ptr<C> res;
+        if ( (res = std::dynamic_pointer_cast<C>(it->second) )  )
           {
-            return ( res.get() );
+            return res;
+          }else
+          {
+            throw std::logic_error("Incompatible types when converting Component.");
           }
+      }else
+      {
+        throw std::logic_error("No such component");
       }
-    std::cerr << "No such component : " << id << " in " << this << std::endl;
-    return nullptr;
   }
 
 }

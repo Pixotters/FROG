@@ -32,11 +32,17 @@ namespace frog{
 
     /*!
      * @brief Returns the component of given ID converted to the given type. 
-     * @returns Pointer to Component is present, nullptr if not. 
+     * @returns Pointer to C is present, nullptr if not. 
      */
     template <typename C>
-    C * getComponent(const std::string& ) const;
-    
+    std::shared_ptr<C> getComponent(const std::string& ) const;
+ 
+   /*!
+     * @brief Returns the component of given ID as a std::shared_ptr<Component>.
+     * @returns Pointer to Component is present, nullptr if not. 
+     */
+    std::shared_ptr<Component> getComponent(const std::string&) const;
+   
     /*!
      * @brief Tells if a component of a given id is kept. 
      * @return True is a component of given id is held, False otherwise. 
