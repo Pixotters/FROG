@@ -13,7 +13,7 @@ Enemy::Enemy(const AppInfo& appinfo)
 {
   m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   m_boundingBox->setFillColor(sf::Color::Red);
-  phi::Physics * p = getComponent<phi::Physics>();
+  phi::Physics * p = getComponent<phi::Physics>("PHYSICS");
   p->addRotationForce(2.0f);
   p->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
 

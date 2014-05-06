@@ -15,13 +15,14 @@ namespace frog{
   {
     //// attributes ////
   protected:
+    GameObject * parent;
 
     //// operations ////
   public : 
 
     std::shared_ptr<Transform> transform;
 
-    GameObject();
+    GameObject(GameObject * parent = nullptr);
 
     virtual ~GameObject();
 

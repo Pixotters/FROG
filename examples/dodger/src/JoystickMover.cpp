@@ -58,6 +58,6 @@ void JoystickMover::update(const frog::ComponentHolder& parent)
 {
   std::cout << "Moving player to "<< getMovement().x << ","  \
             << getMovement().y << std::endl;
-  parent.getComponent<frog::Transform>()->move( getMovement() );
+  parent.getComponent<frog::Transform>("TRANSFORM")->move( getMovement() );
 }
 

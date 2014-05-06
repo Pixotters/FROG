@@ -52,7 +52,7 @@ namespace frog{
 
   void TextSprite::update(const ComponentHolder& parent )
   {
-    Transform * t = parent.getComponent<Transform>();
+    Transform * t = parent.getComponent<Transform>("TRANSFORM");
     m_text.setPosition( t->getPosition() );
     m_text.setRotation( t->getRotation() );
     m_text.setScale( t->getScale() );
