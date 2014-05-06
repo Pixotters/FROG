@@ -1,8 +1,6 @@
 
 #include "Level.hpp"
 
-#include "Enemy.hpp"
-#include "Target.hpp"
 
 #include "FROG/Control.hpp"
 #include "FROG/Control/ControlComponent.hpp"
@@ -32,42 +30,17 @@ class Collider : virtual public sap::ActionManager{
 private:
   std::shared_ptr<Player> m_player;
   Renderer * m_renderer;
-  std::list<std::shared_ptr<Target> > * m_targets;
+  std::list<std::shared_ptr<GameObject> > * m_targets;
 
 public:
-  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<Target> > * t, Renderer * r) 
+  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
     : m_player(p), m_renderer(r), m_targets(t)
   {}
 
   virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
        
-    Player * p;
-    Target * t1;
-    Target * t2;
-    if(
-       ( (p = dynamic_cast<Player *>(a) )
-         && (t2 = dynamic_cast<Target *>(b) ) )
-       //      ||( (p = dynamic_cast<Player *>(b) )
-       //          && (t2 = dynamic_cast<Target *>(a) ) )
-       ){
-      onCollision(p, t2);
-    }
-    if( (t1 = dynamic_cast<Target *>(a) )
-        && (t2 = dynamic_cast<Target *>(b) ) ){
-      onCollision(t1, t2);
-    }
   }
 
-  void onCollision(Player *, Target *){
-    //    m_targets->remove(b);
-    //    m_renderer->removeObject(b);
-    
-  }
-
-  void onCollision(Target *, Target *){
-    //    m_targets -> remove(b);
-  }
-  
   virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
 
   }
@@ -113,10 +86,7 @@ void Level::update(const AppInfo& appinfo)
       addObject(m_gui);
       added = true;
     }
-  //  JoystickMove * jm = new JoystickMove(m_player, &m_controller);
-  //  jm->execute();
-  //  delete jm;  
-  m_collider->updateObject( m_player.get() );
+  //  m_collider->updateObject( m_player.get() );
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -158,7 +128,9 @@ void Level::spawnEnemy(const AppInfo& appinfo)
   std::shared_ptr<GameObject> e(new GameObject() );
   sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
-  //  e->addComponent(new Sprite(m_textureManager.get("ENEMY_TEXTURE") ), "RENDERING" );
+  //  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
+  //  m_boundingBox->setFillColor(sf::Color::Red);
+
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->applyForce(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
@@ -172,9 +144,15 @@ void Level::spawnEnemy(const AppInfo& appinfo)
 void Level::spawnTarget(const AppInfo& appinfo)
 {
   
-  std::shared_ptr<Target> e(new Target(appinfo) );
+  std::shared_ptr<GameObject> e(new GameObject() );
+  //    m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
+  //  m_boundingBox->setFillColor(sf::Color::Green);
   e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
   e->getComponent<Transform>("TRANSFORM")->setPosition(Random::get(100, 700), Random::get(50, 550) );
+  e->addComponent(new PhysicBody(), "PHYSICS");
+  auto phi = e->getComponent<PhysicBody>("PHYSICS");
+  phi->applyForce(sf::Vector2f(Random::get(-10, 10) / 10.f, 
+                                Random::get(-10, 10) / 10.f ) ); 
   e->transform->layer = 1;
   m_targets.push_back(e);
   addObject(e);
@@ -185,10 +163,11 @@ void Level::updateEnemies()
 {
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
-      PhysicEngine::update( it->get() );
+      //      PhysicEngine::update( it->get() );
       if((*it)->getComponent<Transform>("TRANSFORM")->getPosition().x > 800 
-         || (*it)->getComponent<Transform>("TRANSFORM")->getPosition().y > 600  ){
-        removeObject(*it);    
+         || (*it)->getComponent<Transform>("TRANSFORM")->getPosition().y > 600)
+        {
+        removeObject(*it);
         it->reset();
         *it = nullptr;
       }
@@ -200,8 +179,8 @@ void Level::updateTargets()
 {
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
-      PhysicEngine::update( it->get() );
-      m_collider->updateObject( it->get() );
+      //      PhysicEngine::update( it->get() );
+      //      m_collider->updateObject( it->get() );
       auto tr = (*it)->getComponent<Transform>("TRANSFORM");
       if ( tr->getPosition().x > 800 
          || tr->getPosition().y > 600 

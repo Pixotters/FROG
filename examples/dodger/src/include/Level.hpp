@@ -2,12 +2,9 @@
 #define LEVEL_HPP
 
 #include "FROG/Scene.hpp"
-#include "FROG/Physics/PhysicEngine.hpp"
 #include "FROG/AssetManager.hpp"
 
 #include "Player.hpp"
-#include "Enemy.hpp"
-#include "Target.hpp"
 
 #include "FontID.hpp"
 
@@ -32,7 +29,7 @@ protected:
   std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;
   std::list< std::shared_ptr<GameObject> > m_ennemies;
-  std::list< std::shared_ptr<Target> > m_targets;
+  std::list< std::shared_ptr<GameObject> > m_targets;
   //  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
   //  PhysicEngine m_phiengine;
@@ -42,7 +39,6 @@ public:
   Level();
   virtual ~Level();
   virtual void update(const AppInfo&);
-  void removeTarget(Target *);
 
 private:
   void setControls(GameObject *, const AppInfo&);
