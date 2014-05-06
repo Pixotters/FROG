@@ -51,7 +51,7 @@ namespace frog{
   {
     try
       {
-        m_maps.at(n).insert( std::pair<IN *, CMD *>(i, o) );
+        m_maps.at(n).emplace( i, o );
       }catch(std::out_of_range e)
       {
         m_maps.resize(n+1);
@@ -121,10 +121,9 @@ namespace frog{
   template <typename IN, typename CMD>
   void InputComponent<IN, CMD>::unhandle(std::vector<IN> im)
   {
-    auto end = im.end();
-    for (auto it = im.begin(); it != end; it++)
+    for (auto i : im)
       {
-        unhandle(*it);
+        unhandle(i);
       }
   }
 
