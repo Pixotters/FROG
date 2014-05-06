@@ -74,7 +74,7 @@ namespace frog{
 
 }
 
-#include "ComponentHolder.inl"
+#include "FROG/ComponentHolder.inl"
 
 
 #endif

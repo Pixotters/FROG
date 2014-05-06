@@ -55,7 +55,7 @@ namespace frog
 
   };
 
-  #include "AssetManager.inl"
+  #include "FROG/AssetManager.inl"
 
 }
 
