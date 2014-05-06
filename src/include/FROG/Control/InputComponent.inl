@@ -10,7 +10,7 @@ namespace frog{
 
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::preupdate(const ComponentHolder& parent)
+  void InputComponent<IN, CMD>::preupdate(const ComponentHolder&)
   {
 
   }
@@ -36,7 +36,7 @@ namespace frog{
 
 
   template <typename IN, typename CMD>
-  void InputComponent<IN, CMD>::postupdate(const ComponentHolder& parent)
+  void InputComponent<IN, CMD>::postupdate(const ComponentHolder&)
   {
 
   }
