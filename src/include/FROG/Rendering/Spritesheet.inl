@@ -156,7 +156,7 @@ namespace frog{
   {
     try
       {
-        auto clip = m_clips.at(id);
+        const Clip& clip = m_clips.at(id);
         return clip;
       }catch(std::out_of_range e)
       {

@@ -17,13 +17,13 @@ namespace frog{
   }
 
 
-  void ControlComponent::preupdate(const ComponentHolder& parent)
+  void ControlComponent::preupdate(const ComponentHolder&)
   {
     m_previousMouse = sf::Mouse::getPosition();
   }
 
   bool ControlComponent::check(Input * event, 
-                               const ComponentHolder& parent) const
+                               const ComponentHolder&) const
   {
     KeyboardButton * kb;
     if ( (kb = dynamic_cast<KeyboardButton *>(event) )

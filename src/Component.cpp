@@ -12,7 +12,7 @@ namespace frog{
   {
   }
 
-  void Component::update(const ComponentHolder& parent)
+  void Component::update(const ComponentHolder&)
   {
     std::cerr << "Component: update" << std::endl;
   }

@@ -33,9 +33,8 @@ namespace frog{
      * \param i IN to bind
      * \param c CMD to which bind the IN
      * \param n (optionnal) index of the map to modify
-     * \return the CMD previously bound, c is there was none
      */
-    CMD * bind(IN * i, CMD * o, unsigned short n = 0);
+    void bind(IN * i, CMD * o, unsigned short n = 0);
 
     /*!
      * \brief Removes a binding from a given map's index.

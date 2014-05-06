@@ -1,8 +1,6 @@
 #ifndef FROG_COMPONENT_HPP
 #define FROG_COMPONENT_HPP
 
-//#include "FROG/ComponentHolder.hpp"
-
 namespace frog{
 
   class ComponentHolder;

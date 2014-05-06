@@ -12,10 +12,7 @@
 inline void print_debug(const std::string& msg)
 {
 #ifdef FROG_DEBUG
-  std::ostringstream oss;
-  oss << msg;
   std::cerr << msg << std::endl;
-  oss.flush();
 #endif
 }
 
