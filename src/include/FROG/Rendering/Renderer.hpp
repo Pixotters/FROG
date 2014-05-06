@@ -82,6 +82,7 @@ namespace frog{
        * \param go GameObject to remove
        */
       void removeObject(const std::shared_ptr<GameObject>& go);
+      void removeObject(GameObject * go);
 
 
       /*!

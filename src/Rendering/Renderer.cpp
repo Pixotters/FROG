@@ -85,17 +85,28 @@ namespace frog{
   
   void Renderer::removeObject(const std::shared_ptr<GameObject>& go)
   {
-    // TODO
-    //      m_objects.remove(go);
+    m_objects.remove(go);
   }
 
-  void Renderer::setTarget(sf::RenderTarget * rt)
-  {
-    m_target = rt;
-  }
+  
+void Renderer::removeObject(GameObject * go)
+{
+  for (auto& o : m_objects)
+    {
+      if (o.get() == go)
+        {
+        removeObject(o);
+        }
+    }
+}
 
-  void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
-  {
+void Renderer::setTarget(sf::RenderTarget * rt)
+{
+  m_target = rt;
+}
+
+void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
+{
   /* TODO : check if RenderingComponent or layer changed. 
      see the best -> pointer comparison, dirty flag, observer, notifying ?
   */
@@ -105,15 +116,15 @@ namespace frog{
         m_objects.at(go) = rc;
         }
   */
-  }
+}
   
-  void Renderer::draw(RenderingComponent * rc)
-  {
-    if(rc != nullptr)
-      {
-        rc->draw(m_texture, rc->getTransform() );
-      }
-  }
+void Renderer::draw(RenderingComponent * rc)
+{
+  if(rc != nullptr)
+    {
+      rc->draw(m_texture, rc->getTransform() );
+    }
+}
   
   
 }
