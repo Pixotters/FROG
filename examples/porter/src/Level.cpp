@@ -7,6 +7,7 @@
 #include "FROG/Rendering/Animator.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 
+#include "FROG/Component/AudioSource.hpp"
 
 #include "FROG/Control/KeyboardButton.hpp"
 #include "FROG/Control/MouseButton.hpp"
@@ -26,6 +27,10 @@ Level::Level()
                                     "Porter_anim");
   m_spritesheetManager.loadFromFile("assets/spritesheets/porter_animation2.xml",
                                     "Porter_anim2");
+  m_soundManager.loadFromFile("assets/sounds/metal_gong.wav",
+                                    "METAL_GONG");
+  m_soundManager.loadFromFile("assets/sounds/woosh.wav",
+                                    "WOOSH");
 }
 
 Level::~Level()
@@ -45,6 +50,7 @@ void Level::createPlayer(const AppInfo& appinfo)
   Spritesheet<std::string>& sprt = m_spritesheetManager.get("Porter_anim");
   m_player->transform->layer = 2;
   m_player->addComponent(new Animator<std::string>(sprt, tex), "RENDERING" );
+  m_player->addComponent(new AudioSource, "AUDIO" );
   m_player->getComponent<Animator<std::string> >("RENDERING")->setDefaultAnimation("stand");
   //
   std::shared_ptr<PlayerMachine> pm(new PlayerMachine(this) );
