@@ -48,6 +48,7 @@ namespace frog{
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the box at the origin of the parent
     auto pos = t->getPosition() - t->getOrigin();
+    gap *= t->getScale();
     box.left = pos.x + gap.x;
     box.top = pos.y + gap.y;
   }
