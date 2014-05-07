@@ -1,3 +1,38 @@
+= 10/05 =
+
+Comme nous avons appris un peu à la dernière minute qu'il nous faudrait faire 
+une vidéo et une présentation, il a fallu augmenter la cadence. L'objectif 
+étant de terminer au moins le jeu *Dodger* pour l'inclure dans la vidéo.  
+Un peu tout a été amélioré : la physique utilise désormais un Component, et 
+permet de nouveau la rotation et échelle (rotation non gérée dans les 
+collisions).  
+On peut afficher du texte graphiquement, via un RenderingComponent spécial, le 
+*TextComponent*.  
+Toujours plus de smart pointers.  
+Les Component sont désormais mappés par un ID, et plus par type : on peut 
+donc avoir plusieurs components de même type, tant que l'ID est différente. 
+On peut aussi jouer des sons avec le component *AudioSource*. 
+
+= Objectifs de la semaine =
+
+Finaliser ce qui doit l'être, faire la documentation pour la présentation, 
+et d'ailleurs faire la présentation. 
+
+= 03/05 = 
+
+Le Controller a été remanié. Il fonctionne désormais plus proprement (sans 
+double-dispatch ni dynamic_cast). Il n'y a pas non plus d'héritage "deadly 
+diamond", même si l'héritage virtual permettait un fonctionnement sans 
+problème.  
+Le site web a aussi été remanié.  
+Un peu de travail sur les exceptions a été fait. 
+
+= Objectifs de la semaine = 
+
+Permettre l'affichage de texte. Il faut aussi remanier les Component (pour 
+l'instant, on ne peut pas avoir deux components du même type). 
+
+
 = 27/04 - fin des vacances =
 
 == Travail mémoire ==
