@@ -56,7 +56,7 @@ void Level::enter()
   m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
-  //  addObject(m_terrain);
+    addObject(m_terrain);
   m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
@@ -67,6 +67,10 @@ void Level::enter()
                                                              [this](Collision c)
                                                              {
                                                                std::cout << "player collided " << std::endl;
+                                                               auto bb1 = c.first->getComponent<Collider>("COLLIDER")->getBoundingBox();
+                                                               std::cout << bb1.left << "," << bb1.top << " - " << bb1.width << "x" << bb1.height << std::endl;
+                                                               auto bb2 = c.second->getComponent<Collider>("COLLIDER")->getBoundingBox();
+                                                               std::cout << bb2.left << "," << bb2.top << " - " << bb2.width << "x" << bb2.height << std::endl;
                                                              }
                                                              );
   addObject(m_player);
