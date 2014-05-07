@@ -2,6 +2,9 @@
 #define FROG_LSAP_HPP 1
 
 #include <functional>
+#include <map>
+#include <memory>
+#include "FROG/GameObject.hpp"
 #include "FROG/Collision/CollisionManager.hpp"
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/AABB.hpp"
@@ -17,6 +20,10 @@ namespace frog {
      * **Limitation:** if an object moves too fast, LSAP may miss
      * a collision.
      */
+  protected:
+    /// objects added to the manager
+    std::map< std::shared_ptr<GameObject>, AABB *> m_objects;
+
   private:
 
     /** First EndPoint on xAxis (not a real point, but a sentinel)*/
@@ -68,7 +75,7 @@ namespace frog {
      * @param c Object (Collider) attached to the new bounding box
      *          to insert in the list
      */
-    void addObject(Collider * c);
+    void addObject(std::shared_ptr<GameObject> go);
 
     /**
      * @brief Updates Collider's EndPoints position in CollisionManger. 
@@ -76,13 +83,15 @@ namespace frog {
      * actionManager. Should be called as soon as an object moves.
      * @param c Object to update
      */
-    void updateObject(Collider * c);  
+    void updateObject(std::shared_ptr<GameObject> go);  
   
+    virtual void update();
+
     /**
      * @brief Remove a bounding box attached to a Collider 
      * @param c Object attached to the bounding box to remove
      */
-    void removeObject(Collider * c);
+    void removeObject(std::shared_ptr<GameObject> go);
   };
 }
 #endif

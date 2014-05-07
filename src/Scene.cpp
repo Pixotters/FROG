@@ -64,6 +64,7 @@ namespace frog{
       {
         (*it)->update();
       }    
+    m_collider -> update();
   }
 
   void Scene::exit()
@@ -135,30 +136,15 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    try
-      {
-        auto c = go->getComponent<Collider>("COLLIDER");
-        m_collider->addObject( c.get() );
-      }catch(std::logic_error e)
-      {
-
-      }
+    m_collider->addObject( go );
     m_renderer->addObject(go);
   }
 
   void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
   {
     // removing the object from managers
-    m_renderer->removeObject(go);        
-    // TODO : replace this crap by a component
-    try
-      {
-        auto c = go->getComponent<Collider>("COLLIDER");
-        m_collider->removeObject( c.get() );
-      }catch(std::logic_error e)
-      {
-
-      }
+    m_renderer->removeObject(go);     
+    m_collider->removeObject( go );
   }
 }
 
