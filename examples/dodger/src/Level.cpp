@@ -37,10 +37,9 @@ Level::Level(AppInfo& appinfo)
     m_appinfo(appinfo),
     m_player(new Player), 
     m_terrain(new GameObject), 
-    m_gui(new GameObject),
-    m_am(m_player, &m_targets, m_renderer)
+    m_gui(new GameObject)
 {
-  m_collider = new LSAP(&m_am);  
+  m_collider = new LSAP();  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
