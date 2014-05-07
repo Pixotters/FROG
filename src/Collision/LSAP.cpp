@@ -7,10 +7,9 @@
 
 namespace frog {
 
-  LSAP::LSAP (ActionManager * am) 
+  LSAP::LSAP () 
     : CollisionManager() 
   {
-    this->actionManager = am;
     /* not sure about the true/false values */
     xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
     xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
@@ -133,13 +132,11 @@ namespace frog {
           std::cerr << "step 6.1 " << std::endl;
           if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
             std::cerr << "COLLISION OCCURED " << std::endl;
-            //            this->actionManager->onCollision(pt->owner->owner,
-            //                                             tmp->owner->owner);
+            sendCollision(pt->owner, tmp->owner, Collision::COLLISION);
           }
         } else if (doSeparate(pt, tmp)) {
           std::cerr << "SEPARATION OCCURED " << std::endl;
-          //          this->actionManager->onSeparation(pt->owner->owner,
-          //     tmp->owner->owner);
+          sendCollision(pt->owner, tmp->owner, Collision::SEPARATION);
         }
         std::cerr << "step 6.2 " << std::endl;
         tmp = succ(pt);
@@ -179,37 +176,56 @@ namespace frog {
       {  if (pt != nullptr and succ != nullptr)
           {
             return pt->value > succ->value;
-      }else
-         {
-           return false;
-         }  };
-  auto next_swap = [this](EndPoint * pt, EndPoint * succ)
-  { swap(pt, succ); };
-  auto next_col = [](EndPoint *pt, EndPoint *succ)
-  { 
-    std::cerr << "testing collision " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
-    return !pt->isMin && succ->isMin; };
-  auto next_sep = [](EndPoint *pt, EndPoint *succ)
-  { 
-    std::cerr << "testing separation " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
-    return pt->isMin && !succ->isMin; };
+          }else
+          {
+            return false;
+          }  };
+    auto next_swap = [this](EndPoint * pt, EndPoint * succ)
+      { swap(pt, succ); };
+    auto next_col = [](EndPoint *pt, EndPoint *succ)
+      { 
+        std::cerr << "testing collision " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
+        return !pt->isMin && succ->isMin; };
+    auto next_sep = [](EndPoint *pt, EndPoint *succ)
+      { 
+        std::cerr << "testing separation " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
+        return pt->isMin && !succ->isMin; };
         
-  /* BINOR force update and allow to use a boolean test */
-  if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
-       update(min, next, next_cond, next_swap, next_col, next_sep))) {
-    update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
-    update(max, prev, prev_cond, prev_swap, prev_col, prev_sep);
+    /* BINOR force update and allow to use a boolean test */
+    if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
+         update(min, next, next_cond, next_swap, next_col, next_sep))) {
+      update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
+      update(max, prev, prev_cond, prev_swap, prev_col, prev_sep);
+    }
+
   }
 
-}
+  void LSAP::update()
+  {
+    for (auto& c : m_objects)
+      {
+        updateObject(c.first);
+      }
+  }
 
-void LSAP::update()
-{
-  for (auto& c : m_objects)
-    {
-      updateObject(c.first);
-    }
-}
-
+  void LSAP::sendCollision(AABB * a1, AABB * a2, Collision::Trigger tr) const
+  {
+    GameObject * g1, *g2;
+    for (auto it: m_objects)
+      {
+        if ( it.second == a1)
+          {
+            std::cerr << "retrieved first object for collision" << std::endl;
+            g1 = it.first.get();
+          }        
+        if ( it.second == a2)
+          {
+            std::cerr << "retrieved second object for collision" << std::endl;
+            g2 = it.first.get();
+          }
+      }
+    Collision c1(g1, g2, tr);
+    Collision c2(g2, g1, tr);
+  }
 
 }
