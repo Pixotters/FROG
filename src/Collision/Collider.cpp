@@ -20,7 +20,11 @@ namespace frog{
 
   void Collider::onCollision(const Collision& c)
   {
-    script(c);
+    // TODO : this should not be check again ?
+    auto bb1 = c.first->getComponent<Collider>("COLLIDER")->getBoundingBox();
+    auto bb2 = c.second->getComponent<Collider>("COLLIDER")->getBoundingBox();
+    if ( bb1.intersects(bb2) )
+      script(c);
   }
 
 }
