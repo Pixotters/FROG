@@ -34,7 +34,7 @@ namespace frog{
 
     PhysicBody(const sf::Vector2f& velocity = sf::Vector2f(0, 0),
                float rotation = 0.0f,
-               const sf::Vector2f& growth = sf::Vector2f(0, 0) );
+               const sf::Vector2f& growth = sf::Vector2f(1.0, 1.0) );
 
     virtual ~PhysicBody();
 

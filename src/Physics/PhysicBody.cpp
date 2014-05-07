@@ -3,7 +3,7 @@
 
 #include <SFML/System/Vector2.hpp>
 
-//const sf::Vector2f ZERO2F = sf::Vector2f(0, 0);
+#include <iostream>
 
 namespace frog{
 
@@ -85,7 +85,10 @@ namespace frog{
     auto tr = parent.getComponent<Transform>("TRANSFORM");
     tr->move(velocity);
     tr->rotate(rotation);
-    tr->setScale(tr->getScale() + growth);
+    std::cerr << "scaling : " << tr->getScale().x << "x" << tr->getScale().y;
+    std::cerr << " + " << growth.x << "x"<< growth.y << std::endl;
+    tr->scale(growth);
+    std::cerr << "----> " << tr->getScale().x << "x" << tr->getScale().y << std::endl;
   }
 
 
