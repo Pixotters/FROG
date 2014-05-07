@@ -2,7 +2,7 @@
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/EndPoint.hpp"
 
-#include <iostream> // TODO remove
+//#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -40,11 +40,12 @@ namespace frog{
 
   void AABB::updateEPValues() 
   {
-    std::cerr << "updating EP values " << std::endl;
+    /*    std::cerr << "updating EP values " << std::endl;
     std::cerr << min[0]->value << " -> " << owner->getXMin() << std::endl \
               << min[1]->value << " -> " << owner->getYMin() << std::endl \
               << max[0]->value << " -> " << owner->getXMax() << std::endl \
               << max[1]->value << " -> " << owner->getYMax() << std::endl;
+    */
     min[0]->value = owner->getXMin();
     min[1]->value = owner->getYMin();
     max[0]->value = owner->getXMax();

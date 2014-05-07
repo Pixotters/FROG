@@ -45,9 +45,9 @@ Level::Level(AppInfo& appinfo)
 
 Level::~Level()
 {
-    delete m_collider;
-    m_ennemies.clear();
-    m_targets.clear();
+  delete m_collider;
+  m_ennemies.clear();
+  m_targets.clear();
 }
 
 void Level::enter()
@@ -63,6 +63,12 @@ void Level::enter()
   m_player->transform->setOrigin( 32, 32 );
   m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
                           "COLLIDER");
+  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(
+                                                             [this](Collision c)
+                                                             {
+                                                               std::cout << "player collided " << std::endl;
+                                                             }
+                                                             );
   addObject(m_player);
   m_collider->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
@@ -71,7 +77,7 @@ void Level::enter()
   m_gui->addComponent( pgui, "GUI" );
   m_gui->transform->layer = GUI_LAYER;
   m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
-    addObject(m_gui);
+  addObject(m_gui);
 }
 
 void Level::update(const AppInfo& appinfo)
@@ -138,7 +144,7 @@ void Level::spawnEnemy()
   m_ennemies.push_back(e);
   addObject(e);
 
- }
+}
 
 void Level::spawnTarget()
 {
@@ -156,7 +162,7 @@ void Level::spawnTarget()
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                               Random::get(-10, 10) / 10.f ) );  
+                                Random::get(-10, 10) / 10.f ) );  
   phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
   phi->addRotation( Random::get(-20, 20) );  
   e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
