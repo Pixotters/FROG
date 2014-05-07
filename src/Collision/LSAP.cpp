@@ -7,10 +7,9 @@
 
 namespace frog {
 
-  LSAP::LSAP (ActionManager * am) 
+  LSAP::LSAP () 
     : CollisionManager() 
   {
-    this->actionManager = am;
     /* not sure about the true/false values */
     xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
     xAxis->next = new EndPoint(NULL, INT_MAX, false, xAxis, NULL);
@@ -42,9 +41,7 @@ namespace frog {
   }
 
   void LSAP::addObject(std::shared_ptr<GameObject> go) {
-    std::cerr << "getting collider of " << go << std::endl;
     auto collider = go->getComponent<Collider>("COLLIDER");
-    std::cerr << "ok for " << go << std::endl;
     AABB * aabb = new AABB(collider);
     m_objects.emplace(go, aabb);
     aabb->min[0]->next = aabb->max[0];
@@ -75,18 +72,18 @@ namespace frog {
   }
   
   void LSAP::removeObject(std::shared_ptr<GameObject> go) {
-    /*    auto find = m_objects.find(go);
-          if (find != m_objects.end() )
-          {
-          delete find->second;
-          m_objects.erase(find);        
-          }
-    */
+    auto find = m_objects.find(go);
+    if (find != m_objects.end() )
+      {
+        delete find->second;
+        m_objects.erase(find);        
+      }
+    
   }
 
   void LSAP::swap(EndPoint * p1, EndPoint * p2) {
-    if (p2->next != NULL) p2->next->prev = p1;
-    if (p1->prev != NULL) p1->prev->next = p2;
+    if (p2->next != nullptr) p2->next->prev = p1;
+    if (p1->prev != nullptr) p1->prev->next = p2;
     p1->next = p2->next;
     p2->next = p1;  
     p2->prev = p1->prev;
@@ -104,7 +101,6 @@ namespace frog {
   }
 
   void LSAP::updateAxis(EndPoint * min, EndPoint * max) {
-    std::cerr << "updating axis" << min << " and " << max << std::endl;
     auto update =
       [this]
       (EndPoint * pt,
@@ -114,38 +110,23 @@ namespace frog {
        std::function<bool(EndPoint*pt,EndPoint*succ)>doCollide,
        std::function<bool(EndPoint*pt,EndPoint*succ)>doSeparate) {
           
-      std::cerr << "step 1 " << std::endl;
       EndPoint * tmp = succ(pt);
-
-      std::cerr << "step 2 " << std::endl;
       if (!loop_cond(pt, tmp))
         { return false; }
-
-      std::cerr << "step 3 " << std::endl;
       do {
-        
-        std::cerr << "step 4 " << std::endl;
         swap_fun(pt, tmp);
-
-        std::cerr << "step 5 " << std::endl;
-
         if (doCollide(pt, tmp)) {
-          std::cerr << "step 6.1 " << std::endl;
-          if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+          std::cerr << "COLLISION OCCURED ?? " << std::endl;
+          //          if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
             std::cerr << "COLLISION OCCURED " << std::endl;
-            //            this->actionManager->onCollision(pt->owner->owner,
-            //                                             tmp->owner->owner);
-          }
+            sendCollision(pt->owner, tmp->owner, Collision::COLLISION);
+            //          }
         } else if (doSeparate(pt, tmp)) {
           std::cerr << "SEPARATION OCCURED " << std::endl;
-          //          this->actionManager->onSeparation(pt->owner->owner,
-          //     tmp->owner->owner);
+          sendCollision(pt->owner, tmp->owner, Collision::SEPARATION);
         }
-        std::cerr << "step 6.2 " << std::endl;
         tmp = succ(pt);
-        std::cerr << "step 6.3 " << std::endl;
       } while (loop_cond(pt, tmp));
-      std::cerr << "step 7 " << std::endl;
       return true;
     };
 
@@ -166,11 +147,11 @@ namespace frog {
       { swap(succ, pt); };
     auto prev_col = [](EndPoint *pt, EndPoint *succ)
       { 
-        std::cerr << "testing collision " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
+        std::cerr << "testing prev collision " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
         return pt->isMin && !succ->isMin; };
     auto prev_sep = [](EndPoint *pt, EndPoint *succ)
       { 
-        std::cerr << "testing collision " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
+        std::cerr << "testing prev separation " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
         return !pt->isMin && succ->isMin; };
                      
     auto next = [](EndPoint *p)
@@ -179,37 +160,59 @@ namespace frog {
       {  if (pt != nullptr and succ != nullptr)
           {
             return pt->value > succ->value;
-      }else
-         {
-           return false;
-         }  };
-  auto next_swap = [this](EndPoint * pt, EndPoint * succ)
-  { swap(pt, succ); };
-  auto next_col = [](EndPoint *pt, EndPoint *succ)
-  { 
-    std::cerr << "testing collision " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
-    return !pt->isMin && succ->isMin; };
-  auto next_sep = [](EndPoint *pt, EndPoint *succ)
-  { 
-    std::cerr << "testing separation " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
-    return pt->isMin && !succ->isMin; };
+          }else
+          {
+            return false;
+          }  };
+    auto next_swap = [this](EndPoint * pt, EndPoint * succ)
+      { swap(pt, succ); };
+    auto next_col = [](EndPoint *pt, EndPoint *succ)
+      { 
+        std::cerr << "testing next collision " << !pt->isMin <<"-"<< succ->isMin<< std::endl;
+        return !pt->isMin && succ->isMin; };
+    auto next_sep = [](EndPoint *pt, EndPoint *succ)
+      { 
+        std::cerr << "testing next separation " << pt->isMin <<"-"<< !succ->isMin<< std::endl;
+        return pt->isMin && !succ->isMin; };
         
-  /* BINOR force update and allow to use a boolean test */
-  if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
-       update(min, next, next_cond, next_swap, next_col, next_sep))) {
-    update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
-    update(max, prev, prev_cond, prev_swap, prev_col, prev_sep);
+    /* BINOR force update and allow to use a boolean test */
+    if(!(update(max, next, next_cond, next_swap, next_col, next_sep) |
+         update(min, next, next_cond, next_swap, next_col, next_sep))) {
+      update(min, prev, prev_cond, prev_swap, prev_col, prev_sep);
+      update(max, prev, prev_cond, prev_swap, prev_col, prev_sep);
+    }
+
   }
 
-}
+  void LSAP::update()
+  {
+    for (auto& c : m_objects)
+      {
+        updateObject(c.first);
+      }
+  }
 
-void LSAP::update()
-{
-  for (auto& c : m_objects)
-    {
-      updateObject(c.first);
-    }
-}
-
+  void LSAP::sendCollision(AABB * a1, AABB * a2, Collision::Trigger tr) const
+  {
+    GameObject * g1, *g2;
+    for (auto it: m_objects)
+      {
+        if ( it.second == a1)
+          {
+            g1 = it.first.get();
+          }        
+        if ( it.second == a2)
+          {
+            g2 = it.first.get();
+          }
+      }
+    if (g1 != nullptr and g2 != nullptr)
+      {
+        Collision c1(g1, g2, tr);
+        Collision c2(g2, g1, tr);
+        a1->owner->onCollision(c1);
+        a2->owner->onCollision(c2);
+      }
+  }
 
 }

@@ -9,7 +9,6 @@
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/AABB.hpp"
 #include "FROG/Collision/EndPoint.hpp"
-#include "FROG/Collision/ActionManager.hpp"
 
 namespace frog {
 
@@ -31,9 +30,6 @@ namespace frog {
 
     /** Second EndPoint on xAxis (not a real point, but a sentinel)*/
     EndPoint * yAxis;
-
-    /** Action manager used on collision/separation */
-    ActionManager * actionManager;
 
     /** 
      * @brief Swap two EndPoints.
@@ -63,11 +59,13 @@ namespace frog {
      */
     void updateAxis(EndPoint * min, EndPoint * max);
     
+    void sendCollision(AABB * a1, AABB * a2, Collision::Trigger) const;
+
   public:
 
-    LSAP (ActionManager * am);
+    LSAP ();
 
-    ~LSAP ();
+    virtual ~LSAP ();
 
     /**
      * @brief Creates a bounding box attached to a Collider and insert its

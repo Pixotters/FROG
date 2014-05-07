@@ -3,6 +3,7 @@
 
 #include "FROG/Component.hpp"
 #include "FROG/ComponentHolder.hpp"
+#include "FROG/Collision/Collision.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 
@@ -17,7 +18,9 @@ namespace frog{
 
   public:
 
-    Collider();
+    std::function<void(Collision)> script;
+
+    Collider(std::function<void(Collision)> = [](Collision){} );
 
     virtual ~Collider();
 
@@ -41,6 +44,13 @@ namespace frog{
     virtual float getYMax() const = 0;
 
     virtual void update(const ComponentHolder&) = 0;
+
+    void setScript(std::function<void(Collision)>);
+
+    /*
+     * @brief Function to trigger when this collider collides with another
+     */
+    void onCollision(const Collision&);
 
   };
 }
