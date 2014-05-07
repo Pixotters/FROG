@@ -4,7 +4,7 @@
 namespace frog{
 
   BoxCollider::BoxCollider(const sf::Vector2u& dimensions,
-                           const sf::Vector2i& _gap,
+                           const sf::Vector2f& _gap,
                            std::function<void(Collision)> fun )
     : Collider(fun), gap(_gap)
   {
@@ -48,7 +48,8 @@ namespace frog{
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the box at the origin of the parent
     auto pos = t->getPosition() - t->getOrigin();
-    gap *= t->getScale();
+    gap.x *= t->getScale().x;
+    gap.x *= t->getScale().y;
     box.left = pos.x + gap.x;
     box.top = pos.y + gap.y;
   }
@@ -59,7 +60,7 @@ namespace frog{
     box.height = newsize.y;
   }
 
-  void BoxCollider::setGap(const sf::Vector2i& newgap)
+  void BoxCollider::setGap(const sf::Vector2f& newgap)
   {
     gap.x = newgap.x;
     gap.y = newgap.y;

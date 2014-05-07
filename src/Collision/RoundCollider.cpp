@@ -4,7 +4,7 @@
 namespace frog{
 
   RoundCollider::RoundCollider(const sf::Vector2f& rad,
-                               const sf::Vector2i& _gap,
+                               const sf::Vector2f& _gap,
                                std::function<void(Collision)> fun )
     : Collider(fun), radius(rad), gap(_gap)
   {
@@ -48,8 +48,9 @@ namespace frog{
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the circle at the origin of the parent
-    radius *= t->getScale();
-    center = t->getOrigin() + ( static_cast<sf::Vector2f>(gap) );
+    radius.x *= t->getScale().x;
+    radius.y *= t->getScale().y;
+    center = t->getOrigin() + gap;
   }
 
   void RoundCollider::resize(const sf::Vector2f& newsize)
@@ -57,7 +58,7 @@ namespace frog{
     radius = newsize;
   }
 
-  void RoundCollider::setGap(const sf::Vector2i& newgap)
+  void RoundCollider::setGap(const sf::Vector2f& newgap)
   {
     gap.x = newgap.x;
     gap.y = newgap.y;
