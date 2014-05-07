@@ -39,8 +39,9 @@ namespace frog{
         /*        auto tr = animClip.transform;
                   m_sprite->rotate( tr.getRotation() );
                   m_sprite->scale( tr.getScale() );
-                  m_sprite->move( tr.getPosition() + clip.hotpoint );*/
-        m_sprite->scale( 3.0f, 3.0f); // TODO remove this
+                  m_sprite->move( tr.getPosition() + clip.hotpoint );
+                  m_sprite->setOrigine( tr.getOrigin() );
+        */
         m_sprite->move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
         m_timer++;
         // changing (or not) anim when it's done

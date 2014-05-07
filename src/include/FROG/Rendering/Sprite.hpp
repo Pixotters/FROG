@@ -23,15 +23,6 @@ namespace frog{
 
     virtual ~Sprite();
 
-     /*!
-       * @brief Places the Sprite to render at the good place. 
-       * @details Places the sprite at the position of its parent, 
-       * so the parent need a Transform component. It also takes its rotation 
-       * and scale.
-       * @param parent ComponentHolder holding position, rotation and scale
-       */
-    void update(const ComponentHolder& parent);
-
   };
 
 }

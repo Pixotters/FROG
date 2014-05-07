@@ -26,7 +26,7 @@ namespace frog{
 
   Renderer::~Renderer()
   {
-
+    m_objects.clear();
   }
 
   void Renderer::update()

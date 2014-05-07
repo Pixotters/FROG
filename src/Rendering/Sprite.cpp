@@ -17,13 +17,4 @@ namespace frog{
 
   }
   
-  void Sprite::update(const ComponentHolder& parent )
-  {
-    auto t = parent.getComponent<Transform>("TRANSFORM");
-    m_sprite->setPosition( t->getPosition() );
-    m_sprite->setRotation( t->getRotation() );
-    m_sprite->setScale( t->getScale() );
-  }
-  
-
 }

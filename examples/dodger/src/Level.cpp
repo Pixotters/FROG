@@ -113,39 +113,46 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
 void Level::spawnEnemy()
 {
   std::shared_ptr<GameObject> e(new GameObject() );
-  e->transform->layer = ENEMY_LAYER;
-  e->transform->setPosition(Random::get(100, 700), 50);
   sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
   r->setFillColor(sf::Color::Red);
+  r->setOutlineThickness(2);
+  r->setOutlineColor(sf::Color::Black);
+  e->addComponent(new RenderingComponent( r ), "RENDERING" );
   //  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Red);
   e->addComponent(new PhysicBody(), "PHYSICS");
+  e->transform->layer = ENEMY_LAYER;
+  e->transform->setPosition(Random::get(100, 700), 50);
+  e->transform->setOrigin(12, 12);
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
   phi->addRotation( Random::get(-20, 20) );
-  e->addComponent(new RenderingComponent( r ), "RENDERING" );
   auto x_center = r->getLocalBounds().left + (r->getLocalBounds().width/2.0);
   auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
   m_ennemies.push_back(e);
   addObject(e);
-}
+
+ }
 
 void Level::spawnTarget()
 {
-  
   std::shared_ptr<GameObject> e(new GameObject() );
   //    m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Green);
   e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
-  e->transform->setScale(0.5f, 0.5f);
+  //  e->transform->setScale(0.5f, 0.5f);
+  //  auto bounds = e->getComponent<Sprite>("RENDERING")->getLocalBounds();
+  //  e->transform->setOrigin(bounds.left + bounds.width/2.0, 
+  //                        bounds.top + bounds.height/2.0f);
+  e->transform->setOrigin(32, 32);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
                                Random::get(-10, 10) / 10.f ) );  
-  //  phi->addGrowth(sf::Vector2f(-0.5f, -0.5f) );
+  phi->addGrowth(sf::Vector2f(-0.5f, -0.5f) );
   phi->addRotation( Random::get(-20, 20) );  
   m_targets.push_back(e);
   addObject(e);
@@ -157,8 +164,8 @@ void Level::updateEnemies()
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
       //      PhysicEngine::update( it->get() );
-      if((*it)->getComponent<Transform>("TRANSFORM")->getPosition().x > 800 
-         || (*it)->getComponent<Transform>("TRANSFORM")->getPosition().y > 600)
+      if((*it)->transform->getPosition().x > 800 
+         || (*it)->transform->getPosition().y > 600)
         {
           removeObject(*it);
           it->reset();
@@ -174,7 +181,7 @@ void Level::updateTargets()
     {      
       //      PhysicEngine::update( it->get() );
       //      m_collider->updateObject( it->get() );
-      auto tr = (*it)->getComponent<Transform>("TRANSFORM");
+      auto tr = (*it)->transform;
       if ( tr->getPosition().x > 800 
            || tr->getPosition().y > 600 
            || tr->getPosition().x < -32
