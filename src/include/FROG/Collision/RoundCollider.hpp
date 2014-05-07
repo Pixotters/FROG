@@ -13,7 +13,7 @@ namespace frog{
   {
   public:
     /// the radius
-    float radius;
+    sf::Vector2f radius;
     /// the bounding box
     sf::Vector2f center;
     /// the gap between origin of parent and origin of the box
@@ -21,7 +21,7 @@ namespace frog{
 
 
   public:
-    RoundCollider(float rad = 1.0f,
+    RoundCollider(const sf::Vector2f& rad = sf::Vector2f(1.0f, 1.0f),
                   const sf::Vector2i& gap = sf::Vector2i(0,0),
                   std::function<void(Collision)> = [](Collision){} );
     virtual ~RoundCollider();
@@ -31,7 +31,7 @@ namespace frog{
     virtual float getXMax() const;
     virtual float getYMax() const;
     virtual void update(const ComponentHolder&);
-    virtual void resize(float);
+    virtual void resize(const sf::Vector2f&);
     virtual void setGap(const sf::Vector2i&);
 
   };
