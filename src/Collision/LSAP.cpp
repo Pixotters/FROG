@@ -117,10 +117,10 @@ namespace frog {
         swap_fun(pt, tmp);
         if (doCollide(pt, tmp)) {
           std::cerr << "COLLISION OCCURED ?? " << std::endl;
-          //          if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
+          if (this->collisionCheck(*(pt->owner), *(tmp->owner))) {
             std::cerr << "COLLISION OCCURED " << std::endl;
             sendCollision(pt->owner, tmp->owner, Collision::COLLISION);
-            //          }
+          }
         } else if (doSeparate(pt, tmp)) {
           std::cerr << "SEPARATION OCCURED " << std::endl;
           sendCollision(pt->owner, tmp->owner, Collision::SEPARATION);
