@@ -1,5 +1,6 @@
 
 #include <exception>
+#include <sstream>
 
 namespace frog{
 
@@ -15,11 +16,20 @@ namespace frog{
             return res;
           }else
           {
-            throw std::logic_error("Incompatible types when converting Component.");
+
+            std::ostringstream oss;
+            oss << "Incompatible types when converting Component ";
+            oss << id;
+            throw std::logic_error( oss.str() );
+            oss.flush();
           }
       }else
       {
-        throw std::logic_error("No such component");
+        std::ostringstream oss;
+        oss << "No such component - ";
+        oss <<id;
+        throw std::logic_error( oss.str() );
+        oss.flush();
       }
   }
 

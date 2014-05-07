@@ -1,6 +1,6 @@
 #include "FROG/Scene.hpp"
 
-#include "FROG/Collision/Collisionable.hpp"
+#include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/LSAP.hpp"
 
 #include "FROG/Debug.hpp"
@@ -64,6 +64,7 @@ namespace frog{
       {
         (*it)->update();
       }    
+    m_collider -> update();
   }
 
   void Scene::exit()
@@ -135,24 +136,17 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    sap::Collisionable * c;
-    if( (c = dynamic_cast<sap::Collisionable *>( go.get() ) )  ) {
-      m_collider->addObject(c);
-    }
     m_renderer->addObject(go);
   }
 
   void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
   {
     // removing the object from managers
-    m_renderer->removeObject(go);        
-    // TODO : replace this crap by a component
-    sap::Collisionable * c;
-    if( (c = dynamic_cast<sap::Collisionable *>( go.get() ) )  ){ 
-      m_collider->removeObject(c);
-    }
+    m_renderer->removeObject(go);     
   }
-
 }
+
+
+
 
 

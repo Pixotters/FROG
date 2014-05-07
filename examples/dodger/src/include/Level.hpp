@@ -4,6 +4,9 @@
 #include "FROG/Scene.hpp"
 #include "FROG/AssetManager.hpp"
 
+#include "FROG/Collision/ActionManager.hpp"
+#include "FROG/Collision/Collider.hpp"
+
 #include "Player.hpp"
 
 #include "FontID.hpp"
@@ -20,7 +23,7 @@ typedef enum {
   TARGET_TEXTURE
 } TEXTURE_ID;
 
-class Collider : virtual public sap::ActionManager{
+class ColliderM : virtual public ActionManager{
 
 private:
   std::shared_ptr<Player> m_player;
@@ -28,15 +31,15 @@ private:
   std::list<std::shared_ptr<GameObject> > * m_targets;
 
 public:
-  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
+  ColliderM(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
     : m_player(p), m_renderer(r), m_targets(t)
   {}
 
-  virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
+  virtual void onCollision(Collider * a, Collider * b){
        
   }
 
-  virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
+  virtual void onSeparation(Collider *, Collider *){
 
   }
 
@@ -55,7 +58,7 @@ protected:
   std::list< std::shared_ptr<GameObject> > m_ennemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
-  Collider m_am;
+  ColliderM m_am;
 
   //// operations ////
 public:

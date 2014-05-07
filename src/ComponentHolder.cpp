@@ -1,5 +1,6 @@
 #include "FROG/ComponentHolder.hpp"
 #include <iostream>
+#include <sstream>
 
 namespace frog{
 
@@ -19,7 +20,11 @@ namespace frog{
         return (it->second);
       }else
       {
-        throw std::logic_error("No such component");
+        std::ostringstream oss;
+        oss << "No such component - ";
+        oss << id;
+        throw std::logic_error( oss.str() );
+        oss.flush();
       }
   }
 

@@ -1,5 +1,4 @@
 #include <exception>
-#include <iostream> // TODO remove
 
 namespace frog{
 
@@ -19,14 +18,12 @@ namespace frog{
   void InputComponent<IN, CMD>::update(const ComponentHolder& parent)
   {
     preupdate(parent);
-    std::cerr << "updating input component " << std::endl;
     for (auto map : m_maps)
       {
         for (auto entry : map)
           {
             if ( check(entry.first, parent) )
               {
-                std::cerr << "input is pressed" << std::endl;
                 (entry.second)->execute();
               }
           } 

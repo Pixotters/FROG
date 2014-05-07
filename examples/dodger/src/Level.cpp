@@ -1,6 +1,7 @@
 #include "GUI.hpp"
 #include "Level.hpp"
 
+#include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Control.hpp"
 #include "FROG/Control/ControlComponent.hpp"
 #include "FROG/Debug.hpp"
@@ -39,7 +40,7 @@ Level::Level(AppInfo& appinfo)
     m_gui(new GameObject),
     m_am(m_player, &m_targets, m_renderer)
 {
-  m_collider = new sap::LSAP(&m_am);  
+  m_collider = new LSAP(&m_am);  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
@@ -56,18 +57,22 @@ void Level::enter()
   m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
-  addObject(m_terrain);
+  //  addObject(m_terrain);
   m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
+  m_player->transform->setOrigin( 32, 32 );
+  m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
+                          "COLLIDER");
   addObject(m_player);
+  m_collider->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
                                     m_fontManager.get(GUI_FONT),
                                     3) );
   m_gui->addComponent( pgui, "GUI" );
   m_gui->transform->layer = GUI_LAYER;
   m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
-  addObject(m_gui);
+    addObject(m_gui);
 }
 
 void Level::update(const AppInfo& appinfo)
@@ -130,6 +135,7 @@ void Level::spawnEnemy()
   auto x_center = r->getLocalBounds().left + (r->getLocalBounds().width/2.0);
   auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
+  e->addComponent(new BoxCollider(sf::Vector2u(25,25) ), "COLLIDER");
   m_ennemies.push_back(e);
   addObject(e);
 
@@ -154,7 +160,9 @@ void Level::spawnTarget()
                                Random::get(-10, 10) / 10.f ) );  
   phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
   phi->addRotation( Random::get(-20, 20) );  
+  e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
   m_targets.push_back(e);
+  m_collider->addObject(e);
   addObject(e);
   
 }
