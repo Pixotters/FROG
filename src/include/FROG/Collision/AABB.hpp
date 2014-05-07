@@ -6,7 +6,7 @@
 
 namespace frog{
 
-  class AABB {
+  struct AABB {
 
   public:
 
@@ -25,7 +25,7 @@ namespace frog{
      */
     AABB(Collider * c);
 
-    ~AABB ();
+    virtual ~AABB ();
 
     /**
      * Update EndPoints values according to information provided by

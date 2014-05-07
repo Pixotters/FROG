@@ -3,9 +3,9 @@
 
 namespace frog{
 
-  class AABB;
+  struct AABB;
 
-  class EndPoint {
+  struct EndPoint {
 
     /**
      * TODO:
@@ -33,7 +33,7 @@ namespace frog{
     EndPoint (AABB* o,int v,bool m,EndPoint* p=nullptr,EndPoint* n=nullptr);
     
     /** When and EndPoint is destroyed, it updates prev and next */
-    ~EndPoint ();
+    virtual ~EndPoint ();
   };
 
 }
