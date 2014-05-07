@@ -136,7 +136,6 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    m_collider->addObject( go );
     m_renderer->addObject(go);
   }
 
@@ -144,7 +143,6 @@ namespace frog{
   {
     // removing the object from managers
     m_renderer->removeObject(go);     
-    m_collider->removeObject( go );
   }
 }
 
