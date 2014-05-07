@@ -8,10 +8,10 @@ namespace frog{
     owner(o), value(v), isMin(m), prev(p), next(n) {}
     
   EndPoint::~EndPoint () {
-    if (this->prev != NULL) {
+    if (this->prev != nullptr) {
       this->prev->next = this->next;
     }
-    if (this->next != NULL) {
+    if (this->next != nullptr) {
       this->next->prev = this->prev;
     }
   }

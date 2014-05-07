@@ -61,7 +61,9 @@ void Level::enter()
   m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
-  m_player->addComponent( new BoxCollider(), "COLLIDER");
+  m_player->transform->setOrigin( 32, 32 );
+  m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
+                          "COLLIDER");
   addObject(m_player);
   m_collider->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 

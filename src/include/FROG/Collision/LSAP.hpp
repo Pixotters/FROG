@@ -13,7 +13,7 @@
 
 namespace frog {
 
-  class LSAP : virtual public CollisionManager<Collider> {
+  class LSAP : virtual public CollisionManager{
 
     /**
      * Sweep And Prune engine, implemented using doubly linked lists
