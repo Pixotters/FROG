@@ -2,7 +2,7 @@
 #define FROG_ACTIONMANAGER_HPP 1
 
 #include <list>
-#include "FROG/Collision/Collisionable.hpp"
+#include "FROG/Collision/Collider.hpp"
 
 /**
  * The action manager is the interface of objects needed by LSAP.
@@ -13,7 +13,7 @@
  *       provided action for instance).
  */
 
-namespace sap {
+namespace frog {
 
     class ActionManager {
 
@@ -23,13 +23,13 @@ namespace sap {
          * @param o1 first object which collide
          * @param o2 second object which collide
          */
-        virtual void onCollision(Collisionable * o1, Collisionable * o2) = 0;
+        virtual void onCollision(Collider * o1, Collider * o2) = 0;
 
         /**
          * @param o1 first object which do not collide
          * @param o2 second object which do not collide
          */
-        virtual void onSeparation(Collisionable * o1, Collisionable * o2) = 0;
+        virtual void onSeparation(Collider * o1, Collider * o2) = 0;
 
         virtual ~ActionManager() {};
 
@@ -37,7 +37,7 @@ namespace sap {
 
     class DefaultActionManager : virtual public ActionManager {
 
-        typedef std::pair<Collisionable *, Collisionable *> pair;
+        typedef std::pair<Collider *, Collider *> pair;
 
     protected:
         std::list < pair > colliding;
@@ -46,11 +46,11 @@ namespace sap {
 
         std::list < pair > getColliding () { return colliding; }
 
-        virtual void onCollision(Collisionable * o1, Collisionable * o2) {
+        virtual void onCollision(Collider * o1, Collider * o2) {
             colliding.push_front(pair(o1, o2));
         }
 
-        virtual void onSeparation(Collisionable * o1, Collisionable * o2) {
+        virtual void onSeparation(Collider * o1, Collider * o2) {
             colliding.remove(pair(o1, o2));
         }
 

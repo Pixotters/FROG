@@ -2,6 +2,10 @@
 #define FROG_BOXCOLLIDER_HPP
 
 #include "FROG/Collision/Collider.hpp"
+#include "FROG/ComponentHolder.hpp"
+
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace frog{
 
@@ -16,7 +20,7 @@ namespace frog{
 
   public:
     BoxCollider(const sf::Vector2u& dimensions = sf::Vector2u(1,1),
-                const sf::Vector2i& gap = sf::Vector2u(0,0));
+                const sf::Vector2i& gap = sf::Vector2i(0,0));
     virtual ~BoxCollider();
     virtual sf::FloatRect getBoundingBox() const;
     virtual float getXMin() const;

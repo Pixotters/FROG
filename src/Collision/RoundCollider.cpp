@@ -1,4 +1,5 @@
 #include "FROG/Collision/RoundCollider.hpp"
+#include "FROG/Transform.hpp"
 
 namespace frog{
 
@@ -12,52 +13,49 @@ namespace frog{
   {
   }
 
-  sf::FloatRect RoundCollider::getBoundingRound() const
+  sf::FloatRect RoundCollider::getBoundingBox() const
   {
     sf::FloatRect box;
     box.left = center.x - radius;
     box.top = center.y - radius;
     box.width = radius;
     box.height = radius;
-
+    return box;
   }
 
   float RoundCollider::getXMin() const
   {
-    return center.x - radius.x;
+    return center.x - radius;
   }
 
   float RoundCollider::getYMin() const
   {
-    return center.y - radius.y;
+    return center.y - radius;
   }
 
   float RoundCollider::getXMax() const
   {
-    return center.x + radius.x;
+    return center.x + radius;
   }
 
   float RoundCollider::getYMax() const
   {
-    return center.y + radius.y;
+    return center.y + radius;
   }
 
   void RoundCollider::update(const ComponentHolder& parent)
   {
-    auto t = parent->getComponent<Transform>("TRANSFORM");
+    auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the circle at the origin of the parent
-    center = t->getOrigin() + gap;
-    auto pos = t->getPosition() - t->getOrigin();
-    box.left = pos.x + gap.x;
-    box.top = pos.y + gap.y;
+    center = t->getOrigin() + ( static_cast<sf::Vector2f>(gap) );
   }
 
-  virtual void resize(float newsize)
+  void RoundCollider::resize(float newsize)
   {
     radius = newsize;
   }
 
-  virtual void setGap(const sf::Vector2i& newgap)
+  void RoundCollider::setGap(const sf::Vector2i& newgap)
   {
     gap.x = newgap.x;
     gap.y = newgap.y;

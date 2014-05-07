@@ -3,12 +3,14 @@
 
 #include <functional>
 #include "FROG/Collision/CollisionManager.hpp"
-#include "FROG/Collision/Collisionable.hpp"
+#include "FROG/Collision/Collider.hpp"
+#include "FROG/Collision/AABB.hpp"
+#include "FROG/Collision/EndPoint.hpp"
 #include "FROG/Collision/ActionManager.hpp"
 
-namespace sap {
+namespace frog {
 
-    class LSAP : virtual public CollisionManager<Collisionable> {
+    class LSAP : virtual public CollisionManager<Collider> {
 
         /**
          * Sweep And Prune engine, implemented using doubly linked lists
@@ -21,68 +23,7 @@ namespace sap {
 
         /* BEGIN: private classes for LSAP collision manager */
 
-        class AABB;
-
-        class EndPoint {
-
-            /**
-             * TODO:
-             * - Optimize merging isMin boolean into another member
-             *   (as a flag)
-             * - Using doubly-linked list could waste memory but is easier to 
-             *   implement than arrays.
-             */
-
-        public:
-
-            AABB * owner;
-            /** Value used to sort EndPoint list */
-            int value;
-
-            /** Flag to indicate if this EndPoint is minimum of a AABB or not */
-            bool isMin;
-
-            /** Previous EndPoint in the list */
-            EndPoint * prev;
-
-            /** Next EndPoint in the list */
-            EndPoint * next;
-
-            EndPoint (AABB* o,int v,bool m,EndPoint* p=NULL,EndPoint* n=NULL);
     
-            /** When and EndPoint is destroyed, it updates prev and next */
-            ~EndPoint ();
-        };
-    
-        class AABB {
-
-        public:
-
-            /** First minimum EndPoint is on x axis, second one is on y */
-            EndPoint * min[2];
-
-            /** Second minimum EndPoint is on x axis, second one is on y */
-            EndPoint * max[2];
-
-            /** Object the box is attached to */
-            Collisionable * owner;
-
-            /**
-             * Create the AABB corresponding to a collisionable object
-             * @param c the object used to create the corresponding AABB
-             */
-            AABB(Collisionable * c);
-
-            ~AABB ();
-
-            /**
-             * Update EndPoints values according to information provided by
-             * owner and Collisionable API
-             */
-            void updateEPValues();
-
-        };
-
         /* END: private classes for LSAP collision manager */
 
     private:
@@ -129,26 +70,26 @@ namespace sap {
         ~LSAP ();
 
         /**
-         * Create a bounding box attached to a Collisionable and insert its
+         * Create a bounding box attached to a Collider and insert its
          * points in xAxis and yAxis (keep it sorted)
-         * @param c Object (Collisionable) attached to the new bounding box
+         * @param c Object (Collider) attached to the new bounding box
          *          to insert in the list
          */
-        void addObject(Collisionable * c);
+        void addObject(Collider * c);
 
         /**
-         * Update Collisionable's EndPoints position in CollisionManger. 
+         * Update Collider's EndPoints position in CollisionManger. 
          * Detect collisions and separation and act according to 
          * actionManager. Should be called as soon as an object moves.
          * @param c Object to update
          */
-        void updateObject(Collisionable * c);  
+        void updateObject(Collider * c);  
   
         /**
-         * Remove a bounding box attached to a Collisionable 
+         * Remove a bounding box attached to a Collider 
          * @param c Object attached to the bounding box to remove
          */
-        void removeObject(Collisionable * c);
+        void removeObject(Collider * c);
     };
 }
 #endif

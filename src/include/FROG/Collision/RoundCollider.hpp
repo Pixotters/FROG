@@ -1,6 +1,12 @@
 #ifndef FROG_ROUNDCOLLIDER_HPP
 #define FROG_ROUNDCOLLIDER_HPP
 
+#include "FROG/Collision/Collider.hpp"
+#include "FROG/ComponentHolder.hpp"
+
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
+
 namespace frog{
 
   class RoundCollider : virtual public Collider
@@ -16,7 +22,7 @@ namespace frog{
 
   public:
     RoundCollider(float rad = 1.0f,
-                const sf::Vector2i& gap = sf::Vector2u(0,0) );
+                const sf::Vector2i& gap = sf::Vector2i(0,0) );
     virtual ~RoundCollider();
     virtual sf::FloatRect getBoundingBox() const;
     virtual float getXMin() const;
@@ -24,7 +30,7 @@ namespace frog{
     virtual float getXMax() const;
     virtual float getYMax() const;
     virtual void update(const ComponentHolder&);
-    virtual void resize(const sf::Vector2u&);
+    virtual void resize(float);
     virtual void setGap(const sf::Vector2i&);
 
   };

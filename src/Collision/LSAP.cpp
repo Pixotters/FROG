@@ -3,7 +3,7 @@
 
 #include "FROG/Collision/LSAP.hpp"
 
-namespace sap {
+namespace frog {
 
     LSAP::LSAP (ActionManager * am) {
         this->actionManager = am;
@@ -27,7 +27,7 @@ namespace sap {
         delete yAxis;
     }
 
-    void LSAP::addObject(Collisionable * c) {
+    void LSAP::addObject(Collider * c) {
 
         AABB * aabb = new AABB(c);
 
@@ -48,15 +48,15 @@ namespace sap {
         updateObject(c);
     }
 
-    void LSAP::updateObject(Collisionable * c) {
-        AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
+    void LSAP::updateObject(Collider * c) {
+      /*AABB * aabb = static_cast<AABB *>(c->getBoundingBox());
         aabb->updateEPValues();
         updateAxis(aabb->min[0], aabb->max[0]);
-        updateAxis(aabb->min[1], aabb->max[1]);
+        updateAxis(aabb->min[1], aabb->max[1]);*/
     }
   
-    void LSAP::removeObject(Collisionable * c) {
-        delete static_cast<AABB *>(c->getBoundingBox());
+    void LSAP::removeObject(Collider * c) {
+      //        delete static_cast<AABB *>(c->getBoundingBox());
     }
 
     void LSAP::swap(EndPoint * p1, EndPoint * p2) {
@@ -146,48 +146,4 @@ namespace sap {
     }
 
 
-    /* BEGIN LSAP::AABB CLASS */
-
-    LSAP::AABB::AABB(Collisionable * c) : owner(c) {
-        min[0] = new EndPoint(this, c->getXMin(), true);
-        min[1] = new EndPoint(this, c->getYMin(), true);
-        max[0] = new EndPoint(this, c->getXMax(), false);
-        max[1] = new EndPoint(this, c->getYMax(), false);
-        c->setBoundingBox(this);
-    }
-
-    LSAP::AABB::~AABB () { 
-        delete min[0];
-        delete min[1];
-        delete max[0];
-        delete max[1];
-        if (owner) {
-            //   owner->setBoundingBox(NULL); <- segfault in unit tests.
-        }
-    }
-
-    void LSAP::AABB::updateEPValues() {
-        min[0]->value = owner->getXMin();
-        min[1]->value = owner->getYMin();
-        max[0]->value = owner->getXMax();
-        max[1]->value = owner->getYMax();
-    }
-
-    /* END LSAP::AABB CLASS */
-
-    /* BEGIN LSAP::EndPoint CLASS */
-
-    LSAP::EndPoint::EndPoint (AABB* o,int v,bool m, EndPoint* p,EndPoint* n) :
-        owner(o), value(v), isMin(m), prev(p), next(n) {}
-    
-    LSAP::EndPoint::~EndPoint () {
-        if (this->prev != NULL) {
-            this->prev->next = this->next;
-        }
-        if (this->next != NULL) {
-            this->next->prev = this->prev;
-        }
-    }
-
-    /* END LSAP::EndPoint CLASS */
 }

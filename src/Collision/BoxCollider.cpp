@@ -1,4 +1,5 @@
 #include "FROG/Collision/BoxCollider.hpp"
+#include "FROG/Transform.hpp"
 
 namespace frog{
 
@@ -43,20 +44,20 @@ namespace frog{
 
   void BoxCollider::update(const ComponentHolder& parent)
   {
-    auto t = parent->getComponent<Transform>("TRANSFORM");
+    auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the box at the origin of the parent
     auto pos = t->getPosition() - t->getOrigin();
     box.left = pos.x + gap.x;
     box.top = pos.y + gap.y;
   }
 
-  virtual void resize(const sf::Vector2u& newsize)
+  void BoxCollider::resize(const sf::Vector2u& newsize)
   {
     box.width = newsize.x;
-    m_bow.height = newsize.y;
+    box.height = newsize.y;
   }
 
-  virtual void setGap(const sf::Vector2i& newgap)
+  void BoxCollider::setGap(const sf::Vector2i& newgap)
   {
     gap.x = newgap.x;
     gap.y = newgap.y;

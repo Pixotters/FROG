@@ -25,7 +25,7 @@ namespace frog{
     
     AssetManager< std::string, sf::Texture > m_textureManager;
 
-    sap::LSAP * m_collider;
+    LSAP * m_collider;
 
     //// operations ////
   public:
