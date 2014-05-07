@@ -2,10 +2,10 @@
 
 namespace frog{
 
-  Collider::Collider()
+  Collider::Collider(std::function<void(Collision)> fun)
     : Component()
   {
-
+    script = fun;
   }
 
   Collider::~Collider()
@@ -13,5 +13,14 @@ namespace frog{
 
   }
 
+  void Collider::setScript(std::function<void(Collision)> fun)
+  {
+    script = fun;
+  }
+
+  void Collider::onCollision(const Collision& c)
+  {
+    script(c);
+  }
 
 }

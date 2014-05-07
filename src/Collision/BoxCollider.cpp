@@ -4,8 +4,9 @@
 namespace frog{
 
   BoxCollider::BoxCollider(const sf::Vector2u& dimensions,
-                           const sf::Vector2i& _gap)
-    : Collider(), gap(_gap)
+                           const sf::Vector2i& _gap,
+                           std::function<void(Collision)> fun )
+    : Collider(fun), gap(_gap)
   {
     box.left = gap.x;
     box.top = gap.y;

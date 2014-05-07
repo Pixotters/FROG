@@ -22,7 +22,8 @@ namespace frog{
 
   public:
     RoundCollider(float rad = 1.0f,
-                const sf::Vector2i& gap = sf::Vector2i(0,0) );
+                  const sf::Vector2i& gap = sf::Vector2i(0,0),
+                  std::function<void(Collision)> = [](Collision){} );
     virtual ~RoundCollider();
     virtual sf::FloatRect getBoundingBox() const;
     virtual float getXMin() const;

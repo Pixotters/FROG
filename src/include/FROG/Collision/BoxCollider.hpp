@@ -20,7 +20,8 @@ namespace frog{
 
   public:
     BoxCollider(const sf::Vector2u& dimensions = sf::Vector2u(1,1),
-                const sf::Vector2i& gap = sf::Vector2i(0,0));
+                const sf::Vector2i& gap = sf::Vector2i(0,0),
+                std::function<void(Collision)> = [](Collision){} );
     virtual ~BoxCollider();
     virtual sf::FloatRect getBoundingBox() const;
     virtual float getXMin() const;

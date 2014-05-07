@@ -4,8 +4,9 @@
 namespace frog{
 
   RoundCollider::RoundCollider(float rad,
-                               const sf::Vector2i& _gap)
-    : Collider(), radius(rad), gap(_gap)
+                               const sf::Vector2i& _gap,
+                               std::function<void(Collision)> fun )
+    : Collider(fun), radius(rad), gap(_gap)
   {
   }
 
