@@ -152,7 +152,7 @@ void Level::spawnTarget()
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
                                Random::get(-10, 10) / 10.f ) );  
-  phi->addGrowth( sf::Vector2f(-0.0005f, -0.0005f) );
+  phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
   phi->addRotation( Random::get(-20, 20) );  
   m_targets.push_back(e);
   addObject(e);

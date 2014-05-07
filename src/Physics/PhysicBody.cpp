@@ -3,8 +3,6 @@
 
 #include <SFML/System/Vector2.hpp>
 
-#include <iostream>
-
 namespace frog{
 
   PhysicBody::PhysicBody(const sf::Vector2f& _velocity,
@@ -45,7 +43,7 @@ namespace frog{
 
   void PhysicBody::addGrowth(const sf::Vector2f& g)
   {
-    velocity += g;
+    growth += g;
   }
 
   void PhysicBody::reset()
@@ -75,8 +73,8 @@ namespace frog{
   sf::Vector2f PhysicBody::resetGrowth()
   {
     auto old = sf::Vector2f(growth.x, growth.y);
-    growth.x = 0;
-    growth.y = 0;
+    growth.x = 1.0f;
+    growth.y = 1.0f;
     return old;
   }
 
@@ -85,10 +83,7 @@ namespace frog{
     auto tr = parent.getComponent<Transform>("TRANSFORM");
     tr->move(velocity);
     tr->rotate(rotation);
-    std::cerr << "scaling : " << tr->getScale().x << "x" << tr->getScale().y;
-    std::cerr << " + " << growth.x << "x"<< growth.y << std::endl;
     tr->scale(growth);
-    std::cerr << "----> " << tr->getScale().x << "x" << tr->getScale().y << std::endl;
   }
 
 
