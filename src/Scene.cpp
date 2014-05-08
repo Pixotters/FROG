@@ -1,16 +1,9 @@
 #include "FROG/Scene.hpp"
 
-#include "FROG/Collision/Collider.hpp"
-#include "FROG/Collision/LSAP.hpp"
-
 #include "FROG/Debug.hpp"
-
-// TODO : try to remove that dependencies
-#include <SFML/Window/Window.hpp>
+#include "FROG/XML/tinyxml2.hpp"
 
 #include <memory>
-
-#include "FROG/XML/tinyxml2.hpp"
 
 namespace frog{
 
@@ -44,7 +37,7 @@ namespace frog{
           {
             const char * file = texture->Attribute("filename");
             const char * id = texture->Attribute("ID");
-            m_textureManager.loadFromFile(file, id);
+            defaultTextureManager.loadFromFile(file, id);
           }
         return true;
       } else

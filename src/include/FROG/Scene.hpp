@@ -5,14 +5,16 @@
 #include "FROG/AssetManager.hpp"
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
-#include "FROG/Collision/LSAP.hpp"
 #include "FROG/Rendering/Renderer.hpp"
+#include "FROG/Rendering/Spritesheet.hpp"
 
 #include <set>
 #include <memory>
 
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+
 
 namespace frog{
 
@@ -28,7 +30,10 @@ namespace frog{
   protected:
     std::set< std::shared_ptr<GameObject> > m_gameObjects;    
     
-    AssetManager< std::string, sf::Texture > m_textureManager;
+    AssetManager< std::string, sf::Texture > defaultTextureManager;
+    AssetManager< std::string, sf::Font > defaultFontManager;
+    AssetManager< std::string, sf::SoundBuffer > defaultSoundManager;
+    AssetManager< std::string, Spritesheet<std::string> > defaultSpritesheetManager;
 
     Renderer m_renderer;
 

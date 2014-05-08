@@ -6,6 +6,8 @@
 #include "FROG/AssetManager.hpp"
 
 #include "FROG/Collision/Collider.hpp"
+#include "FROG/Collision/CollisionManager.hpp"
+#include "FROG/Collision/LSAP.hpp"
 
 #include "Player.hpp"
 

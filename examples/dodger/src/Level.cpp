@@ -54,11 +54,11 @@ Level::~Level()
 void Level::enter()
 {
   setControls(m_player, m_appinfo );
-  m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
+  m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
   addObject(m_terrain);
-  m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
+  m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ), "RENDERING" );
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
   m_player->transform->setOrigin( 32, 32 );
@@ -155,7 +155,7 @@ void Level::spawnTarget()
   std::shared_ptr<GameObject> e(new GameObject() );
   //    m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
   //  m_boundingBox->setFillColor(sf::Color::Green);
-  e->addComponent(new Sprite(m_textureManager.get("BONUS_TEXTURE") ), "RENDERING" );
+  e->addComponent(new Sprite(defaultTextureManager.get("BONUS_TEXTURE") ), "RENDERING" );
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
   //  e->transform->setScale(0.5f, 0.5f);
