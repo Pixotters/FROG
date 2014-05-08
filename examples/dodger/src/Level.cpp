@@ -34,7 +34,7 @@ const unsigned short ENEMY_LAYER = 3;
 const unsigned short GUI_LAYER = 4;
 
 Level::Level(AppInfo& appinfo)
-  : Scene(), 
+  : Scene(appinfo), 
     m_appinfo(appinfo),
     m_player(new Player), 
     m_terrain(new GameObject), 

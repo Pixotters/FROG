@@ -2,6 +2,8 @@
 
 #include "FROG/App.hpp"
 
+#include <SFML/Graphics/RectangleShape.hpp>
+
 using namespace frog;
 
 Player::Player(const unsigned short& l)

@@ -1,15 +1,18 @@
 #ifndef FROG_SCENE_HPP
 #define FROG_SCENE_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/AssetManager.hpp"
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/LSAP.hpp"
+#include "FROG/Rendering/Renderer.hpp"
 
 #include <set>
 #include <memory>
 
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace frog{
 
@@ -19,16 +22,20 @@ namespace frog{
   class Scene : virtual public State{
 
     //// attributes ////
+  public:
+    AppInfo& appInfo;
+    
   protected:
-
     std::set< std::shared_ptr<GameObject> > m_gameObjects;    
     
     AssetManager< std::string, sf::Texture > m_textureManager;
 
+    Renderer m_renderer;
+
     //// operations ////
   public:
 
-    Scene();
+    Scene(AppInfo&);
 
     virtual ~Scene();
 
@@ -45,9 +52,9 @@ namespace frog{
     virtual void enter();
 
     /*
-     * @brief updates the scene. 
+     * @brief updates the scene and renders it. 
      * @details calls preupdate, updates all the registered GameObjects, and 
-     * call postupdate
+     * call postupdate. Finally, the scene's renderer updates.
     */
     virtual void update();
 

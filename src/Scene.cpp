@@ -14,8 +14,8 @@
 
 namespace frog{
 
-  Scene::Scene()
-    : State()
+  Scene::Scene(AppInfo& _appinfo)
+    : State(), appInfo(_appinfo), m_renderer(appInfo.window)
   {
   }
 
@@ -55,7 +55,6 @@ namespace frog{
 
   void Scene::enter()
   {
-
   }
 
   void Scene::update()
@@ -64,8 +63,9 @@ namespace frog{
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it) 
       {
         (*it)->update();
-      }    
+      }
     postupdate();
+    m_renderer.update();
   }
 
   void Scene::preupdate()
@@ -78,7 +78,6 @@ namespace frog{
 
   void Scene::exit()
   {
-
   }
 
   bool Scene::addObject(GameObject * go)
@@ -145,13 +144,13 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    m_renderer->addObject(go);
+    m_renderer.addObject(go);
   }
 
   void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
   {
     // removing the object from managers
-    m_renderer->removeObject(go);     
+    m_renderer.removeObject(go);     
   }
 }
 

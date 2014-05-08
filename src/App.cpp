@@ -55,7 +55,7 @@ namespace frog{
           }
         appInfo.deltaTime = t0.restart().asSeconds(); 
         m_window.clear();
-        m_stateManager.loop(appInfo);
+        m_stateManager.loop();
         m_window.display();
       }
   }
