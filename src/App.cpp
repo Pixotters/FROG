@@ -8,10 +8,11 @@ namespace frog{
     : m_window(sf::VideoMode(1, 1), title, sf::Style::Close),
       appInfo(m_window, m_clock)
   {
-    m_config.loadFromFile(cfg);
-    m_window.create(sf::VideoMode(m_config.getWindowWidth(), 
-                                  m_config.getWindowHeight() ), 
-                    title, sf::Style::Close);
+    config.loadFromFile(cfg);
+    m_window.create(sf::VideoMode(config.windowSize.x, 
+                                  config.windowSize.y ), 
+                    title, 
+                    config.windowStyle);
     // TODO center the window
     m_window.setPosition(sf::Vector2i(0,0) );
     m_window.setKeyRepeatEnabled(false);
@@ -71,11 +72,6 @@ namespace frog{
     init(s);
     loop();
     exit();
-  }
-
-  Config App::getConfig() const
-  { 
-    return m_config; 
   }
 
   StateManager App::getStateManager() const

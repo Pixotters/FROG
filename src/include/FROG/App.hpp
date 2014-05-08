@@ -26,9 +26,6 @@ namespace frog{
     /// The current window where the app runs
     sf::RenderWindow m_window;
 
-    /// The config, initially loaded from a file
-    Config m_config;
-
     /// The program clock, starts when App is created
     sf::Clock m_clock;
 
@@ -37,6 +34,10 @@ namespace frog{
 
   public:
     AppInfo appInfo;
+
+    /// The config, initially loaded from a file
+    Config config;
+
 
     //// operations ////
 
