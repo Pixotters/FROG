@@ -21,6 +21,7 @@ namespace frog{
   { 
 
     //// attributes ////
+
   protected:
     /// The current window where the app runs
     sf::RenderWindow m_window;
@@ -28,13 +29,14 @@ namespace frog{
     /// The config, initially loaded from a file
     Config m_config;
 
-    AppInfo * m_appInfo;
-
     /// The program clock, starts when App is created
     sf::Clock m_clock;
 
     /// State flow stack : top state will be used for updating and rendering
     StateManager m_stateManager;
+
+  public:
+    AppInfo appInfo;
 
     //// operations ////
 
@@ -78,8 +80,6 @@ namespace frog{
      * @return Reference to current state manager. 
      */
     StateManager& getStateManager();
-
-    AppInfo& getAppInfo() const;
 
     /*!
      * @brief Initializes the game engine at the given state. 

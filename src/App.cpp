@@ -5,57 +5,56 @@
 namespace frog{
 
   App::App(const std::string& title, const std::string& cfg)
+    : m_window(sf::VideoMode(1, 1), title, sf::Style::Close),
+      appInfo(m_window, m_clock)
   {
     m_config.loadFromFile(cfg);
-    m_window.create(sf::VideoMode(
-                                  m_config.getWindowWidth(), 
-                                  m_config.getWindowHeight() ),
-                    title,  
-                    sf::Style::Close);
+    m_window.create(sf::VideoMode(m_config.getWindowWidth(), 
+                                  m_config.getWindowHeight() ), 
+                    title, sf::Style::Close);
     // TODO center the window
     m_window.setPosition(sf::Vector2i(0,0) );
     m_window.setKeyRepeatEnabled(false);
-    m_appInfo = new AppInfo(m_window, m_clock);
   }
 
   App::~App()
   {
-    delete m_appInfo;
   }
 
   void App::init(State * startstate)
   {
     Random::init();
-    if(startstate != nullptr){
-      m_stateManager.push( startstate );
-    }
-    m_appInfo->running = true;
+    if(startstate != nullptr)
+      {
+        m_stateManager.push( startstate );
+      }
+    appInfo.running = true;
   }
 
   void App::loop()
   {
     sf::Clock t0; // clock for counting delta-time
-    while(m_appInfo->running)
+    while(appInfo.running)
       {
         if( m_window.isOpen() )
           {
             sf::Event event;
-            m_appInfo->eventList.clear();
+            appInfo.eventList.clear();
             while( m_window.pollEvent(event) )
               {
                 if (event.type == sf::Event::Closed)
                   {
-                    m_appInfo->running = false;
+                    appInfo.running = false;
                     return;
                   } else
                   {
-                    m_appInfo->eventList.push_back(event);
+                    appInfo.eventList.push_back(event);
                   }
               }
           }
-        m_appInfo->deltaTime = t0.restart().asSeconds(); 
+        appInfo.deltaTime = t0.restart().asSeconds(); 
         m_window.clear();
-        m_stateManager.loop(*m_appInfo);
+        m_stateManager.loop(appInfo);
         m_window.display();
       }
   }
@@ -89,8 +88,4 @@ namespace frog{
     return m_stateManager; 
   }
   
-  AppInfo& App::getAppInfo() const{
-    return *m_appInfo;
-  }
-
 }
