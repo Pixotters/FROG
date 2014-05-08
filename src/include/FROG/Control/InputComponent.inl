@@ -88,13 +88,13 @@ namespace frog{
         removeMap(n);
         for (auto i: map)
           {
-            bind(i, map[i], n);
+            bind(i.first, i.second, n);
           }
       }catch(std::out_of_range e)
       {
         for (auto i: map)
           {
-            bind(i, map[i], n);
+            bind(i.first, i.second, n);
           }
       }
   }
