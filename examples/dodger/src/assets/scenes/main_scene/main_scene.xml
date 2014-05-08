@@ -7,6 +7,10 @@
       <texture filename="assets/images/donut.png" ID="BONUS_TEXTURE" />
       <texture filename="assets/images/kitchen.png" ID="TERRAIN_TEXTURE" />
     </TEXTURES>
+    <SOUNDS>
+      <sound filename="assets/sounds/bite1.ogg" ID="BITE_1" />
+      <sound filename="assets/sounds/bite2.ogg" ID="BITE_2" />
+    </SOUNDS>
   </ASSETS>
   <OBJECTS>
     <object filename="frog.xml" x="400" y="550"/>
