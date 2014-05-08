@@ -30,7 +30,7 @@ namespace frog{
        * Renderer. 
        */
       RenderingComponent(sf::Drawable * const d);
-      RenderingComponent(std::shared_ptr<sf::Drawable> const d);
+      RenderingComponent(std::shared_ptr<sf::Drawable> d);
 
       virtual ~RenderingComponent();
 
