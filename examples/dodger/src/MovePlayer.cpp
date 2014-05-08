@@ -18,7 +18,7 @@ MovePlayer::~MovePlayer()
 
 }
 
-bool MovePlayer::execute()
+void MovePlayer::execute()
 {
   std::cerr << "moving player from " << m_player->transform->getPosition().x \
             << "," << m_player->transform->getPosition().y;
@@ -26,5 +26,4 @@ bool MovePlayer::execute()
   std::cerr << " to "<< m_player->transform->getPosition().x \
             << "," << m_player->transform->getPosition().y \
             << " ("<< &m_player->transform << ")"<<std::endl;
-  return true;
 }

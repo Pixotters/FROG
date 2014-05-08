@@ -127,7 +127,7 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
 void Level::spawnEnemy()
 {
   std::shared_ptr<GameObject> e(new GameObject() );
-  sf::RectangleShape * r = new sf::RectangleShape(sf::Vector2f(25,25) );
+  std::shared_ptr<sf::RectangleShape> r(new sf::RectangleShape(sf::Vector2f(25,25) ) );
   r->setFillColor(sf::Color::Red);
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);

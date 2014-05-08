@@ -21,7 +21,7 @@ protected:
 public:
   MovePlayer(GameObject *, const short &, const short&, const AppInfo& );
   virtual ~MovePlayer();
-  virtual bool execute();
+  virtual void execute();
 };
 
 #endif

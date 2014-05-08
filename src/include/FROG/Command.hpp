@@ -24,12 +24,12 @@ namespace frog{
     /*!
      * @brief Performs the command. 
      */
-    virtual bool execute() = 0;
+    virtual void execute() = 0;
 
     /*!
      * @brief Shortcut for execute()
      */
-    bool operator()();
+    void operator()();
   };
 
 }
