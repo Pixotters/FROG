@@ -3,12 +3,7 @@
 
 #include "FROG/Rendering/Renderer.hpp"
 
-#include "FROG/AppInfo.hpp"
-#include "FROG/Command.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <list>
-
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace frog{
 
@@ -36,7 +31,7 @@ namespace frog{
      * @brief Updates and renders the state
      * @param appinfo AppInfo containing at least the RenderTarget and delta-time
      */
-    void loop(const AppInfo& appinfo);
+    void loop(sf::RenderTarget&);
 
   protected:
 
@@ -47,9 +42,8 @@ namespace frog{
 
     /*!
      * @brief Updates the state. 
-     * @param appinfo AppInfo containing at least a good delta-time
      */
-    virtual void update(const AppInfo& appinfo) = 0;
+    virtual void update() = 0;
 
     /*!
      * @brief function performed when StateManager exits from the scene
@@ -61,12 +55,6 @@ namespace frog{
      * @param rt Where to display the state. 
      */
     void render(sf::RenderTarget& rt) const;
-
-    /*!
-     * @brief Handles a list of commands, by executing them in order.
-     * @param c List of commands to execute. 
-     */
-    void handleCommands(std::list<Command *> c); 
 
   };
 

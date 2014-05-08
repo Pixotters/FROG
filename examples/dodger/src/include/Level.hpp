@@ -1,6 +1,7 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/Scene.hpp"
 #include "FROG/AssetManager.hpp"
 
@@ -13,6 +14,8 @@
 #include <SFML/System/Clock.hpp>
 
 #include <SFML/Graphics.hpp>
+
+#include <list>
 
 using namespace frog;
 
@@ -40,7 +43,7 @@ public:
   Level(AppInfo&);
   virtual ~Level();
   virtual void enter();
-  virtual void update(const AppInfo&);
+  virtual void postupdate();
 
 private:
   void setControls(std::shared_ptr<GameObject>, const AppInfo&);

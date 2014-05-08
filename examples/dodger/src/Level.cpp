@@ -8,6 +8,7 @@
 #include "FROG/Translator.hpp"
 
 #include "FROG/App.hpp"
+#include "FROG/AppInfo.hpp"
 
 #include "FROG/Random.hpp"
 #include "FROG/Rendering/Sprite.hpp"
@@ -56,7 +57,7 @@ void Level::enter()
   m_terrain->addComponent( new Sprite(m_textureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
-    addObject(m_terrain);
+  addObject(m_terrain);
   m_player->addComponent( new Sprite(m_textureManager.get("FROG_TEXTURE") ), "RENDERING" );
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
@@ -84,9 +85,8 @@ void Level::enter()
   addObject(m_gui);
 }
 
-void Level::update(const AppInfo& appinfo)
+void Level::postupdate()
 {  
-  Scene::update(appinfo);
   //  m_collider->updateObject( m_player.get() );
   updateEnemies();
   updateTargets();

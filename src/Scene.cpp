@@ -58,13 +58,23 @@ namespace frog{
 
   }
 
-  void Scene::update(const AppInfo&)
+  void Scene::update()
   {
+    preupdate();
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it) 
       {
         (*it)->update();
       }    
     m_collider -> update();
+    postupdate();
+  }
+
+  void Scene::preupdate()
+  {
+  }
+
+  void Scene::postupdate()
+  {
   }
 
   void Scene::exit()

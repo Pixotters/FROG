@@ -47,10 +47,23 @@ namespace frog{
     virtual void enter();
 
     /*
-      updates the scene. eg updates all the scene's gameObjects + some codes we 
-      may want to add
+     * @brief updates the scene. 
+     * @details calls preupdate, updates all the registered GameObjects, and 
+     * call postupdate
     */
-    virtual void update(const AppInfo& appinfo);
+    virtual void update();
+
+    /*
+     * @brief Code to execute right before the Scene updates its objects
+     * @details If not overloaded, does nothing
+     */
+    virtual void preupdate();
+
+    /*
+     * @brief Code to execute right after the Scene has updated its objects
+     * @details If not overloaded, does nothing
+     */
+    virtual void postupdate();
 
     /*!
      * @brief function performed when StateManager exits from the scene

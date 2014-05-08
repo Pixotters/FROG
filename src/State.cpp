@@ -13,10 +13,10 @@ namespace frog{
     delete m_renderer;
   }
 
-  void State::loop(const AppInfo& appinfo)
+  void State::loop(sf::RenderTarget& rt)
   {
-    update(appinfo);
-    render(appinfo.window);
+    update();
+    render(rt);
   }
 
   void State::render(sf::RenderTarget& rt) const
@@ -24,20 +24,6 @@ namespace frog{
     // TODO : do this properly, no need to set target each frame
     m_renderer->setTarget(&rt);
     m_renderer->update();
-  }
-
-
-  void State::handleCommands(std::list<Command *> c)
-  {
-    while(not c.empty() ){
-      Command * a = c.front();
-      if(a != nullptr)
-        {
-          a->execute();
-        }
-      c.pop_front();
-    }
-
   }
 
 

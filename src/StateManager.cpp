@@ -58,8 +58,7 @@ namespace frog{
   {
     if( not m_stateStack.empty() ) {
       State * top = m_stateStack.top();
-      top->update(appinfo);
-      top->render(appinfo.window); 
+      top->loop(appinfo.window);
     }
   }
 
