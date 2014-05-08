@@ -30,6 +30,12 @@ namespace frog{
      * @brief Shortcut for execute()
      */
     void operator()();
+
+    /*!
+     * @brief Undoes the action trigger by execution
+     * @detail If not overloaded, does nothing
+     */
+    void undo();
   };
 
 }

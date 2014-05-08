@@ -17,4 +17,8 @@ namespace frog{
     execute();
   }
 
+  void Command::undo()
+  {
+  }
+
 }
