@@ -5,21 +5,18 @@
 
 #include "FROG/Transform.hpp"
 
-#include "FROG/Collision/Collisionable.hpp"
 #include <SFML/Graphics/Shape.hpp>
 
 
 using namespace frog;
 
-class Player : public GameObject,
-               virtual public sap::Collisionable
+class Player : public GameObject
 {
 
   //// attributes ////
 protected:
   unsigned short m_lives;
   unsigned long m_score;
-  sf::Shape * m_boundingBox;
 
   //// operations ////
 public:
@@ -69,26 +66,6 @@ public:
     removes the given number to the score, with a check for 0
   */
   void removeScore(const unsigned long& = 1);
-
-  int getXMin() const{
-    return transform->getPosition().x+m_boundingBox->getLocalBounds().left;
-  }
-
-  int getXMax() const{
-    sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return transform->getPosition().x+fr.left+ fr.width;
-  }
-
-  int getYMin() const{
-    return transform->getPosition().y+m_boundingBox->getLocalBounds().top;
-
-  }
-
-  int getYMax() const{
-    sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return transform->getPosition().y+fr.top+fr.height;
-  }
-
 
   };
 
