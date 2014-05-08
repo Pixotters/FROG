@@ -37,6 +37,7 @@ protected:
   std::list< std::shared_ptr<GameObject> > m_ennemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
+  CollisionManager * m_collisionManager;
 
   //// operations ////
 public:

@@ -40,13 +40,13 @@ Level::Level(AppInfo& appinfo)
     m_terrain(new GameObject), 
     m_gui(new GameObject)
 {
-  m_collider = new LSAP();  
+  m_collisionManager = new LSAP();  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
 }
 
 Level::~Level()
 {
-  delete m_collider;
+  delete m_collisionManager;
   m_ennemies.clear();
   m_targets.clear();
 }
@@ -75,7 +75,7 @@ void Level::enter()
                                                              }
                                                              );
   addObject(m_player);
-  m_collider->addObject(m_player);
+  m_collisionManager->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
                                     m_fontManager.get(GUI_FONT),
                                     3) );
@@ -87,7 +87,7 @@ void Level::enter()
 
 void Level::postupdate()
 {  
-  //  m_collider->updateObject( m_player.get() );
+  m_collisionManager->update();
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -171,7 +171,7 @@ void Level::spawnTarget()
   phi->addRotation( Random::get(-20, 20) );  
   e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
   m_targets.push_back(e);
-  m_collider->addObject(e);
+  m_collisionManager->addObject(e);
   addObject(e);
   
 }
@@ -197,7 +197,7 @@ void Level::updateTargets()
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
       //      PhysicEngine::update( it->get() );
-      //      m_collider->updateObject( it->get() );
+      //      m_collisionManager->updateObject( it->get() );
       auto tr = (*it)->transform;
       if ( tr->getPosition().x > 800 
            || tr->getPosition().y > 600 

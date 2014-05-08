@@ -65,7 +65,6 @@ namespace frog{
       {
         (*it)->update();
       }    
-    m_collider -> update();
     postupdate();
   }
 
