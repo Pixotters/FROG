@@ -1,6 +1,7 @@
 #include "GUI.hpp"
 #include "Level.hpp"
 
+#include "FROG/Component/AudioSource.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Control.hpp"
 #include "FROG/Control/ControlComponent.hpp"
@@ -62,12 +63,16 @@ void Level::enter()
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
   m_player->transform->setOrigin( 32, 32 );
+  std::cerr << "before adding audio" << std::endl;
+  m_player->addComponent( new AudioSource(), "AUDIO");
+  std::cerr << "after adding audio" << std::endl;
   m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
                           "COLLIDER");
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(
                                                              [this](Collision c)
                                                              {
                                                                std::cout << "player collided " << std::endl;
+                                                               this->m_player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
                                                                auto bb1 = c.first->getComponent<Collider>("COLLIDER")->getBoundingBox();
                                                                std::cout << bb1.left << "," << bb1.top << " - " << bb1.width << "x" << bb1.height << std::endl;
                                                                auto bb2 = c.second->getComponent<Collider>("COLLIDER")->getBoundingBox();

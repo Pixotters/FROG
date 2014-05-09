@@ -5,6 +5,8 @@
 
 #include <memory>
 
+#include <iostream> //TODO remove
+
 namespace frog{
 
   Scene::Scene(AppInfo& _appinfo)
@@ -33,46 +35,63 @@ namespace frog{
         //tinyxml2::XMLElement * objects = scene->FirstChildElement("OBJECTS");
         auto subassets = assets->FirstChildElement("TEXTURES");
         // TODO : try to avoid code duplication (see fillAssetManager)
-        for(auto asset = subassets->FirstChildElement();
-            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+        if (subassets)
           {
-            const char * file = asset->Attribute("filename");
-            const char * id = asset->Attribute("ID");
-            defaultTextureManager.loadFromFile(file, id);
+            std::cerr << "file got textures" << std::endl;
+            for(auto asset = subassets->FirstChildElement();
+                asset != nullptr; asset = asset->NextSiblingElement() )
+              {
+                const char * file = asset->Attribute("filename");
+                const char * id = asset->Attribute("ID");                
+                std::cerr << "texture"<< file<<"->"<<id << std::endl;
+                defaultTextureManager.loadFromFile(file, id);
+              }
           }
         subassets = assets->FirstChildElement("SOUNDS");
-        for(auto asset = subassets->FirstChildElement();
-            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+        if (subassets)
           {
-            const char * file = asset->Attribute("filename");
-            const char * id = asset->Attribute("ID");
-            defaultSoundManager.loadFromFile(file, id);
+            for(auto asset = subassets->FirstChildElement();
+                asset != nullptr; asset = asset->NextSiblingElement() )
+              {
+                const char * file = asset->Attribute("filename");
+                const char * id = asset->Attribute("ID");
+                defaultSoundManager.loadFromFile(file, id);
+              }
           }
         subassets = assets->FirstChildElement("FONTS");
-        for(auto asset = subassets->FirstChildElement();
-            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+        if (subassets)
           {
-            const char * file = asset->Attribute("filename");
-            const char * id = asset->Attribute("ID");
-            defaultFontManager.loadFromFile(file, id);
+            for(auto asset = subassets->FirstChildElement();
+                asset != nullptr; asset = asset->NextSiblingElement() )
+              {
+                const char * file = asset->Attribute("filename");
+                const char * id = asset->Attribute("ID");
+                defaultFontManager.loadFromFile(file, id);
+              }
           }
         subassets = assets->FirstChildElement("SPRITESHEETS");
-        for(auto asset = subassets->FirstChildElement();
-            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+        if (subassets)
           {
-            const char * file = asset->Attribute("filename");
-            const char * id = asset->Attribute("ID");
-            defaultSpritesheetManager.loadFromFile(file, id);
+            for(auto asset = subassets->FirstChildElement();
+                asset != nullptr; asset = asset->NextSiblingElement() )
+              {
+                const char * file = asset->Attribute("filename");
+                const char * id = asset->Attribute("ID");
+                defaultSpritesheetManager.loadFromFile(file, id);
+              }
           }
         subassets = assets->FirstChildElement("TILEMAPS");
-        for(auto asset = subassets->FirstChildElement();
-            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+        if (subassets)
           {
-            // TODO uncomment when Tilemaps are done
-            /*            const char * file = asset->Attribute("filename");
-            const char * id = asset->Attribute("ID");
-            defaultTilemapsManager.loadFromFile(file, id);
-            */
+            for(auto asset = subassets->FirstChildElement();
+                asset != nullptr; asset = asset->NextSiblingElement() )
+              {
+                // TODO uncomment when Tilemaps are done
+                /*            const char * file = asset->Attribute("filename");
+                              const char * id = asset->Attribute("ID");
+                              defaultTilemapsManager.loadFromFile(file, id);
+                */
+              }
           }
         return true;
       } else
@@ -82,17 +101,17 @@ namespace frog{
   }
 
   /* unusable because of templates
-  void Scene::fillAssetManager(AssetManager& am, tinyxml2::XMLElement * e)
-  {
-    auto subassets = assets->FirstChildElement("TILEMAPS");
-    for(auto res = e->FirstChildElement();
-        res != nullptr; res = res->NextSiblingElement() )
-      {
-        const char * file = res->Attribute("filename");
-        const char * id = res->Attribute("ID");
-        am.loadFromFile(file, id);
-      }
-  }
+     void Scene::fillAssetManager(AssetManager& am, tinyxml2::XMLElement * e)
+     {
+     auto subassets = assets->FirstChildElement("TILEMAPS");
+     for(auto res = e->FirstChildElement();
+     res != nullptr; res = res->NextSiblingElement() )
+     {
+     const char * file = res->Attribute("filename");
+     const char * id = res->Attribute("ID");
+     am.loadFromFile(file, id);
+     }
+     }
   */
 
   void Scene::enter()
