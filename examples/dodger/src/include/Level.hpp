@@ -54,6 +54,7 @@ private:
   void spawnTarget();
   void updateEnemies();
   void updateTargets();
+  void removeTarget(GameObject *);
 };
 
 #endif

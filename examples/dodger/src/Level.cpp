@@ -63,18 +63,23 @@ void Level::enter()
   m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
   m_player->transform->setOrigin( 32, 32 );
-  std::cerr << "before adding audio" << std::endl;
   m_player->addComponent( new AudioSource(), "AUDIO");
-  std::cerr << "after adding audio" << std::endl;
   m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
                           "COLLIDER");
-  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(
-                                                             [this](Collision c)
-                                                             {
-                                                               std::cout << "player collided " << std::endl;
-                                                               this->m_player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
-                                                             }
-                                                             );
+  auto eat = [this](Collision c){
+    auto player = this->m_player;
+    player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
+    this->removeTarget(c.second);
+    player->row += 1;
+    if (player->row >= 10)
+      {
+        player->multiplier++;
+        player->row = 0;
+      }
+    player->score += (2*player->multiplier)+5;
+    std::cout << "score : "<< player->score << std::endl;
+  };
+  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(eat);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
@@ -209,6 +214,21 @@ void Level::updateTargets()
         *it = nullptr;
       }  
       
+    }
+  m_targets.remove(nullptr);
+}
+
+void Level::removeTarget(GameObject * g)
+{
+  for(auto t : m_targets)
+    {
+      if (t.get() == g)
+        {
+          removeObject(t);
+          m_collisionManager->removeObject(t);
+          t.reset();
+          t = nullptr;
+        }
     }
   m_targets.remove(nullptr);
 }
