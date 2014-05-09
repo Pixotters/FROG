@@ -6,10 +6,14 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include <memory>
+
 namespace frog{
 
   struct KeyboardButton : virtual public Input
   {
+
+    typedef std::shared_ptr<KeyboardButton> PTR_KeyboardButton;
 
     sf::Keyboard::Key code;
     /// When does the input is detected: when pressed or released ?

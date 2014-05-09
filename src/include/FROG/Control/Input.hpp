@@ -3,6 +3,8 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include <memory>
+
 namespace frog{
 
   /*!
@@ -11,6 +13,7 @@ namespace frog{
    */
   struct Input
   {
+    typedef std::shared_ptr<Input> PTR_Input;
     virtual bool operator==(const sf::Event&) const = 0;
     virtual bool operator!=(const sf::Event&) const = 0;
   };

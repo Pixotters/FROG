@@ -6,10 +6,14 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include <memory>
+
 namespace frog{
 
   struct MouseButton : virtual public Input
   {
+
+    typedef std::shared_ptr<MouseButton> PTR_MouseButton;
 
     sf::Mouse::Button code;
     Trigger::ButtonTrigger trigger;

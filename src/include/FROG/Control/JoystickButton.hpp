@@ -5,11 +5,14 @@
 #include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>
+#include <memory>
 
 namespace frog{
 
   struct JoystickButton : virtual public Input
   {
+
+    typedef std::shared_ptr<JoystickButton> PTR_JoystickButton;
 
     unsigned int id;
     unsigned int code;
