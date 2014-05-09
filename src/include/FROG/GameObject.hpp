@@ -4,6 +4,7 @@
 #include "FROG/Transform.hpp"
 #include "FROG/ComponentHolder.hpp"
 
+#include <memory>
 #include <string>
 
 namespace frog{
@@ -13,6 +14,10 @@ namespace frog{
    */
   class GameObject : virtual public ComponentHolder
   {
+
+  public:
+    typedef std::shared_ptr<GameObject> PTR_GameObject;
+
     //// attributes ////
   protected:
     GameObject * parent;
