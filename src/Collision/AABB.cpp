@@ -2,8 +2,6 @@
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/EndPoint.hpp"
 
-//#include <iostream> // TODO remove
-
 namespace frog{
 
   AABB::AABB(std::shared_ptr<Collider> c) : owner(c) 
@@ -21,17 +19,17 @@ namespace frog{
         delete min[0];
         min[0] = nullptr;
       }
-    if (min[0] != nullptr)
+    if (min[1] != nullptr)
       {
         delete min[1];
         min[1] = nullptr;
       }
-    if (min[0] != nullptr)
+    if (max[0] != nullptr)
       {
         delete max[0];
         max[0] = nullptr;
       }
-    if (min[0] != nullptr)
+    if (max[1] != nullptr)
       {
         delete max[1];
         max[1] = nullptr;
