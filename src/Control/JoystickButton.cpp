@@ -35,6 +35,19 @@ namespace frog{
 
   }
 
+  JoystickButton::PTR_JoystickButton JoystickButton::create(unsigned int _code, 
+                                                            Trigger::ButtonTrigger _trigger,
+                                                            unsigned int _id)
+  {
+    return PTR_JoystickButton(new JoystickButton(_code, _trigger, _id) );
+  }
+
+  JoystickButton::PTR_JoystickButton JoystickButton::create(const sf::Event::JoystickButtonEvent& event,
+                                                            Trigger::ButtonTrigger _trigger)
+  {
+    return PTR_JoystickButton(new JoystickButton(event, _trigger) );
+  }
+
   bool JoystickButton::operator==(const sf::Event& event) const
   {
     if (trigger == Trigger::PRESSED

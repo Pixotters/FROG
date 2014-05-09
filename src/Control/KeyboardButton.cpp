@@ -34,6 +34,31 @@ namespace frog{
   {
   }
 
+  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(sf::Keyboard::Key _code, 
+                                                            Trigger::ButtonTrigger _trigger, 
+                                                            bool _considering,
+                                                            bool _ctrl, 
+                                                            bool _alt, 
+                                                            bool _shift, 
+                                                            bool _sys)
+  {
+    return PTR_KeyboardButton( new KeyboardButton(_code, _trigger, _considering,
+                                                  _ctrl, _alt, _shift, _sys) );
+  }
+
+  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(const KeyboardButton& kb)
+  {
+    return PTR_KeyboardButton( new KeyboardButton(kb) );
+
+  }
+
+  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(const sf::Event::KeyEvent& ke, 
+                                                            Trigger::ButtonTrigger _trigger, 
+                                                            bool _considering)
+  {
+    return PTR_KeyboardButton( new KeyboardButton(ke, _trigger, _considering) );
+  }
+
   bool KeyboardButton::operator==(const sf::Event& event) const
   {
     if (event.type != sf::Event::KeyPressed)
@@ -61,13 +86,13 @@ namespace frog{
   bool KeyboardButton::operator==(const KeyboardButton& other) const
   {
     /*
-    std::cerr << "code : " << code << "-" << other.code \
-              << "trigger : " << trigger << "-" << other.trigger \
-              << "considering : "<< considering <<"-"<<other.considering \
-              << "ctrl : " << ctrl << "-" << other.ctrl \
-              << "alt : " << alt <<"-"<< other.alt \
-              << "shift : " << shift << "-" << other.shift \
-              << "sys : "<< sys << "-" << other.sys << std::endl;
+      std::cerr << "code : " << code << "-" << other.code \
+      << "trigger : " << trigger << "-" << other.trigger \
+      << "considering : "<< considering <<"-"<<other.considering \
+      << "ctrl : " << ctrl << "-" << other.ctrl \
+      << "alt : " << alt <<"-"<< other.alt \
+      << "shift : " << shift << "-" << other.shift \
+      << "sys : "<< sys << "-" << other.sys << std::endl;
     */
     return ( code == other.code 
              and trigger == other.trigger
