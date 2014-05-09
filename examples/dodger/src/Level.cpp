@@ -73,10 +73,6 @@ void Level::enter()
                                                              {
                                                                std::cout << "player collided " << std::endl;
                                                                this->m_player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
-                                                               auto bb1 = c.first->getComponent<Collider>("COLLIDER")->getBoundingBox();
-                                                               std::cout << bb1.left << "," << bb1.top << " - " << bb1.width << "x" << bb1.height << std::endl;
-                                                               auto bb2 = c.second->getComponent<Collider>("COLLIDER")->getBoundingBox();
-                                                               std::cout << bb2.left << "," << bb2.top << " - " << bb2.width << "x" << bb2.height << std::endl;
                                                              }
                                                              );
   addObject(m_player);
@@ -112,10 +108,10 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
   std::shared_ptr<Command> moveup(new MovePlayer(go.get(), 0, -PLAYER_SPEED, appinfo) );
   std::shared_ptr<Command> movedown(new MovePlayer(go.get(), 0, PLAYER_SPEED, appinfo) );
 
-  std::shared_ptr<Input> qkey(new KeyboardButton(sf::Keyboard::Q) );
-  std::shared_ptr<Input> dkey(new KeyboardButton(sf::Keyboard::D) );
-  std::shared_ptr<Input> zkey(new KeyboardButton(sf::Keyboard::Z) );
-  std::shared_ptr<Input> skey(new KeyboardButton(sf::Keyboard::S) );
+  auto qkey = KeyboardButton::create(sf::Keyboard::Q);
+  auto dkey = KeyboardButton::create(sf::Keyboard::D);
+  auto zkey = KeyboardButton::create(sf::Keyboard::Z);
+  auto skey = KeyboardButton::create(sf::Keyboard::S);
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList));
   ctrl->bind(qkey, moveleft );    
   ctrl->bind(dkey, moveright );
