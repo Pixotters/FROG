@@ -202,33 +202,52 @@ void Level::updateTargets()
 {
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
-      //      PhysicEngine::update( it->get() );
-      //      m_collisionManager->updateObject( it->get() );
       auto tr = (*it)->transform;
       if ( tr->getPosition().x > 800 
            || tr->getPosition().y > 600 
            || tr->getPosition().x < -32
            || tr->getPosition().y < -32){
         removeObject(*it);
+        m_collisionManager->removeObject(*it);
         it->reset();
         *it = nullptr;
       }  
       
     }
+  std::cerr << "udTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
+  std::cerr << "udTarget after removing : "<< m_targets.size() <<std::endl;
 }
 
 void Level::removeTarget(GameObject * g)
 {
-  for(auto t : m_targets)
+  for (auto& it : m_targets)
     {
-      if (t.get() == g)
+      if (it.get() == g)
         {
-          removeObject(t);
-          m_collisionManager->removeObject(t);
-          t.reset();
-          t = nullptr;
-        }
+          removeObject(g);
+          m_collisionManager->removeObject(it);
+          std::cerr << "rmTarget before reset : "<< it <<std::endl;
+          it.reset();
+          std::cerr << "rmTarget after reset : "<< it <<std::endl;
+          it = nullptr;
+          std::cerr << "rmTarget after = : "<< it <<std::endl;
+        }  
+
     }
+  /*  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
+    {      
+      if (it->get() == g)
+        {
+          removeObject(*it);
+          m_collisionManager->removeObject(*it);
+          it->reset();
+          *it = nullptr;
+        }  
+      
+        }*/
+  std::cerr << "rmTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
+  std::cerr << "rmTarget after removing : "<< m_targets.size() <<std::endl;
+
 }
