@@ -5,8 +5,8 @@
 
 #include "FROG/Transform.hpp"
 
-#include <SFML/Graphics/Shape.hpp>
-
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 using namespace frog;
 
@@ -19,6 +19,8 @@ public:
   unsigned long score;
   unsigned char row;
   unsigned short multiplier;
+  bool invincible;
+  sf::Time timer;
 
   //// operations ////
 public:
@@ -29,6 +31,12 @@ public:
 
   virtual ~Player();
 
+  void hit();
+
+  void checkTime();
+
+private:
+  void changeColor(const sf::Color&);
 
 };
 

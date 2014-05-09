@@ -59,17 +59,14 @@ void Level::enter()
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
   addObject(m_terrain);
-  m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ), "RENDERING" );
-  m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
-  m_player->transform->setOrigin( 32, 32 );
-  m_player->addComponent( new AudioSource(), "AUDIO");
-  m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
-                          "COLLIDER");
+  m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ),
+                          "RENDERING" );
   auto eat = [this](Collision c){
     auto player = this->m_player;
     player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
-    this->removeTarget(c.second);
+    //    this->removeTarget(c.second);
+    player->hit();
     player->row += 1;
     if (player->row >= 10)
       {
@@ -94,6 +91,7 @@ void Level::enter()
 void Level::postupdate()
 {  
   m_collisionManager->update();
+  updatePlayer();
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -182,6 +180,19 @@ void Level::spawnTarget()
   
 }
 
+void Level::updatePlayer()
+{
+  if (m_player->lives <= 0)
+    {
+      // TODO GameOver
+    }
+  if (m_player->invincible)
+    {
+      m_player->timer += appInfo.deltaTime;
+      m_player->checkTime();
+    }
+}
+
 void Level::updateEnemies()
 {
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
@@ -251,3 +262,4 @@ void Level::removeTarget(GameObject * g)
   std::cerr << "rmTarget after removing : "<< m_targets.size() <<std::endl;
 
 }
+

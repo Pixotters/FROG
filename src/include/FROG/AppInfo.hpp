@@ -15,7 +15,7 @@ namespace frog
 
     sf::RenderWindow & window;
     sf::Clock & timer; // Time elapsed since App initialized
-    float deltaTime; // Time elapsed since last frame
+    sf::Time deltaTime; // Time elapsed since last frame
     bool running; // Tells if the game is running, making the game loop or not
     std::vector<sf::Event> eventList; 
     AppInfo(sf::RenderWindow & w, sf::Clock & c) 
