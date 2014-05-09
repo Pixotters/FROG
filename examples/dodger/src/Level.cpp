@@ -59,22 +59,24 @@ void Level::enter()
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
   addObject(m_terrain);
-  m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ), "RENDERING" );
-  m_player->transform->setPosition( 400, 400 );
   m_player->transform->layer = PLAYER_LAYER;
-  m_player->transform->setOrigin( 32, 32 );
-  std::cerr << "before adding audio" << std::endl;
-  m_player->addComponent( new AudioSource(), "AUDIO");
-  std::cerr << "after adding audio" << std::endl;
-  m_player->addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
-                          "COLLIDER");
-  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(
-                                                             [this](Collision c)
-                                                             {
-                                                               std::cout << "player collided " << std::endl;
-                                                               this->m_player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
-                                                             }
-                                                             );
+  m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ),
+                          "RENDERING" );
+  auto eat = [this](Collision c){
+    auto player = this->m_player;
+    player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
+    //    this->removeTarget(c.second);
+    player->hit();
+    player->row += 1;
+    if (player->row >= 10)
+      {
+        player->multiplier++;
+        player->row = 0;
+      }
+    player->score += (2*player->multiplier)+5;
+    std::cout << "score : "<< player->score << std::endl;
+  };
+  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(eat);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
@@ -89,6 +91,7 @@ void Level::enter()
 void Level::postupdate()
 {  
   m_collisionManager->update();
+  updatePlayer();
   updateEnemies();
   updateTargets();
   sf::Time t = m_clock.getElapsedTime();
@@ -177,6 +180,19 @@ void Level::spawnTarget()
   
 }
 
+void Level::updatePlayer()
+{
+  if (m_player->lives <= 0)
+    {
+      // TODO GameOver
+    }
+  if (m_player->invincible)
+    {
+      m_player->timer += appInfo.deltaTime;
+      m_player->checkTime();
+    }
+}
+
 void Level::updateEnemies()
 {
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
@@ -197,18 +213,53 @@ void Level::updateTargets()
 {
   for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
     {      
-      //      PhysicEngine::update( it->get() );
-      //      m_collisionManager->updateObject( it->get() );
       auto tr = (*it)->transform;
       if ( tr->getPosition().x > 800 
            || tr->getPosition().y > 600 
            || tr->getPosition().x < -32
            || tr->getPosition().y < -32){
         removeObject(*it);
+        m_collisionManager->removeObject(*it);
         it->reset();
         *it = nullptr;
       }  
       
     }
+  std::cerr << "udTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
+  std::cerr << "udTarget after removing : "<< m_targets.size() <<std::endl;
 }
+
+void Level::removeTarget(GameObject * g)
+{
+  for (auto& it : m_targets)
+    {
+      if (it.get() == g)
+        {
+          removeObject(g);
+          m_collisionManager->removeObject(it);
+          std::cerr << "rmTarget before reset : "<< it <<std::endl;
+          it.reset();
+          std::cerr << "rmTarget after reset : "<< it <<std::endl;
+          it = nullptr;
+          std::cerr << "rmTarget after = : "<< it <<std::endl;
+        }  
+
+    }
+  /*  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
+    {      
+      if (it->get() == g)
+        {
+          removeObject(*it);
+          m_collisionManager->removeObject(*it);
+          it->reset();
+          *it = nullptr;
+        }  
+      
+        }*/
+  std::cerr << "rmTarget before removing : "<< m_targets.size() <<std::endl;
+  m_targets.remove(nullptr);
+  std::cerr << "rmTarget after removing : "<< m_targets.size() <<std::endl;
+
+}
+

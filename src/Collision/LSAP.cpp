@@ -1,6 +1,6 @@
 #include <map>
 #include <climits>
-#include <iostream>
+#include <iostream> // TODO remove
 #include <memory>
 
 #include "FROG/Collision/LSAP.hpp"
@@ -75,6 +75,8 @@ namespace frog {
     auto find = m_objects.find(go);
     if (find != m_objects.end() )
       {
+        std::cerr << "removing object "<<go<<"("<<go.get()<<")" \
+                  << "associated with "<< find->second<<std::endl;
         delete find->second;
         m_objects.erase(find);        
       }
@@ -91,6 +93,9 @@ namespace frog {
   }
 
   bool LSAP::partialCollisionCheck(const AABB & a, const AABB & b, int dim) {
+    std::cerr << "trying with "<< &a <<" & "<<&b<<std::endl;
+    std::cerr << "EPs - a  :"<< a.min[dim] <<" - "<< a.max[dim] <<std::endl;    
+    std::cerr << "b :  "<< b.min[dim] <<" - "<< b.max[dim] <<std::endl;    
     return !(a.min[dim]->value > b.max[dim]->value
              || a.max[dim]->value < b.min[dim]->value);
   }
@@ -194,25 +199,31 @@ namespace frog {
 
   void LSAP::sendCollision(AABB * a1, AABB * a2, Collision::Trigger tr) const
   {
-    GameObject * g1, *g2;
+    std::shared_ptr<GameObject> g1, g2;
     for (auto it: m_objects)
       {
         if ( it.second == a1)
           {
-            g1 = it.first.get();
+            g1 = it.first;
           }        
         if ( it.second == a2)
           {
-            g2 = it.first.get();
+            g2 = it.first;
           }
       }
-    if (g1 != nullptr and g2 != nullptr)
+    if (g1 != nullptr and g2 != nullptr
+        and a1 != nullptr)
       {
-        Collision c1(g1, g2, tr);
-        Collision c2(g2, g1, tr);
-        a1->owner->onCollision(c1);
-        a2->owner->onCollision(c2);
+        Collision c(g1.get(), g2.get(), tr);
+        a1->owner->onCollision(c);
       }
+    // re-testing in case first collision destroy one of the two elements
+    if (g1 != nullptr and g2 != nullptr
+        and a2 != nullptr)
+      {
+        Collision c(g2.get(), g1.get(), tr);
+        a2->owner->onCollision(c);
+      }    
   }
 
 }

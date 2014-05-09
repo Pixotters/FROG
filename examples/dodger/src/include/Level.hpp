@@ -32,6 +32,7 @@ class Level : virtual public Scene
   //// attributes ////
 protected:
   sf::Clock m_clock;
+  sf::Clock m_playerClock;
   AppInfo& m_appinfo;
   std::shared_ptr<Player> m_player;
   std::shared_ptr<GameObject> m_terrain;
@@ -52,8 +53,10 @@ private:
   void setControls(std::shared_ptr<GameObject>, const AppInfo&);
   void spawnEnemy();
   void spawnTarget();
+  void updatePlayer();
   void updateEnemies();
   void updateTargets();
+  void removeTarget(GameObject *);
 };
 
 #endif

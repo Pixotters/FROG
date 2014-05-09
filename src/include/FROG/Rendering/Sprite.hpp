@@ -14,8 +14,8 @@ namespace frog{
   class Sprite : virtual public RenderingComponent
   {
 
-  private:
-    std::shared_ptr<sf::Sprite> m_sprite;
+  public:
+    std::shared_ptr<sf::Sprite> image;
 
   public:
 

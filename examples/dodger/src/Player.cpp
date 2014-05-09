@@ -2,73 +2,47 @@
 
 #include "FROG/App.hpp"
 
-#include <SFML/Graphics/RectangleShape.hpp>
+#include "FROG/Rendering/Sprite.hpp"
+#include "FROG/Transform.hpp"
+#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Collision/BoxCollider.hpp"
 
 using namespace frog;
 
 Player::Player(const unsigned short& l)
-  : GameObject()
+  : GameObject(), lives(l), score(0), row(0), multiplier(0), invincible(false)
 {
-  m_lives = l;
-  m_score = 0;
+  transform->setPosition( 400, 400 );
+  transform->setOrigin( 32, 32 );
+  addComponent( new AudioSource(), "AUDIO");
+  addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
+                "COLLIDER");
 }
 
 Player::~Player()
 {
 }
 
-
-unsigned short Player::getLives() const
+void Player::hit()
 {
-  return m_lives;
+  multiplier = 0;
+  row = 0;
+  lives--;
+  invincible = true;
+  changeColor( sf::Color(255,255,255,125) );
+  timer = sf::Time::Zero;
 }
 
-void Player::setLives(const unsigned short& l)
+void Player::checkTime()
 {
-  m_lives = l;
-}
-
-void Player::addLives(const unsigned short& l)
-{
-  m_lives += l;
-}
-
-void Player::removeLives(const unsigned short& l)
-{
-  if(m_lives < l)
+  if (timer.asSeconds() >= 3.0f)
     {
-      m_lives = 0;
-    }else
-    {
-      m_lives -= l;
+      invincible = false;
+      changeColor( sf::Color(255,255,255,255) );
     }
 }
 
-unsigned long Player::getScore() const
+void Player::changeColor(const sf::Color& c)
 {
-  return m_score;
+  getComponent<Sprite>("RENDERING")->image->setColor(c);
 }
-
-void Player::setScore(const unsigned long& s)
-{
-  m_score = s;
-}
-
-void Player::addScore(const unsigned long& s)
-{
-  m_score += s;
-}
-
-void Player::removeScore(const unsigned long& s)
-{
-  if(m_score < s)
-    {
-      m_score = 0;
-    }else
-    {
-      m_score -= s;
-    }
-}
-
-
-

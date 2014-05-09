@@ -8,8 +8,8 @@ namespace frog{
   Sprite::Sprite(const sf::Texture& texture)
     : RenderingComponent(new sf::Sprite)
   {
-    m_sprite = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
-    m_sprite->setTexture(texture);
+    image = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
+    image->setTexture(texture);
   }
   
   Sprite::~Sprite()
