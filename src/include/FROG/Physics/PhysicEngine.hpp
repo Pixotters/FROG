@@ -1,5 +1,5 @@
-#ifndef BASICPHYSICS_HPP
-#define BASICPHYSICS_HPP 1
+#ifndef FROG_PHYSICENGINE_HPP
+#define FROG_PHYSICENGINE_HPP
 
 #include "FROG/Physics/PhysicBody.hpp"
 #include <SFML/System/Vector2.hpp>
@@ -7,15 +7,15 @@
 namespace frog{
 
 
-  class BasicPhysics {
+  class PhysicEngine {
 
   protected:
 
-    float dotProduct (const sf::Vector2f & v1, const sf::Vector2f & v2);
+    static float dotProduct (const sf::Vector2f & v1, const sf::Vector2f & v2);
 
     // Projection of vector v on axis a
     // see http://www.metanetsoftware.com/technique/tutorialA.html#appendixA
-    sf::Vector2f projection (const sf::Vector2f & v, const sf::Vector2f & a);
+    static sf::Vector2f projection(const sf::Vector2f& v, const sf::Vector2f& a);
 
   public:
 
@@ -28,9 +28,10 @@ namespace frog{
      * @param y Y axis coordinate of collision point
      */
 
-    void reaction(PhysicBody * b1, PhysicBody * b2,
+    static void reaction(PhysicBody * b1, PhysicBody * b2,
                   const sf::Vector2f & normal);
   };
 
 }
+
 #endif

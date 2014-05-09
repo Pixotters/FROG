@@ -54,12 +54,11 @@ namespace frog{
       }
   }
 
-  void StateManager::loop(const AppInfo& appinfo)
+  void StateManager::loop()
   {
     if( not m_stateStack.empty() ) {
       State * top = m_stateStack.top();
-      top->update(appinfo);
-      top->render(appinfo.window); 
+      top->loop();
     }
   }
 

@@ -1,7 +1,4 @@
 <?xml version="1.0" ?>
 <configuration>
-  <window>
-    <width>800</width>
-    <height>600</height>
-  </window>
+  <window width="800" height="600" />
 </configuration>

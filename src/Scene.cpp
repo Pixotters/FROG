@@ -1,21 +1,14 @@
 #include "FROG/Scene.hpp"
 
-#include "FROG/Collision/Collisionable.hpp"
-#include "FROG/Collision/LSAP.hpp"
-
 #include "FROG/Debug.hpp"
-
-// TODO : try to remove that dependencies
-#include <SFML/Window/Window.hpp>
+#include "FROG/XML/tinyxml2.hpp"
 
 #include <memory>
 
-#include "FROG/XML/tinyxml2.hpp"
-
 namespace frog{
 
-  Scene::Scene()
-    : State()
+  Scene::Scene(AppInfo& _appinfo)
+    : State(), appInfo(_appinfo), m_renderer(appInfo.window)
   {
   }
 
@@ -34,17 +27,52 @@ namespace frog{
     debug.flush();
     if ( doc.LoadFile( file.c_str() ) == tinyxml2::XML_NO_ERROR )
       {
-        tinyxml2::XMLElement * scene = doc.RootElement();
-        tinyxml2::XMLElement * assets = scene->FirstChildElement("ASSETS");
+        auto scene = doc.RootElement();
+        auto assets = scene->FirstChildElement("ASSETS");
         // TODO load objects ?
         //tinyxml2::XMLElement * objects = scene->FirstChildElement("OBJECTS");
-        tinyxml2::XMLElement * textures = assets->FirstChildElement("TEXTURES");
-        for(tinyxml2::XMLElement * texture = textures->FirstChildElement();
-            texture != nullptr; texture = texture->NextSiblingElement() )
+        auto subassets = assets->FirstChildElement("TEXTURES");
+        // TODO : try to avoid code duplication (see fillAssetManager)
+        for(auto asset = subassets->FirstChildElement();
+            subassets != nullptr; subassets = subassets->NextSiblingElement() )
           {
-            const char * file = texture->Attribute("filename");
-            const char * id = texture->Attribute("ID");
-            m_textureManager.loadFromFile(file, id);
+            const char * file = asset->Attribute("filename");
+            const char * id = asset->Attribute("ID");
+            defaultTextureManager.loadFromFile(file, id);
+          }
+        subassets = assets->FirstChildElement("SOUNDS");
+        for(auto asset = subassets->FirstChildElement();
+            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+          {
+            const char * file = asset->Attribute("filename");
+            const char * id = asset->Attribute("ID");
+            defaultSoundManager.loadFromFile(file, id);
+          }
+        subassets = assets->FirstChildElement("FONTS");
+        for(auto asset = subassets->FirstChildElement();
+            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+          {
+            const char * file = asset->Attribute("filename");
+            const char * id = asset->Attribute("ID");
+            defaultFontManager.loadFromFile(file, id);
+          }
+        subassets = assets->FirstChildElement("SPRITESHEETS");
+        for(auto asset = subassets->FirstChildElement();
+            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+          {
+            const char * file = asset->Attribute("filename");
+            const char * id = asset->Attribute("ID");
+            defaultSpritesheetManager.loadFromFile(file, id);
+          }
+        subassets = assets->FirstChildElement("TILEMAPS");
+        for(auto asset = subassets->FirstChildElement();
+            subassets != nullptr; subassets = subassets->NextSiblingElement() )
+          {
+            // TODO uncomment when Tilemaps are done
+            /*            const char * file = asset->Attribute("filename");
+            const char * id = asset->Attribute("ID");
+            defaultTilemapsManager.loadFromFile(file, id);
+            */
           }
         return true;
       } else
@@ -53,22 +81,45 @@ namespace frog{
       }
   }
 
+  /* unusable because of templates
+  void Scene::fillAssetManager(AssetManager& am, tinyxml2::XMLElement * e)
+  {
+    auto subassets = assets->FirstChildElement("TILEMAPS");
+    for(auto res = e->FirstChildElement();
+        res != nullptr; res = res->NextSiblingElement() )
+      {
+        const char * file = res->Attribute("filename");
+        const char * id = res->Attribute("ID");
+        am.loadFromFile(file, id);
+      }
+  }
+  */
+
   void Scene::enter()
   {
-
   }
 
-  void Scene::update(const AppInfo&)
+  void Scene::update()
   {
+    preupdate();
     for(auto it = m_gameObjects.begin(); it != m_gameObjects.end(); ++it) 
       {
         (*it)->update();
-      }    
+      }
+    postupdate();
+    m_renderer.update();
+  }
+
+  void Scene::preupdate()
+  {
+  }
+
+  void Scene::postupdate()
+  {
   }
 
   void Scene::exit()
   {
-
   }
 
   bool Scene::addObject(GameObject * go)
@@ -135,24 +186,17 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    sap::Collisionable * c;
-    if( (c = dynamic_cast<sap::Collisionable *>( go.get() ) )  ) {
-      m_collider->addObject(c);
-    }
-    m_renderer->addObject(go);
+    m_renderer.addObject(go);
   }
 
   void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
   {
     // removing the object from managers
-    m_renderer->removeObject(go);        
-    // TODO : replace this crap by a component
-    sap::Collisionable * c;
-    if( (c = dynamic_cast<sap::Collisionable *>( go.get() ) )  ){ 
-      m_collider->removeObject(c);
-    }
+    m_renderer.removeObject(go);     
   }
-
 }
+
+
+
 
 

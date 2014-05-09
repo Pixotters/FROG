@@ -8,6 +8,13 @@
 namespace frog{
 
     RenderingComponent::RenderingComponent(sf::Drawable * const d)
+      : Component(), sf::Drawable(), sf::Transformable()
+    {
+      m_drawable.reset(d);
+    }
+
+
+  RenderingComponent::RenderingComponent(std::shared_ptr<sf::Drawable> d)
       : Component(), sf::Drawable(), sf::Transformable(), m_drawable(d)
     {
     }
@@ -20,17 +27,13 @@ namespace frog{
     void RenderingComponent::draw(sf::RenderTarget& rt, 
                                   sf::RenderStates rs) const
     {
-      rs.transform *= getTransform();
-      std::cerr << "drawing RENDERING at "<< getPosition().x \
-                << "," << getPosition().y << std::endl;
-      rt.draw(*m_drawable, rs);
+      rt.draw( *m_drawable, rs);
     }
 
     void RenderingComponent::update(const ComponentHolder& parent )
     {
       auto t = parent.getComponent<Transform>("TRANSFORM");
-      std::cerr << "RENDERING's parent is at "<<t->getPosition().x \
-                << "," << t->getPosition().y << std::endl;
+      setOrigin( t->getOrigin() );
       setPosition( t->getPosition() );
       setRotation( t->getRotation() );
       setScale( t->getScale() );

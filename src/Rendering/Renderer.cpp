@@ -4,20 +4,16 @@
 
 namespace frog{
 
-  Renderer::Renderer(sf::RenderTarget * rt,
+  Renderer::Renderer(sf::RenderTarget& rt)
+    : m_target(rt)
+  {
+    m_texture.create(m_target.getSize().x, m_target.getSize().y);
+  }
+  
+  Renderer::Renderer(sf::RenderTarget& rt,
                      unsigned int w,
                      unsigned int h)
-      
-  {
-    // TODO : get the windows size with a service locator
-    m_target = rt;
-    m_texture.create(w, h);
-    //      m_texture.initialize();
-  }
-
-  Renderer::Renderer(unsigned int w,
-                     unsigned int h)
-      
+    : m_target(rt)  
   {
     // TODO : get the windows size with a service locator
     m_texture.create(w, h);
@@ -26,7 +22,7 @@ namespace frog{
 
   Renderer::~Renderer()
   {
-
+    m_objects.clear();
   }
 
   void Renderer::update()
@@ -38,7 +34,7 @@ namespace frog{
         draw( it->second );
       }      
     m_texture.display();
-    m_target->draw( sf::Sprite(m_texture.getTexture() ) );
+    m_target.draw( sf::Sprite(m_texture.getTexture() ) );
     m_texture.clear();
   }
 
@@ -111,11 +107,6 @@ void Renderer::removeObject(GameObject * go)
         }
 
     }
-}
-
-void Renderer::setTarget(sf::RenderTarget * rt)
-{
-  m_target = rt;
 }
 
 void Renderer::updateObject(const std::shared_ptr<GameObject>& go)

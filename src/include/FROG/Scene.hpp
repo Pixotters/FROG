@@ -1,15 +1,20 @@
 #ifndef FROG_SCENE_HPP
 #define FROG_SCENE_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/AssetManager.hpp"
 #include "FROG/State.hpp"
 #include "FROG/GameObject.hpp"
-#include "FROG/Collision/LSAP.hpp"
+#include "FROG/Rendering/Renderer.hpp"
+#include "FROG/Rendering/Spritesheet.hpp"
 
 #include <set>
 #include <memory>
 
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Texture.hpp>
+
 
 namespace frog{
 
@@ -19,18 +24,23 @@ namespace frog{
   class Scene : virtual public State{
 
     //// attributes ////
+  public:
+    AppInfo& appInfo;
+    
   protected:
-
     std::set< std::shared_ptr<GameObject> > m_gameObjects;    
     
-    AssetManager< std::string, sf::Texture > m_textureManager;
+    AssetManager< std::string, sf::Texture > defaultTextureManager;
+    AssetManager< std::string, sf::Font > defaultFontManager;
+    AssetManager< std::string, sf::SoundBuffer > defaultSoundManager;
+    AssetManager< std::string, Spritesheet<std::string> > defaultSpritesheetManager;
 
-    sap::LSAP * m_collider;
+    Renderer m_renderer;
 
     //// operations ////
   public:
 
-    Scene();
+    Scene(AppInfo&);
 
     virtual ~Scene();
 
@@ -41,16 +51,32 @@ namespace frog{
      */
     bool loadFromFile(const std::string& file);
 
+    // unusable because of templates
+    // void fillAssetManager(AssetManager&, tinyxml2::XMLElement *);
+
     /*!
      * @brief function performed when StateManager enters in this scene
      */
     virtual void enter();
 
     /*
-      updates the scene. eg updates all the scene's gameObjects + some codes we 
-      may want to add
+     * @brief updates the scene and renders it. 
+     * @details calls preupdate, updates all the registered GameObjects, and 
+     * call postupdate. Finally, the scene's renderer updates.
     */
-    virtual void update(const AppInfo& appinfo);
+    virtual void update();
+
+    /*
+     * @brief Code to execute right before the Scene updates its objects
+     * @details If not overloaded, does nothing
+     */
+    virtual void preupdate();
+
+    /*
+     * @brief Code to execute right after the Scene has updated its objects
+     * @details If not overloaded, does nothing
+     */
+    virtual void postupdate();
 
     /*!
      * @brief function performed when StateManager exits from the scene

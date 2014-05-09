@@ -1,8 +1,13 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
+#include "FROG/AppInfo.hpp"
 #include "FROG/Scene.hpp"
 #include "FROG/AssetManager.hpp"
+
+#include "FROG/Collision/Collider.hpp"
+#include "FROG/Collision/CollisionManager.hpp"
+#include "FROG/Collision/LSAP.hpp"
 
 #include "Player.hpp"
 
@@ -12,6 +17,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <list>
+
 using namespace frog;
 
 typedef enum {
@@ -19,29 +26,6 @@ typedef enum {
   ENEMY_TEXTURE, 
   TARGET_TEXTURE
 } TEXTURE_ID;
-
-class Collider : virtual public sap::ActionManager{
-
-private:
-  std::shared_ptr<Player> m_player;
-  Renderer * m_renderer;
-  std::list<std::shared_ptr<GameObject> > * m_targets;
-
-public:
-  Collider(std::shared_ptr<Player> p, std::list< std::shared_ptr<GameObject> > * t, Renderer * r) 
-    : m_player(p), m_renderer(r), m_targets(t)
-  {}
-
-  virtual void onCollision(sap::Collisionable * a, sap::Collisionable * b){
-       
-  }
-
-  virtual void onSeparation(sap::Collisionable *, sap::Collisionable *){
-
-  }
-
-};
-
 
 class Level : virtual public Scene
 {
@@ -55,14 +39,14 @@ protected:
   std::list< std::shared_ptr<GameObject> > m_ennemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
-  Collider m_am;
+  CollisionManager * m_collisionManager;
 
   //// operations ////
 public:
   Level(AppInfo&);
   virtual ~Level();
   virtual void enter();
-  virtual void update(const AppInfo&);
+  virtual void postupdate();
 
 private:
   void setControls(std::shared_ptr<GameObject>, const AppInfo&);

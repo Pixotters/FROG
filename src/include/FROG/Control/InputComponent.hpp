@@ -11,7 +11,7 @@ namespace frog{
   template <typename IN, typename CMD>
   class InputComponent : virtual public Component
   {
-
+  public:
     typedef std::shared_ptr<IN> PTR_IN;
     typedef std::shared_ptr<CMD> PTR_CMD;
     typedef std::map<PTR_IN, PTR_CMD > INPUT_MAP;
