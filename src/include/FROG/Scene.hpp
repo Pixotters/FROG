@@ -51,6 +51,9 @@ namespace frog{
      */
     bool loadFromFile(const std::string& file);
 
+    // unusable because of templates
+    // void fillAssetManager(AssetManager&, tinyxml2::XMLElement *);
+
     /*!
      * @brief function performed when StateManager enters in this scene
      */
