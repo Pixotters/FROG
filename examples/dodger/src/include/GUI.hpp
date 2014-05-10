@@ -29,7 +29,7 @@ public:
             sf::RenderStates = sf::RenderStates::Default) const;
   void setScore(unsigned int newscore);
   void setLives(unsigned int newlives);
-  void setRow(unsigned char r, unsigned short m);
+  void setRow(unsigned short m);
   void update(const frog::ComponentHolder&);
 
 private:

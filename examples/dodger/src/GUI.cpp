@@ -58,7 +58,7 @@ void GUI::setLives(unsigned int newlives)
   updateString();
 }
 
-void GUI::setRow(unsigned char row, unsigned short mul)
+void GUI::setRow(unsigned short mul)
 {
   m_mult = mul;
   updateString();
