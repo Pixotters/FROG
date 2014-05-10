@@ -44,7 +44,7 @@ Level::Level(AppInfo& appinfo)
 Level::~Level()
 {
   delete m_collisionManager;
-  m_ennemies.clear();
+  m_enemies.clear();
   m_targets.clear();
 }
 
@@ -168,7 +168,7 @@ void Level::spawnEnemy()
   e->addComponent(new BoxCollider(sf::Vector2u(25,25) ), "COLLIDER");
   e->addProperty("type", ENEMY_TYPE);
   m_collisionManager->addObject(e);
-  m_ennemies.push_back(e);
+  m_enemies.push_back(e);
   addObject(e);
 
 }
@@ -223,7 +223,7 @@ void Level::updatePlayer()
 
 void Level::updateEnemies()
 {
-  for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
+  for(auto it = m_enemies.begin(); it != m_enemies.end(); ++it)
     {      
       if((*it)->transform->getPosition().x > 800 
          || (*it)->transform->getPosition().y > 600)
@@ -234,7 +234,7 @@ void Level::updateEnemies()
           *it = nullptr;
         }
     }
-  m_ennemies.remove(nullptr);
+  m_enemies.remove(nullptr);
 }
 
 void Level::updateTargets()

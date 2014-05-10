@@ -35,7 +35,7 @@ protected:
   std::shared_ptr<Player> m_player;
   std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;
-  std::list< std::shared_ptr<GameObject> > m_ennemies;
+  std::list< std::shared_ptr<GameObject> > m_enemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
   CollisionManager * m_collisionManager;
