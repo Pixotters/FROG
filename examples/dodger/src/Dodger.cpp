@@ -2,6 +2,7 @@
 #include "FROG/Random.hpp"
 
 #include "Level.hpp"
+#include "Start.hpp"
 
 #include <iostream>
 
@@ -23,10 +24,10 @@ int main()
   //  std::cerr << "Dodger : APPInfos are at " << &i << "-" << (&i)+dec << "/" << i+dec << std::endl;
   //  std::cerr << "Dodger : Window is at " << &d.m_appInfo->window << std::endl;
   std::cerr << "creating level" << std::endl;
-  Scene * level = new Level( d.appInfo );
+  //  Scene * level = new Level( d.appInfo );
+  Scene * level = new Start( d.appInfo );
   std::cerr << "loading file" << std::endl;
-  if( level->loadFromFile("assets/scenes/main_scene/main_scene.xml") )
-    d.start(  level  );
+  d.start(  level  );
   delete level;
   std::cout << "Game Exited without any problem" << std::endl;
 }

@@ -12,6 +12,9 @@
       <sound filename="assets/sounds/bite2.ogg" ID="BITE_2" />
       <sound filename="assets/sounds/punch.wav" ID="PUNCH" />
     </SOUNDS>
+    <FONTS>
+      <font filename="assets/fonts/Hyperspace_Bold.ttf" ID="MSG_FONT" />
+    </FONTS>
   </ASSETS>
   <OBJECTS>
     <object filename="frog.xml" x="400" y="550"/>

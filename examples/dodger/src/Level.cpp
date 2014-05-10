@@ -21,6 +21,7 @@
 #include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <exception>
 #include <iostream> // TODO remove
 
 using namespace frog;
@@ -43,6 +44,9 @@ Level::Level(AppInfo& appinfo)
 {
   m_collisionManager = new LSAP();  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
+  if( not loadFromFile("assets/scenes/main_scene/main_scene.xml") )
+    throw std::runtime_error("Cannot load Level");
+      
 }
 
 Level::~Level()
