@@ -27,6 +27,11 @@ typedef enum {
   TARGET_TEXTURE
 } TEXTURE_ID;
 
+typedef enum {
+  ENEMY_TYPE,
+  TARGET_TYPE
+} TYPE_ID;
+
 class Level : virtual public Scene
 {
   //// attributes ////
@@ -56,6 +61,9 @@ private:
   void updatePlayer();
   void updateEnemies();
   void updateTargets();
+  void updateScore();
+  void updateLives();
+  void updateRow();
   void removeTarget(GameObject *);
 };
 

@@ -5,9 +5,11 @@
 
 #include <sstream>
 
+#include <iostream> // TODO remove
+
 GUI::GUI(unsigned int w, unsigned int h, sf::Font& font, unsigned int lives)
   : sf::Drawable(), sf::Transformable(), frog::Component(), 
-    m_lives(lives), m_score(0)
+    m_lives(lives), m_score(0), m_mult(0)
 {
   setPosition(0, 0);
   // setting up the black frame
@@ -17,12 +19,12 @@ GUI::GUI(unsigned int w, unsigned int h, sf::Font& font, unsigned int lives)
   m_text.setFont(font);
   m_text.setColor(sf::Color::White);
   // ensure to keep text inside the background rectangle
-  if (h > 64)
+  if (h > 30)
     {
-      m_text.setCharacterSize(54);
+      m_text.setCharacterSize(25);
     }else
     {
-      m_text.setCharacterSize(h-10);
+      m_text.setCharacterSize(h-5);
     }
   // initializing the text
   updateString();
@@ -48,18 +50,28 @@ void GUI::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 
 void GUI::setScore(unsigned int newscore)
 {
+  std::cout << "setting score" << std::endl;
   m_score = newscore;
+  updateString();
 }
 
 void GUI::setLives(unsigned int newlives)
 {
   m_lives = newlives;
+  updateString();
+}
+
+void GUI::setRow(unsigned char row, unsigned short mul)
+{
+  m_mult = mul;
+  updateString();
 }
 
 void GUI::updateString()
 {
   std::ostringstream oss;
   oss << "Score : " << m_score;
+  oss << " (x" << m_mult <<")";
   oss << "\tLives : ";
   for (auto it = 1; it <= m_lives; it++)
     {

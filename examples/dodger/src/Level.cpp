@@ -66,7 +66,7 @@ void Level::enter()
     auto player = this->m_player;
     player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
     //    this->removeTarget(c.second);
-    player->hit();
+    //    player->hit();
     player->row += 1;
     if (player->row >= 10)
       {
@@ -74,7 +74,13 @@ void Level::enter()
         player->row = 0;
       }
     player->score += (2*player->multiplier)+5;
+    updateScore();
+    updateRow();
     std::cout << "score : "<< player->score << std::endl;
+  };
+  auto hit = [this](Collision c){
+    this->m_player->hit();
+    updateLives();
   };
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(eat);
   addObject(m_player);
@@ -149,6 +155,7 @@ void Level::spawnEnemy()
   auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
   e->addComponent(new BoxCollider(sf::Vector2u(25,25) ), "COLLIDER");
+  e->addProperty("type", ENEMY_TYPE);
   m_ennemies.push_back(e);
   addObject(e);
 
@@ -174,6 +181,7 @@ void Level::spawnTarget()
   phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
   phi->addRotation( Random::get(-20, 20) );  
   e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
+  e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
   m_collisionManager->addObject(e);
   addObject(e);
@@ -263,3 +271,17 @@ void Level::removeTarget(GameObject * g)
 
 }
 
+void Level::updateScore()
+{
+  m_gui->getComponent<GUI>("GUI")->setScore(m_player->score);
+}
+
+void Level::updateLives()
+{
+  m_gui->getComponent<GUI>("GUI")->setLives(m_player->lives);
+}
+
+void Level::updateRow()
+{
+  m_gui->getComponent<GUI>("GUI")->setRow(m_player->row, m_player->multiplier);
+}

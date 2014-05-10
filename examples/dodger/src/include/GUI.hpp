@@ -18,6 +18,7 @@ class GUI : virtual public sf::Drawable,
 protected:
   unsigned short m_lives;
   unsigned int m_score;
+  unsigned short m_mult;
   sf::RectangleShape m_background;
   sf::Text m_text;
 
@@ -28,6 +29,7 @@ public:
             sf::RenderStates = sf::RenderStates::Default) const;
   void setScore(unsigned int newscore);
   void setLives(unsigned int newlives);
+  void setRow(unsigned char r, unsigned short m);
   void update(const frog::ComponentHolder&);
 
 private:
