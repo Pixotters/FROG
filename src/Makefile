@@ -39,7 +39,7 @@ $(FROGVERSION): $(OBJECTS)
 	$(CXX) $(DEBUGFLAG) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
 
 local_clean: 
-	rm -f $(FROG) $(FROG).$(VERSION) $@.$(VERSION).$(SUBVERSION)
+	cd $(LIB); rm -f $(FROG) $(FROG).$(VERSION) $(FROG).$(VERSION).$(SUBVERSION)
 
 install:
 	sudo cp -r include/FROG /usr/local/include/FROG
