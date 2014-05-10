@@ -21,13 +21,13 @@ namespace frog{
   template <typename T>
   void PropertiesHolder::addProperty(const std::string& id, T value)
   {
-    m_properties.emplace( id, std::unique_ptr<T>(new T(value) )  );
+    m_properties.emplace( id, std::shared_ptr<T>(new T(value) )  );
   }
 
   template <typename T >
   void PropertiesHolder::addProperty(const std::string& id, T * pointer)
   {
-    m_properties.emplace( id, std::unique_ptr<T>(pointer) );
+    m_properties.emplace( id, std::shared_ptr<T>(pointer) );
   }
 
   template <typename T>

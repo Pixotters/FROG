@@ -3,6 +3,7 @@
 
 #include "FROG/Transform.hpp"
 #include "FROG/ComponentHolder.hpp"
+#include "FROG/PropertiesHolder.hpp"
 
 #include <memory>
 #include <string>
@@ -12,7 +13,8 @@ namespace frog{
   /*!
    * GameObjects are main bricks of a scene. 
    */
-  class GameObject : virtual public ComponentHolder
+  class GameObject : virtual public ComponentHolder,
+                     virtual public PropertiesHolder
   {
 
   public:

@@ -11,7 +11,7 @@ namespace frog{
   {
 
   private:
-    std::map< std::string, std::unique_ptr<void> > m_properties;
+    std::map< std::string, std::shared_ptr<void> > m_properties;
 
   public:
     PropertiesHolder();
