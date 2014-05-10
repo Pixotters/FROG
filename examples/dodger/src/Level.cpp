@@ -1,5 +1,6 @@
 #include "GUI.hpp"
 #include "Level.hpp"
+#include "End.hpp"
 
 #include "FROG/Component/AudioSource.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
@@ -205,7 +206,7 @@ void Level::updatePlayer()
 {
   if (m_player->lives <= 0)
     {
-      // TODO GameOver
+      appInfo.stateManager.change(new End(appInfo, m_player->score) );
     }
   if (m_player->invincible)
     {
