@@ -3,7 +3,6 @@
   <ASSETS>
     <TEXTURES>
       <texture filename="assets/images/frog.png" ID="FROG_TEXTURE" />
-      <texture filename="assets/images/troll.png" ID="ENEMY_TEXTURE" />
       <texture filename="assets/images/donut.png" ID="BONUS_TEXTURE" />
       <texture filename="assets/images/kitchen.png" ID="TERRAIN_TEXTURE" />
     </TEXTURES>

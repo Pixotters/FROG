@@ -36,7 +36,7 @@ Level::Level(AppInfo& appinfo)
 {
   m_collisionManager = new LSAP();  
   m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
-  if( not loadFromFile("assets/scenes/main_scene/level.xml") )
+  if( not loadFromFile("assets/scenes/level.xml") )
     throw std::runtime_error("Cannot load Level");
       
 }
