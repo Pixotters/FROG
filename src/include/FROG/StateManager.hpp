@@ -2,7 +2,6 @@
 #define FROG_STATEMANAGER_HPP
 
 #include "FROG/State.hpp"
-#include "FROG/AppInfo.hpp"
 #include <stack>
 
 

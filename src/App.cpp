@@ -6,7 +6,7 @@ namespace frog{
 
   App::App(const std::string& title, const std::string& cfg)
     : m_window(sf::VideoMode(1, 1), title, sf::Style::Close),
-      appInfo(m_window, m_clock)
+      appInfo(m_stateManager, m_window, m_clock)
   {
     config.loadFromFile(cfg);
     m_window.create(sf::VideoMode(config.windowSize.x, 
