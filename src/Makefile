@@ -28,7 +28,7 @@ show: generic_show
 	@echo "-path : $(PATH)"
 
 $(FROG): $(FROGVERSION)
-	cd $(LIB); ldconfig -l $@.$(VERSION).$(SUBVERSION) && \
+	mkdir -p lib && cd $(LIB); ldconfig -l $@.$(VERSION).$(SUBVERSION) && \
 	ln -sf $@.$(VERSION) $@
 
 $(FROGVERSION): $(OBJECTS)
