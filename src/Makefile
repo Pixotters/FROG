@@ -11,7 +11,7 @@ HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 
 INC:=include/
-LIBDIR:=lib/
+LIB:=lib
 CXXFLAGS+= -I$(INC)
 
 frog: $(FROG)
@@ -28,17 +28,27 @@ show: generic_show
 	@echo "-path : $(PATH)"
 
 $(FROG): $(FROGVERSION)
-	ldconfig -l $@.$(VERSION).$(SUBVERSION)
+	cd $(LIB); ldconfig -l $@.$(VERSION).$(SUBVERSION) && \
 	ln -sf $@.$(VERSION) $@
 
 $(FROGVERSION): $(OBJECTS)
-	$(CXX) -shared $(DEBUGFLAG) $(CXXFLAGS) -I$(INC) -L$(LIBDIR) \
-	-o $@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
+	$(CXX) -shared $(DEBUGFLAG) $(CXXFLAGS) -I$(INC) \
+	-o $(LIB)/$@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
 
 %.o: %.cpp
 	$(CXX) $(DEBUGFLAG) $(CXXFLAGS) -fPIC -I$(INC) -o $@ -c $<
 
 local_clean: 
 	rm -f $(FROG) $(FROG).$(VERSION) $@.$(VERSION).$(SUBVERSION)
+
+install:
+	sudo cp -r include/FROG /usr/local/include/FROG
+	sudo cp -r lib/$(FROG)* /usr/lib/
+
+uninstall:
+	sudo rm -rf /usr/local/include/FROG/
+	sudo rm -f /usr/local/$(FROG)*
+
+reinstall: uninstall install
 
 -include $(SOURCES:.cpp=.d)
