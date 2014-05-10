@@ -1,4 +1,3 @@
-#include <cassert>
 #include <sstream>
 #include <string>
 
@@ -61,7 +60,12 @@ namespace frog{
             throw std::runtime_error(err);
           }
         auto check = m_files.insert( std::make_pair( id, std::move(pr) )  );
-        assert( check.second );
+        if (not check.second)
+          {
+            std::string err = "Impossible to create asset because a problem"; 
+            err += " occured while inserting " + path;
+            throw std::runtime_error(err);
+          }
 
       }
 

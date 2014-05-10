@@ -7,7 +7,8 @@
 namespace frog{
 
   GameObject::GameObject(GameObject * _parent)
-    : ComponentHolder(), parent(_parent), transform(new Transform)
+    : ComponentHolder(), PropertiesHolder(),
+      parent(_parent), transform(new Transform)
   {
     addComponent( transform, "TRANSFORM" );
   }
