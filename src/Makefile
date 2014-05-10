@@ -27,11 +27,12 @@ show: generic_show
 	@echo "-ld : $(LD_LIBRARY_PATH)"
 	@echo "-path : $(PATH)"
 
-$(FROG): $(FROGVERSION)
-	mkdir -p lib && cd $(LIB); ldconfig -l $@.$(VERSION).$(SUBVERSION) && \
+$(FROG): $(FROGVERSION) 
+	cd $(LIB) && ldconfig -l $@.$(VERSION).$(SUBVERSION) && \
 	ln -sf $@.$(VERSION) $@
 
 $(FROGVERSION): $(OBJECTS)
+	mkdir -p $(LIB)
 	$(CXX) -shared $(DEBUGFLAG) $(CXXFLAGS) -I$(INC) \
 	-o $(LIB)/$@ $^ $(LDFLAGS) -Wl,-soname,$(FROG).$(VERSION)
 
