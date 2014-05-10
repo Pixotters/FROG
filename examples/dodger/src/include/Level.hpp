@@ -11,6 +11,7 @@
 #include "FROG/Collision/CollisionManager.hpp"
 
 
+#include <SFML/Audio/Music.hpp>
 #include <SFML/System/Clock.hpp>
 
 #include <list>
@@ -32,6 +33,7 @@ class Level : virtual public Scene
 {
   //// attributes ////
 protected:
+  //  sf::Music m_music;
   std::shared_ptr<Player> m_player;
   std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;

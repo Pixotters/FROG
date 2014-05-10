@@ -14,6 +14,7 @@
 #include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Physics/PhysicBody.hpp"
 
+#include <SFML/Audio/Music.hpp>
 #include <SFML/Graphics.hpp>
 #include <exception>
 
@@ -50,6 +51,8 @@ Level::~Level()
 
 void Level::enter()
 {
+  //  if (m_music.openFromFile("assets/musics/Canal_Street_Blues.ogg") )
+  //    m_music.play();
   setControls(m_player, appInfo );
   m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
