@@ -8,16 +8,32 @@ class PlayerStateFactory;
 
 class PlayerState
 {
+  typedef enum
+    {
+      STAND, 
+      WALK, 
+      JUMP, 
+      FALLING, 
+      CRAWLING,
+      GETTING_UP,
+      BUTTON,
+      PUSHING, 
+      PULLING, 
+      WAITING,
+      WINNING,
+      HANDING,
+      COUNT
+    } ID;
 
   friend class PlayerStateFactory;
 
 protected:
   std::function<bool()> m_enter;
   std::function<bool()> m_exit;
-  std::string m_id;
+  ID m_id;
 
 public:
-  PlayerState(const std::string& = "");
+  PlayerState(ID = "NORMAL");
   virtual ~PlayerState();
   virtual bool onEnter(); // should be abstract
   virtual bool onExit(); // should be abstract

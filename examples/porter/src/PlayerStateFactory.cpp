@@ -1,6 +1,6 @@
 #include "PlayerStateFactory.hpp"
 
-PlayerState * PlayerStateFactory::create(const std::string& id,
+PlayerState * PlayerStateFactory::create(PlayerState::ID id,
                                          std::function<bool()> enter,
                                          std::function<bool()> exit)
 {

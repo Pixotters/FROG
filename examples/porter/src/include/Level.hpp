@@ -15,15 +15,14 @@ class Level : virtual public frog::Scene
   friend class PlayerMachine;
 
 protected:
-  //  frog::AssetManager<std::string, sf::Texture> m_textureManager;
-  frog::AssetManager<std::string, frog::Spritesheet<std::string> > m_spritesheetManager;   // first string is ID of spritesheet, second string is ID of animations
   frog::GameObject * m_player;
   frog::GameObject * m_terrain;  
 
 public:
   Level();
   virtual ~Level();
-  virtual void update(const frog::AppInfo&);
+  virtual void preupdate();
+  virtual void enter();
 
 private:
   static bool okay();
