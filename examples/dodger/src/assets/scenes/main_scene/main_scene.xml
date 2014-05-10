@@ -10,6 +10,7 @@
     <SOUNDS>
       <sound filename="assets/sounds/bite1.ogg" ID="BITE_1" />
       <sound filename="assets/sounds/bite2.ogg" ID="BITE_2" />
+      <sound filename="assets/sounds/punch.wav" ID="PUNCH" />
     </SOUNDS>
   </ASSETS>
   <OBJECTS>

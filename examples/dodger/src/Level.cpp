@@ -67,13 +67,21 @@ void Level::enter()
       auto type = c.second->getProperty<TYPE_ID>("type");
       if (type == ENEMY_TYPE)
         {          
-          this->m_player->hit();
-          updateLives();
+          if (not this->m_player->invincible)
+            {
+              this->m_player->hit();
+              this->m_player->getComponent<AudioSource>("AUDIO")
+                ->playSound(this->defaultSoundManager.get("PUNCH") );
+              updateLives();
+            }
         }
       else if (type == TARGET_TYPE)
         {
           auto player = this->m_player;
-          player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
+          if (Random::get(0, 1) == 0)
+            player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
+          else
+            player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_2") );
           //    this->removeTarget(c.second);
           player->row += 1;
           if (player->row >= 10)
@@ -151,8 +159,6 @@ void Level::spawnEnemy()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   e->addComponent(new RenderingComponent( r ), "RENDERING" );
-  //  m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
-  //  m_boundingBox->setFillColor(sf::Color::Red);
   e->addComponent(new PhysicBody(), "PHYSICS");
   e->transform->layer = ENEMY_LAYER;
   e->transform->setPosition(Random::get(100, 700), 50);
@@ -174,15 +180,9 @@ void Level::spawnEnemy()
 void Level::spawnTarget()
 {
   std::shared_ptr<GameObject> e(new GameObject() );
-  //    m_boundingBox = new sf::RectangleShape(sf::Vector2f(25, 25) );
-  //  m_boundingBox->setFillColor(sf::Color::Green);
   e->addComponent(new Sprite(defaultTextureManager.get("BONUS_TEXTURE") ), "RENDERING" );
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
-  //  e->transform->setScale(0.5f, 0.5f);
-  //  auto bounds = e->getComponent<Sprite>("RENDERING")->getLocalBounds();
-  //  e->transform->setOrigin(bounds.left + bounds.width/2.0, 
-  //                        bounds.top + bounds.height/2.0f);
   e->transform->setOrigin(32, 32);
   e->addComponent(new PhysicBody(), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
@@ -194,8 +194,7 @@ void Level::spawnTarget()
   e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
   m_collisionManager->addObject(e);
-  addObject(e);
-  
+  addObject(e);  
 }
 
 void Level::updatePlayer()
@@ -215,7 +214,6 @@ void Level::updateEnemies()
 {
   for(auto it = m_ennemies.begin(); it != m_ennemies.end(); ++it)
     {      
-      //      PhysicEngine::update( it->get() );
       if((*it)->transform->getPosition().x > 800 
          || (*it)->transform->getPosition().y > 600)
         {
@@ -235,7 +233,9 @@ void Level::updateTargets()
       if ( tr->getPosition().x > 800 
            || tr->getPosition().y > 600 
            || tr->getPosition().x < -32
-           || tr->getPosition().y < -32){
+           || tr->getPosition().y < -32
+           || tr->getScale().x < 0.1
+           || tr->getScale().y < 0.1){
         removeObject(*it);
         m_collisionManager->removeObject(*it);
         it->reset();
@@ -243,9 +243,7 @@ void Level::updateTargets()
       }  
       
     }
-  std::cerr << "udTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
-  std::cerr << "udTarget after removing : "<< m_targets.size() <<std::endl;
 }
 
 void Level::removeTarget(GameObject * g)
@@ -256,11 +254,8 @@ void Level::removeTarget(GameObject * g)
         {
           removeObject(g);
           m_collisionManager->removeObject(it);
-          std::cerr << "rmTarget before reset : "<< it <<std::endl;
           it.reset();
-          std::cerr << "rmTarget after reset : "<< it <<std::endl;
           it = nullptr;
-          std::cerr << "rmTarget after = : "<< it <<std::endl;
         }  
 
     }
@@ -275,10 +270,7 @@ void Level::removeTarget(GameObject * g)
       }  
       
       }*/
-  std::cerr << "rmTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
-  std::cerr << "rmTarget after removing : "<< m_targets.size() <<std::endl;
-
 }
 
 void Level::updateScore()
