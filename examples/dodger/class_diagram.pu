@@ -1,9 +1,53 @@
 @startuml
 
-class Start;
-class End;
+namespace frog{
+ class Scene
+ class GameObject
+ class Command
+}
+
+class Player{
+ short lives
+ long score
+ short row
+ short multiplier
+ bool invincible
+}
+
+class GUI{
+ Shape background
+ Text text
+}
+
+class Start
+
+class End{
+  vector<int> getScore(file) const
+  bool checkBest(vector<int>, int) const
+}
+
 class Level{
+  CollisionManager collisionManager
+  spawnEnemy()
+  spawnTarget()
+  updatePlayer()
+  updateEnemies()
+  updateTargets()
+}
+
+class MovePlayer{
 
 }
+
+frog.Scene o-- frog.GameObject
+Start --|> frog.Scene
+Level --|> frog.Scene
+End --|> frog.Scene
+GUI --|> frog.GameObject
+Player --|> frog.GameObject
+MovePlayer --|> frog.Command
+MovePlayer .. Player
+Level *-- Player
+Level *-- GUI
 
 @enduml
