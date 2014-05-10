@@ -8,9 +8,9 @@ namespace frog{
   {
     auto find = m_properties.find(key);
     if (find != m_properties.end() )
-      {
-        auto p = std::dynamic_pointer_cast<T>(find->second);
-        return *p;
+      {      
+        auto p = (find->second).get();
+        return *((T*)(p));
       }
     std::ostringstream oss;
     oss << "No such property : "<<key;
