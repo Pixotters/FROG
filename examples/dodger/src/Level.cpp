@@ -1,29 +1,21 @@
 #include "GUI.hpp"
 #include "Level.hpp"
 #include "End.hpp"
+#include "MovePlayer.hpp"
 
-#include "FROG/Component/AudioSource.hpp"
-#include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Control.hpp"
-#include "FROG/Control/ControlComponent.hpp"
-#include "FROG/Debug.hpp"
-#include "FROG/Translator.hpp"
-
-#include "FROG/App.hpp"
-#include "FROG/AppInfo.hpp"
-
+#include "FROG/Control/JoystickMover.hpp"
 #include "FROG/Random.hpp"
+#include "FROG/Collision/BoxCollider.hpp"
+#include "FROG/Collision/LSAP.hpp"
+#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 #include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Physics/PhysicBody.hpp"
-#include "MovePlayer.hpp"
-#include "JoystickMover.hpp"
-
-#include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <exception>
-#include <iostream> // TODO remove
 
 using namespace frog;
 
@@ -38,7 +30,6 @@ const unsigned short GUI_LAYER = 4;
 
 Level::Level(AppInfo& appinfo)
   : Scene(appinfo), 
-    m_appinfo(appinfo),
     m_player(new Player), 
     m_terrain(new GameObject), 
     m_gui(new GameObject)
@@ -59,7 +50,7 @@ Level::~Level()
 
 void Level::enter()
 {
-  setControls(m_player, m_appinfo );
+  setControls(m_player, appInfo );
   m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
   m_terrain->transform->layer = TERRAIN_LAYER;
@@ -122,13 +113,13 @@ void Level::postupdate()
   updatePlayer();
   updateEnemies();
   updateTargets();
-  sf::Time t = m_clock.getElapsedTime();
+  sf::Time t = appInfo.clock.getElapsedTime();
   if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
     spawnEnemy();
-    m_clock.restart();
+    appInfo.clock.restart();
   }
 }
 

@@ -8,8 +8,6 @@
 #include <string>
 #include <sstream>
 
-#include <iostream> // TODO remove
-
 #define SCOREFILE "scores"
 
 using namespace frog;
@@ -68,6 +66,7 @@ std::vector<unsigned int> End::getScores(std::ifstream& scorefile) const
       throw std::runtime_error("Could not open score file.");
     }
   std::vector<unsigned int> scores;
+  // extracting numbers from file
   while (not scorefile.eof() )
     {
       unsigned int s;
@@ -82,6 +81,7 @@ bool End::checkBest(std::vector<unsigned int>& scores,
                     unsigned int score) const
 {
   bool sort = false;
+  // checking is new score should be among best ones
   for (auto s: scores)
     {
       if (score > s)
@@ -90,6 +90,7 @@ bool End::checkBest(std::vector<unsigned int>& scores,
           break;
         }       
     }
+  // if it is, then insert it, sort the list, and keep the 10 best
   if (sort)
     {
       scores.push_back(score);

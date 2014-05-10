@@ -4,7 +4,6 @@
 #include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Command.hpp"
-//#include "Player.hpp"
 
 using namespace frog;
 

@@ -1,7 +1,5 @@
 #include "Player.hpp"
 
-#include "FROG/App.hpp"
-
 #include "FROG/Rendering/Sprite.hpp"
 #include "FROG/Transform.hpp"
 #include "FROG/Component/AudioSource.hpp"

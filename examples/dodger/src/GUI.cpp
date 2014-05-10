@@ -5,8 +5,6 @@
 
 #include <sstream>
 
-#include <iostream> // TODO remove
-
 GUI::GUI(unsigned int w, unsigned int h, sf::Font& font, unsigned int lives)
   : sf::Drawable(), sf::Transformable(), frog::Component(), 
     m_lives(lives), m_score(0), m_mult(0)
@@ -50,7 +48,6 @@ void GUI::draw(sf::RenderTarget& rt, sf::RenderStates rs) const
 
 void GUI::setScore(unsigned int newscore)
 {
-  std::cout << "setting score" << std::endl;
   m_score = newscore;
   updateString();
 }

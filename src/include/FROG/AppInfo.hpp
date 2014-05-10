@@ -16,12 +16,12 @@ namespace frog
   struct AppInfo{
     StateManager&  stateManager;
     sf::RenderWindow & window;
-    sf::Clock & timer; // Time elapsed since App initialized
+    sf::Clock & clock; // Time elapsed since App initialized
     sf::Time deltaTime; // Time elapsed since last frame
     bool running; // Tells if the game is running, making the game loop or not
     std::vector<sf::Event> eventList; 
     AppInfo(StateManager& m, sf::RenderWindow & w, sf::Clock & c) 
-      : stateManager(m), window(w), timer(c) { }
+      : stateManager(m), window(w), clock(c) { }
 
   };
 

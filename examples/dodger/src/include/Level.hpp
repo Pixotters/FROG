@@ -1,21 +1,17 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include "FROG/AppInfo.hpp"
 #include "FROG/Scene.hpp"
-#include "FROG/AssetManager.hpp"
-
-#include "FROG/Collision/Collider.hpp"
-#include "FROG/Collision/CollisionManager.hpp"
-#include "FROG/Collision/LSAP.hpp"
 
 #include "Player.hpp"
-
 #include "FontID.hpp"
 
-#include <SFML/System/Clock.hpp>
+#include "FROG/AssetManager.hpp"
+#include "FROG/AppInfo.hpp"
+#include "FROG/Collision/CollisionManager.hpp"
 
-#include <SFML/Graphics.hpp>
+
+#include <SFML/System/Clock.hpp>
 
 #include <list>
 
@@ -36,9 +32,6 @@ class Level : virtual public Scene
 {
   //// attributes ////
 protected:
-  sf::Clock m_clock;
-  sf::Clock m_playerClock;
-  AppInfo& m_appinfo;
   std::shared_ptr<Player> m_player;
   std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;
