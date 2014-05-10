@@ -87,7 +87,7 @@ void Level::enter()
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
           else
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_2") );
-          //    this->removeTarget(c.second);
+          this->removeTarget(c.second);
           player->row += 1;
           if (player->row >= 10)
             {
@@ -204,10 +204,25 @@ void Level::spawnTarget()
 
 void Level::updatePlayer()
 {
+  // replacing player when out of screen
+  auto pos = m_player->transform->getPosition();
+  float x_dec = 0, y_dec = 0;
+  if (pos.x < 0)
+    x_dec = -pos.x;
+  if (pos.y < 64)
+    y_dec = 64-pos.y;
+  if (pos.x > appInfo.window.getSize().x)
+    x_dec = appInfo.window.getSize().x - pos.x;
+  if (pos.y > appInfo.window.getSize().y)
+    y_dec = appInfo.window.getSize().y - pos.y;
+  m_player->transform->move(x_dec, y_dec);
+
+  // checking game over
   if (m_player->lives <= 0)
     {
       appInfo.stateManager.change(new End(appInfo, m_player->score) );
     }
+  // checking if vulnerable
   if (m_player->invincible)
     {
       m_player->timer += appInfo.deltaTime;
@@ -223,6 +238,7 @@ void Level::updateEnemies()
          || (*it)->transform->getPosition().y > 600)
         {
           removeObject(*it);
+          m_collisionManager->removeObject(*it);
           it->reset();
           *it = nullptr;
         }
