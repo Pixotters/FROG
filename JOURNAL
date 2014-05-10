@@ -11,7 +11,16 @@ On peut afficher du texte graphiquement, via un RenderingComponent spécial, le
 Toujours plus de smart pointers.  
 Les Component sont désormais mappés par un ID, et plus par type : on peut 
 donc avoir plusieurs components de même type, tant que l'ID est différente. 
-On peut aussi jouer des sons avec le component *AudioSource*. 
+On peut aussi jouer des sons avec le component *AudioSource*.  
+Maintenant, en plus des Components, les GameObjects sont des 
+*PropertiesHolder*. La différence étant qu'une Property peut être de n'importe 
+quel type, y compris les types de base. Alors qu'un Component doit implémenter 
+au moins une méthode //update//.  
+Afin de faciliter l'utilisation, divers typedef et factories ont été fait, et 
+certains attributs de classe ont été rendus publics.  
+Enfin, niveau déploiement, un makefile "générique" pour les projets faits avec 
+FROG a été réalisé (un peu tard), et le makefile de FROG lui, dispose de 
+règles d'installation/suppression. 
 
 = Objectifs de la semaine =
 
