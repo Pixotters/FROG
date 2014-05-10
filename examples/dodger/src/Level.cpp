@@ -62,27 +62,36 @@ void Level::enter()
   m_player->transform->layer = PLAYER_LAYER;
   m_player->addComponent( new Sprite(defaultTextureManager.get("FROG_TEXTURE") ),
                           "RENDERING" );
-  auto eat = [this](Collision c){
-    auto player = this->m_player;
-    player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
-    //    this->removeTarget(c.second);
-    //    player->hit();
-    player->row += 1;
-    if (player->row >= 10)
+  auto col_script = [this](Collision c){
+    try{
+      auto type = c.second->getProperty<TYPE_ID>("type");
+      if (type == ENEMY_TYPE)
+        {          
+          this->m_player->hit();
+          updateLives();
+        }
+      else if (type == TARGET_TYPE)
+        {
+          auto player = this->m_player;
+          player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
+          //    this->removeTarget(c.second);
+          player->row += 1;
+          if (player->row >= 10)
+            {
+              player->multiplier++;
+              player->row = 0;
+            }
+          player->score += (2*player->multiplier)+5;
+          updateScore();
+          updateRow();
+
+        }
+    }catch(std::logic_error e)
       {
-        player->multiplier++;
-        player->row = 0;
+
       }
-    player->score += (2*player->multiplier)+5;
-    updateScore();
-    updateRow();
-    std::cout << "score : "<< player->score << std::endl;
   };
-  auto hit = [this](Collision c){
-    this->m_player->hit();
-    updateLives();
-  };
-  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(eat);
+  m_player->getComponent<BoxCollider>("COLLIDER")->setScript(col_script);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
   std::shared_ptr<GUI> pgui(new GUI(800, 64, 
@@ -156,6 +165,7 @@ void Level::spawnEnemy()
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
   e->addComponent(new BoxCollider(sf::Vector2u(25,25) ), "COLLIDER");
   e->addProperty("type", ENEMY_TYPE);
+  m_collisionManager->addObject(e);
   m_ennemies.push_back(e);
   addObject(e);
 
@@ -255,16 +265,16 @@ void Level::removeTarget(GameObject * g)
 
     }
   /*  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
-    {      
+      {      
       if (it->get() == g)
-        {
-          removeObject(*it);
-          m_collisionManager->removeObject(*it);
-          it->reset();
-          *it = nullptr;
-        }  
+      {
+      removeObject(*it);
+      m_collisionManager->removeObject(*it);
+      it->reset();
+      *it = nullptr;
+      }  
       
-        }*/
+      }*/
   std::cerr << "rmTarget before removing : "<< m_targets.size() <<std::endl;
   m_targets.remove(nullptr);
   std::cerr << "rmTarget after removing : "<< m_targets.size() <<std::endl;
