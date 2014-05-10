@@ -303,5 +303,5 @@ void Level::updateLives()
 
 void Level::updateRow()
 {
-  m_gui->getComponent<GUI>("GUI")->setRow(m_player->row, m_player->multiplier);
+  m_gui->getComponent<GUI>("GUI")->setRow(m_player->multiplier);
 }
