@@ -4,20 +4,16 @@
 
 namespace frog{
 
-  Renderer::Renderer(sf::RenderTarget * rt,
+  Renderer::Renderer(sf::RenderTarget& rt)
+    : m_target(rt)
+  {
+    m_texture.create(m_target.getSize().x, m_target.getSize().y);
+  }
+  
+  Renderer::Renderer(sf::RenderTarget& rt,
                      unsigned int w,
                      unsigned int h)
-      
-  {
-    // TODO : get the windows size with a service locator
-    m_target = rt;
-    m_texture.create(w, h);
-    //      m_texture.initialize();
-  }
-
-  Renderer::Renderer(unsigned int w,
-                     unsigned int h)
-      
+    : m_target(rt)  
   {
     // TODO : get the windows size with a service locator
     m_texture.create(w, h);
@@ -26,7 +22,7 @@ namespace frog{
 
   Renderer::~Renderer()
   {
-
+    m_objects.clear();
   }
 
   void Renderer::update()
@@ -38,7 +34,7 @@ namespace frog{
         draw( it->second );
       }      
     m_texture.display();
-    m_target->draw( sf::Sprite(m_texture.getTexture() ) );
+    m_target.draw( sf::Sprite(m_texture.getTexture() ) );
     m_texture.clear();
   }
 
@@ -85,17 +81,36 @@ namespace frog{
   
   void Renderer::removeObject(const std::shared_ptr<GameObject>& go)
   {
-    // TODO
-    //      m_objects.remove(go);
+    auto end = m_objects.end();
+    for (auto it = m_objects.begin(); it != end; it++)
+      {
+        if (it->first == go)
+          {
+            m_objects.remove(*it);
+            break;
+          }
+
+      }
+
   }
 
-  void Renderer::setTarget(sf::RenderTarget * rt)
-  {
-    m_target = rt;
-  }
+  
+void Renderer::removeObject(GameObject * go)
+{
+  auto end = m_objects.end();
+  for (auto it = m_objects.begin(); it != end; it++)
+    {
+      if (it->first.get() == go)
+        {
+          m_objects.remove(*it);
+          break;
+        }
 
-  void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
-  {
+    }
+}
+
+void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
+{
   /* TODO : check if RenderingComponent or layer changed. 
      see the best -> pointer comparison, dirty flag, observer, notifying ?
   */
@@ -105,15 +120,15 @@ namespace frog{
         m_objects.at(go) = rc;
         }
   */
-  }
+}
   
-  void Renderer::draw(RenderingComponent * rc)
-  {
-    if(rc != nullptr)
-      {
-        rc->draw(m_texture, rc->getTransform() );
-      }
-  }
+void Renderer::draw(RenderingComponent * rc)
+{
+  if(rc != nullptr)
+    {
+      rc->draw(m_texture, rc->getTransform() );
+    }
+}
   
   
 }

@@ -37,10 +37,10 @@ proper:
 	rm -f $(PROGRAM)
 
 start:
-	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) $(ARGS) 2> errlog
+	export LD_LIBRARY_PATH=$(LIBDIR) && ./$(PROGRAM) $(ARGS) 2> error.log
 
 valgrind:
-	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) $(ARGS) 2> valgrind_log
+	@export LD_LIBRARY_PATH=$(LIBDIR) && valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./$(PROGRAM) $(ARGS) 2> valgrind.log
 
 -include $(SOURCES:.cpp=.d)
 -include $(SUBSOURCES:.cpp=.d)

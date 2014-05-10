@@ -6,10 +6,14 @@
 
 #include <SFML/Window/Event.hpp>
 
+#include <memory>
+
 namespace frog{
 
   struct MouseButton : virtual public Input
   {
+
+    typedef std::shared_ptr<MouseButton> PTR_MouseButton;
 
     sf::Mouse::Button code;
     Trigger::ButtonTrigger trigger;
@@ -20,6 +24,10 @@ namespace frog{
     MouseButton(const sf::Event::MouseButtonEvent&, 
                 Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual ~MouseButton();
+    static PTR_MouseButton create(sf::Mouse::Button code,
+                                  Trigger::ButtonTrigger trigger);
+    static PTR_MouseButton create(const sf::Event::MouseButtonEvent& e, 
+                                  Trigger::ButtonTrigger trigger);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     virtual bool operator==(const sf::Event::MouseButtonEvent&) const;

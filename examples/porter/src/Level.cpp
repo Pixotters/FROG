@@ -20,17 +20,17 @@
 
 using namespace frog;
 
-Level::Level()
-  : Scene()
+Level::Level(AppInfo& appinfo)
+  : Scene(appinfo)
 {
   defaultSpritesheetManager.loadFromFile("assets/spritesheets/porter_animation.xml",
-                                    "Porter_anim");
+                                         "Porter_anim");
   defaultSpritesheetManager.loadFromFile("assets/spritesheets/porter_animation2.xml",
-                                    "Porter_anim2");
+                                         "Porter_anim2");
   defaultSoundManager.loadFromFile("assets/sounds/metal_gong.wav",
-                                    "METAL_GONG");
+                                   "METAL_GONG");
   defaultSoundManager.loadFromFile("assets/sounds/woosh.wav",
-                                    "WOOSH");
+                                   "WOOSH");
 }
 
 Level::~Level()
@@ -49,6 +49,7 @@ void Level::createPlayer(const AppInfo& appInfo)
   sf::Texture& tex = defaultTextureManager.get("PORTER_SPRITESHEET");
   Spritesheet<std::string>& sprt = defaultSpritesheetManager.get("Porter_anim");
   m_player->transform->layer = 2;
+  m_player->transform->scale(3.0f, 3.0f);
   m_player->addComponent(new Animator<std::string>(sprt, tex), 
                          "RENDERING" );
   m_player->addComponent(new AudioSource, 
@@ -56,7 +57,7 @@ void Level::createPlayer(const AppInfo& appInfo)
   m_player->getComponent<Animator<std::string> >("RENDERING")->setDefaultAnimation("stand");
   //
   std::shared_ptr<PlayerMachine> pm(new PlayerMachine(this) );
-  pm->push( PlayerStateFactory::create("stand", &okay, &okay) );
+  pm->push( PlayerStateFactory::create(PlayerState::STAND, &okay, &okay) );
   m_player->addComponent(pm, "FSM");
   //
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appInfo.eventList) );
@@ -66,14 +67,16 @@ void Level::createPlayer(const AppInfo& appInfo)
   auto r = KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED);
   auto lm = MouseButton::create(sf::Mouse::Left, Trigger::PRESSED);
   auto rm = MouseButton::create(sf::Mouse::Right, Trigger::PRESSED);
-  ctrl->bind(u, new MoveObject(m_player, 0, -32) );
-  ctrl->bind(d, new MoveObject(m_player, 0, 32) );
-  ctrl->bind(l, new MoveObject(m_player, -32, 0) );
-  ctrl->bind(lm, new MoveObject(m_player, -32, 0) );
-  ctrl->bind(r, new MoveObject(m_player, 32, 0) );
-  ctrl->bind(rm, new MoveObject(m_player, 32, 0) );
-  JoystickButton * j = new JoystickButton(XBOX::A, Trigger::PRESSED);
-  ctrl->bind(j, new MoveObject(m_player, 0, 32) );
+  std::shared_ptr<MoveObject> up(new MoveObject(m_player, 0, -32) );
+  std::shared_ptr<MoveObject> down(new MoveObject(m_player, 0, 32) );
+  std::shared_ptr<MoveObject> left(new MoveObject(m_player, -32, 0) );
+  std::shared_ptr<MoveObject> right(new MoveObject(m_player, 32, 0) );
+  ctrl->bind(u, up );
+  ctrl->bind(d, down );
+  ctrl->bind(l, left );
+  ctrl->bind(lm, left );
+  ctrl->bind(r, right );
+  ctrl->bind(rm, right );
   m_player->addComponent(ctrl, "CONTROL");
   //
   addObject(m_player);
@@ -97,15 +100,15 @@ void Level::enter()
 void Level::preupdate()
 {
   static bool anim = false;
-  if( appInfo.timer.getElapsedTime().asSeconds() > 2.0f && not anim)
+  if( appInfo.clock.getElapsedTime().asSeconds() > 2.0f && not anim)
     {      
-      m_player->getComponent<PlayerMachine>("FSM")->change( PlayerStateFactory::create("wait", &okay, &okay) );
+      m_player->getComponent<PlayerMachine>("FSM")->change( PlayerStateFactory::create(PlayerState::WAITING, &okay, &okay) );
       anim = true;
     }
   static bool changed = false;
-  if( appInfo.timer.getElapsedTime().asSeconds() > 5.0f && not changed)
+  if( appInfo.clock.getElapsedTime().asSeconds() > 5.0f && not changed)
     {      
-      m_player->getComponent<PlayerMachine>("FSM")->change( PlayerStateFactory::create("rapping", &okay, &okay) );
+      m_player->getComponent<PlayerMachine>("FSM")->change( PlayerStateFactory::create(PlayerState::HANDING, &okay, &okay) );
       changed = true;
     }
 }

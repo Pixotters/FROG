@@ -24,12 +24,18 @@ namespace frog{
     /*!
      * @brief Performs the command. 
      */
-    virtual bool execute() = 0;
+    virtual void execute() = 0;
 
     /*!
      * @brief Shortcut for execute()
      */
-    bool operator()();
+    void operator()();
+
+    /*!
+     * @brief Undoes the action trigger by execution
+     * @detail If not overloaded, does nothing
+     */
+    void undo();
   };
 
 }

@@ -29,6 +29,19 @@ namespace frog{
 
   }
 
+
+  MouseButton::PTR_MouseButton MouseButton::create(sf::Mouse::Button code,
+                                Trigger::ButtonTrigger trigger)
+  {
+    return PTR_MouseButton( new MouseButton(code, trigger) );
+  }
+
+  MouseButton::PTR_MouseButton MouseButton::create(const sf::Event::MouseButtonEvent& e, 
+                                Trigger::ButtonTrigger trigger)
+  {
+    return PTR_MouseButton( new MouseButton(e, trigger) );
+  }
+
   bool MouseButton::operator==(const sf::Event& event) const
   {
     std::cerr << "testing equality between MouseButton & Event " << std::endl;

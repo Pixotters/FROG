@@ -12,9 +12,13 @@ namespace frog{
 
   }
 
-  bool Command::operator()()
+  void Command::operator()()
   {
-    return execute();
+    execute();
+  }
+
+  void Command::undo()
+  {
   }
 
 }

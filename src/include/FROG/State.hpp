@@ -1,15 +1,6 @@
 #ifndef FROG_STATE_HPP
 #define FROG_STATE_HPP
 
-#include "FROG/Rendering/Renderer.hpp"
-
-#include "FROG/AppInfo.hpp"
-#include "FROG/Command.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <list>
-
-
 namespace frog{
 
   /*!
@@ -19,12 +10,6 @@ namespace frog{
 
     friend class StateManager;
 
-    //// attributes ////
-  protected : 
-
-    /// Default renderer of the state
-    Renderer * m_renderer;
-
     //// operations ////
   public :
 
@@ -33,29 +18,26 @@ namespace frog{
     virtual ~State();
 
     /*!
-     * @brief Updates and renders the state
-     * @param appinfo AppInfo containing at least the RenderTarget and delta-time
+     * @brief Updates the state
      */
-    void loop(const AppInfo& appinfo);
+    void loop();
 
   protected:
+
+    /*!
+     * @brief function performed when StateManager enters in this state
+     */
+    virtual void enter() = 0;
+
     /*!
      * @brief Updates the state. 
-     * @param appinfo AppInfo containing at least a good delta-time
      */
-    virtual void update(const AppInfo& appinfo) = 0;
+    virtual void update() = 0;
 
     /*!
-     * @brief Renders the state in the given RenderTarget. 
-     * @param rt Where to display the state. 
+     * @brief function performed when StateManager exits from the state
      */
-    void render(sf::RenderTarget& rt) const;
-
-    /*!
-     * @brief Handles a list of commands, by executing them in order.
-     * @param c List of commands to execute. 
-     */
-    void handleCommands(std::list<Command *> c); 
+    virtual void exit() = 0;
 
   };
 

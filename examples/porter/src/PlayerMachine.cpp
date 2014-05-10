@@ -1,4 +1,5 @@
 #include "PlayerMachine.hpp"
+#include "FROG/Component/AudioSource.hpp"
 
 #include "FROG/Rendering/Animator.hpp"
 
@@ -16,9 +17,9 @@ PlayerMachine::~PlayerMachine()
 void PlayerMachine::update(const frog::ComponentHolder& parent)
 {
   static PlayerState::ID previous = PlayerState::COUNT;
-  if (previous != m_stack.top->getID() 
+  if (previous != m_stack.top()->getId() )
     {
-      if ( m_stack.top()->getId(). == PlayerState::STAND )
+      if ( m_stack.top()->getId() == PlayerState::STAND )
         {
           parent.getComponent< frog::Animator<std::string> >("RENDERING")
             ->changeTexture(m_level->defaultTextureManager.get("PORTER_SPRITESHEET") );
@@ -52,5 +53,6 @@ void PlayerMachine::update(const frog::ComponentHolder& parent)
 
     }
 
-    }
+}
+    
 

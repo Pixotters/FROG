@@ -2,18 +2,18 @@
 #define LEVEL_HPP
 
 #include "FROG/Scene.hpp"
-#include "FROG/Physics/PhysicEngine.hpp"
-#include "FROG/AssetManager.hpp"
 
 #include "Player.hpp"
-#include "Enemy.hpp"
-#include "Target.hpp"
-
 #include "FontID.hpp"
+
+#include "FROG/AssetManager.hpp"
+#include "FROG/AppInfo.hpp"
+#include "FROG/Collision/CollisionManager.hpp"
+
 
 #include <SFML/System/Clock.hpp>
 
-#include <SFML/Graphics.hpp>
+#include <list>
 
 using namespace frog;
 
@@ -23,33 +23,41 @@ typedef enum {
   TARGET_TEXTURE
 } TEXTURE_ID;
 
+typedef enum {
+  ENEMY_TYPE,
+  TARGET_TYPE
+} TYPE_ID;
+
 class Level : virtual public Scene
 {
   //// attributes ////
 protected:
-  sf::Clock m_clock;
-  std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<Player> m_player;
+  std::shared_ptr<GameObject> m_terrain;
   std::shared_ptr<GameObject> m_gui;
-  std::list< std::shared_ptr<Enemy> > m_ennemies;
-  std::list< std::shared_ptr<Target> > m_targets;
-  //  AssetManager<TEXTURE_ID, sf::Texture> m_textureManager;
+  std::list< std::shared_ptr<GameObject> > m_enemies;
+  std::list< std::shared_ptr<GameObject> > m_targets;
   AssetManager<FONT_ID, sf::Font> m_fontManager;
-  //  PhysicEngine m_phiengine;
+  CollisionManager * m_collisionManager;
 
   //// operations ////
 public:
-  Level(const AppInfo& );
+  Level(AppInfo&);
   virtual ~Level();
-  virtual void update(const AppInfo&);
-  void removeTarget(Target *);
+  virtual void enter();
+  virtual void postupdate();
 
 private:
-  void setControls(GameObject *, const AppInfo&);
-  void spawnEnemy(const AppInfo&);
-  void spawnTarget(const AppInfo&);
+  void setControls(std::shared_ptr<GameObject>, const AppInfo&);
+  void spawnEnemy();
+  void spawnTarget();
+  void updatePlayer();
   void updateEnemies();
   void updateTargets();
+  void updateScore();
+  void updateLives();
+  void updateRow();
+  void removeTarget(GameObject *);
 };
 
 #endif

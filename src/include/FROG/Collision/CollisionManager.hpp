@@ -2,19 +2,28 @@
 #define FROG_COLLISION_MANAGER_HPP 1
 
 /** Interface for collision managers */
+#include "FROG/GameObject.hpp"
 
-template <typename Obj> class CollisionManager  {
+namespace frog{
 
-public:
+  class CollisionManager  {
 
-    virtual void addObject(Obj *) = 0;
+  public:
 
-    virtual void updateObject(Obj *) = 0;
-
-    virtual void removeObject(Obj *) = 0;
-
+    CollisionManager(){};
+  
     virtual ~CollisionManager() {}
+  
+    virtual void addObject(std::shared_ptr<GameObject>) = 0;
+  
+    virtual void updateObject(std::shared_ptr<GameObject>) = 0;
+  
+    virtual void removeObject(std::shared_ptr<GameObject>) = 0;
 
-};
+    virtual void update() = 0;
+  
+  };
+
+}
 
 #endif

@@ -5,11 +5,14 @@
 #include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>
+#include <memory>
 
 namespace frog{
 
   struct JoystickButton : virtual public Input
   {
+
+    typedef std::shared_ptr<JoystickButton> PTR_JoystickButton;
 
     unsigned int id;
     unsigned int code;
@@ -24,6 +27,11 @@ namespace frog{
     JoystickButton(const sf::Event::JoystickButtonEvent&, 
                    Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual ~JoystickButton();
+    static PTR_JoystickButton create(unsigned int code, 
+                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS,
+                                     unsigned int id = 0);
+    static PTR_JoystickButton create(const sf::Event::JoystickButtonEvent&,
+                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     virtual bool operator==(const sf::Event::JoystickButtonEvent&) const;

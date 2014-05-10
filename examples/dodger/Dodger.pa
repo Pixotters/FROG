@@ -1,0 +1,23 @@
+= Dodger game =
+
+== Synopsis ==
+
+In Dodger, the player must touch donuts in order to eat them and earn points. 
+The task is difficult because red squares fall from the top of the screen, and 
+they hurt him!  
+Eat 10 donuts in a row, and your multiplier increases, giving you more points 
+for each donut.  
+Avoid red blocks, because if you get hit, your multiplier falls to 0 and you 
+lose a life. When you no longer have lives, the game is over. 
+
+== Controls ==
+
+There are two modes of control : 
+
+* Arrow keys : ZQSD (french keyboard) are used to move the player.
+* Joystick : X and Y axes are used to move the player. 
+
+== Metagame ==
+
+When you loose, your score is displayed at the high-scores screen. The best 
+ten scores are kept in a file for further use. 

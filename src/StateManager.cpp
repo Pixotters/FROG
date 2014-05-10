@@ -18,6 +18,7 @@ namespace frog{
   void StateManager::push(State * s)
   {
     m_stateStack.push(s);
+    s->enter();
   }
 
   State * StateManager::pop()
@@ -29,6 +30,7 @@ namespace frog{
       }
     State * s = m_stateStack.top();
     m_stateStack.pop();
+    s->exit();
     return s;
   }
 
@@ -52,12 +54,11 @@ namespace frog{
       }
   }
 
-  void StateManager::loop(const AppInfo& appinfo)
+  void StateManager::loop()
   {
     if( not m_stateStack.empty() ) {
       State * top = m_stateStack.top();
-      top->update(appinfo);
-      top->render(appinfo.window); 
+      top->loop();
     }
   }
 

@@ -1,13 +1,15 @@
 #include "FROG/Rendering/Sprite.hpp"
 
 #include "FROG/Transform.hpp"
+#include <memory>
 
 namespace frog{
 
   Sprite::Sprite(const sf::Texture& texture)
-    : RenderingComponent(&m_sprite)
+    : RenderingComponent(new sf::Sprite)
   {
-    m_sprite.setTexture(texture);
+    image = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
+    image->setTexture(texture);
   }
   
   Sprite::~Sprite()
@@ -15,13 +17,4 @@ namespace frog{
 
   }
   
-  void Sprite::update(const ComponentHolder& parent )
-  {
-    auto t = parent.getComponent<Transform>("TRANSFORM");
-    m_sprite.setPosition( t->getPosition() );
-    m_sprite.setRotation( t->getRotation() );
-    m_sprite.setScale( t->getScale() );
-  }
-  
-
 }

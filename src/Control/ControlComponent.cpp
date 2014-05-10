@@ -17,28 +17,28 @@ namespace frog{
   }
 
 
-  void ControlComponent::preupdate(const ComponentHolder& parent)
+  void ControlComponent::preupdate(const ComponentHolder&)
   {
     m_previousMouse = sf::Mouse::getPosition();
   }
 
-  bool ControlComponent::check(Input * event, 
-                               const ComponentHolder& parent) const
+  bool ControlComponent::check(std::shared_ptr<Input> event, 
+                               const ComponentHolder&) const
   {
-    KeyboardButton * kb;
-    if ( (kb = dynamic_cast<KeyboardButton *>(event) )
+    std::shared_ptr<KeyboardButton> kb;
+    if ( (kb = std::dynamic_pointer_cast<KeyboardButton>(event) )
          and kb->trigger == Trigger::CONTINUOUS)
       {
         return isKeyboardPressed(kb->code);
       }
-    MouseButton * mb;
-    if ( (mb = dynamic_cast<MouseButton *>(event) ) 
+    std::shared_ptr<MouseButton> mb;
+    if ( (mb = std::dynamic_pointer_cast<MouseButton>(event) ) 
          and mb->trigger == Trigger::CONTINUOUS)
       {
         return isMousePressed(mb->code);
       }
-    JoystickButton * jb;
-    if ( (jb = dynamic_cast<JoystickButton *>(event) ) 
+    std::shared_ptr<JoystickButton> jb;
+    if ( (jb = std::dynamic_pointer_cast<JoystickButton>(event) ) 
          and jb->trigger == Trigger::CONTINUOUS)
       {
         return isJoystickPressed(jb->code, jb->id);

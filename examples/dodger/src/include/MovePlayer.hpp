@@ -4,7 +4,6 @@
 #include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 #include "FROG/Command.hpp"
-//#include "Player.hpp"
 
 using namespace frog;
 
@@ -21,7 +20,7 @@ protected:
 public:
   MovePlayer(GameObject *, const short &, const short&, const AppInfo& );
   virtual ~MovePlayer();
-  virtual bool execute();
+  virtual void execute();
 };
 
 #endif

@@ -23,7 +23,7 @@ namespace frog{
   { 
   }
 
-  void Transform::update(const ComponentHolder& parent)
+  void Transform::update(const ComponentHolder&)
   { 
     
   }

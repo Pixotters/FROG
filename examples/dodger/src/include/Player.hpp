@@ -3,23 +3,22 @@
 
 #include "FROG/GameObject.hpp"
 
-#include "FROG/Transform.hpp"
-
-#include "FROG/Collision/Collisionable.hpp"
-#include <SFML/Graphics/Shape.hpp>
-
+#include <SFML/System/Time.hpp>
+#include <SFML/Graphics/Color.hpp>
 
 using namespace frog;
 
-class Player : public GameObject,
-               virtual public sap::Collisionable
+class Player : public GameObject
 {
 
   //// attributes ////
-protected:
-  unsigned short m_lives;
-  unsigned long m_score;
-  sf::Shape * m_boundingBox;
+public:
+  unsigned short lives;
+  unsigned long score;
+  unsigned char row;
+  unsigned short multiplier;
+  bool invincible;
+  sf::Time timer;
 
   //// operations ////
 public:
@@ -30,66 +29,13 @@ public:
 
   virtual ~Player();
 
-  /*
-    returns the number of lives
-  */
-  unsigned short getLives() const;
+  void hit();
 
-  /*
-    changes the number of lives
-  */
-  void setLives(const unsigned short&);
+  void checkTime();
 
-  /*
-    add the given amount of lives (no check for the unsigned shorts' ceiling)
-  */
-  void addLives(const unsigned short& = 1);
+private:
+  void changeColor(const sf::Color&);
 
-  /*
-    removes the given amount of lives, with a check for 0.
-  */
-  void removeLives(const unsigned short& = 1);
-
-  /*
-    returns the current score
-  */
-  unsigned long getScore() const;
-
-  /*
-    changes the current score
-  */
-  void setScore(const unsigned long&);
-
-  /*
-    add the given number to the score (no check for the unsigned shorts' ceiling)
-  */
-  void addScore(const unsigned long& = 1);
-
-  /*
-    removes the given number to the score, with a check for 0
-  */
-  void removeScore(const unsigned long& = 1);
-
-  int getXMin() const{
-    return transform->getPosition().x+m_boundingBox->getLocalBounds().left;
-  }
-
-  int getXMax() const{
-    sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return transform->getPosition().x+fr.left+ fr.width;
-  }
-
-  int getYMin() const{
-    return transform->getPosition().y+m_boundingBox->getLocalBounds().top;
-
-  }
-
-  int getYMax() const{
-    sf::FloatRect fr = m_boundingBox->getLocalBounds();
-    return transform->getPosition().y+fr.top+fr.height;
-  }
-
-
-  };
+};
 
 #endif

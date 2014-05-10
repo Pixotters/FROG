@@ -2,15 +2,13 @@
 
 #include "FROG/XML/tinyxml2.hpp"
 
-#include "FROG/Rendering/Sprite.hpp" // TODO remove
-
-#include <iostream>
 #include <memory>
 
 namespace frog{
 
   GameObject::GameObject(GameObject * _parent)
-    : ComponentHolder(), parent(_parent), transform(new Transform)
+    : ComponentHolder(), PropertiesHolder(),
+      parent(_parent), transform(new Transform)
   {
     addComponent( transform, "TRANSFORM" );
   }

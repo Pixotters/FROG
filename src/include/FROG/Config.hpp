@@ -1,23 +1,20 @@
 #ifndef FROG_CONFIG_HPP
 #define FROG_CONFIG_HPP
 
-#include <map>
 #include <string>
 
-#include <SFML/Window.hpp>
-
+#include <SFML/Config.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace frog{
 
-  class Config{
+  struct Config{
 
     //// attributes ////
-  protected:
+  public:
     // the window's dimensions
-    unsigned int m_windowWidth, m_windowHeight;
-
-    // the window's bar text
-    std::string m_title;
+    sf::Vector2u windowSize;
+    sf::Uint32 windowStyle;
 
     //// operations ////
   public :
@@ -30,20 +27,8 @@ namespace frog{
     */
     virtual void loadFromFile(const std::string&);
 
-    /*
-      returns the window's width according to the config file
-    */
-    unsigned int getWindowWidth() const;
-
-    /*
-      returns the window's height according to the config file
-    */
-    unsigned int getWindowHeight() const;
-
-    /*
-      returns the window's title according to the config file
-    */
-    std::string getTitle() const;
+  private:
+    sf::Uint32 boolsToStyle(bool resize, bool fullscreen, bool titlebar) const;
 
   };
 

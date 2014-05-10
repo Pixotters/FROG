@@ -7,6 +7,7 @@
 #include "FROG/AppInfo.hpp"
 #include "FROG/GameObject.hpp"
 
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <string>
 
 class Level : virtual public frog::Scene
@@ -19,7 +20,7 @@ protected:
   frog::GameObject * m_terrain;  
 
 public:
-  Level();
+  Level(frog::AppInfo&);
   virtual ~Level();
   virtual void preupdate();
   virtual void enter();

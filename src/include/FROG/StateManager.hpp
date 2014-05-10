@@ -2,7 +2,6 @@
 #define FROG_STATEMANAGER_HPP
 
 #include "FROG/State.hpp"
-#include "FROG/AppInfo.hpp"
 #include <stack>
 
 
@@ -58,7 +57,7 @@ namespace frog{
      * @brief Updates and renders the current state
      * @param appinfo AppInfo containing the RenderTarget and delta-time
      */
-    virtual void loop(const AppInfo& appinfo);
+    virtual void loop();
 
 
   };

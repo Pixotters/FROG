@@ -1,66 +1,71 @@
 #include "FROG/Config.hpp"
 #include "FROG/XML/tinyxml2.hpp"
 
-#include "FROG/Debug.hpp"
+#include <SFML/Window/WindowStyle.hpp>
 
-#include <map>
-
+#include <iostream>
 
 namespace frog{
 
   Config::Config()
+    : windowSize(320, 240), windowStyle(sf::Style::Close)
   {
-
   }
 
   Config::~Config()
   {
-
   }
 
   void Config::loadFromFile(const std::string& file)
   {
-    std::cerr << "Config file : "<< file << std::endl;
-    m_windowWidth = 320;
-    m_windowHeight = 240;
-    m_title = "FROG Application";
+    // not resizable, unless specified
+    bool resize = false;
+    // not fullscreen, unless specified
+    bool fullscreen = false;
+    // a titlebar, unless specified
+    bool titlebar = true;
     tinyxml2::XMLDocument doc;
-    if( doc.LoadFile( file.c_str() ) == tinyxml2::XML_NO_ERROR ) {
-      std::cerr << "loaded file : "<< file << std::endl;    
-      tinyxml2::XMLElement * basenode = doc.FirstChildElement("configuration");
-      tinyxml2::XMLElement * titlenode = basenode->FirstChildElement("app")->FirstChildElement("title");
-      if ( titlenode ) {    
-        m_title = titlenode->GetText();
+    if( doc.LoadFile( file.c_str() ) == tinyxml2::XML_NO_ERROR ) 
+      {
+        std::clog << "Loaded configuration file : "<< file << std::endl;    
+        auto root = doc.RootElement();
+        tinyxml2::XMLElement * windowNode = root->FirstChildElement("window");
+        if ( windowNode )
+          {
+            unsigned int width = windowNode->UnsignedAttribute("width");
+            if (width != 0)              
+              windowSize.x = width;
+            unsigned int height = windowNode->UnsignedAttribute("height");
+            if (height != 0)
+              windowSize.y = height;
+            resize = windowNode->BoolAttribute("resizable");
+            fullscreen = windowNode->BoolAttribute("fullscreen");
+            bool title;
+            if (windowNode->QueryBoolAttribute("titlebar", &title)
+                == tinyxml2::XML_NO_ERROR)
+              {
+                titlebar = title;
+              }
+          }
+        windowStyle = boolsToStyle(resize, fullscreen, titlebar);        
+      }else
+      {
+        std::cerr << "Error occured while loading "<< file << std::endl;
       }
-      tinyxml2::XMLElement * windownode = basenode->FirstChildElement("window");
-      if ( windownode ){
-        tinyxml2::XMLElement * widthnode = windownode->FirstChildElement("width");
-        if ( widthnode) {
-          std::cerr << "width node" << std::endl;
-          widthnode->QueryUnsignedText(&m_windowWidth);
-        }
-        tinyxml2::XMLElement * heightnode = windownode->FirstChildElement("height");
-        if ( heightnode ) {
-          heightnode->QueryUnsignedText(&m_windowHeight);
-        }
-      }      
-        
-    }
   }
-
-  unsigned int Config::getWindowWidth() const
+ 
+  sf::Uint32 Config::boolsToStyle(bool resize, 
+                              bool fullscreen, 
+                              bool titlebar) const
   {
-    return m_windowWidth;
-  }
-
-  unsigned int Config::getWindowHeight() const
-  {
-    return m_windowHeight;
-  }
-
-  std::string Config::getTitle() const
-  {
-    return m_title;
+    sf::Uint32 res = sf::Style::Close;
+    if (resize)
+      res |= sf::Style::Resize;
+    if (fullscreen)
+      res |= sf::Style::Fullscreen;
+    if (titlebar)
+      res |= sf::Style::Titlebar;
+    return res;
   }
 
 }

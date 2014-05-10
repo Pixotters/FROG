@@ -21,7 +21,7 @@ bool PlayerState::onExit()
   return m_exit();
 }
 
-std::string PlayerState::getId() const
+PlayerState::ID PlayerState::getId() const
 {
   return m_id;
 }

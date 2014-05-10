@@ -8,6 +8,7 @@ class PlayerStateFactory;
 
 class PlayerState
 {
+public:
   typedef enum
     {
       STAND, 
@@ -33,11 +34,11 @@ protected:
   ID m_id;
 
 public:
-  PlayerState(ID = "NORMAL");
+  PlayerState(ID = ID::STAND);
   virtual ~PlayerState();
   virtual bool onEnter(); // should be abstract
   virtual bool onExit(); // should be abstract
-  std::string getId() const;
+  ID getId() const;
 };
 
 #endif

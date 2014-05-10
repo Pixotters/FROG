@@ -28,7 +28,7 @@ namespace frog{
       //// attributes ////
     protected:
       sf::RenderTexture m_texture;
-      sf::RenderTarget * m_target;
+      sf::RenderTarget& m_target;
       // sf::View m_view;
       std::forward_list< std::pair<
                            std::shared_ptr<GameObject>, 
@@ -43,8 +43,7 @@ namespace frog{
        * \param w width of the rendering region
        * \param h height of the rendering region
        */
-      Renderer(unsigned int w = 0, 
-               unsigned int h= 0);
+      Renderer(sf::RenderTarget& rt);
 
       /*!
        * \brief Constructor with a target
@@ -52,9 +51,9 @@ namespace frog{
        * \param w width of the rendering region
        * \param h height of the rendering region
        */
-      Renderer(sf::RenderTarget * rt,
-               unsigned int w = 0, 
-               unsigned int h= 0);
+      Renderer(sf::RenderTarget& rt,
+               unsigned int w, 
+               unsigned int h);
 
       virtual ~Renderer();
 
@@ -82,13 +81,7 @@ namespace frog{
        * \param go GameObject to remove
        */
       void removeObject(const std::shared_ptr<GameObject>& go);
-
-
-      /*!
-       * \brief Changes the target where the renderer should draw objects
-       * \param rt new renderTarget
-       */
-      void setTarget(sf::RenderTarget * rt);
+      void removeObject(GameObject * go);
 
     protected:
 
