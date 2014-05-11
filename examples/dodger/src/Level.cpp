@@ -53,9 +53,9 @@ void Level::enter()
 {
   //  if (m_music.openFromFile("assets/musics/Canal_Street_Blues.ogg") )
   //    m_music.play();
-  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
-  m_player->addComponent(new AudioSource(), "MUSIC");
-  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
+  //  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
+  //  m_player->addComponent(new AudioSource(), "MUSIC");
+  //  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
   setControls(m_player, appInfo );
   m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
@@ -104,12 +104,9 @@ void Level::enter()
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(col_script);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
-  std::shared_ptr<GUI> pgui(new GUI(800, 64, 
-                                    m_fontManager.get(GUI_FONT),
-                                    3) );
-  m_gui->addComponent( pgui, "GUI" );
+  GUI * pgui = new GUI(800, 64, m_fontManager.get(GUI_FONT), 3);
   m_gui->transform->layer = GUI_LAYER;
-  m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
+  m_gui->addComponent( new RenderingComponent(pgui), "RENDERING" );
   addObject(m_gui);
 }
 

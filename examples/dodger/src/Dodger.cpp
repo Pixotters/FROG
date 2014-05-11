@@ -8,6 +8,7 @@ int main()
 {
   frog::App d("Dodger - A Sample game developed with FROG");
   std::cout << "Starting game" << std::endl;
-  d.start(  new Start(d.appInfo)  );
+  Start * s = new Start(d.appInfo);
+  d.start( s );
   std::cout << "Game Exited without any problem" << std::endl;
 }

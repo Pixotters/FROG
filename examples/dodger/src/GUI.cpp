@@ -6,7 +6,7 @@
 #include <sstream>
 
 GUI::GUI(unsigned int w, unsigned int h, sf::Font& font, unsigned int lives)
-  : sf::Drawable(), sf::Transformable(), frog::Component(), 
+  : frog::RenderingComponent(new sf::Sprite), 
     m_lives(lives), m_score(0), m_mult(0)
 {
   setPosition(0, 0);

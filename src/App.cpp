@@ -2,6 +2,8 @@
 #include "FROG/Random.hpp"
 #include "FROG/State.hpp"
 
+#include <iostream> // TODO remove
+
 namespace frog{
 
   App::App(const std::string& title, const std::string& cfg)
@@ -55,7 +57,7 @@ namespace frog{
           }
         appInfo.deltaTime = t0.restart(); 
         m_window.clear();
-        m_stateManager.loop();
+        m_stateManager.update();
         m_window.display();
       }
   }
@@ -64,7 +66,9 @@ namespace frog{
   {
     m_window.clear();
     m_window.close();
+    std::cout << "cleaning manager" << std::endl;
     m_stateManager.clear();
+    std::cout << "cleaned manager" << std::endl;
   }
 
   void App::start(State * s)
