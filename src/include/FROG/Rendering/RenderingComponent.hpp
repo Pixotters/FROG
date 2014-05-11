@@ -54,8 +54,8 @@ namespace frog{
        */
       void update(const ComponentHolder&);
 
-      PTR create(sf::Drawable * const d);
-      PTR create(std::shared_ptr<sf::Drawable> d);
+      static PTR create(sf::Drawable * const d);
+      static PTR create(std::shared_ptr<sf::Drawable> d);
 
     };
 

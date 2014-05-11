@@ -109,11 +109,11 @@ namespace frog{
        */
       void draw(RenderingComponent * rc);
 
-      PTR create(sf::RenderTarget& rt,
+      static PTR create(sf::RenderTarget& rt,
                  unsigned int w, 
                  unsigned int h);
 
-      PTR create(sf::RenderTarget& rt);
+      static PTR create(sf::RenderTarget& rt);
 
     };
 
