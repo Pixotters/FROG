@@ -50,6 +50,10 @@ namespace frog{
       }
 
   }
- 
+
+  GameObject::PTR GameObject::create(GameObject * parent)
+  {
+    return PTR(new GameObject(parent) );
+  }
 
 }

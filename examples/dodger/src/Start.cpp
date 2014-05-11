@@ -24,7 +24,7 @@ Start::~Start()
 
 void Start::enter()
 {
-  GameObject::PTR_GameObject t( new GameObject() );
+  GameObject::PTR t( new GameObject() );
   std::string text = "Objective\n\nEat donuts to get score. \n";
   text += "Everytime you eat 10 donuts in a row, your multiplier increases. \n";
   text += "\nAvoid red squares : when you get hit, you lose your multiplier. \n";

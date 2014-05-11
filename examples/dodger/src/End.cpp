@@ -54,7 +54,7 @@ void End::enter()
       oss << s << std::endl;
     }
   // creating the object displaying the text
-  GameObject::PTR_GameObject msg(new GameObject() );
+  GameObject::PTR msg(new GameObject() );
   sf::Font& font = defaultFontManager.get("MSG_FONT");
   msg->addComponent(new TextSprite(oss.str(), font ),
                     "RENDERING");

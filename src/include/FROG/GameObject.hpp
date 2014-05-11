@@ -18,7 +18,7 @@ namespace frog{
   {
 
   public:
-    typedef std::shared_ptr<GameObject> PTR_GameObject;
+    typedef std::shared_ptr<GameObject> PTR;
 
     //// attributes ////
   protected:
@@ -43,6 +43,8 @@ namespace frog{
      * @brief Updates the gameobject. 
      */
     virtual void update();
+
+    static PTR create(GameObject * parent = nullptr);
   
   };
 
