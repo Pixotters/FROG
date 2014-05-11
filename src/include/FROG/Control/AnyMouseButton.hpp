@@ -1,5 +1,5 @@
-#ifndef FROG_ANYKEY_HPP
-#define FROG_ANYKEY_HPP
+#ifndef FROG_ANYMOUSEBUTTON_HPP
+#define FROG_ANYMOUSEBUTTON_HPP
 
 #include "FROG/Control/Input.hpp"
 #include "FROG/Control/ButtonTrigger.hpp"
@@ -10,17 +10,17 @@
 
 namespace frog{
 
-  class AnyKey : virtual public Input
+  class AnyMouseButton : virtual public Input
   {
 
   protected:
     Trigger::ButtonTrigger trigger;
 
   public:
-    typedef std::shared_ptr<AnyKey> PTR;
+    typedef std::shared_ptr<AnyMouseButton> PTR;
     
-    AnyKey(Trigger::ButtonTrigger = Trigger::PRESSED);
-    virtual ~AnyKey();
+    AnyMouseButton(Trigger::ButtonTrigger = Trigger::PRESSED);
+    virtual ~AnyMouseButton();
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     static PTR create(Trigger::ButtonTrigger = Trigger::PRESSED);
