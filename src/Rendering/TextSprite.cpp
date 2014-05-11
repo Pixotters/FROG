@@ -6,9 +6,9 @@ namespace frog{
 
   TextSprite::TextSprite(const std::string& init_text,
                          const sf::Font& font,
-                         sf::Text::Style style,
                          unsigned int size,
-                         const sf::Color& color)
+                         const sf::Color& color,
+                         sf::Text::Style style)
     : RenderingComponent(new sf::Text(init_text, font, size) )
   {
     m_text = std::dynamic_pointer_cast<sf::Text>(m_drawable);

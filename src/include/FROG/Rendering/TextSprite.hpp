@@ -21,9 +21,9 @@ namespace frog{
   
     TextSprite(const std::string& text, 
                const sf::Font& m_font, 
-               sf::Text::Style style = sf::Text::Regular, 
                unsigned int size = 30, 
-               const sf::Color& color = sf::Color::White);
+               const sf::Color& color = sf::Color::White,
+               sf::Text::Style style = sf::Text::Regular);
     
     virtual ~TextSprite();
 
