@@ -57,7 +57,14 @@ namespace frog{
           }
         appInfo.deltaTime = t0.restart(); 
         m_window.clear();
-        m_stateManager.update();
+        if ( m_stateManager.isEmpty() )
+          {
+            appInfo.running = false;
+            exit();
+            break;
+          }else{
+            m_stateManager.update();
+          }
         m_window.display();
       }
   }

@@ -1,5 +1,7 @@
 #include "End.hpp"
 
+#include "FROG/Function.hpp"
+#include "FROG/Control/AnyKey.hpp"
 #include "FROG/Control/ControlComponent.hpp"
 #include "FROG/Rendering/TextSprite.hpp"
 
@@ -55,6 +57,12 @@ void End::enter()
   sf::Font& font = defaultFontManager.get("MSG_FONT");
   msg->addComponent(new TextSprite(oss.str(), font ),
                     "RENDERING");
+  std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appInfo.eventList) );
+  std::shared_ptr<Command> end(new Function([this](){
+        this->appInfo.stateManager.pop(); } ) );
+
+  ctrl->bind(AnyKey::create(), end);
+  msg->addComponent(ctrl, "CONTROL");
   addObject(msg);
   oss.flush();
 }
