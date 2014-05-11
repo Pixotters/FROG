@@ -17,5 +17,10 @@ namespace frog{
     function();
   }
 
+  Function::PTR Function::create(std::function<void()> fun)
+  {
+    return PTR(new Function(fun) );
+  }
+
 }
   

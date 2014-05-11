@@ -1,6 +1,7 @@
 #ifndef FROG_COMMAND_HPP
 #define FROG_COMMAND_HPP
 
+#include <memory>
 #include <string>
 
 namespace frog{
@@ -11,8 +12,9 @@ namespace frog{
    */
   class Command
   {
-    //// attributes ////
-  protected:
+
+  public:
+    typedef std::shared_ptr<Command> PTR;
 
     //// operations ////
   public:
@@ -36,6 +38,7 @@ namespace frog{
      * @detail If not overloaded, does nothing
      */
     void undo();
+
   };
 
 }

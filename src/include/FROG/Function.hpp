@@ -4,11 +4,16 @@
 #include "FROG/Command.hpp"
 
 #include <functional>
+#include <memory>
 
 namespace frog{
 
   class Function : virtual public Command
   {
+
+  public:
+    typedef std::shared_ptr<Function> PTR;
+
   protected:
     std::function<void()> function;
 
@@ -16,6 +21,7 @@ namespace frog{
     Function(std::function<void()>);
     virtual ~Function();
     virtual void execute();
+    static PTR create(std::function<void()>);
   };
 
 }
