@@ -54,9 +54,9 @@ void Level::enter()
 {
   //  if (m_music.openFromFile("assets/musics/Canal_Street_Blues.ogg") )
   //    m_music.play();
-  //  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
-  //  m_player->addComponent(new AudioSource(), "MUSIC");
-  //  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
+  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
+  m_player->addComponent(new AudioSource(), "MUSIC");
+  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
   setControls(m_player, appInfo );
   m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
