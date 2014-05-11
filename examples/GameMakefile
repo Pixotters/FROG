@@ -1,14 +1,17 @@
 # Nicolas CAILLOUX & Julien SAGOT
 
-#PROGRAM=Dummy
 SOURCES=$(wildcard *.cpp)
 HEADERS=$(wildcard *.hpp)
 OBJECTS=$(patsubst %.cpp,%.o,$(SOURCES))
 INC:=include
 LIBDIR:=
 CXX=g++
-CXXFLAGS+= -std=c++0x -Wall -Wextra -pedantic-errors -g -I$(INC)
-LDFLAGS+= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS= -std=c++0x  -I$(INC)
+ifeq ($(DEBUG),1)
+CXXFLAGS:= $(CXXFLAGS) -Wall -Wextra -pedantic-errors -g
+else
+endif
+LDFLAGS= -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -lfrog
 
 game: $(PROGRAM)
 
@@ -19,7 +22,7 @@ game: $(PROGRAM)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(PROGRAM): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -DFROG_DEBUG -o $@ $^ $(LDFLAGS) -lfrog
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean: 
 	rm -f *.o *.d *.d.* *~ *# *.gch *.gcno *.gcda
