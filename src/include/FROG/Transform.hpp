@@ -5,6 +5,7 @@
 
 #include <SFML/Graphics/Transformable.hpp>
 
+#include <memory>
 
 namespace frog{
 
@@ -15,21 +16,24 @@ namespace frog{
   class Transform : virtual public Component,
                     virtual public sf::Transformable
   {
-    //// attributs ////
-  protected:
+
+  public:
+    typedef std::shared_ptr<Transform> PTR;
 
     //// operations ////
   public:
 
     int layer;
 
-    Transform();
+    Transform(int l = 0);
 
     Transform(const Transform&);
 
     virtual ~Transform();
 
     virtual void update(const ComponentHolder& parent);
+
+    PTR create(int l = 0);
 
   };
 

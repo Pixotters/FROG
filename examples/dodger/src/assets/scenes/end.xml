@@ -1,8 +1,0 @@
-<? xml version="1.0" ?>
-<SCENE>
-  <ASSETS>
-    <FONTS>
-      <font filename="assets/fonts/Hyperspace_Bold.ttf" ID="MSG_FONT" />
-    </FONTS>
-  </ASSETS>
-</SCENE>

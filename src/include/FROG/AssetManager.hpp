@@ -28,6 +28,8 @@ namespace frog
 
     AssetManager();
 
+    AssetManager(const AssetManager<ID, R>&);
+
     virtual ~AssetManager();
 
     /*!
@@ -51,6 +53,14 @@ namespace frog
      */
     void loadFromFile(const std::string& path, const ID& id) 
     throw (std::runtime_error);
+
+    /*!
+     * @brief Removes an asset of the manager
+     * @details If the files is not present, nothing happens
+     * @param id ID of the asset to remove
+     */
+    void remove(const ID& id) const;
+
 
   };
 

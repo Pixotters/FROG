@@ -4,7 +4,6 @@
 #include "FROG/Scene.hpp"
 
 #include "Player.hpp"
-#include "FontID.hpp"
 
 #include "FROG/AssetManager.hpp"
 #include "FROG/AppInfo.hpp"
@@ -39,12 +38,12 @@ protected:
   std::shared_ptr<GameObject> m_gui;
   std::list< std::shared_ptr<GameObject> > m_enemies;
   std::list< std::shared_ptr<GameObject> > m_targets;
-  AssetManager<FONT_ID, sf::Font> m_fontManager;
   CollisionManager * m_collisionManager;
 
   //// operations ////
 public:
   Level(AppInfo&);
+  Level(const Scene&);
   virtual ~Level();
   virtual void enter();
   virtual void postupdate();

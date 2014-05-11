@@ -3,8 +3,8 @@
 
 namespace frog{
 
-  Transform::Transform() 
-    : Component(), sf::Transformable() , layer(0)
+  Transform::Transform(int _layer) 
+    : Component(), sf::Transformable() , layer(_layer)
   {
     setPosition(0, 0);
     setRotation(0);
@@ -26,6 +26,11 @@ namespace frog{
   void Transform::update(const ComponentHolder&)
   { 
     
+  }
+
+  Transform::PTR Transform::create(int l)
+  {
+    return PTR(new Transform(l) );
   }
 
 }

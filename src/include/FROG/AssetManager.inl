@@ -10,11 +10,21 @@ namespace frog{
   }
 
   template <typename ID, typename R>
+  AssetManager<ID,R>::AssetManager(const AssetManager<ID, R>& other)
+  {
+    for (auto& file : other.m_files)
+      {
+        std::unique_ptr<R> pr( new R( *(file.second) ) );
+        auto check = m_files.insert( std::make_pair(file.first, 
+                                                    std::move(pr) )  );
+      }
+  }
+
+  template <typename ID, typename R>
   AssetManager<ID,R>::~AssetManager()
   {
     m_files.clear();
   }
-
 
   template <typename ID, typename R>
   R& AssetManager<ID,R>::get(const ID& id)
@@ -30,7 +40,6 @@ namespace frog{
     return *itr->second;
   }
 
-
   template <typename ID, typename R>
   const R& AssetManager<ID,R>::get(const ID& id) const
   {
@@ -44,7 +53,6 @@ namespace frog{
       }
     return *itr->second;
   }
-
 
   template <typename ID, typename R>
   void AssetManager<ID,R>::loadFromFile(const std::string& path, const ID& id) 
@@ -68,7 +76,16 @@ namespace frog{
           }
 
       }
+  }
 
+  template <typename ID, typename R>
+  void AssetManager<ID,R>::remove(const ID& id) const
+  {
+    auto find = m_files.find(id);
+    if( find == m_files.end() )
+      {
+        m_files.erase(find);
+      }
   }
 
 }

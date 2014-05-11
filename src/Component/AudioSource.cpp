@@ -44,5 +44,9 @@ namespace frog{
                 0);
   }
 
+  AudioSource::PTR AudioSource::create()
+  {
+    return PTR(new AudioSource() );
+  }
 
 }

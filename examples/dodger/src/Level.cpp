@@ -36,10 +36,21 @@ Level::Level(AppInfo& appinfo)
     m_gui(new GameObject)
 {
   m_collisionManager = new LSAP();  
-  m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
   if( not loadFromFile("assets/scenes/level.xml") )
     throw std::runtime_error("Cannot load Level");
       
+}
+
+Level::Level(const Scene& previous)
+  : Scene(previous),
+    m_player(new Player),
+    m_terrain(new GameObject),
+    m_gui(new GameObject)
+{
+  m_collisionManager = new LSAP();   
+  //  m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", GUI_FONT);
+  if( not loadFromFile("assets/scenes/level.xml") )
+    throw std::runtime_error("Cannot load Level");
 }
 
 Level::~Level()
@@ -104,7 +115,7 @@ void Level::enter()
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(col_script);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
-  std::shared_ptr<GUI> pgui(new GUI(800, 64, m_fontManager.get(GUI_FONT), 3) );
+  std::shared_ptr<GUI> pgui(new GUI(800, 64, defaultFontManager.get("GUI_FONT"), 3) );
   m_gui->transform->layer = GUI_LAYER;
   m_gui->addComponent( pgui, "RENDERING" );
   addObject(m_gui);

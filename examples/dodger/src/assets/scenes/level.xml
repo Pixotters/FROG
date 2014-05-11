@@ -13,7 +13,7 @@
       <sound filename="assets/musics/Canal_Street_Blues.ogg" ID="MUSIC" />
     </SOUNDS>
     <FONTS>
-      <font filename="assets/fonts/Hyperspace_Bold.ttf" ID="MSG_FONT" />
+      <font filename="assets/fonts/Hyperspace_Bold.ttf" ID="GUI_FONT" />
     </FONTS>
   </ASSETS>
   <OBJECTS>

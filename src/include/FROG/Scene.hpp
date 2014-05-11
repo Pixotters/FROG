@@ -23,6 +23,9 @@ namespace frog{
    */
   class Scene : virtual public State{
 
+  public:
+    typedef std::shared_ptr<Scene> PTR;
+
     //// attributes ////
   public:
     AppInfo& appInfo;
@@ -41,6 +44,7 @@ namespace frog{
   public:
 
     Scene(AppInfo&);
+    Scene(const Scene&);
 
     virtual ~Scene();
 
@@ -101,6 +105,9 @@ namespace frog{
     void removeObject(GameObject * go); // avoid
 
     void removeObject(const std::shared_ptr<GameObject>& go);
+
+    static PTR create(AppInfo&);
+    static PTR create(const Scene&);
 
   protected:
 

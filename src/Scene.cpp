@@ -14,6 +14,16 @@ namespace frog{
   {
   }
 
+  Scene::Scene(const Scene& other)
+    : State(), appInfo(other.appInfo), 
+      m_renderer(other.appInfo.window), 
+      defaultTextureManager(other.defaultTextureManager),
+      defaultFontManager(other.defaultFontManager),
+      defaultSoundManager(other.defaultSoundManager),
+      defaultSpritesheetManager(other.defaultSpritesheetManager)
+  {
+  }
+
   Scene::~Scene()
   {
     m_gameObjects.clear();
@@ -213,6 +223,18 @@ namespace frog{
     // removing the object from managers
     m_renderer.removeObject(go);     
   }
+
+  Scene::PTR Scene::create(AppInfo& appinfo)
+  {
+    return PTR(new Scene(appinfo) );
+  }
+
+
+  Scene::PTR Scene::create(const Scene& other)
+  {
+    return PTR(new Scene(other) );
+  }
+
 }
 
 

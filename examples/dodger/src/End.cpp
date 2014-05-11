@@ -18,8 +18,7 @@ using namespace frog;
 End::End(AppInfo& a, unsigned int s)
   : Scene(a), score(s)
 {
-  if (not loadFromFile("assets/scenes/end.xml") )
-    throw std::runtime_error("Could not load EndState");
+  m_fontManager.loadFromFile("assets/fonts/Hyperspace_Bold.ttf", MSG_FONT);
 }
 
 End::~End()
@@ -55,7 +54,7 @@ void End::enter()
     }
   // creating the object displaying the text
   GameObject::PTR msg(new GameObject() );
-  sf::Font& font = defaultFontManager.get("MSG_FONT");
+  sf::Font& font = m_fontManager.get(MSG_FONT);
   msg->addComponent(new TextSprite(oss.str(), font ),
                     "RENDERING");
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appInfo.eventList) );
