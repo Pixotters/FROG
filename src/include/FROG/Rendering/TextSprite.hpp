@@ -5,6 +5,8 @@
 #include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/Text.hpp>
+
+#include <memory>
 #include <string>
 
 namespace frog{
@@ -13,7 +15,7 @@ namespace frog{
   {
 
   private:
-    sf::Text m_text;
+    std::shared_ptr<sf::Text> m_text;
     
   public:
   

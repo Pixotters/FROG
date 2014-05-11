@@ -11,9 +11,16 @@ namespace frog{
   {
   }
 
-  void State::loop()
+  void State::enter()
   {
-    update();
+  }
+
+  void State::update()
+  {
+  }
+
+  void State::exit()
+  {
   }
 
 }

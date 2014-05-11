@@ -6,6 +6,7 @@ namespace frog{
 
   template <typename C>
   std::shared_ptr<C> ComponentHolder::getComponent(const std::string& id) const
+    throw (std::logic_error)
   {
     auto it = m_components.find(id);
     if (it != m_components.end() )
@@ -23,14 +24,11 @@ namespace frog{
             throw std::logic_error( oss.str() );
             oss.flush();
           }
-      }else
-      {
-        std::ostringstream oss;
-        oss << "No such component - ";
-        oss <<id;
-        throw std::logic_error( oss.str() );
-        oss.flush();
       }
+    std::ostringstream oss;
+    oss << "No such component - ";
+    oss <<id;
+    throw std::logic_error( oss.str() );
   }
 
 }

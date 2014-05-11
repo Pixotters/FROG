@@ -3,6 +3,7 @@
 
 #include "FROG/Component.hpp"
 
+#include <exception>
 #include <map>
 #include <memory>
 #include <string>
@@ -35,7 +36,8 @@ namespace frog{
      * @returns Pointer to C is present, nullptr if not. 
      */
     template <typename C>
-    std::shared_ptr<C> getComponent(const std::string& ) const;
+    std::shared_ptr<C> getComponent(const std::string& ) const
+      throw(std::logic_error);
  
    /*!
      * @brief Returns the component of given ID as a std::shared_ptr<Component>.

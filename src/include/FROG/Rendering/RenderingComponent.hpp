@@ -39,7 +39,7 @@ namespace frog{
        * @param rt RenderTarget where component should be drawn. 
        * @param rs RenderStates to apply. Default : nothing. 
        */
-      void draw(sf::RenderTarget& rt, 
+      virtual void draw(sf::RenderTarget& rt, 
                 sf::RenderStates rs = sf::RenderStates::Default) const;
 
      /*!

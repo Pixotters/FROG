@@ -104,12 +104,9 @@ void Level::enter()
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(col_script);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
-  std::shared_ptr<GUI> pgui(new GUI(800, 64, 
-                                    m_fontManager.get(GUI_FONT),
-                                    3) );
-  m_gui->addComponent( pgui, "GUI" );
+  GUI * pgui = new GUI(800, 64, m_fontManager.get(GUI_FONT), 3);
   m_gui->transform->layer = GUI_LAYER;
-  m_gui->addComponent( new RenderingComponent(pgui.get() ), "RENDERING" );
+  m_gui->addComponent( new RenderingComponent(pgui), "RENDERING" );
   addObject(m_gui);
 }
 
@@ -303,5 +300,5 @@ void Level::updateLives()
 
 void Level::updateRow()
 {
-  m_gui->getComponent<GUI>("GUI")->setRow(m_player->row, m_player->multiplier);
+  m_gui->getComponent<GUI>("GUI")->setRow(m_player->multiplier);
 }

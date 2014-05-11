@@ -9,8 +9,7 @@ int main()
 {
   frog::App d("Dodger - A Sample game developed with FROG");
   std::cout << "Starting game" << std::endl;
-  Level * l = new Level(d.appInfo);
-  d.start( l );
-  delete l;
+  Start * s = new Start(d.appInfo);
+  d.start( s );
   std::cout << "Game Exited without any problem" << std::endl;
 }
