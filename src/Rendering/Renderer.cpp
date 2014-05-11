@@ -99,46 +99,58 @@ namespace frog{
   }
 
   
-void Renderer::removeObject(GameObject * go)
-{
-  auto end = m_objects.end();
-  for (auto it = m_objects.begin(); it != end; it++)
-    {
-      if (it->first.get() == go)
-        {
-          m_objects.remove(*it);
-          break;
-        }
+  void Renderer::removeObject(GameObject * go)
+  {
+    auto end = m_objects.end();
+    for (auto it = m_objects.begin(); it != end; it++)
+      {
+        if (it->first.get() == go)
+          {
+            m_objects.remove(*it);
+            break;
+          }
 
-    }
-}
+      }
+  }
 
-void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
-{
-  /* TODO : check if RenderingComponent or layer changed. 
-     see the best -> pointer comparison, dirty flag, observer, notifying ?
-  */
-  /*    RenderingComponent * rc = go->getComponent<RenderingComponent>("RENDERING");
-        if( rc != m_objects.at(go) )
-        {
-        m_objects.at(go) = rc;
-        }
-  */
-}
+  void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
+  {
+    /* TODO : check if RenderingComponent or layer changed. 
+       see the best -> pointer comparison, dirty flag, observer, notifying ?
+    */
+    /*    RenderingComponent * rc = go->getComponent<RenderingComponent>("RENDERING");
+          if( rc != m_objects.at(go) )
+          {
+          m_objects.at(go) = rc;
+          }
+    */
+  }
   
-void Renderer::draw(RenderingComponent * rc)
-{
-  if(rc != nullptr)
-    {
-      rc->draw(m_texture, rc->getTransform() );
-    }
-}
+  void Renderer::draw(RenderingComponent * rc)
+  {
+    if(rc != nullptr)
+      {
+        rc->draw(m_texture, rc->getTransform() );
+      }
+  }
 
-void Renderer::updateCamera()
-{
-  m_texture.setView(camera);
+  void Renderer::updateCamera()
+  {
+    m_texture.setView(camera);
     
-}
+  }
 
+
+  Renderer::PTR Renderer::create(sf::RenderTarget& rt,
+                                 unsigned int w, 
+                                 unsigned int h)
+  {
+    return PTR(new Renderer(rt, w, h) );
+  }
+
+  Renderer::PTR Renderer::create(sf::RenderTarget& rt)
+  {
+    return PTR(new Renderer(rt) );
+  }
   
 }

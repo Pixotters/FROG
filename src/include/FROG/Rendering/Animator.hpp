@@ -24,6 +24,9 @@ namespace frog{
   template <typename ID>
   class Animator : virtual public RenderingComponent{
 
+  public:
+    typedef std::shared<Animator<ID>> PTR;
+
   protected:
     std::shared_ptr<sf::Sprite> m_sprite;
     Spritesheet<ID>& m_spritesheet;
@@ -88,6 +91,8 @@ namespace frog{
      * @param tex New Spritesheet to bind to the current texture.
      */
     void changeSpritesheet(Spritesheet<ID>& sprt);
+
+    static PTR create(Spritesheet<ID>& , sf::Texture&);
 
   };
 

@@ -15,13 +15,17 @@ namespace frog{
   {
 
   public:
+    typedef std::shared_ptr<Sprite> PTR;
+
+  public:
     std::shared_ptr<sf::Sprite> image;
 
   public:
 
     Sprite(const sf::Texture&);
-
     virtual ~Sprite();
+    void setTexture(const sf::Texture&);
+    PTR create(const sf::Texture&);
 
   };
 

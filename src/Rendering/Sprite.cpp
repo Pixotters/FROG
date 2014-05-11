@@ -17,4 +17,14 @@ namespace frog{
 
   }
   
+  void Sprite::setTexture(const sf::Texture& tex)
+  {
+    image->setTexture(tex);
+  }
+
+  Sprite::PTR Sprite::create(const sf::Texture& tex)
+  {
+    return PTR(new Sprite(tex) );
+  }
+
 }

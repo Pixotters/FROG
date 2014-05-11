@@ -14,13 +14,16 @@ namespace frog{
   class TextSprite : virtual public RenderingComponent
   {
 
+  public:
+    typedef std::shared_ptr<TextSprite> PTR;
+
   private:
     std::shared_ptr<sf::Text> m_text;
     
   public:
   
     TextSprite(const std::string& text, 
-               const sf::Font& m_font, 
+               const sf::Font& font, 
                unsigned int size = 30, 
                const sf::Color& color = sf::Color::White,
                sf::Text::Style style = sf::Text::Regular);
@@ -40,6 +43,12 @@ namespace frog{
     void setColor(const sf::Color& newcolor);
 
     void setSize(unsigned int newsize);
+
+    static PTR create(const std::string& text, 
+                      const sf::Font& font, 
+                      unsigned int size = 30, 
+                      const sf::Color& color = sf::Color::White,
+                      sf::Text::Style style = sf::Text::Regular);
 
   };
 

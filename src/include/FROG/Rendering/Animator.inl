@@ -101,5 +101,10 @@ namespace frog{
     m_spritesheet = sprt;
   }  
 
+  template <typename ID>
+  PTR Animator<ID>::create(Spritesheet<ID>& sprt, sf::Texture& tex)
+  {
+    return PTR(new Animator(sprt, tex) );
+  }
 
 }

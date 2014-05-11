@@ -22,6 +22,9 @@ namespace frog{
     class Renderer
     {
 
+    public:
+      typedef std::shared_ptr<Renderer> PTR;
+
       // TODO : consider the z-index, and sort the map
       // TODO allow to define number of layers
 
@@ -106,6 +109,11 @@ namespace frog{
        */
       void draw(RenderingComponent * rc);
 
+      PTR create(sf::RenderTarget& rt,
+                 unsigned int w, 
+                 unsigned int h);
+
+      PTR create(sf::RenderTarget& rt);
 
     };
 

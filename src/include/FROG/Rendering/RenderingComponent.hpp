@@ -17,6 +17,9 @@ namespace frog{
                                virtual public sf::Transformable
     {
 
+    public:
+      typedef std::shared_ptr<RenderingComponent> PTR;
+
       //// attributes //// 
     protected:
       std::shared_ptr<sf::Drawable>  m_drawable;
@@ -50,6 +53,9 @@ namespace frog{
        * @param parent ComponentHolder holding position, rotation and scale
        */
       void update(const ComponentHolder&);
+
+      PTR create(sf::Drawable * const d);
+      PTR create(std::shared_ptr<sf::Drawable> d);
 
     };
 

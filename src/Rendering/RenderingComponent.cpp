@@ -39,5 +39,15 @@ namespace frog{
     setScale( t->getScale() );
   }
 
+  RenderingComponent::PTR RenderingComponent::create(sf::Drawable * const d)
+  {
+    return PTR(new RenderingComponent(d) );
+  }
+  
+  RenderingComponent::PTR RenderingComponent::create(std::shared_ptr<sf::Drawable> d)
+  {
+    return PTR(new RenderingComponent(d) );
+  }
+
 
 }

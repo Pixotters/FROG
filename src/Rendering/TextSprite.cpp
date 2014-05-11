@@ -58,4 +58,13 @@ namespace frog{
     m_text->setScale( t->getScale() );
   }
 
+  TextSprite::PTR TextSprite::create(const std::string& text, 
+                         const sf::Font& font, 
+                         unsigned int size, 
+                         const sf::Color& color,
+                         sf::Text::Style style)
+  {
+    return PTR(new TextSprite(text, font, size, color, style) );
+  }
+
 }
