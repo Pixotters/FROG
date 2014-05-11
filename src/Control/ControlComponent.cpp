@@ -128,5 +128,9 @@ namespace frog{
     return res;
   }
 
+  ControlComponent::PTR ControlComponent::create(const std::vector<sf::Event>& e)
+  {
+    return PTR(new ControlComponent(e) );
+  }
 
 }

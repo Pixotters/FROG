@@ -30,16 +30,16 @@ namespace frog{
   }
 
 
-  MouseButton::PTR_MouseButton MouseButton::create(sf::Mouse::Button code,
+  MouseButton::PTR MouseButton::create(sf::Mouse::Button code,
                                 Trigger::ButtonTrigger trigger)
   {
-    return PTR_MouseButton( new MouseButton(code, trigger) );
+    return PTR( new MouseButton(code, trigger) );
   }
 
-  MouseButton::PTR_MouseButton MouseButton::create(const sf::Event::MouseButtonEvent& e, 
+  MouseButton::PTR MouseButton::create(const sf::Event::MouseButtonEvent& e, 
                                 Trigger::ButtonTrigger trigger)
   {
-    return PTR_MouseButton( new MouseButton(e, trigger) );
+    return PTR( new MouseButton(e, trigger) );
   }
 
   bool MouseButton::operator==(const sf::Event& event) const

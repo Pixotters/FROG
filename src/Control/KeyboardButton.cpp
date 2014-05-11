@@ -34,7 +34,7 @@ namespace frog{
   {
   }
 
-  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(sf::Keyboard::Key _code, 
+  KeyboardButton::PTR KeyboardButton::create(sf::Keyboard::Key _code, 
                                                             Trigger::ButtonTrigger _trigger, 
                                                             bool _considering,
                                                             bool _ctrl, 
@@ -42,21 +42,21 @@ namespace frog{
                                                             bool _shift, 
                                                             bool _sys)
   {
-    return PTR_KeyboardButton( new KeyboardButton(_code, _trigger, _considering,
+    return PTR( new KeyboardButton(_code, _trigger, _considering,
                                                   _ctrl, _alt, _shift, _sys) );
   }
 
-  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(const KeyboardButton& kb)
+  KeyboardButton::PTR KeyboardButton::create(const KeyboardButton& kb)
   {
-    return PTR_KeyboardButton( new KeyboardButton(kb) );
+    return PTR( new KeyboardButton(kb) );
 
   }
 
-  KeyboardButton::PTR_KeyboardButton KeyboardButton::create(const sf::Event::KeyEvent& ke, 
+  KeyboardButton::PTR KeyboardButton::create(const sf::Event::KeyEvent& ke, 
                                                             Trigger::ButtonTrigger _trigger, 
                                                             bool _considering)
   {
-    return PTR_KeyboardButton( new KeyboardButton(ke, _trigger, _considering) );
+    return PTR( new KeyboardButton(ke, _trigger, _considering) );
   }
 
   bool KeyboardButton::operator==(const sf::Event& event) const

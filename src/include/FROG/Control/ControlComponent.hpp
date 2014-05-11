@@ -12,12 +12,16 @@
 #include <SFML/Window/Joystick.hpp>
 #include <SFML/Window/Window.hpp>
 
+#include <memory>
 #include <vector>
 
 namespace frog{
 
   class ControlComponent : virtual public InputComponent<Input, Command>
   {
+
+  public:
+    typedef std::shared_ptr<ControlComponent> PTR;
 
   protected:
     static sf::Vector2i m_previousMouse;
@@ -42,6 +46,7 @@ namespace frog{
     static sf::Vector2f getJoystickPositionBis(unsigned int id = 0);
     static sf::Vector2f getJoystickPositionTer(unsigned int id = 0);
     static sf::Vector2f getJoystickPOV(unsigned int id = 0);
+    static PTR create(const std::vector<sf::Event>&);
     
   };
 

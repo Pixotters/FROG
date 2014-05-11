@@ -13,12 +13,13 @@ namespace frog{
   class AnyKey : virtual public Input
   {
 
+  public:
+    typedef std::shared_ptr<AnyKey> PTR;
+
   protected:
     Trigger::ButtonTrigger trigger;
 
-  public:
-    typedef std::shared_ptr<AnyKey> PTR;
-    
+  public:    
     AnyKey(Trigger::ButtonTrigger = Trigger::PRESSED);
     virtual ~AnyKey();
     virtual bool operator==(const sf::Event&) const;

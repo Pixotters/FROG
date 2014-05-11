@@ -13,7 +13,7 @@ namespace frog{
   struct KeyboardButton : virtual public Input
   {
 
-    typedef std::shared_ptr<KeyboardButton> PTR_KeyboardButton;
+    typedef std::shared_ptr<KeyboardButton> PTR;
 
     sf::Keyboard::Key code;
     /// When does the input is detected: when pressed or released ?
@@ -37,15 +37,15 @@ namespace frog{
                    Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
                    bool considering = false);
     virtual ~KeyboardButton();
-    static PTR_KeyboardButton create(sf::Keyboard::Key code, 
+    static PTR create(sf::Keyboard::Key code, 
                                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
                                      bool considering = false,
                                      bool ctrl = false, 
                                      bool alt = false, 
                                      bool shift = false, 
                                      bool sys = false);
-    static PTR_KeyboardButton create(const KeyboardButton&);
-    static PTR_KeyboardButton create(const sf::Event::KeyEvent&, 
+    static PTR create(const KeyboardButton&);
+    static PTR create(const sf::Event::KeyEvent&, 
                                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
                                      bool considering = false);
     virtual bool operator==(const sf::Event&) const;

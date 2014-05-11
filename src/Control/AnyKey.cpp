@@ -32,9 +32,9 @@ namespace frog{
     return true;
   }
 
-  AnyKey::PTR_AnyKey AnyKey::create(Trigger::ButtonTrigger tr)
+  AnyKey::PTR AnyKey::create(Trigger::ButtonTrigger tr)
   {
-    return (PTR_AnyKey(new AnyKey(tr) ) );
+    return (PTR(new AnyKey(tr) ) );
   }
 
 }

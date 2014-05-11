@@ -6,8 +6,8 @@ namespace frog{
 
   JoystickMover::JoystickMover(int _up, int _down, int _left, int _right,
                                sf::Joystick::Axis _x, sf::Joystick::Axis _y, 
-                               unsigned short _deadzone,
-                               unsigned int _joyId)
+                               unsigned int _joyId,
+                               unsigned short _deadzone)
     : Component(), 
       up_velocity(_up), down_velocity(_down), 
       left_velocity(_left), right_velocity(_right),
@@ -18,8 +18,8 @@ namespace frog{
 
   JoystickMover::JoystickMover(int _velocity,
                                sf::Joystick::Axis _x, sf::Joystick::Axis _y, 
-                               unsigned short _deadzone,
-                               unsigned int _joyId)
+                               unsigned int _joyId,
+                               unsigned short _deadzone)
     : Component(), 
       up_velocity(_velocity), down_velocity(_velocity), 
       left_velocity(_velocity), right_velocity(_velocity),
@@ -53,6 +53,25 @@ namespace frog{
   void JoystickMover::update(const ComponentHolder& parent)
   {
     parent.getComponent<Transform>("TRANSFORM")->move( getMovement() );
+  }
+
+  JoystickMover::PTR JoystickMover::create(int up, int down, int left, int right, 
+                                           sf::Joystick::Axis x,
+                                           sf::Joystick::Axis y,
+                                           unsigned int id,
+                                           unsigned short deadzone)
+  {
+    return PTR(new JoystickMover(up, down, left, right, x, y, id, deadzone) );
+  }
+
+  JoystickMover::PTR JoystickMover::create(int velocity,
+                                           sf::Joystick::Axis x,
+                                           sf::Joystick::Axis y,
+                                           unsigned int id,
+                                           unsigned short deadzone
+                                           )
+  {
+    return PTR(new JoystickMover(velocity, x, y, id, deadzone) );
   }
 
 }

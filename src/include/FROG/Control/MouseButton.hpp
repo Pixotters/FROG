@@ -13,7 +13,7 @@ namespace frog{
   struct MouseButton : virtual public Input
   {
 
-    typedef std::shared_ptr<MouseButton> PTR_MouseButton;
+    typedef std::shared_ptr<MouseButton> PTR;
 
     sf::Mouse::Button code;
     Trigger::ButtonTrigger trigger;
@@ -24,9 +24,9 @@ namespace frog{
     MouseButton(const sf::Event::MouseButtonEvent&, 
                 Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual ~MouseButton();
-    static PTR_MouseButton create(sf::Mouse::Button code,
+    static PTR create(sf::Mouse::Button code,
                                   Trigger::ButtonTrigger trigger);
-    static PTR_MouseButton create(const sf::Event::MouseButtonEvent& e, 
+    static PTR create(const sf::Event::MouseButtonEvent& e, 
                                   Trigger::ButtonTrigger trigger);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
