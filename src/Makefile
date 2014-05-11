@@ -4,7 +4,10 @@ FROG=libfrog.so
 VERSION=0
 SUBVERSION=1
 FROGVERSION=$(FROG).$(VERSION).$(SUBVERSION)
+
+ifeq ($(DEBUG),yes)
 DEBUGFLAG=-DFROG_DEBUG
+endif
 
 SOURCES=$(wildcard *.cpp) $(wildcard */*.cpp)
 HEADERS=$(wildcard *.hpp) $(wildcard */*.hpp)
