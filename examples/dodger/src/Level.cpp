@@ -53,9 +53,9 @@ void Level::enter()
 {
   //  if (m_music.openFromFile("assets/musics/Canal_Street_Blues.ogg") )
   //    m_music.play();
-  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
-  m_player->addComponent(new AudioSource(), "MUSIC");
-  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
+  //  sf::SoundBuffer& music = defaultSoundManager.get("MUSIC");
+  //  m_player->addComponent(new AudioSource(), "MUSIC");
+  //  m_player->getComponent<AudioSource>("MUSIC")->playSound(music);
   setControls(m_player, appInfo );
   m_terrain->addComponent( new Sprite(defaultTextureManager.get("TERRAIN_TEXTURE") ), "RENDERING" );
   m_terrain->transform->setPosition(0, 0);
@@ -84,7 +84,7 @@ void Level::enter()
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
           else
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_2") );
-          this->removeTarget(c.second);
+          //          this->removeTarget(c.second);
           player->row += 1;
           if (player->row >= 10)
             {
@@ -195,7 +195,7 @@ void Level::spawnTarget()
   e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
   e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
-  m_collisionManager->addObject(e);
+  //  m_collisionManager->addObject(e);
   addObject(e);  
 }
 
