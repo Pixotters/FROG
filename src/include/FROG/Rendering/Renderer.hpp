@@ -29,11 +29,13 @@ namespace frog{
     protected:
       sf::RenderTexture m_texture;
       sf::RenderTarget& m_target;
-      // sf::View m_view;
       std::forward_list< std::pair<
                            std::shared_ptr<GameObject>, 
                            RenderingComponent *>
                          > m_objects;
+    public:
+      sf::View camera;
+    
 
       //// operations ////
     public:
@@ -82,6 +84,11 @@ namespace frog{
        */
       void removeObject(const std::shared_ptr<GameObject>& go);
       void removeObject(GameObject * go);
+
+      /*!
+       * \brief Synchronizes texture camera and target's camera
+       */
+      void updateCamera();
 
     protected:
 

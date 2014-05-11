@@ -8,6 +8,10 @@ namespace frog{
     : m_target(rt)
   {
     m_texture.create(m_target.getSize().x, m_target.getSize().y);
+    camera.reset(sf::FloatRect(0, 0,
+                               m_target.getSize().x, 
+                               m_target.getSize().y) );
+    updateCamera();
   }
   
   Renderer::Renderer(sf::RenderTarget& rt,
@@ -129,6 +133,12 @@ void Renderer::draw(RenderingComponent * rc)
       rc->draw(m_texture, rc->getTransform() );
     }
 }
-  
+
+void Renderer::updateCamera()
+{
+  m_texture.setView(camera);
+    
+}
+
   
 }

@@ -5,6 +5,7 @@
 
 #include "FROG/Control.hpp"
 #include "FROG/Control/JoystickMover.hpp"
+#include "FROG/Function.hpp"
 #include "FROG/Random.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Collision/LSAP.hpp"
@@ -133,15 +134,39 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
   std::shared_ptr<Command> moveup(new MovePlayer(go.get(), 0, -PLAYER_SPEED, appinfo) );
   std::shared_ptr<Command> movedown(new MovePlayer(go.get(), 0, PLAYER_SPEED, appinfo) );
 
+  auto okey = KeyboardButton::create(sf::Keyboard::O);
+  auto lkey = KeyboardButton::create(sf::Keyboard::L);
+  auto ikey = KeyboardButton::create(sf::Keyboard::I);
+  auto pkey = KeyboardButton::create(sf::Keyboard::P);
   auto qkey = KeyboardButton::create(sf::Keyboard::Q);
   auto dkey = KeyboardButton::create(sf::Keyboard::D);
   auto zkey = KeyboardButton::create(sf::Keyboard::Z);
   auto skey = KeyboardButton::create(sf::Keyboard::S);
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList));
+  std::shared_ptr<Command> zoomin(new Function([this](){
+        this->m_renderer.camera.zoom(0.99f);
+        this->m_renderer.updateCamera();
+      }) ); 
+  std::shared_ptr<Command> zoomout(new Function([this](){
+        this->m_renderer.camera.zoom(1.01f);
+        this->m_renderer.updateCamera();
+      }));
+  std::shared_ptr<Command> rotleft(new Function([this](){
+        this->m_renderer.camera.rotate(1);
+        this->m_renderer.updateCamera();
+      }) ); 
+  std::shared_ptr<Command> rotright(new Function([this](){
+        this->m_renderer.camera.rotate(-1);
+        this->m_renderer.updateCamera();
+      }));
   ctrl->bind(qkey, moveleft );    
   ctrl->bind(dkey, moveright );
   ctrl->bind(zkey, moveup );  
   ctrl->bind(skey,  movedown );
+  ctrl->bind(okey, zoomin);
+  ctrl->bind(lkey, zoomout);
+  ctrl->bind(ikey, rotleft);
+  ctrl->bind(pkey, rotright);
   go->addComponent(ctrl, "CONTROL");
   go->addComponent( new JoystickMover(PLAYER_SPEED/60.0f, 
                                       (sf::Joystick::Axis)XBOX::LSTICK_X, 
