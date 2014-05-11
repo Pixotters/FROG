@@ -12,7 +12,6 @@
 #include "FROG/Component/AudioSource.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Sprite.hpp"
-#include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Physics/PhysicBody.hpp"
 
 #include <SFML/Audio/Music.hpp>
@@ -168,10 +167,10 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
   ctrl->bind(ikey, rotleft);
   ctrl->bind(pkey, rotright);
   go->addComponent(ctrl, "CONTROL");
-  go->addComponent( new JoystickMover(PLAYER_SPEED/60.0f, 
-                                      (sf::Joystick::Axis)XBOX::LSTICK_X, 
-                                      (sf::Joystick::Axis)XBOX::LSTICK_Y, 
-                                      25),
+  go->addComponent( JoystickMover::create(PLAYER_SPEED/60.0f, 
+                                          (sf::Joystick::Axis)XBOX::LSTICK_X, 
+                                          (sf::Joystick::Axis)XBOX::LSTICK_Y, 
+                                          0, 25),
                     "JOYSTICK"); 
 }
 

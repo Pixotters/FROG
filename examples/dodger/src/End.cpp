@@ -2,6 +2,7 @@
 
 #include "FROG/Function.hpp"
 #include "FROG/Control/AnyKey.hpp"
+#include "FROG/Control/AnyJoystickButton.hpp"
 #include "FROG/Control/ControlComponent.hpp"
 #include "FROG/Rendering/TextSprite.hpp"
 
@@ -62,6 +63,7 @@ void End::enter()
         this->appInfo.stateManager.pop(); } ) );
 
   ctrl->bind(AnyKey::create(), end);
+  ctrl->bind(AnyJoystickButton::create(), end);
   msg->addComponent(ctrl, "CONTROL");
   addObject(msg);
   appInfo.clock.restart();
