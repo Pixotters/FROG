@@ -2,8 +2,8 @@
 
 namespace frog{
 
-  Collision::Collision(GameObject * fst,
-                       GameObject * snd,
+  Collision::Collision(std::shared_ptr<GameObject> fst,
+                       std::shared_ptr<GameObject> snd,
                        Trigger tr)
     : first(fst), second(snd), trigger(tr)
   {

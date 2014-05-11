@@ -64,6 +64,7 @@ void End::enter()
   ctrl->bind(AnyKey::create(), end);
   msg->addComponent(ctrl, "CONTROL");
   addObject(msg);
+  appInfo.clock.restart();
   oss.flush();
 }
 

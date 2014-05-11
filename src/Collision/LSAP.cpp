@@ -211,17 +211,17 @@ namespace frog {
             g2 = it.first;
           }
       }
-    if (g1 != nullptr and g2 != nullptr
+    if (g1.get() != nullptr and g2.get() != nullptr
         and a1 != nullptr)
       {
-        Collision c(g1.get(), g2.get(), tr);
+        Collision c(g1, g2, tr);
         a1->owner->onCollision(c);
       }
     // re-testing in case first collision destroy one of the two elements
     if (g1 != nullptr and g2 != nullptr
         and a2 != nullptr)
       {
-        Collision c(g2.get(), g1.get(), tr);
+        Collision c(g2, g1, tr);
         a2->owner->onCollision(c);
       }    
   }

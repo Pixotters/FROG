@@ -85,7 +85,7 @@ void Level::enter()
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_1") );
           else
             player->getComponent<AudioSource>("AUDIO")->playSound(this->defaultSoundManager.get("BITE_2") );
-          //          this->removeTarget(c.second);
+          this->removeTarget(c.second);
           player->row += 1;
           if (player->row >= 10)
             {
@@ -105,9 +105,9 @@ void Level::enter()
   m_player->getComponent<BoxCollider>("COLLIDER")->setScript(col_script);
   addObject(m_player);
   m_collisionManager->addObject(m_player);
-  GUI * pgui = new GUI(800, 64, m_fontManager.get(GUI_FONT), 3);
+  std::shared_ptr<GUI> pgui(new GUI(800, 64, m_fontManager.get(GUI_FONT), 3) );
   m_gui->transform->layer = GUI_LAYER;
-  m_gui->addComponent( new RenderingComponent(pgui), "RENDERING" );
+  m_gui->addComponent( pgui, "RENDERING" );
   addObject(m_gui);
 }
 
@@ -217,7 +217,7 @@ void Level::spawnTarget()
   e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
   e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
-  //  m_collisionManager->addObject(e);
+  m_collisionManager->addObject(e);
   addObject(e);  
 }
 
@@ -286,11 +286,12 @@ void Level::updateTargets()
   m_targets.remove(nullptr);
 }
 
-void Level::removeTarget(GameObject * g)
+void Level::removeTarget(std::shared_ptr<GameObject> g)
 {
-  for (auto& it : m_targets)
+    g->transform->setPosition(800, 600);
+    /*for (auto& it : m_targets)
     {
-      if (it.get() == g)
+      if (it == g)
         {
           removeObject(g);
           m_collisionManager->removeObject(it);
@@ -298,7 +299,7 @@ void Level::removeTarget(GameObject * g)
           it = nullptr;
         }  
 
-    }
+        }*/
   /*  for(auto it = m_targets.begin(); it != m_targets.end(); ++it)
       {      
       if (it->get() == g)
@@ -310,20 +311,20 @@ void Level::removeTarget(GameObject * g)
       }  
       
       }*/
-  m_targets.remove(nullptr);
+  //  m_targets.remove(nullptr);
 }
 
 void Level::updateScore()
 {
-  m_gui->getComponent<GUI>("GUI")->setScore(m_player->score);
+  m_gui->getComponent<GUI>("RENDERING")->setScore(m_player->score);
 }
 
 void Level::updateLives()
 {
-  m_gui->getComponent<GUI>("GUI")->setLives(m_player->lives);
+  m_gui->getComponent<GUI>("RENDERING")->setLives(m_player->lives);
 }
 
 void Level::updateRow()
 {
-  m_gui->getComponent<GUI>("GUI")->setRow(m_player->multiplier);
+  m_gui->getComponent<GUI>("RENDERING")->setRow(m_player->multiplier);
 }

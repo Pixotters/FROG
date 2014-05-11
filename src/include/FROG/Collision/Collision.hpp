@@ -13,12 +13,12 @@ struct Collision
       SEPARATION
     } Trigger;
   
-  GameObject * first;
-  GameObject * second;
+  std::shared_ptr<GameObject> first;
+  std::shared_ptr<GameObject> second;
   Trigger trigger;
 
-  Collision(GameObject * fst,
-            GameObject * snd,
+  Collision(std::shared_ptr<GameObject> fst,
+            std::shared_ptr<GameObject> snd,
             Trigger = COLLISION);
   virtual ~Collision();
   

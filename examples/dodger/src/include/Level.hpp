@@ -59,7 +59,7 @@ private:
   void updateScore();
   void updateLives();
   void updateRow();
-  void removeTarget(GameObject *);
+  void removeTarget(std::shared_ptr<GameObject>);
 };
 
 #endif
