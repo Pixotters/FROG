@@ -38,6 +38,10 @@ private:
 
 class Resize : virtual public frog::Command
 {
+
+public:
+  typedef std::shared_ptr<Resize> PTR;
+
 private:
   std::shared_ptr<frog::GameObject> obj;
   sf::Vector2f amount;
@@ -55,10 +59,18 @@ public:
               << ":" << t->getScale().y << std::endl;
     
   };
+  static PTR create(std::shared_ptr<frog::GameObject> g, float x, float y)
+  {
+    return PTR( new Resize(g, x, y) );
+  };
 };
 
 class Move : virtual public frog::Command
 {
+
+public:
+  typedef std::shared_ptr<Move> PTR;
+
 private:
   std::shared_ptr<frog::GameObject> obj;
   sf::Vector2f amount;
@@ -76,11 +88,19 @@ public:
               << "," << t->getPosition().y << std::endl;
     
   };
+  static PTR create(std::shared_ptr<frog::GameObject> g, float x, float y)
+  {
+    return PTR( new Move(g, x, y) );
+  };
 
 };
 
 class Rotate: virtual public frog::Command
 {
+
+public:
+  typedef std::shared_ptr<Rotate> PTR;
+
 private:
   std::shared_ptr<frog::GameObject> obj;
   float amount;
@@ -96,6 +116,11 @@ public:
     std::cout << "New rotation : " << t->getRotation() << std::endl; 
     
   };
+  static PTR create(std::shared_ptr<frog::GameObject> g, float a)
+  {
+    return PTR( new Resize(g, a) );
+  };
+
 
 };
 

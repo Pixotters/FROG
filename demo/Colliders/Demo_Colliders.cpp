@@ -64,16 +64,16 @@ void MainState::createMapping()
   auto e_key = KeyboardButton::create(sf::Keyboard::E);
   auto space_key = KeyboardButton::create(sf::Keyboard::Space,
                                           Trigger::PRESSED);
-  std::shared_ptr<Resize> resize_x_plus(new Resize(obj, 0.009, 0) );
-  std::shared_ptr<Resize> resize_x_minus(new Resize(obj, -0.009, 0) );
-  std::shared_ptr<Resize> resize_y_plus(new Resize(obj, 0, 0.009) );
-  std::shared_ptr<Resize> resize_y_minus(new Resize(obj, 0, -0.009) );
-  std::shared_ptr<Move> move_x_plus(new Move(obj, 1, 0) );
-  std::shared_ptr<Move> move_x_minus(new Move(obj, -1, 0) );
-  std::shared_ptr<Move> move_y_plus(new Move(obj, 0, 1) );
-  std::shared_ptr<Move> move_y_minus(new Move(obj, 0, -1) );
-  std::shared_ptr<Rotate> rot_right(new Rotate(obj, 1) );
-  std::shared_ptr<Rotate> rot_left(new Rotate(obj, -1) );
+  auto resize_x_plus = Resize::create(obj, 0.009, 0);
+  auto resize_x_minus = Resize::create(obj, -0.009, 0);
+  auto resize_y_plus = Resize::create(obj, 0, 0.009);
+  auto resize_y_minus = Resize::create(obj, 0, -0.009);
+  auto move_x_plus = Move::create(obj, 1, 0);
+  auto move_x_minus = Move::create(obj, -1, 0);
+  auto move_y_plus = Move::create(obj, 0, 1);
+  auto move_y_minus = Move::create(obj, 0, -1);
+  auto rot_right = Rotate::create(obj, 1);
+  auto rot_left = Rotate::create(obj, -1);
   auto changemode = Function::create( [this](){
       mode = (mode == 2) ? 0 : mode+1;
       changeMap();
