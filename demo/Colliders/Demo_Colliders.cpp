@@ -28,7 +28,7 @@ MainState::~MainState()
 
 void MainState::enter()
 {
-  std::shared_ptr<ControlComponent> ctrl( new ControlComponent(appInfo.eventList) );
+  auto ctrl = ControlComponent::create(appInfo.eventList);
   obj->addComponent(ctrl, "CONTROL");
   createMapping();
 
@@ -36,7 +36,7 @@ void MainState::enter()
   r->setFillColor(sf::Color::Red);
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
-  obj->addComponent(new RenderingComponent( r ), "RENDERING" );
+  obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
   obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 100);
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);
   addObject(obj);
@@ -56,14 +56,14 @@ void MainState::createMapping()
   mapping_move = new ControlComponent::INPUT_MAP;
   mapping_resize = new ControlComponent::INPUT_MAP;
   mapping_rotate = new ControlComponent::INPUT_MAP;
-  std::shared_ptr<Input> z_key(new KeyboardButton(sf::Keyboard::Z) );
-  std::shared_ptr<Input> q_key(new KeyboardButton(sf::Keyboard::Q) );
-  std::shared_ptr<Input> s_key(new KeyboardButton(sf::Keyboard::S) );
-  std::shared_ptr<Input> d_key(new KeyboardButton(sf::Keyboard::D) );
-  std::shared_ptr<Input> a_key(new KeyboardButton(sf::Keyboard::A) );
-  std::shared_ptr<Input> e_key(new KeyboardButton(sf::Keyboard::E) );
-  std::shared_ptr<Input> space_key(new KeyboardButton(sf::Keyboard::Space,
-                                                      Trigger::PRESSED) );
+  auto z_key = KeyboardButton::create(sf::Keyboard::Z);
+  auto q_key = KeyboardButton::create(sf::Keyboard::Q);
+  auto s_key = KeyboardButton::create(sf::Keyboard::S);
+  auto d_key = KeyboardButton::create(sf::Keyboard::D);
+  auto a_key = KeyboardButton::create(sf::Keyboard::A);
+  auto e_key = KeyboardButton::create(sf::Keyboard::E);
+  auto space_key = KeyboardButton::create(sf::Keyboard::Space,
+                                          Trigger::PRESSED);
   std::shared_ptr<Resize> resize_x_plus(new Resize(obj, 0.009, 0) );
   std::shared_ptr<Resize> resize_x_minus(new Resize(obj, -0.009, 0) );
   std::shared_ptr<Resize> resize_y_plus(new Resize(obj, 0, 0.009) );
