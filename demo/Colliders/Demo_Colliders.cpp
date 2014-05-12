@@ -1,9 +1,9 @@
-#include "FROG/App.hpp"
-#include "FROG/GameObject.hpp"
-#include "FROG/Collision/Collider.hpp"
-#include "FROG/Collision/LSAP.hpp"
-#include "FROG/Control.hpp"
-#include "FROG/Function.hpp"
+#include <FROG/App.hpp>
+#include <FROG/GameObject.hpp>
+#include <FROG/Collision/Collider.hpp>
+#include <FROG/Collision/LSAP.hpp>
+#include <FROG/Control.hpp>
+#include <FROG/Function.hpp>
 
 #include "Demo_Colliders.hpp"
 
