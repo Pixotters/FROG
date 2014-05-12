@@ -1,6 +1,6 @@
 #include <FROG/App.hpp>
 #include <FROG/GameObject.hpp>
-#include <FROG/Collision/Collider.hpp>
+#include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Collision/LSAP.hpp>
 #include <FROG/Control.hpp>
 #include <FROG/Function.hpp>
@@ -37,6 +37,7 @@ void MainState::enter()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
+  obj->addComponent( BoxCollider::create(), "COLLIDER");
   obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 100);
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);
   addObject(obj);
