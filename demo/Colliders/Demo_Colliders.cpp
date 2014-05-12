@@ -34,7 +34,7 @@ MainState::~MainState()
 
 void MainState::enter()
 {
-  initObj_circle();
+  initObj_rectangle();
   initCollider();
   initObstacle();
   
