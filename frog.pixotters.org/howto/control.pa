@@ -1,8 +1,8 @@
 = How to trigger actions =
 
 You can easily configure your key mapping. 
-*ControlComponent* is a pluggable component for GameObjects. It associates 
-**Inputs** with **Commands**. 
+**ControlComponent** is a pluggable component for GameObjects. It inherits 
+abstract class **InputComponent** and associates **Inputs** with **Commands**. 
 
 == Using ControlComponent ==
 
@@ -42,7 +42,37 @@ Here we have registered three events :
 **Controllers** have been made to be highly customizable. You can change inputs 
 in large blocks. For instance, when your character enters in the sea, its 
 actions change : he cannot jump, but he can dive. **InputMaps** are useful 
-for such tasks
+for such tasks. INPUT_MAP are just maps of **Inputs** to **Commands**.
+```
+// Creating input maps
+ControlComponent::INPUT_MAP map_ground;
+ControlComponent::INPUT_MAP map_sea;
+// filling input maps
+map_ground.emplace(spacekey, jump);
+map_sea.emplace(spacekey, dive);
+..
+if (onSea() )
+{
+  controller.changeMap(map_sea);
+}
+```
+
+Multiple **InputMaps** can be handled, via an index. **ControlComponent** 
+keep a set of **InputMaps** that can be accessed by an integer. For instance, 
+your character can always walk (map 0), but the main action depend on the weapon 
+he is carrying (map 1). 
+```
+// character can always walk
+controller.changeMap(walkmap, 0);
+// at the beginning, he hold a gun
+controller.changeMap(shootmap, 1);
+...
+// at a given time, he gets a sword
+controller.changeMap(swordmap, 1);
+...
+// at the end, he loses all his weapons
+controller.removeMap(1);
+```
 
 == Inputs ==
 
