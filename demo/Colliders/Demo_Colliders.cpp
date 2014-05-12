@@ -100,15 +100,15 @@ void MainState::changeMap()
     {
     case 1:
       ctrl->changeMap(*mapping_resize, 1);
-      std::cout << "RESIZE ";
+      std::cout << "RESIZE : Z,Q,S,D";
       break;
     case 2:
       ctrl->changeMap(*mapping_rotate, 1);
-      std::cout << "ROTATE ";
+      std::cout << "ROTATE : A,E";
       break;
     default:
       ctrl->changeMap(*mapping_move, 1);
-      std::cout << "MOVE ";
+      std::cout << "MOVE : Z,Q,S,D";
       break;
     }
   std::cout << std::endl;

@@ -52,12 +52,7 @@ public:
   virtual ~Resize(){};
   virtual void execute(){ 
     auto t = obj->getComponent<frog::Transform>("TRANSFORM");
-    std::cout << "Previous size : " << t->getScale().x \
-              << ":" << t->getScale().y << std::endl;
     t->setScale( t->getScale()+amount); 
-    std::cout << "New size : " << t->getScale().x \
-              << ":" << t->getScale().y << std::endl;
-    
   };
   static PTR create(std::shared_ptr<frog::GameObject> g, float x, float y)
   {
@@ -81,12 +76,7 @@ public:
   virtual ~Move(){};
   virtual void execute(){ 
     auto t = obj->getComponent<frog::Transform>("TRANSFORM");
-    std::cout << "Previous position : " << t->getPosition().x \
-              << "," << t->getPosition().y << std::endl;
     t->move(amount); 
-    std::cout << "New position : " << t->getPosition().x \
-              << "," << t->getPosition().y << std::endl;
-    
   };
   static PTR create(std::shared_ptr<frog::GameObject> g, float x, float y)
   {
@@ -111,14 +101,11 @@ public:
   virtual ~Rotate(){};
   virtual void execute(){ 
     auto t = obj->getComponent<frog::Transform>("TRANSFORM");
-    std::cout << "Previous rotation : " << t->getRotation() << std::endl; 
     t->rotate(amount); 
-    std::cout << "New rotation : " << t->getRotation() << std::endl; 
-    
   };
   static PTR create(std::shared_ptr<frog::GameObject> g, float a)
   {
-    return PTR( new Resize(g, a) );
+    return PTR( new Rotate(g, a) );
   };
 
 
