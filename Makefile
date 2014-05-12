@@ -1,13 +1,15 @@
 .PHONY: doc test build clean
 
+all: doc test build clean
+
 doc:
-	make -C docs/ doc
+	make -C frog.pixotters.org/
 
 test:
 	make -C tests/ test
 
-build:
-	make -C src/ build
+frog:
+	make -C src/ frog
 
 clean-src:
 	make -C src/ local_clean

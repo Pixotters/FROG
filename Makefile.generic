@@ -16,7 +16,7 @@ ifeq ($(DEBUG), yes)
 CXXFLAGS:= $(CXXFLAGS) -Wall -Wextra -pedantic-errors -g
 endif
 
-CPPCHECK=cppcheck --enable=style,performance -q
+CPPCHECK=cppcheck --enable=warning,style,performance,portability,information -q
 
 generic_show:
 	@echo "-compiler : $(CXX)"

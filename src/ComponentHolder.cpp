@@ -2,7 +2,8 @@
 #include <iostream>
 #include <sstream>
 
-namespace frog{
+namespace frog
+{
 
   ComponentHolder::ComponentHolder()
   {
@@ -12,20 +13,24 @@ namespace frog{
   {
   }
 
-  std::shared_ptr<Component> ComponentHolder::getComponent(const std::string& id) const
+  std::shared_ptr < Component >
+  ComponentHolder::getComponent(const std::string & id) const
   {
     auto it = m_components.find(id);
-    if (it != m_components.end() )
-      {
-        return (it->second);
-      }else
-      {
-        std::ostringstream oss;
-        oss << "No such component - ";
-        oss << id;
-        throw std::logic_error( oss.str() );
-        oss.flush();
-      }
+    
+    if ( it != m_components.end() )
+    {
+      return it->second;
+    }
+    else
+    {
+      std::ostringstream oss;
+      oss << "No such component - ";
+      oss << id;
+      throw std::logic_error( oss.str() );
+      //FIXME: oss.flush is never called
+      //oss.flush();
+    }
   }
 
   bool ComponentHolder::hasComponent(const std::string& id) const
@@ -43,7 +48,7 @@ namespace frog{
     auto inserted = m_components.emplace(id, std::shared_ptr<Component>(c) );
     if (not inserted.second)
       {
-        std::cerr << "Component \""<<id<<"\" has not been added : "\
+        std::cerr << "Component \"" << id << "\" has not been added : "
                   << "already held. "<< std::endl;
       }
   }
@@ -65,4 +70,3 @@ namespace frog{
   }
 
 }
-  
