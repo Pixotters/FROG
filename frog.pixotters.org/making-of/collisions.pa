@@ -1,0 +1,10 @@
+= Collision manager =
+
+The Collision Manager is a module that will detect collisions (and also 
+separation) of two bodies. Once a collision / separation detected, the 
+manager will use a callback function you set during initialization.
+
+NB: the ``LSAP`` module from frog library uses double-linked lists, so 
+explanations will focus on this implementation, but you should be aware of 
+the fact that implementation using arrays could have better performances, 
+but this is not our point here.
