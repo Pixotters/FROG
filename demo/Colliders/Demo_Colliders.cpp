@@ -82,9 +82,9 @@ void MainState::createMapping()
   mapping_move->emplace(q_key, move_x_minus);
   mapping_move->emplace(s_key, move_y_plus);
   mapping_move->emplace(d_key, move_x_plus);
-  mapping_resize->emplace(z_key, resize_y_minus);
+  mapping_resize->emplace(z_key, resize_y_plus);
   mapping_resize->emplace(q_key, resize_x_minus);
-  mapping_resize->emplace(s_key, resize_y_plus);
+  mapping_resize->emplace(s_key, resize_y_minus);
   mapping_resize->emplace(d_key, resize_x_plus);
   mapping_rotate->emplace(e_key, rot_right);
   mapping_rotate->emplace(a_key, rot_left);
