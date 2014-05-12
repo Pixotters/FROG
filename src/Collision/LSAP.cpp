@@ -281,4 +281,9 @@ namespace frog
       }    
   }
 
+  LSAP::PTR LSAP::create()
+  {
+    return PTR(new LSAP() );
+  }
+
 }

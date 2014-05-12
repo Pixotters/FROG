@@ -64,4 +64,12 @@ namespace frog{
     gap.y = newgap.y;
   }
 
+  RoundCollider::PTR RoundCollider::create(const sf::Vector2f& rad,
+                                           const sf::Vector2f& gap,
+                                           std::function<void(Collision)> fun)
+  {
+    return PTR(new RoundCollider(rad, gap, fun) );
+  }
+
+
 }

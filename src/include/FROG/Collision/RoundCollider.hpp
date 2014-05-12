@@ -7,10 +7,16 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include <memory>
+
 namespace frog{
 
   class RoundCollider : virtual public Collider
   {
+
+  public:
+    typedef std::shared_ptr<RoundCollider> PTR;
+
   public:
     /// the radius
     sf::Vector2f radius;
@@ -33,6 +39,10 @@ namespace frog{
     virtual void update(const ComponentHolder&);
     virtual void resize(const sf::Vector2f&);
     virtual void setGap(const sf::Vector2f&);
+    static PTR create(const sf::Vector2f& rad = sf::Vector2f(1,1),
+                      const sf::Vector2f& gap = sf::Vector2f(0,0),
+                      std::function<void(Collision)> = [](Collision){} );
+
 
   };
 
