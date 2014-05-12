@@ -1,6 +1,8 @@
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Transform.hpp"
 
+#include <iostream> // TODO remove
+
 namespace frog{
 
   BoxCollider::BoxCollider(const sf::Vector2f& dimensions,
@@ -9,7 +11,6 @@ namespace frog{
     : Collider(fun), gap(_gap)
   {
     rectangle.setSize( dimensions );
-    rectangle.setOrigin( gap );
   }
 
   BoxCollider::~BoxCollider()
@@ -46,18 +47,13 @@ namespace frog{
   void BoxCollider::update(const ComponentHolder& parent)
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
-    // centering the box at the origin of the parent
-    /*    auto pos = t->getPosition() - t->getOrigin();
-    gap.x *= t->getScale().x;
-    gap.x *= t->getScale().y;
-    box.left = pos.x + gap.x;
-    box.top = pos.y + gap.y;
-    box.width = t->getScale().x * dimensions.x;
-    box.height = t->getScale().y * dimensions.y;
-    */
-    rectangle.setOrigin( t->getOrigin() + gap);
+    // synchronizing transform with parent's transform
+    rectangle.setOrigin( rectangle.getSize() / 2.0f );
+    std::cerr << "origins : rectangle -> " \
+              << rectangle.getOrigin().x << "," << rectangle.getOrigin().y << "/" \
+              << t->getOrigin().x << "," << t->getOrigin().y << std::endl;
     rectangle.setScale( t->getScale() );
-    rectangle.setPosition( t->getPosition() );
+    rectangle.setPosition( t->getPosition() + gap );
     rectangle.setRotation( t->getRotation() );
   }
 

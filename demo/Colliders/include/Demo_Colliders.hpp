@@ -16,6 +16,7 @@ class MainState : virtual public frog::Scene
 
 public:
   int mode; // mode MOVE, RESIZE or ROTATE
+  long collisions; // number of frames when there was collision
 
 private:
   frog::GameObject::PTR obj;
@@ -31,6 +32,7 @@ public:
   virtual ~MainState();
   virtual void enter();
   virtual void preupdate();
+  virtual void postupdate();
   virtual void exit();
   void changeMap();
 

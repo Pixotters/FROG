@@ -19,6 +19,7 @@ using namespace frog;
 MainState::MainState(AppInfo& _appinfo)
   : Scene(_appinfo), 
     mode(0), 
+    collisions(0),
     obj(new GameObject), 
     collider_object(new GameObject), 
     obstacle(new GameObject)
@@ -56,32 +57,33 @@ void MainState::initObj()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
-  auto collider = BoxCollider::create(sf::Vector2f(10, OBJ_DIM) );
+  obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 70);
+  obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);  
+  
+  auto collider = BoxCollider::create(sf::Vector2f(OBJ_DIM, OBJ_DIM) );
   auto collision = [this](Collision c){
-    std::cout << "COLLISION" << std::endl;
-    //   c.first->transform->scale(0.9f, 0.9f);
+    collisions++;
+    std::cout << "collisions : " << collisions << std::endl;
   };
   collider->setScript(collision);
   obj->addComponent( collider, 
                      "COLLIDER");
-  obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 100);
-  obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);  
 }
 
 void MainState::initCollider()
 {
   std::shared_ptr<sf::RectangleShape> r2(new sf::RectangleShape(sf::Vector2f(OBJ_DIM, 10) ) );
-  r2->setFillColor(sf::Color::Blue);
+  r2->setFillColor(sf::Color::Yellow);
   collider_object->addComponent( RenderingComponent::create( r2 ), "RENDERING" );
-  collider_object->transform = obj->transform;
+  //  collider_object->transform = obj->transform;
 }
 
 void MainState::initObstacle()
 {
-  obstacle->transform->setPosition(100, 200);
-  obstacle->addComponent(BoxCollider::create(sf::Vector2f(50,100)),
+  obstacle->transform->setPosition(20, 40);
+  obstacle->addComponent(BoxCollider::create(sf::Vector2f(20,100)),
                          "COLLIDER");
-  std::shared_ptr<sf::RectangleShape> r(new sf::RectangleShape(sf::Vector2f(50, 100) ) );
+  std::shared_ptr<sf::RectangleShape> r(new sf::RectangleShape(sf::Vector2f(20, 100) ) );
   r->setFillColor(sf::Color::Green);
   obstacle->addComponent(RenderingComponent::create(r), "RENDERING");
 }
@@ -95,26 +97,24 @@ void MainState::exit()
 
 void MainState::preupdate()
 {
-  auto tr_obj = obj->transform;
-  auto tr_col = collider_object->transform;
-  tr_col->setScale(tr_obj->getScale() );
-  tr_col->setOrigin(tr_obj->getOrigin() );
-  auto ct = obj->getComponent<BoxCollider>("COLLIDER");
+  auto fr = obj->getComponent<BoxCollider>("COLLIDER")->getBoundingBox();
   std::shared_ptr<sf::RectangleShape> rect(new sf::RectangleShape() );
-  rect->setFillColor(sf::Color::Blue);
-  auto fr = ct->getBoundingBox();
+  rect->setFillColor(sf::Color(0,0,255,100) );
   rect->setSize( sf::Vector2f(fr.width, fr.height) );
   rect->setPosition(fr.left, fr.top );
-  std::cout<< "Collider is between : " \
-           << fr.left << "," << fr.top << " - " \
-           << (fr.left+fr.width) << "," << (fr.top+fr.height) << std::endl;
   // DON'T DO THAT
-  /*collider_object->removeComponent("RENDERING");
+  m_renderer.removeObject(collider_object);
+  collider_object->removeComponent("RENDERING");
   collider_object->addComponent(RenderingComponent::create(rect),
-  "RENDERING");*/
-  auto render = collider_object->getComponent<RenderingComponent>("RENDERING");
-  render.reset(new RenderingComponent(rect) );
+                                "RENDERING");
+  m_renderer.addObject(collider_object);
+  //
 }
+
+void MainState::postupdate()
+{
+  m_collisionManager.update();
+ }
 
 void MainState::createMapping()
 {
