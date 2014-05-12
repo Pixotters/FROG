@@ -33,12 +33,14 @@ namespace frog{
 
   float BoxCollider::getXMax() const
   {
-    return rectangle.getGlobalBounds().left + rectangle.getGlobalBounds().width;
+    auto gb = rectangle.getGlobalBounds();
+    return gb.left + gb.width;
   }
 
   float BoxCollider::getYMax() const
   {
-    return rectangle.getGlobalBounds().top + rectangle.getGlobalBounds().height;
+    auto gb = rectangle.getGlobalBounds();
+    return gb.top + gb.height;
   }
 
   void BoxCollider::update(const ComponentHolder& parent)
