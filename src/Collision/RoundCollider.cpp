@@ -3,11 +3,13 @@
 
 namespace frog{
 
-  RoundCollider::RoundCollider(const sf::Vector2f& rad,
+  RoundCollider::RoundCollider(float rad,
                                const sf::Vector2f& _gap,
                                std::function<void(Collision)> fun )
-    : Collider(fun), radius(rad), gap(_gap)
+    : Collider(fun), gap(_gap)
   {
+    circle.setRadius(rad);
+    circle.setOrigin(gap);
   }
 
   RoundCollider::~RoundCollider()
@@ -16,55 +18,52 @@ namespace frog{
 
   sf::FloatRect RoundCollider::getBoundingBox() const
   {
-    sf::FloatRect box;
-    box.left = center.x - radius.x;
-    box.top = center.y - radius.y;
-    box.width = radius.x;
-    box.height = radius.y;
-    return box;
+    return circle.getGlobalBounds();
   }
 
   float RoundCollider::getXMin() const
   {
-    return center.x - radius.x;
+    return circle.getGlobalBounds().left;
   }
 
   float RoundCollider::getYMin() const
   {
-    return center.y - radius.y;
+    return circle.getGlobalBounds().top;
   }
 
   float RoundCollider::getXMax() const
   {
-    return center.x + radius.x;
+    auto gb = circle.getGlobalBounds();
+    return gb.left + gb.width;
   }
 
   float RoundCollider::getYMax() const
   {
-    return center.y + radius.y;
+    auto gb = circle.getGlobalBounds();
+    return gb.top + gb.height;
   }
 
   void RoundCollider::update(const ComponentHolder& parent)
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the circle at the origin of the parent
-    radius.x *= t->getScale().x;
-    radius.y *= t->getScale().y;
-    center = t->getOrigin() + gap;
+    circle.setOrigin( t->getOrigin() + gap );
+    circle.setScale( t->getScale() );
+    circle.setPosition( t->getPosition() );
+    circle.setRotation( t->getRotation() );
   }
 
-  void RoundCollider::resize(const sf::Vector2f& newsize)
+  void RoundCollider::resize(float newrad)
   {
-    radius = newsize;
+    circle.setRadius(newrad);
   }
 
   void RoundCollider::setGap(const sf::Vector2f& newgap)
   {
-    gap.x = newgap.x;
-    gap.y = newgap.y;
+    gap = newgap;
   }
 
-  RoundCollider::PTR RoundCollider::create(const sf::Vector2f& rad,
+  RoundCollider::PTR RoundCollider::create(float rad,
                                            const sf::Vector2f& gap,
                                            std::function<void(Collision)> fun)
   {
