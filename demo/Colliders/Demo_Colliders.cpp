@@ -56,10 +56,10 @@ void MainState::initObj()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
-  auto collider = BoxCollider::create(sf::Vector2u(10, OBJ_DIM) );
+  auto collider = BoxCollider::create(sf::Vector2f(10, OBJ_DIM) );
   auto collision = [this](Collision c){
     std::cout << "COLLISION" << std::endl;
-    c.first->transform->scale(0.9f, 0.9f);
+    //   c.first->transform->scale(0.9f, 0.9f);
   };
   collider->setScript(collision);
   obj->addComponent( collider, 
@@ -79,7 +79,7 @@ void MainState::initCollider()
 void MainState::initObstacle()
 {
   obstacle->transform->setPosition(100, 200);
-  obstacle->addComponent(BoxCollider::create(sf::Vector2u(50,100)),
+  obstacle->addComponent(BoxCollider::create(sf::Vector2f(50,100)),
                          "COLLIDER");
   std::shared_ptr<sf::RectangleShape> r(new sf::RectangleShape(sf::Vector2f(50, 100) ) );
   r->setFillColor(sf::Color::Green);
@@ -107,7 +107,7 @@ void MainState::preupdate()
   rect->setPosition(fr.left, fr.top );
   std::cout<< "Collider is between : " \
            << fr.left << "," << fr.top << " - " \
-           << fr.left+fr.width << "," << fr.top+fr.height << std::endl;
+           << (fr.left+fr.width) << "," << (fr.top+fr.height) << std::endl;
   // DON'T DO THAT
   /*collider_object->removeComponent("RENDERING");
   collider_object->addComponent(RenderingComponent::create(rect),

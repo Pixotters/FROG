@@ -3,15 +3,13 @@
 
 namespace frog{
 
-  BoxCollider::BoxCollider(const sf::Vector2u& dimensions,
+  BoxCollider::BoxCollider(const sf::Vector2f& dimensions,
                            const sf::Vector2f& _gap,
                            std::function<void(Collision)> fun )
     : Collider(fun), gap(_gap)
   {
-    box.left = gap.x;
-    box.top = gap.y;
-    box.width = dimensions.x;
-    box.height = dimensions.y;
+    rectangle.setSize( dimensions );
+    rectangle.setOrigin( gap );
   }
 
   BoxCollider::~BoxCollider()
@@ -20,57 +18,62 @@ namespace frog{
 
   sf::FloatRect BoxCollider::getBoundingBox() const
   {
-    return box;
+    return rectangle.getGlobalBounds();
   }
 
   float BoxCollider::getXMin() const
   {
-    return box.left;
+    return rectangle.getGlobalBounds().left;
   }
 
   float BoxCollider::getYMin() const
   {
-    return box.top;
+    return rectangle.getGlobalBounds().top;
   }
 
   float BoxCollider::getXMax() const
   {
-    return box.left + box.width;
+    return rectangle.getGlobalBounds().left + rectangle.getGlobalBounds().width;
   }
 
   float BoxCollider::getYMax() const
   {
-    return box.top + box.height;
+    return rectangle.getGlobalBounds().top + rectangle.getGlobalBounds().height;
   }
 
   void BoxCollider::update(const ComponentHolder& parent)
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the box at the origin of the parent
-    auto pos = t->getPosition() - t->getOrigin();
+    /*    auto pos = t->getPosition() - t->getOrigin();
     gap.x *= t->getScale().x;
     gap.x *= t->getScale().y;
     box.left = pos.x + gap.x;
     box.top = pos.y + gap.y;
+    box.width = t->getScale().x * dimensions.x;
+    box.height = t->getScale().y * dimensions.y;
+    */
+    rectangle.setOrigin( t->getOrigin() + gap);
+    rectangle.setScale( t->getScale() );
+    rectangle.setPosition( t->getPosition() );
+    rectangle.setRotation( t->getRotation() );
   }
 
-  void BoxCollider::resize(const sf::Vector2u& newsize)
+  void BoxCollider::resize(const sf::Vector2f& newsize)
   {
-    box.width = newsize.x;
-    box.height = newsize.y;
+    rectangle.setSize(newsize);
   }
 
   void BoxCollider::setGap(const sf::Vector2f& newgap)
   {
-    gap.x = newgap.x;
-    gap.y = newgap.y;
+    gap = newgap;
   }
 
-  BoxCollider::PTR BoxCollider::create(const sf::Vector2u& dimensions,
+  BoxCollider::PTR BoxCollider::create(const sf::Vector2f& dimensions,
                                        const sf::Vector2f& gap,
                                        std::function<void(Collision)> fun)
   {
     return PTR(new BoxCollider(dimensions, gap, fun) );
-  } 
+  }
 
 }

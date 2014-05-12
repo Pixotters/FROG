@@ -5,6 +5,7 @@
 #include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <memory>
@@ -19,12 +20,11 @@ namespace frog{
 
   protected:
     /// the bounding box
-    sf::FloatRect box;
-    /// the gap between origin of parent and origin of the box
+    sf::RectangleShape rectangle;
     sf::Vector2f gap;
 
   public:
-    BoxCollider(const sf::Vector2u& dimensions = sf::Vector2u(1,1),
+    BoxCollider(const sf::Vector2f& dimensions = sf::Vector2f(1,1),
                 const sf::Vector2f& gap = sf::Vector2f(0,0),
                 std::function<void(Collision)> = [](Collision){} );
     virtual ~BoxCollider();
@@ -34,9 +34,9 @@ namespace frog{
     virtual float getXMax() const;
     virtual float getYMax() const;
     virtual void update(const ComponentHolder&);
-    virtual void resize(const sf::Vector2u&);
+    virtual void resize(const sf::Vector2f&);
     virtual void setGap(const sf::Vector2f&);
-    static PTR create(const sf::Vector2u& dimensions = sf::Vector2u(1,1),
+    static PTR create(const sf::Vector2f& dimensions = sf::Vector2f(1,1),
                       const sf::Vector2f& gap = sf::Vector2f(0,0),
                       std::function<void(Collision)> = [](Collision){} );
 

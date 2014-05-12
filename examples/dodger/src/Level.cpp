@@ -203,7 +203,7 @@ void Level::spawnEnemy()
   auto x_center = r->getLocalBounds().left + (r->getLocalBounds().width/2.0);
   auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
-  e->addComponent(new BoxCollider(sf::Vector2u(25,25) ), "COLLIDER");
+  e->addComponent(new BoxCollider(sf::Vector2f(25,25) ), "COLLIDER");
   e->addProperty("type", ENEMY_TYPE);
   m_collisionManager->addObject(e);
   m_enemies.push_back(e);
@@ -224,7 +224,7 @@ void Level::spawnTarget()
                                 Random::get(-10, 10) / 10.f ) );  
   phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
   phi->addRotation( Random::get(-20, 20) );  
-  e->addComponent(new BoxCollider(sf::Vector2u(64,64) ), "COLLIDER");
+  e->addComponent(new BoxCollider(sf::Vector2f(64,64) ), "COLLIDER");
   e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
   m_collisionManager->addObject(e);

@@ -13,7 +13,7 @@ Player::Player(const unsigned short& l)
   transform->setPosition( 400, 400 );
   transform->setOrigin( 32, 32 );
   addComponent( new AudioSource(), "AUDIO");
-  addComponent( new BoxCollider(sf::Vector2u(64, 64) ),
+  addComponent( new BoxCollider(sf::Vector2f(64, 64) ),
                 "COLLIDER");
 }
 
