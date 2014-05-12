@@ -19,6 +19,7 @@ public:
 
 private:
   frog::GameObject::PTR obj;
+  frog::GameObject::PTR obstacle;
   frog::GameObject::PTR collider_object;
   frog::ControlComponent::INPUT_MAP * mapping_move;
   frog::ControlComponent::INPUT_MAP * mapping_resize;
@@ -29,11 +30,14 @@ public:
   MainState(frog::AppInfo&);
   virtual ~MainState();
   virtual void enter();
-  virtual void postupdate();
+  virtual void preupdate();
   virtual void exit();
   void changeMap();
 
 private:
+  void initObj();
+  void initCollider();
+  void initObstacle();
   void createMapping();
 
 };
