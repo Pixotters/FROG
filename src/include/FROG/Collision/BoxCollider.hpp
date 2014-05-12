@@ -7,10 +7,15 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include <memory>
+
 namespace frog{
 
   class BoxCollider : virtual public Collider
   {
+
+  public:
+    typedef std::shared_ptr<BoxCollider> PTR;
 
   protected:
     /// the bounding box
@@ -31,6 +36,9 @@ namespace frog{
     virtual void update(const ComponentHolder&);
     virtual void resize(const sf::Vector2u&);
     virtual void setGap(const sf::Vector2f&);
+    static PTR create(const sf::Vector2u& dimensions = sf::Vector2u(1,1),
+                      const sf::Vector2f& gap = sf::Vector2f(0,0),
+                      std::function<void(Collision)> = [](Collision){} );
 
   };
 

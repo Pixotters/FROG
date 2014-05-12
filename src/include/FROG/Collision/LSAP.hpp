@@ -19,6 +19,9 @@ namespace frog {
      * **Limitation:** if an object moves too fast, LSAP may miss
      * a collision.
      */
+  public:
+    typedef std::shared_ptr<LSAP> PTR;
+
   protected:
     /// objects added to the manager
     std::map< std::shared_ptr<GameObject>, AABB *> m_objects;
@@ -90,6 +93,9 @@ namespace frog {
      * @param c Object attached to the bounding box to remove
      */
     void removeObject(std::shared_ptr<GameObject> go);
+
+    static PTR create();
+
   };
 }
 #endif

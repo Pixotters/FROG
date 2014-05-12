@@ -66,4 +66,11 @@ namespace frog{
     gap.y = newgap.y;
   }
 
+  BoxCollider::PTR BoxCollider::create(const sf::Vector2u& dimensions,
+                                       const sf::Vector2f& gap,
+                                       std::function<void(Collision)> fun)
+  {
+    return PTR(new BoxCollider(dimensions, gap, fun) );
+  } 
+
 }
