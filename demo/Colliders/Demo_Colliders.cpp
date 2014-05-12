@@ -17,7 +17,8 @@
 using namespace frog;
 
 MainState::MainState(AppInfo& _appinfo)
-  : Scene(_appinfo), mode(0), obj(new GameObject)
+  : Scene(_appinfo), 
+    mode(0), obj(new GameObject), collider_object(new GameObject)
 {
 }
 
@@ -28,18 +29,25 @@ MainState::~MainState()
 
 void MainState::enter()
 {
+  obj->transform->layer = 2;
   auto ctrl = ControlComponent::create(appInfo.eventList);
   obj->addComponent(ctrl, "CONTROL");
   createMapping();
-
   std::shared_ptr<sf::RectangleShape> r(new sf::RectangleShape(sf::Vector2f(OBJ_DIM, OBJ_DIM) ) );
-  r->setFillColor(sf::Color::Red);
+  r->setFillColor(sf::Color(255,0,0,100) );
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
   obj->addComponent( BoxCollider::create(), "COLLIDER");
   obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 100);
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);
+
+  std::shared_ptr<sf::RectangleShape> r2(new sf::RectangleShape(sf::Vector2f(OBJ_DIM, OBJ_DIM) ) );
+  r2->setFillColor(sf::Color::Blue);
+  collider_object->addComponent( RenderingComponent::create( r2 ), "RENDERING" );
+  collider_object->transform = obj->transform;
+
+  addObject(collider_object);
   addObject(obj);
   changeMap();
 }
@@ -51,6 +59,15 @@ void MainState::exit()
   delete mapping_rotate;
 }
 
+void MainState::postupdate()
+{
+  auto ct = collider_object->getComponent<RenderingComponent>("RENDERING");
+  sf::RectangleShape * dr;
+  if (dr = dynamic_cast<sf::RectangleShape *>(ct.get()) )
+    {
+    }
+  ct->update(*obj);
+}
 
 void MainState::createMapping()
 {

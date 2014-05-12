@@ -18,7 +18,8 @@ public:
   int mode; // mode MOVE, RESIZE or ROTATE
 
 private:
-  std::shared_ptr<frog::GameObject> obj;
+  frog::GameObject::PTR obj;
+  frog::GameObject::PTR collider_object;
   frog::ControlComponent::INPUT_MAP * mapping_move;
   frog::ControlComponent::INPUT_MAP * mapping_resize;
   frog::ControlComponent::INPUT_MAP * mapping_rotate;
@@ -28,6 +29,7 @@ public:
   MainState(frog::AppInfo&);
   virtual ~MainState();
   virtual void enter();
+  virtual void postupdate();
   virtual void exit();
   void changeMap();
 
