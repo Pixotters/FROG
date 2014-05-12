@@ -9,7 +9,6 @@ namespace frog{
     : Collider(fun), gap(_gap)
   {
     circle.setRadius(rad);
-    circle.setOrigin(gap);
   }
 
   RoundCollider::~RoundCollider()
@@ -47,9 +46,12 @@ namespace frog{
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // centering the circle at the origin of the parent
-    circle.setOrigin( t->getOrigin() + gap );
+    auto lb = circle.getLocalBounds();
+    auto r = circle.getRadius();
+    circle.setOrigin( lb.left + lb.width  / 2.0f,
+                      lb.top  + lb.height / 2.0f );
     circle.setScale( t->getScale() );
-    circle.setPosition( t->getPosition() );
+    circle.setPosition( t->getPosition() + gap);
     circle.setRotation( t->getRotation() );
   }
 

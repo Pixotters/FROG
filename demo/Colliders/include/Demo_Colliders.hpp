@@ -37,7 +37,8 @@ public:
   void changeMap();
 
 private:
-  void initObj();
+  void initObj_rectangle();
+  void initObj_circle();
   void initCollider();
   void initObstacle();
   void createMapping();

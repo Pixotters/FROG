@@ -1,6 +1,7 @@
 #include <FROG/App.hpp>
 #include <FROG/GameObject.hpp>
 #include <FROG/Collision/BoxCollider.hpp>
+#include <FROG/Collision/RoundCollider.hpp>
 #include <FROG/Collision/LSAP.hpp>
 #include <FROG/Control.hpp>
 #include <FROG/Function.hpp>
@@ -21,8 +22,8 @@ MainState::MainState(AppInfo& _appinfo)
     mode(0), 
     collisions(0),
     obj(new GameObject), 
-    collider_object(new GameObject), 
-    obstacle(new GameObject)
+    obstacle(new GameObject),
+    collider_object(new GameObject)
 {
 }
 
@@ -33,7 +34,7 @@ MainState::~MainState()
 
 void MainState::enter()
 {
-  initObj();
+  initObj_circle();
   initCollider();
   initObstacle();
   
@@ -46,7 +47,7 @@ void MainState::enter()
 }
 
 
-void MainState::initObj()
+void MainState::initObj_rectangle()
 {
   obj->transform->layer = 2;
   auto ctrl = ControlComponent::create(appInfo.eventList);
@@ -61,6 +62,30 @@ void MainState::initObj()
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);  
   
   auto collider = BoxCollider::create(sf::Vector2f(OBJ_DIM, OBJ_DIM) );
+  auto collision = [this](Collision c){
+    collisions++;
+    std::cout << "collisions : " << collisions << std::endl;
+  };
+  collider->setScript(collision);
+  obj->addComponent( collider, 
+                     "COLLIDER");
+}
+
+void MainState::initObj_circle()
+{
+  obj->transform->layer = 2;
+  auto ctrl = ControlComponent::create(appInfo.eventList);
+  obj->addComponent(ctrl, "CONTROL");
+  createMapping();
+  std::shared_ptr<sf::CircleShape> r(new sf::CircleShape(OBJ_DIM) );
+  r->setFillColor(sf::Color(255,0,0,100) );
+  r->setOutlineThickness(2);
+  r->setOutlineColor(sf::Color::Black);
+  obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
+  obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 70);
+  obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM, OBJ_DIM);  
+  
+  auto collider = RoundCollider::create(OBJ_DIM);
   auto collision = [this](Collision c){
     collisions++;
     std::cout << "collisions : " << collisions << std::endl;
@@ -97,11 +122,23 @@ void MainState::exit()
 
 void MainState::preupdate()
 {
-  auto fr = obj->getComponent<BoxCollider>("COLLIDER")->getBoundingBox();
   std::shared_ptr<sf::RectangleShape> rect(new sf::RectangleShape() );
   rect->setFillColor(sf::Color(0,0,255,100) );
-  rect->setSize( sf::Vector2f(fr.width, fr.height) );
-  rect->setPosition(fr.left, fr.top );
+  try{
+    auto fr = obj->getComponent<BoxCollider>("COLLIDER")->getBoundingBox();
+      rect->setSize( sf::Vector2f(fr.width, fr.height) );
+      rect->setPosition(fr.left, fr.top );
+  }catch(std::logic_error e)
+    {
+      try{
+        auto fr = obj->getComponent<RoundCollider>("COLLIDER")->getBoundingBox();
+        rect->setSize( sf::Vector2f(fr.width, fr.height) );
+        rect->setPosition(fr.left, fr.top );
+      }catch(std::logic_error e)
+        {
+
+        }
+    }
   // DON'T DO THAT
   m_renderer.removeObject(collider_object);
   collider_object->removeComponent("RENDERING");

@@ -49,9 +49,6 @@ namespace frog{
     auto t = parent.getComponent<Transform>("TRANSFORM");
     // synchronizing transform with parent's transform
     rectangle.setOrigin( rectangle.getSize() / 2.0f );
-    std::cerr << "origins : rectangle -> " \
-              << rectangle.getOrigin().x << "," << rectangle.getOrigin().y << "/" \
-              << t->getOrigin().x << "," << t->getOrigin().y << std::endl;
     rectangle.setScale( t->getScale() );
     rectangle.setPosition( t->getPosition() + gap );
     rectangle.setRotation( t->getRotation() );
