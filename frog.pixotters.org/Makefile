@@ -32,7 +32,7 @@ serve: $(BUILDIR)
 # mirror -e: remove file not existing anymore
 # -R from local to host
 upload: $(BUILDIR)
-	lftp ftp.cluster014.ovh.net -e "mirror -e -R frog/ /www/frog/; quit"
+	lftp ftp.pixotters.org -e "mirror -e -R frog/ /www/frog/; quit"
 
 # TODO: find some doxygen -clean command? 
 clean:
