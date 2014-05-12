@@ -43,13 +43,21 @@ $(FROGVERSION): $(OBJECTS)
 local_clean: 
 	cd $(LIB); rm -f $(FROG) $(FROG).$(VERSION) $(FROG).$(VERSION).$(SUBVERSION)
 
-install:
+install: copy_headers copy_lib
+
+copy_headers:
 	sudo cp -r include/FROG /usr/local/include/FROG
+
+copy_lib:
 	sudo cp -r lib/$(FROG)* /usr/lib/
 
-uninstall:
+uninstall: clean_header clean_lib
+
+clean_header:
 	sudo rm -rf /usr/local/include/FROG/
-	sudo rm -f /usr/local/$(FROG)*
+
+clean_lib:
+	sudo rm -f /usr/local/lib/$(FROG)*
 
 reinstall: uninstall install
 
