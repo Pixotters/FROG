@@ -5,7 +5,7 @@
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/View.hpp>
 
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 
 #include "FROG/Rendering/RenderingComponent.hpp"
 

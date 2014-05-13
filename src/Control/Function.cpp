@@ -1,4 +1,4 @@
-#include "FROG/Function.hpp"
+#include "FROG/Control/Function.hpp"
 
 namespace frog{
 

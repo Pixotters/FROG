@@ -1,7 +1,7 @@
 #ifndef FROG_INPUTCOMPONENT_HPP
 #define FROG_INPUTCOMPONENT_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 #include <vector>
 #include <map>
 #include <memory>

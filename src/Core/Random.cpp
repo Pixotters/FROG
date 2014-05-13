@@ -1,4 +1,4 @@
-#include "FROG/Random.hpp"
+#include "FROG/Core/Random.hpp"
 
 #include <cstdlib>
 #include <ctime>

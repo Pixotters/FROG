@@ -1,10 +1,10 @@
 #ifndef FROG_SCENE_HPP
 #define FROG_SCENE_HPP
 
-#include "FROG/AppInfo.hpp"
-#include "FROG/AssetManager.hpp"
-#include "FROG/GameState.hpp"
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/AppInfo.hpp"
+#include "FROG/Core/AssetManager.hpp"
+#include "FROG/Core/GameState.hpp"
+#include "FROG/Core/GameObject.hpp"
 #include "FROG/Rendering/Renderer.hpp"
 #include "FROG/Rendering/Spritesheet.hpp"
 

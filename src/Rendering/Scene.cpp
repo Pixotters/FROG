@@ -1,6 +1,6 @@
-#include "FROG/Scene.hpp"
+#include "FROG/Rendering/Scene.hpp"
 
-#include "FROG/GameState.hpp"
+#include "FROG/Core/GameState.hpp"
 
 #include "FROG/XML/tinyxml2.hpp"
 

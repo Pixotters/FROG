@@ -28,6 +28,6 @@ namespace frog{
 
 }
 
-#include "FROG/PropertiesHolder.inl"
+#include "FROG/Core/PropertiesHolder.inl"
 
 #endif

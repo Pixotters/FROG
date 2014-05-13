@@ -1,10 +1,10 @@
 #ifndef FROG_APP_HPP
 #define FROG_APP_HPP
 
-#include "FROG/AppInfo.hpp"
-#include "FROG/Config.hpp"
-#include "FROG/StateManager.hpp"
-#include "FROG/State.hpp"
+#include "FROG/Core/AppInfo.hpp"
+#include "FROG/Core/Config.hpp"
+#include "FROG/Core/StateManager.hpp"
+#include "FROG/Core/State.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>

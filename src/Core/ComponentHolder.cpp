@@ -1,4 +1,4 @@
-#include "FROG/ComponentHolder.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
 #include <iostream>
 #include <sstream>
 

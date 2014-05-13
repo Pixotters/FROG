@@ -1,5 +1,5 @@
 #include "FROG/XML/tinyxml2.hpp"
-#include "FROG/Debug.hpp"
+#include "FROG/Core/Debug.hpp"
 
 #include <sstream>
 

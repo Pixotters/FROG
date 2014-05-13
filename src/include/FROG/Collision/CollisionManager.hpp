@@ -2,7 +2,7 @@
 #define FROG_COLLISION_MANAGER_HPP 1
 
 /** Interface for collision managers */
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 
 namespace frog{
 

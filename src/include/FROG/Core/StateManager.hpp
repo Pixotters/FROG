@@ -1,9 +1,9 @@
 #ifndef FROG_STATEMANAGER_HPP
 #define FROG_STATEMANAGER_HPP
 
-#include "FROG/FSM.hpp"
+#include "FROG/Core/FSM.hpp"
 
-#include "FROG/State.hpp"
+#include "FROG/Core/State.hpp"
 
 
 namespace frog{

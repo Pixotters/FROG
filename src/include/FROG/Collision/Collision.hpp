@@ -1,7 +1,7 @@
 #ifndef FROG_COLLISION_HPP
 #define FROG_COLLISION_HPP
 
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 
 namespace frog
 {

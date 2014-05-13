@@ -1,6 +1,6 @@
-#include "FROG/GameState.hpp"
+#include "FROG/Core/GameState.hpp"
 
-#include "FROG/Debug.hpp"
+#include "FROG/Core/Debug.hpp"
 
 namespace frog{
 

@@ -1,4 +1,4 @@
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 
 #include "FROG/XML/tinyxml2.hpp"
 

@@ -41,6 +41,6 @@ namespace frog{
 
 }
 
-#include "FSM.inl"
+#include "FROG/Core/FSM.inl"
 
 #endif

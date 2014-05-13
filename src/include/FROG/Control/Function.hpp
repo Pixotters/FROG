@@ -1,7 +1,7 @@
 #ifndef FROG_FUNCTION_HPP
 #define FROG_FUNCTION_HPP
 
-#include "FROG/Command.hpp"
+#include "FROG/Control/Command.hpp"
 
 #include <functional>
 #include <memory>

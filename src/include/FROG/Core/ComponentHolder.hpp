@@ -1,7 +1,7 @@
 #ifndef FROG_COMPONENTHOLDER_HPP
 #define FROG_COMPONENTHOLDER_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 
 #include <exception>
 #include <map>
@@ -76,7 +76,7 @@ namespace frog{
 
 }
 
-#include "FROG/ComponentHolder.inl"
+#include "FROG/Core/ComponentHolder.inl"
 
 
 #endif

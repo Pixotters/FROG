@@ -1,7 +1,7 @@
 #ifndef FROG_PHYSICBODY_HPP
 #define FROG_PHYSICBODY_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 
 #include <SFML/System/Vector2.hpp>
 

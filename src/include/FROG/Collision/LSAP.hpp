@@ -3,7 +3,7 @@
 
 #include <map>
 #include <memory>
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 #include "FROG/Collision/CollisionManager.hpp"
 #include "FROG/Collision/Collision.hpp"
 #include "FROG/Collision/AABB.hpp"

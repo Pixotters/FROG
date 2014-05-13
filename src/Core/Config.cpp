@@ -1,4 +1,4 @@
-#include "FROG/Config.hpp"
+#include "FROG/Core/Config.hpp"
 #include "FROG/XML/tinyxml2.hpp"
 
 #include <SFML/Window/WindowStyle.hpp>

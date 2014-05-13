@@ -1,7 +1,7 @@
 #ifndef FROG_COLLIDER_HPP
 #define FROG_COLLIDER_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 #include "FROG/Collision/Collision.hpp"
 
 #include <SFML/Graphics/Rect.hpp>

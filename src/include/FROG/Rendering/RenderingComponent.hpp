@@ -1,7 +1,7 @@
 #ifndef FROG_RENDERERINGCOMPONENT_HPP
 #define FROG_RENDERERINGCOMPONENT_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>

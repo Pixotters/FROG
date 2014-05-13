@@ -151,7 +151,7 @@ namespace frog{
   };
 
 
-#include "Filter.inl"
+#include "FROG/Core/Filter.inl"
 
 
 }

@@ -1,9 +1,9 @@
 #ifndef FROG_GAMESTATE_HPP
 #define FROG_GAMESTATE_HPP
 
-#include "FROG/AppInfo.hpp"
-#include "FROG/GameObject.hpp"
-#include "FROG/State.hpp"
+#include "FROG/Core/AppInfo.hpp"
+#include "FROG/Core/GameObject.hpp"
+#include "FROG/Core/State.hpp"
 
 #include <memory>
 #include <set>

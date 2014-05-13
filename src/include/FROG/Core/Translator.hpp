@@ -103,7 +103,7 @@ namespace frog{
 
   };
 
-#include "Translator.inl"
+#include "FROG/Core/Translator.inl"
 
 }
 

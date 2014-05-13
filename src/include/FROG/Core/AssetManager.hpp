@@ -66,6 +66,6 @@ namespace frog
 
 }
 
-#include "FROG/AssetManager.inl"
+#include "FROG/Core/AssetManager.inl"
 
 #endif

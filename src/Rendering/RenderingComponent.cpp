@@ -1,6 +1,6 @@
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
-#include "FROG/Transform.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
 
 namespace frog{
 

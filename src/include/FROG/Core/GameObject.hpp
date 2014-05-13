@@ -1,9 +1,9 @@
 #ifndef FROG_GAMEOBJECT_HPP
 #define FROG_GAMEOBJECT_HPP
 
-#include "FROG/Transform.hpp"
-#include "FROG/ComponentHolder.hpp"
-#include "FROG/PropertiesHolder.hpp"
+#include "FROG/Core/Transform.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/PropertiesHolder.hpp"
 
 #include <memory>
 #include <string>

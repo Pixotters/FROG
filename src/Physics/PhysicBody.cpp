@@ -1,6 +1,6 @@
 #include "FROG/Physics/PhysicBody.hpp"
-#include "FROG/ComponentHolder.hpp"
-#include "FROG/Transform.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
 
 #include <SFML/System/Vector2.hpp>
 

@@ -1,6 +1,6 @@
-#include "FROG/App.hpp"
-#include "FROG/Random.hpp"
-#include "FROG/State.hpp"
+#include "FROG/Core/App.hpp"
+#include "FROG/Core/Random.hpp"
+#include "FROG/Core/State.hpp"
 
 namespace frog{
 

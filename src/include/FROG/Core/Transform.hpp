@@ -1,7 +1,7 @@
 #ifndef FROG_TRANSFORM_HPP
 #define FROG_TRANSFORM_HPP
 
-#include "FROG/Component.hpp"
+#include "FROG/Core/Component.hpp"
 
 #include <SFML/Graphics/Transformable.hpp>
 

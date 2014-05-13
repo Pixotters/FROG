@@ -1,7 +1,7 @@
 #ifndef FROG_STATE_HPP
 #define FROG_STATE_HPP
 
-#include "FROG/FSM.hpp"
+#include "FROG/Core/FSM.hpp"
 
 namespace frog{
 
