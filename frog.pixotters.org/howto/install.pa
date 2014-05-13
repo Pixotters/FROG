@@ -7,13 +7,14 @@ dependencies (see SFML-dev website if you experience issues).
 If you are reading this section, you should have downloaded FROG sources. Now 
 open a terminal in the ``src`` directory.  
 Run the following commands : 
+
 - ``make frog`` : this should compile the library and create **.so** files 
 whose name are like "libfrog.so.x.y" (where *x* and *y* depend on the 
 downloaded version). 
 - ``make install`` : this command should copy for you the libraries in 
 */usr/local/lib* and the include directory in */usr/local/include/FROG/*. Make 
 sure these directories are in your path, in order for the compiler and the 
-linker to find them. 
+linker to find them.  
 - that's all. 
 
 == Use FROG ==
@@ -25,6 +26,27 @@ standard, so the compiler has to declare this.
 Here is an example of compilation command : 
 ```g++ -std=c++11 mygame.cpp -o MyGame -lsfml-network -lsfml-graphics 
 -lsfml-window -lsfml-system -lfrog```
+
+=== GameMakefile === 
+
+We are providing a generic //Makefile//, so you don't have to worry about all 
+that. Just create a file named //Makefile// in your sources directory, your 
+headers need to be located in an //include// directory.  
+```
+PROGRAM:=MyGame
+include ../../GameMakefile
+```
+You will have the following options : 
+
+* make : compiles the game in release mode (faster, for releases). Errors are 
+stocked in a file //error.log//.
+* make DEBUG=yes : compiles the game with warnings and debug symbols. Errors 
+are stocked in a file //error.log//.
+* make debug : launches //gdb// if installed. 
+* make valgrind : launches //valgrind// if installed, and outputs in a file 
+//valgrind.log//. 
+* make clean : removes object files and dependancies. 
+* make proper : removes the executable. 
 
 == Uninstall FROG ==
 
