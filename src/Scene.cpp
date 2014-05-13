@@ -19,6 +19,11 @@ namespace frog{
   {
   }
 
+  Scene::Scene(const GameState& gs)
+    : GameState(gs.appInfo), renderer(appInfo.window)
+  {
+  }
+
   Scene::~Scene()
   {
     m_gameObjects.clear();
