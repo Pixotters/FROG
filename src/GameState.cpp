@@ -57,7 +57,7 @@ namespace frog{
         }
       }
     debug.flush();
-    return addObject( std::make_shared<GameObject>(*go) );
+    return m_gameObjects.insert(std::make_shared<GameObject>(*go) ).second;
   }
 
   bool GameState::addObject(const std::shared_ptr<GameObject>& go)
