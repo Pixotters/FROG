@@ -5,8 +5,6 @@
 
 #include <memory>
 
-#include <iostream> //TODO remove
-
 namespace frog{
 
   Scene::Scene(AppInfo& _appinfo)
@@ -47,13 +45,11 @@ namespace frog{
         // TODO : try to avoid code duplication (see fillAssetManager)
         if (subassets)
           {
-            std::cerr << "file got textures" << std::endl;
             for(auto asset = subassets->FirstChildElement();
                 asset != nullptr; asset = asset->NextSiblingElement() )
               {
                 const char * file = asset->Attribute("filename");
                 const char * id = asset->Attribute("ID");                
-                std::cerr << "texture"<< file<<"->"<<id << std::endl;
                 defaultTextureManager.loadFromFile(file, id);
               }
           }

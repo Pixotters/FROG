@@ -1,8 +1,6 @@
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Transform.hpp"
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   BoxCollider::BoxCollider(const sf::Vector2f& dimensions,

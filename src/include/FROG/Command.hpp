@@ -2,7 +2,6 @@
 #define FROG_COMMAND_HPP
 
 #include <memory>
-#include <string>
 
 namespace frog{
 

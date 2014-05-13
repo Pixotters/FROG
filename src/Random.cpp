@@ -1,9 +1,7 @@
 #include "FROG/Random.hpp"
 
 #include <cstdlib>
-#include <cstdlib>
 #include <ctime>
-
 
 namespace frog{
 

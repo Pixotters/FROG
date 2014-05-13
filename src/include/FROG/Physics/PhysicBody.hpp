@@ -2,12 +2,8 @@
 #define FROG_PHYSICBODY_HPP
 
 #include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
-//#include "FROG/Physics/BasicPhysics.hpp"
 
 #include <SFML/System/Vector2.hpp>
-
-const sf::Vector2f ZERO2F = sf::Vector2f(0, 0);
 
 namespace frog{
   /**
@@ -46,9 +42,6 @@ namespace frog{
 
     void update(const ComponentHolder& parent);
 
-    /* FIXME:
-     * making it virtual could be interesting if we want some objects
-     * to act different, but we want this? */
     virtual void addVelocity(const sf::Vector2f & v);
 
     virtual void addRotation(float r);

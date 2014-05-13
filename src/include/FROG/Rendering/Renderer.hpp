@@ -1,7 +1,9 @@
 #ifndef FROG_RENDERER_HPP
 #define FROG_RENDERER_HPP
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/View.hpp>
 
 #include "FROG/GameObject.hpp"
 

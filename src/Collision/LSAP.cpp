@@ -1,6 +1,5 @@
 #include <map>
 #include <climits>
-#include <iostream> // TODO remove
 #include <memory>
 
 #include "FROG/Collision/LSAP.hpp"

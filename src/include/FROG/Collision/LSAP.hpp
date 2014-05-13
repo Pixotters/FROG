@@ -1,12 +1,11 @@
 #ifndef FROG_LSAP_HPP
 #define FROG_LSAP_HPP 1
 
-#include <functional>
 #include <map>
 #include <memory>
 #include "FROG/GameObject.hpp"
 #include "FROG/Collision/CollisionManager.hpp"
-#include "FROG/Collision/Collider.hpp"
+#include "FROG/Collision/Collision.hpp"
 #include "FROG/Collision/AABB.hpp"
 #include "FROG/Collision/EndPoint.hpp"
 

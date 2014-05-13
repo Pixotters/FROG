@@ -2,7 +2,6 @@
 #define FROG_ROUNDCOLLIDER_HPP
 
 #include "FROG/Collision/Collider.hpp"
-#include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/Rect.hpp>

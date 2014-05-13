@@ -1,9 +1,6 @@
-#include <SFML/Graphics/Transform.hpp>
+#include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/ComponentHolder.hpp"
 #include "FROG/Transform.hpp"
-#include "FROG/Rendering/RenderingComponent.hpp"
-
-#include <iostream>
 
 namespace frog{
 

@@ -2,7 +2,6 @@
 #define FROG_INPUTCOMPONENT_HPP
 
 #include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
 #include <vector>
 #include <map>
 #include <memory>

@@ -2,8 +2,11 @@
 #define FROG_RENDERERINGCOMPONENT_HPP
 
 #include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
-#include <SFML/Graphics.hpp>
+
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Transformable.hpp>
 
 #include <memory>
 
@@ -43,7 +46,7 @@ namespace frog{
        * @param rs RenderStates to apply. Default : nothing. 
        */
       virtual void draw(sf::RenderTarget& rt, 
-                sf::RenderStates rs = sf::RenderStates::Default) const;
+                        sf::RenderStates rs = sf::RenderStates::Default) const;
 
      /*!
        * @brief Places the component to render at the good place. 

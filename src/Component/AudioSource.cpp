@@ -1,4 +1,5 @@
 #include "FROG/Component/AudioSource.hpp"
+#include "FROG/ComponentHolder.hpp"
 #include "FROG/Transform.hpp"
 
 namespace frog{
@@ -40,8 +41,8 @@ namespace frog{
   {
     auto t = parent.getComponent<Transform>("TRANSFORM");
     m_sound.setPosition(t->getPosition().x, 
-                t->getPosition().y,
-                0);
+                        t->getPosition().y,
+                        0);
   }
 
   AudioSource::PTR AudioSource::create()

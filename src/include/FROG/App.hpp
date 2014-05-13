@@ -6,7 +6,8 @@
 #include "FROG/StateManager.hpp"
 #include "FROG/State.hpp"
 
-#include <SFML/Window.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
 
 /*!
  * Namespace of all FROG-related stuff

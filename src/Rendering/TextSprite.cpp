@@ -1,5 +1,5 @@
 #include "FROG/Rendering/TextSprite.hpp"
-
+#include "FROG/ComponentHolder.hpp"
 #include "FROG/Transform.hpp"
 
 namespace frog{

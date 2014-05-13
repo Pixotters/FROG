@@ -135,6 +135,7 @@ namespace frog{
 
   template <typename ID>
   const Animation& Spritesheet<ID>::getAnimation(ID id) const
+    throw(std::logic_error)
   {
     try
       {
@@ -151,6 +152,7 @@ namespace frog{
 
   template <typename ID>
   const Clip& Spritesheet<ID>::getClip(unsigned short id) const
+    throw(std::logic_error)  
   {
     try
       {

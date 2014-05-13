@@ -1,4 +1,5 @@
 #include "FROG/Physics/PhysicBody.hpp"
+#include "FROG/ComponentHolder.hpp"
 #include "FROG/Transform.hpp"
 
 #include <SFML/System/Vector2.hpp>

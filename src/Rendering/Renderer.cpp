@@ -1,6 +1,7 @@
 #include "FROG/Rendering/Renderer.hpp"
-
 #include "FROG/Transform.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace frog{
 
@@ -19,9 +20,7 @@ namespace frog{
                      unsigned int h)
     : m_target(rt)  
   {
-    // TODO : get the windows size with a service locator
     m_texture.create(w, h);
-    //      m_texture.initialize();
   }
 
   Renderer::~Renderer()

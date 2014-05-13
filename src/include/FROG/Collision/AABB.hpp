@@ -4,8 +4,6 @@
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/EndPoint.hpp"
 
-#include <SFML/Graphics/Rect.hpp>
-
 #include <memory>
 
 namespace frog{

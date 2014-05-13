@@ -2,7 +2,6 @@
 #define FROG_AUDIOSOURCE_HPP
 
 #include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>

@@ -1,5 +1,5 @@
 #include "FROG/Control/JoystickMover.hpp"
-
+#include "FROG/ComponentHolder.hpp"
 #include "FROG/Transform.hpp"
 
 namespace frog{
