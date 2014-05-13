@@ -41,10 +41,10 @@ steps.
 
 == More ==
 
-First argument of ``App`` is the title of the game. With no second argument, the 
-constructor tries to load file ``config.cfg`` as configuration reference file. 
-You can pass a filepath as argument to replace this. Just keep in mind that the 
-path has to be relative to the executable's folder. For instance : 
+First argument of ``App`` is the title of the game. With no second argument, 
+the constructor tries to load file ``config.cfg`` as configuration reference 
+file. You can pass a filepath as argument to replace this. Just keep in mind 
+that the path has to be relative to the executable's folder. For instance : 
 ```
 App mygame("Test", "assets/config_fr.cfg");
 ```

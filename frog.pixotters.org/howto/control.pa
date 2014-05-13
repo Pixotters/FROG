@@ -28,7 +28,8 @@ KeyboardButton::PTR rightkey = KeyboardButton::create(sf::Keyboard::Right);
 std::shared_ptr<Command> moveright(new Move(player, 4, 0) );
 controller.bind(dkey, moveright);
 controller.bind(rightkey, moveright);
-controller.bind(KeyboardButton::create(sf::Keyboard::A), new Move(player, 0, 4));
+controller.bind(KeyboardButton::create(sf::Keyboard::A), 
+new Move(player, 0, 4));
 ```
 
 Here we have registered three events : 
@@ -59,8 +60,8 @@ if (onSea() )
 
 Multiple **InputMaps** can be handled, via an index. **ControlComponent** 
 keep a set of **InputMaps** that can be accessed by an integer. For instance, 
-your character can always walk (map 0), but the main action depend on the weapon 
-he is carrying (map 1). 
+your character can always walk (map 0), but the main action depend on the 
+weapon he is carrying (map 1). 
 ```
 // character can always walk
 controller.changeMap(walkmap, 0);
@@ -74,6 +75,27 @@ controller.changeMap(swordmap, 1);
 controller.removeMap(1);
 ```
 
+== Functions == 
+
+Besides **Commands**, FROG provides **Functions** : instead of having to 
+create a brand new class from **Command**, you can specify a function. This is 
+useful when your actions don't need to be customized by a constructor. 
+```
+auto f = Function::create( [this]()
+     { 
+       // do something 
+     } );
+controller.bind( key1, f);
+controller.bind( key2, Function::create( [this]()
+     { 
+       // do something                
+     } );
+```
+The argument is a ``std::function<void()>``. You should be familiar with 
+c++11's functional module in order to make things interesting. In case you 
+don't know that, notice the ``[this]`` : between //[..]//, you can put 
+captured variables : these variables will be usable in the function body. 
+
 == Inputs ==
 
 There are several built-in **Inputs**, matching sf::Event that can occur in the 
@@ -84,9 +106,9 @@ pressed).
 === KeyboardButton === 
 
 **KeyboardButton** take a lot of optionnal arguments, but the only one really 
-needed is the code of the key. Events can be triggered only if some special keys 
-are pressed at the same frame : ctrl, alt, shift, sys. But you can ignore these 
-keys : that the default case. This is the purpose of the third argument. 
+needed is the code of the key. Events can be triggered only if some special 
+keys are pressed at the same frame : ctrl, alt, shift, sys. But you can ignore 
+these keys : that the default case. This is the purpose of the third argument. 
 ```
 // A key, as continuous input : triggered as long as key is maintained
 auto a = KeyboardButton::create(sf::Keyboard::A);

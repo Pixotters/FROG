@@ -6,12 +6,13 @@ decoupled system.
 
 == Creating GameObjects ==
 
-**GameObjects** can be created simply : their constructor has only one optionnal 
-argument : an other **GameObject** representing its parent.  
+**GameObjects** can be created simply : their constructor has only one 
+optionnal argument : an other **GameObject** representing its parent.  
 [Current version allow to define parents, but there is no use. In a future 
 release, children will take transformation of their parents, in order to make 
 hierarchical groups of objects]  
-Many entities of FROG don't accept raw **GameObjects** but need a smart pointer. 
+Many entities of FROG don't accept raw **GameObjects** but need a smart 
+pointer.  
 Fortunately, shortcuts are given. 
 ```
 // complete syntax
@@ -24,8 +25,8 @@ auto obj3 = GameObject::create();
 
 == Extending objects with Components ==
 
-**Components** are piece of behaviour you can plug to a **GameObject** to extend 
-it without creating hundreds of classes. **Components** are mapped to an 
+**Components** are piece of behaviour you can plug to a **GameObject** to 
+extend it without creating hundreds of classes. **Components** are mapped to an 
 identifier to help retrieving it with ease. 
 ```
 // adding some components
@@ -44,10 +45,12 @@ obj.removeComponent("CTRL");
 ```
 
 There are several things to notice here.  
-First, you can see that we are using ``create`` functions of the **Components**. 
+First, you can see that we are using ``create`` functions of the 
+**Components**. 
 That's beceause they are safer : you can add your own component via a raw 
-pointer : **ComponentHolder** will stock it in a //shared_ptr//. But in case you 
-did't know, //shared_ptr// can work only with dynamically allocated entities. 
+pointer : **ComponentHolder** will stock it in a //shared_ptr//. But in case 
+you did't know, //shared_ptr// can work only with dynamically allocated 
+entities. 
 ```
 MyComponent * mc1 = new MyComponent();
 obj.addComponent(mc1, "MC1");
@@ -57,8 +60,8 @@ MyComponent mc2;
 obj.addComponent(&mc1, "MC2);
 // never do that!
 ```
-Then, let's take a look at this strange function : ``getComponent``. You can see 
-it need a template parameter : that is because **Components** are stored as 
+Then, let's take a look at this strange function : ``getComponent``. You can 
+see it need a template parameter : that is because **Components** are stored as 
 such, not as their real type, because of polymorphism. Instead of letting you 
 convert yourself, FROG provides this function to allow you to define the 
 converted type.  
