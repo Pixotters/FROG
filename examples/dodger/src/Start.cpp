@@ -2,9 +2,9 @@
 
 #include "Level.hpp"
 
-#include "FROG/Command.hpp"
-#include "FROG/Function.hpp"
-#include "FROG/GameObject.hpp"
+#include "FROG/Control/Command.hpp"
+#include "FROG/Control/Function.hpp"
+#include "FROG/Core/GameObject.hpp"
 #include "FROG/Rendering/TextSprite.hpp"
 #include "FROG/Control/AnyKey.hpp"
 #include "FROG/Control/AnyJoystickButton.hpp"

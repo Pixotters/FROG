@@ -1,8 +1,8 @@
 #ifndef GUI_HPP
 #define GUI_HPP
 
-#include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
+#include "FROG/Core/Component.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>

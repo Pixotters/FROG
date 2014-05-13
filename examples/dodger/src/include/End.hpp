@@ -1,8 +1,8 @@
 #ifndef END_HPP
 #define END_HPP
 
-#include "FROG/Scene.hpp"
-#include "FROG/AppInfo.hpp"
+#include "FROG/Rendering/Scene.hpp"
+#include "FROG/Core/AppInfo.hpp"
 
 #include "FontID.hpp"
 

@@ -1,6 +1,6 @@
 #include "End.hpp"
 
-#include "FROG/Function.hpp"
+#include "FROG/Control/Function.hpp"
 #include "FROG/Control/AnyKey.hpp"
 #include "FROG/Control/AnyJoystickButton.hpp"
 #include "FROG/Control/ControlComponent.hpp"

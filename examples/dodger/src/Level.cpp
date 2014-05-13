@@ -5,8 +5,8 @@
 
 #include "FROG/Control.hpp"
 #include "FROG/Control/JoystickMover.hpp"
-#include "FROG/Function.hpp"
-#include "FROG/Random.hpp"
+#include "FROG/Control/Function.hpp"
+#include "FROG/Core/Random.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Collision/LSAP.hpp"
 #include "FROG/Component/AudioSource.hpp"

@@ -1,12 +1,12 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include "FROG/Scene.hpp"
+#include "FROG/Rendering/Scene.hpp"
 
 #include "Player.hpp"
 
-#include "FROG/AssetManager.hpp"
-#include "FROG/AppInfo.hpp"
+#include "FROG/Core/AssetManager.hpp"
+#include "FROG/Core/AppInfo.hpp"
 #include "FROG/Collision/CollisionManager.hpp"
 
 
