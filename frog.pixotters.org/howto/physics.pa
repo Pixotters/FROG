@@ -1,0 +1,21 @@
+= How to add physics =
+
+You want to add forces to your **GameObjects** ? FROG gives you 
+**PhysicBody**, a sub-component. 
+
+== PhysicBody ==
+
+**PhysicBody** allow an object to have velocity (movement over time), rotation 
+(orientation over time), and growth (scaling over time). You can give default 
+values. 
+```
+auto phi = PhysicBody::create();
+phi.addVelocity( sf::Vector2f(100, 50) );
+phi.addRotation( 25 );
+phi.addGrowth( sf::Vector2f(20, 10) );
+...
+phi.resetRotation();
+...
+// resetting all forces
+phi.reset();
+```

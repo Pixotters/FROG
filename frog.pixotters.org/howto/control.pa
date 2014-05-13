@@ -1,96 +1,204 @@
 = How to trigger actions =
 
 You can easily configure your key mapping. 
-Each State declares a ``Controller``. You simply register pairs of Inputs 
-and Commands, saying "when this Input occurs, I want this command to happen". 
-Let's take a look at a simple example. 
+**ControlComponent** is a pluggable component for GameObjects. It inherits 
+abstract class **InputComponent** and associates **Inputs** with **Commands**. 
 
+== Using ControlComponent ==
 
-== Example ==
-
-** Scene file **
 ```
-KeyboardButton dkey = new KeyboardButton(sf::Keyboard::D);
-Move move = new Move(player, 4, 0);
-m_controller.bind(dkey, move);
-m_controller.bind( new KeyboardButton(sf::Keyboard::Q), new Move(player, 0, 4)  );
+auto controller = ControlComponent::create(appInfo.eventList);
+object->addComponent(controller, "CONTROL");
+...
+ctrl = object->getComponent<ControlComponent>("CONTROL");
 ```
-Here we have registered two events : 
+
+The easiest way to create a **ControlComponent** is to use the ``create`` 
+method. **ControlComponents** need a reference to a list, usually the list of 
+//sf::Event// processed by the window. 
+
+== Binding Inputs and Commands ==
+
+```
+// complete syntax
+std::shared_ptr<KeyboardButton> dkey(new KeyboardButton(sf::Keyboard::D) );
+// inputs have shortcuts for shared_ptr (PTR), and factories (create)
+KeyboardButton::PTR rightkey = KeyboardButton::create(sf::Keyboard::Right);
+// Move is a subclass of Command
+std::shared_ptr<Command> moveright(new Move(player, 4, 0) );
+controller.bind(dkey, moveright);
+controller.bind(rightkey, moveright);
+controller.bind(KeyboardButton::create(sf::Keyboard::A), 
+new Move(player, 0, 4));
+```
+
+Here we have registered three events : 
+
 # //D key// of the keyboard, makes the player move of 4 units to the right
-# //S key// of the keyboard, makes the player move of 4 units to the down
+# //Right key// of the keyboard does the same thing
+# //A key// of the keyboard, makes the player move of 4 units to the down
 
+== InputMaps ==
 
-== Controller == 
+**Controllers** have been made to be highly customizable. You can change inputs 
+in large blocks. For instance, when your character enters in the sea, its 
+actions change : he cannot jump, but he can dive. **InputMaps** are useful 
+for such tasks. INPUT_MAP are just maps of **Inputs** to **Commands**.
+```
+// Creating input maps
+ControlComponent::INPUT_MAP map_ground;
+ControlComponent::INPUT_MAP map_sea;
+// filling input maps
+map_ground.emplace(spacekey, jump);
+map_sea.emplace(spacekey, dive);
+..
+if (onSea() )
+{
+  controller.changeMap(map_sea);
+}
+```
 
-[[ http://frog.pixotters.org/img/controller_scheme1.png || Controller scheme ]] 
+Multiple **InputMaps** can be handled, via an index. **ControlComponent** 
+keep a set of **InputMaps** that can be accessed by an integer. For instance, 
+your character can always walk (map 0), but the main action depend on the 
+weapon he is carrying (map 1). 
+```
+// character can always walk
+controller.changeMap(walkmap, 0);
+// at the beginning, he hold a gun
+controller.changeMap(shootmap, 1);
+...
+// at a given time, he gets a sword
+controller.changeMap(swordmap, 1);
+...
+// at the end, he loses all his weapons
+controller.removeMap(1);
+```
 
-This scheme should be pretty clear : 
-# First, the controller checks if the program received events 
-# Then, it checks if these events match a registered input, putting those which 
-occured in a list
-# Then, in the end, it will get all commands associated to every input in the 
-previous list
+== Functions == 
 
+Besides **Commands**, FROG provides **Functions** : instead of having to 
+create a brand new class from **Command**, you can specify a function. This is 
+useful when your actions don't need to be customized by a constructor. 
+```
+auto f = Function::create( [this]()
+     { 
+       // do something 
+     } );
+controller.bind( key1, f);
+controller.bind( key2, Function::create( [this]()
+     { 
+       // do something                
+     } );
+```
+The argument is a ``std::function<void()>``. You should be familiar with 
+c++11's functional module in order to make things interesting. In case you 
+don't know that, notice the ``[this]`` : between //[..]//, you can put 
+captured variables : these variables will be usable in the function body. 
 
 == Inputs ==
 
-Frog proposes some built-in inputs, to help you focusing on actions. They are 
-divided in two main categories : 
-# Continuous inputs : the associated action is trigerred as long as the input 
-occurs. Basically, maintaining a button. 
-# Simple inputs : the associated command is triggered once. Basically, when a 
-button is pressed or released. 
+There are several built-in **Inputs**, matching sf::Event that can occur in the 
+window. Some of them use a **Trigger::ButtonTrigger**, whose value can be 
+//PRESSED//, //RELEASED// or //CONTINUOUS// (triggered as long as the key is 
+pressed). 
 
-=== KeyboardButton / MouseButton / JoystickButton === 
+=== KeyboardButton === 
 
-These are real-time events, triggering continual actions as long as the 
-button is pressed. Typical usages are : moving a player, shooting...
-**KeyboardButton** uses a //sf::Keyboard::Key//. 
-**MouseButton** uses a //sf::Keyboard::Key//. 
-**KeyboardButton** uses two unsigned ints : one for the id of the 
-button, the other for the id of the joystick.
+**KeyboardButton** take a lot of optionnal arguments, but the only one really 
+needed is the code of the key. Events can be triggered only if some special 
+keys are pressed at the same frame : ctrl, alt, shift, sys. But you can ignore 
+these keys : that the default case. This is the purpose of the third argument. 
 ```
-// 'A' key of the keyboard
-KeyboardButton akey = new KeyboardButton(sf::Keyboard::A);
-// Left button of the mouse
-MouseButton mleft = new MouseButton(sf::Mouse::Left);
-// Button 1 of the joystick number 0
-JoystickButton one0 = new JoystickButton(1, 0);
-```
-
-=== KeyboardSimpleButton / MouseSimpleButton / JoystickSimpleButton === 
-
-These are one-shot buttons. They can be triggered either by pressing a button 
-or by releasing it. Only one action will be performed until the input is redone. 
-```
-// 'A' button of the keyboard, when Pressed
-KeyboardSimpleButton akey = new KeyboardSimpleButton(sf::Keyboard::A, SimpleButton::PRESSED);
-// Left button of the mouse, when Released
-MouseSimpleButton mleft = new MouseSimpleButton(sf::Mouse::Left, SimpleButton::RELEASED);
-// Button 1 of the joystick number 0, when Pressed
-JoystickSimpleButton one0 = new JoystickSimpleButton(1, 0);
+// A key, as continuous input : triggered as long as key is maintained
+auto a = KeyboardButton::create(sf::Keyboard::A);
+// B key, only at the frame it is released
+auto b = KeyboardButon::create(sf::Keyboard::B, Trigger::RELEASED);
+// When C key is pressed, and ctrl is maintained at the same time
+auto c = KeyboardButon::create(sf::Keyboard::C, Trigger::PRESSED, true, true, 
+false, false, false);
+// When D key is pressed, ignoring the following bools. 
+auto d = KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED, false, true, 
+true, true, true);
 ```
 
-== Changing controls ==
+=== MouseButton ===
 
-The **Controller** can be highly customizable : it holds a set of InputMap, 
-that you can change at any time. You may want to change, for instance, to 
-modify some inputs while keeping others, or simply in case you have several 
-players and you want to modify inputs for player 2 without changing player 1's. 
-**InputMap** is a map that associates Command to Input. 
+**MouseButton** need a **Trigger** to know when it should be detected, and a 
+code representing the button we actualy need to detect. 
 ```
-// create an InputMap for player 1
-InputMap p1 = new InputMap();
-p1.suscribe(left_arrow, moveLeft(player1) );
-p1.suscribe(right_arrow, moveRight(player1) );
-// create another InputMap for player2
-InputMap p2 = new InputMap();
-p2.suscribe(wkey, moveLeft(player2) );
-p2.suscribe(dkey, moveRight(player2) );
-// adding the InputMaps to the controller
-Controller ctrl;
-ctrl.addInputMap(p1, 0);
-ctrl.addInputMap(p2, 1);
-// changing map fro player 2
-ctrl.changeMap(1, otherp2);
+// no trigger given : continuous pressing of left button
+auto lmb = MouseButton::create(sf::Mouse::Left);
+// triggered when right button is released
+auto rmb = MouseButton::create(sf::Mouse::Right);
+```
+
+=== JoystickButton ===
+
+**JoystickButton** take a code representing the number of the button. Optionnal 
+arguments are a trigger and the ID of the joystick. 
+```
+// button 1 of joystick 0, default : continuous event
+auto b1_0 = JoystickButton::create(1);
+// button 2 of joystick 0, when pressed
+auto b2_0 = JoystickButton::create(2, Trigger::PRESSED);
+// button 1 of joystick 1
+auto b1_1 = JoystickButton::create(1, Trigger::CONTINUOUS, 1);
+```
+
+=== AnyKey ===
+
+**AnyKey** only needs a **Trigger**, and is triggered every time a keyboard key 
+is pressed or released. 
+```
+// default : pressed
+auto anykey = AnyKey::create();
+auto anykey = AnyKey::create(Trigger::PRESSED);
+```
+
+=== AnyMouseButton === 
+
+**AnyMouseButton** only needs a **Trigger**, and is triggered every time a 
+mouse button is pressed or released. 
+```
+auto anymouse = AnyMouseButton::create(Trigger::PRESSED);
+// default : pressed
+auto anymouse = AnyMouseButton::create();
+```
+
+=== AnyJoystickButton ===
+
+**AnyJoystickButton** need a **Trigger** and an ID for the constructor. It is 
+triggered every time a button of the joysick of the given identifier is pressed 
+or released.  
+```
+// No ID given : Joystick 0 as default value
+auto anyjoystick = AnyJoystickButton::create(Trigger::RELEASED);
+// Joystick n°1
+auto anyjoystick = AnyJoystickButton::create(Trigger::PRESSED, 1);
+```
+
+== States == 
+
+**ControlComponent** also provide static functions to provide you more data. 
+```
+// checking if a key is pressed at any given time
+if (ctrl.isKeyboardPressed(sf::Keyboard::Q) )
+...
+// getting the position of the cursor in the window
+sf::Vector2i mousepos = ctrl.getMousePosition(appInfo.window);
+// getting the mouse delta (mouse movement since last frame) in the window
+sf::Vector2i delta = ctrl.getMouseDelta(appInfo);
+// getting the first joystick position (may be incompatible with some devices)
+sf::Vector2f joypos = ctrl.getJoystickPosition();
+```
+See the documentation of the file to learn more. 
+
+== XBOX Controller ==
+
+The file //Xbox.hpp// provides abstractions for the identifiers of XBOX 360 
+controllers. You can use them to create your controls. 
+```
+auto xbox_a = JoystickButton::create(XBOX::A);
+float lstick_horizontal = ControlComponent.getJoystickAxis(XBOX::LSTICK_X);
 ```
