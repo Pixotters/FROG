@@ -4,12 +4,10 @@
 #include "MovePlayer.hpp"
 
 #include "FROG/Control.hpp"
-#include "FROG/Control/JoystickMover.hpp"
-#include "FROG/Control/Function.hpp"
 #include "FROG/Core/Random.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Collision/LSAP.hpp"
-#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Audio/AudioSource.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 #include "FROG/Physics/PhysicBody.hpp"

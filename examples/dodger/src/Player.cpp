@@ -2,7 +2,7 @@
 
 #include "FROG/Rendering/Sprite.hpp"
 #include "FROG/Core/Transform.hpp"
-#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Audio/AudioSource.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 
 using namespace frog;
