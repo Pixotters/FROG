@@ -1,19 +1,16 @@
 #include "FROG/Scene.hpp"
 
-#include "FROG/Debug.hpp"
 #include "FROG/XML/tinyxml2.hpp"
-
-#include <memory>
 
 namespace frog{
 
   Scene::Scene(AppInfo& _appinfo)
-    : State(), appInfo(_appinfo), renderer(appInfo.window)
+    : GameState(_appinfo), renderer(appInfo.window)
   {
   }
 
   Scene::Scene(const Scene& other)
-    : State(), appInfo(other.appInfo), 
+    : GameState(other.appInfo),
       renderer(other.appInfo.window), 
       defaultTextureManager(other.defaultTextureManager),
       defaultFontManager(other.defaultFontManager),
@@ -120,10 +117,6 @@ namespace frog{
      }
   */
 
-  void Scene::enter()
-  {
-  }
-
   void Scene::update()
   {
     preupdate();
@@ -133,18 +126,6 @@ namespace frog{
       }
     postupdate();
     renderer.update();
-  }
-
-  void Scene::preupdate()
-  {
-  }
-
-  void Scene::postupdate()
-  {
-  }
-
-  void Scene::exit()
-  {
   }
 
   bool Scene::addObject(GameObject * go)
@@ -192,6 +173,7 @@ namespace frog{
     for (auto it = m_gameObjects.begin(); it != end; it++)
       {
         if( it->get() == go ){
+          // TODO : possible optimization here : passing it instead of re-create
           std::shared_ptr<GameObject> shared(*it);
           removeFromEngines(shared);
           m_gameObjects.erase(it);
