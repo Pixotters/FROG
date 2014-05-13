@@ -1,4 +1,4 @@
-#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Audio/AudioSource.hpp"
 #include "FROG/Core/ComponentHolder.hpp"
 #include "FROG/Core/Transform.hpp"
 
