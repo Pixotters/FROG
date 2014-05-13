@@ -1,5 +1,7 @@
 #include "FROG/Scene.hpp"
 
+#include "FROG/GameState.hpp"
+
 #include "FROG/XML/tinyxml2.hpp"
 
 namespace frog{

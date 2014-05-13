@@ -21,8 +21,10 @@ namespace frog{
   /*!
    * Scenes are main bricks of a game. They are special states. 
    */
-  class Scene : virtual public GameState
+  class Scene : public GameState
   {
+
+    using GameState::GameState;
 
   public:
     typedef std::shared_ptr<Scene> PTR;
