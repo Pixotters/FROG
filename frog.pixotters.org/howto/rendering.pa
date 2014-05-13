@@ -149,22 +149,22 @@ A spritesheet file has the following format :
 
 //SPRITES// node holds the list of sprites : 
 
-* id : Identifier used by animations
-* x, y : position of the origin (the upper-left corner)
-* width, height : dimensions
-* hot_x, hot_y : by default, a sprite is displayed at the location of its 
+- id : Identifier used by animations
+- x, y : position of the origin (the upper-left corner)
+- width, height : dimensions
+- hot_x, hot_y : by default, a sprite is displayed at the location of its 
 origin (upper-left corner). A //hotpoint// consists in a gap between origin 
 and the point you want the sprite to be displayed
 
 //ANIMATIONS// node holds the list of animations : 
 
-* //ANIMATION// node takes an id : you will need that name to play animations
-* //CLIPS// node holds the list of **AnimationClips** of the animation
-  - id : here, put the id given for the sprite you want to display
-  - duration : how many frames must the animation last ?
-  - move_x, move_y : you may want to move the image when it is played
-  - scale_x, scale_y : in case you wanted to scale the image
-  - rotation : in case you wanted to rotate the image
+- //ANIMATION// node takes an id : you will need that name to play animations
+- //CLIPS// node holds the list of **AnimationClips** of the animation
+  -- id : here, put the id given for the sprite you want to display
+  -- duration : how many frames must the animation last ?
+  -- move_x, move_y : you may want to move the image when it is played
+  -- scale_x, scale_y : in case you wanted to scale the image
+  -- rotation : in case you wanted to rotate the image
 
 Please note that //move//, //scale// and //rotation// are just for the 
 animation : associated **GameObject** won't be moved / scaled / rotated. 

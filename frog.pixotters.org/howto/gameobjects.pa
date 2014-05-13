@@ -86,10 +86,10 @@ if (phi = dynamic_cast<Physics *>(c.get() ) )
 [About ID and types : some entities of the program need some components in 
 order to work correctly with objects. Please note the following elements : 
 
-* All **GameObjects** have a **Transform** component, "TRANSFORM", holding its
+- All **GameObjects** have a **Transform** component, "TRANSFORM", holding its
 position, origin, scale and rotation. 
-* In order to be renderer, **RenderingComponent** has to be added as "RENDERING"
-* **Colliders** need to be registered under "COLLIDER"]
+- In order to be renderer, **RenderingComponent** has to be added as "RENDERING"
+- **Colliders** need to be registered under "COLLIDER"]
 
 Finally, last thing to notice : **Components** are updated every single frame. 
 This is why, when creating you own components, you have to inherit class 

@@ -39,10 +39,10 @@ collider->setScript( [this](Collision c){ ... } );
 A **Collision** is created everytime a collision occurs. It contains three 
 informations : 
 
-* first : pointer to the first object (basically, the owner of the collider)
-* second : pointer to the second object (the owner of the collider it collided 
+- first : pointer to the first object (basically, the owner of the collider)
+- second : pointer to the second object (the owner of the collider it collided 
 with)
-* trigger : //COLLISION// or //SEPARATION//
+- trigger : //COLLISION// or //SEPARATION//
 
 This structure is created when collision occurs, and is sent to both objects 
 (swapping first and second in order to make //first// always the parent 

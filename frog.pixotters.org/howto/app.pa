@@ -4,7 +4,7 @@ A game can be created in just a bunch of steps !
 
 == Example == 
 
-You would probably create a file for your game. Let's say *MyGame.cpp*.  
+You would probably create a file for your game. Let's say **MyGame.cpp**.  
 This file just has to declare ``main``and create an **App** inside. 
 ```
 #include <FROG/App.hpp>
@@ -22,7 +22,7 @@ int main()
 == Explanations == 
 
 The line ``App mygame("Test")`` creates the general engine for the game : 
-loading a configuration file, creating a *sf::RenderWindow* whose title is 
+loading a configuration file, creating a **sf::RenderWindow** whose title is 
 "Test", a **StateManager**, and starting a timer.  
 However, the game doesn't run now. It needs an entry point : that's the purpose 
 of the next line.  
@@ -31,7 +31,7 @@ it in the **StateManager**. You can learn more on states on the appropriate
 tutorial. In the example, the given state is called ``StartState`` and takes as 
 parameters the **AppInfo** : it contains useful informations such as the 
 **RenderWindow** (required by the **Renderer** and the **Controller**), or a 
-*sf::Time* containing the delta-time. 
+**sf::Time** containing the delta-time. 
 Finally, the function ``loop`` starts the application and begins looping two 
 steps : updating the current state, and rendering it. 
 Don't forget to call ``exit`` because it could result in memory leak : this is 
