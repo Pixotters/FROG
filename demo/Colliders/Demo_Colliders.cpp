@@ -140,11 +140,11 @@ void MainState::preupdate()
         }
     }
   // DON'T DO THAT
-  m_renderer.removeObject(collider_object);
+  renderer.removeObject(collider_object);
   collider_object->removeComponent("RENDERING");
   collider_object->addComponent(RenderingComponent::create(rect),
                                 "RENDERING");
-  m_renderer.addObject(collider_object);
+  renderer.addObject(collider_object);
   //
 }
 
