@@ -8,13 +8,13 @@
 namespace frog{
 
   Scene::Scene(AppInfo& _appinfo)
-    : State(), appInfo(_appinfo), m_renderer(appInfo.window)
+    : State(), appInfo(_appinfo), renderer(appInfo.window)
   {
   }
 
   Scene::Scene(const Scene& other)
     : State(), appInfo(other.appInfo), 
-      m_renderer(other.appInfo.window), 
+      renderer(other.appInfo.window), 
       defaultTextureManager(other.defaultTextureManager),
       defaultFontManager(other.defaultFontManager),
       defaultSoundManager(other.defaultSoundManager),
@@ -132,7 +132,7 @@ namespace frog{
         (*it)->update();
       }
     postupdate();
-    m_renderer.update();
+    renderer.update();
   }
 
   void Scene::preupdate()
@@ -211,13 +211,13 @@ namespace frog{
 
   void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
   {
-    m_renderer.addObject(go);
+    renderer.addObject(go);
   }
 
   void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
   {
     // removing the object from managers
-    m_renderer.removeObject(go);     
+    renderer.removeObject(go);     
   }
 
   Scene::PTR Scene::create(AppInfo& appinfo)

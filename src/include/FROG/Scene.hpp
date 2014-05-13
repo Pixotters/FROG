@@ -38,7 +38,7 @@ namespace frog{
     AssetManager< std::string, sf::SoundBuffer > defaultSoundManager;
     AssetManager< std::string, Spritesheet<std::string> > defaultSpritesheetManager;
 
-    Renderer m_renderer;
+    Renderer renderer;
 
     //// operations ////
   public:
