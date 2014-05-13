@@ -26,14 +26,14 @@ namespace frog{
 
   public:
     typedef std::shared_ptr<Scene> PTR;
-    
-  protected:
-    AssetManager< std::string, sf::Texture > defaultTextureManager;
-    AssetManager< std::string, sf::Font > defaultFontManager;
-    AssetManager< std::string, sf::SoundBuffer > defaultSoundManager;
-    AssetManager< std::string, Spritesheet<std::string> > defaultSpritesheetManager;
 
-    Renderer renderer;
+    //// attributes ////
+  Renderer renderer;
+  protected:
+    AssetManager<std::string, sf::Texture> defaultTextureManager;
+    AssetManager<std::string, sf::Font> defaultFontManager;
+    AssetManager<std::string, sf::SoundBuffer> defaultSoundManager;
+    AssetManager<std::string,Spritesheet<std::string>> defaultSpritesheetManager;
 
     //// operations ////
   public:
@@ -63,6 +63,7 @@ namespace frog{
 
     static PTR create(AppInfo&);
     static PTR create(const Scene&);
+    static PTR create(const GameState&);
 
     virtual bool addObject(GameObject * go); // avoid
 

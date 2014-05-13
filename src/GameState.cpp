@@ -9,8 +9,14 @@ namespace frog{
   {
   }
 
+  GameState::GameState(const GameState& other)
+    : State(), appInfo(other.appInfo)
+  {
+  }
+
   GameState::~GameState()
   {
+    m_gameObjects.clear();
   }
 
   void GameState::enter()
@@ -99,6 +105,11 @@ namespace frog{
   GameState::PTR GameState::create(AppInfo& appinfo)
   {
     return PTR(new GameState(appinfo) );
+  }
+
+  GameState::PTR GameState::create(const GameState& other)
+  {
+    return PTR(new GameState(other) );
   }
 
 }

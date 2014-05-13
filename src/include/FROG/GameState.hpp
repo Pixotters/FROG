@@ -11,7 +11,7 @@
 namespace frog{
 
   /*!
-   * Scenes are main bricks of a game. They are special states, managing 
+   * GameState are main bricks of a game. They are special states, managing 
    * gameobjects. 
    */
   class GameState : virtual public State
@@ -30,6 +30,7 @@ namespace frog{
   public:
     
     GameState(AppInfo&);
+    GameState(const GameState&);
 
     virtual ~GameState();
     
@@ -63,6 +64,7 @@ namespace frog{
     virtual void exit();
 
     static PTR create(AppInfo&);
+    static PTR create(const GameState&);
 
   protected:
     /*!

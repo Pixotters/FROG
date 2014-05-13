@@ -26,7 +26,6 @@ namespace frog{
 
   Scene::~Scene()
   {
-    m_gameObjects.clear();
   }
 
   // TODO complete
@@ -212,10 +211,14 @@ namespace frog{
     return PTR(new Scene(appinfo) );
   }
 
-
   Scene::PTR Scene::create(const Scene& other)
   {
     return PTR(new Scene(other) );
+  }
+
+  Scene::PTR Scene::create(const GameState& gamestate)
+  {
+    return PTR(new Scene(gamestate) );
   }
 
 }
