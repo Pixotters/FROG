@@ -154,20 +154,20 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
   auto skey = KeyboardButton::create(sf::Keyboard::S);
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList));
   std::shared_ptr<Command> zoomin(new Function([this](){
-        this->m_renderer.camera.zoom(0.99f);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.zoom(0.99f);
+        this->renderer.updateCamera();
       }) ); 
   std::shared_ptr<Command> zoomout(new Function([this](){
-        this->m_renderer.camera.zoom(1.01f);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.zoom(1.01f);
+        this->renderer.updateCamera();
       }));
   std::shared_ptr<Command> rotleft(new Function([this](){
-        this->m_renderer.camera.rotate(1);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.rotate(1);
+        this->renderer.updateCamera();
       }) ); 
   std::shared_ptr<Command> rotright(new Function([this](){
-        this->m_renderer.camera.rotate(-1);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.rotate(-1);
+        this->renderer.updateCamera();
       }));
   ctrl->bind(qkey, moveleft );    
   ctrl->bind(dkey, moveright );
