@@ -86,7 +86,8 @@ if (phi = dynamic_cast<Physics *>(c.get() ) )
 [About ID and types : some entities of the program need some components in 
 order to work correctly with objects. Please note the following elements : 
 
-* All **GameObjects** have a **Transform** component, "TRANSFORM"
+* All **GameObjects** have a **Transform** component, "TRANSFORM", holding its
+position, origin, scale and rotation. 
 * In order to be renderer, **RenderingComponent** has to be added as "RENDERING"
 * **Colliders** need to be registered under "COLLIDER"]
 
