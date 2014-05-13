@@ -1,0 +1,110 @@
+= How to create objects =
+
+The main brick of FROG is its system of **GameObjects**. A **GameObject** is a 
+container of **Components** and **Properties**, allowing an extensible and 
+decoupled system. 
+
+== Creating GameObjects ==
+
+**GameObjects** can be created simply : their constructor has only one optionnal 
+argument : an other **GameObject** representing its parent.  
+[Current version allow to define parents, but there is no use. In a future 
+release, children will take transformation of their parents, in order to make 
+hierarchical groups of objects]  
+Many entities of FROG don't accept raw **GameObjects** but need a smart pointer. 
+Fortunately, shortcuts are given. 
+```
+// complete syntax
+std::shared_ptr<GameObject> obj1(new GameObject() );
+// shortcut
+GameObject::PTR obj2(new GameObject() );
+// event shorter : factory + auto
+auto obj3 = GameObject::create();
+```
+
+== Extending objects with Components ==
+
+**Components** are piece of behaviour you can plug to a **GameObject** to extend 
+it without creating hundreds of classes. **Components** are mapped to an 
+identifier to help retrieving it with ease. 
+```
+// adding some components
+obj.addComponent( Sprite::create(spriteTexture), "RENDERING" );
+obj.addComponent( ControlComponent::create(appInfo.eventList), "CTRL");
+...
+// retrieving components
+obj.getComponent<ControlComponent>("CTRL");
+...
+// checking components
+if (obj.hasComponent("PHYSICS") )
+{...}
+...
+// removing components
+obj.removeComponent("CTRL");
+```
+
+There are several things to notice here.  
+First, you can see that we are using ``create`` functions of the **Components**. 
+That's beceause they are safer : you can add your own component via a raw 
+pointer : **ComponentHolder** will stock it in a //shared_ptr//. But in case you 
+did't know, //shared_ptr// can work only with dynamically allocated entities. 
+```
+MyComponent * mc1 = new MyComponent();
+obj.addComponent(mc1, "MC1");
+// okay if you don't delete manually
+...
+MyComponent mc2;
+obj.addComponent(&mc1, "MC2);
+// never do that!
+```
+Then, let's take a look at this strange function : ``getComponent``. You can see 
+it need a template parameter : that is because **Components** are stored as 
+such, not as their real type, because of polymorphism. Instead of letting you 
+convert yourself, FROG provides this function to allow you to define the 
+converted type.  
+There is also a function without template : it will return a **Component** not 
+converted.
+```
+// getting Component "TRANSFORM" and trying to convert it as a Transform
+obj.getComponent<Transform>("TRANSFORM");
+...
+// getting Component "PHYSICS"
+std::shared_ptr<Component> c = obj.getComponent("PHYSICS");
+// manual conversion
+std::shared_ptr<Physics> phi;
+if (phi = std::dynamic_pointer_cast<Physics>(c) )
+{...}
+...
+// alternative converson
+Physics * phi;
+if (phi = dynamic_cast<Physics *>(c.get() ) )
+{...}
+```
+[About ID and types : some entities of the program need some components in 
+order to work correctly with objects. Please note the following elements : 
+
+* All **GameObjects** have a **Transform** component, "TRANSFORM"
+* In order to be renderer, **RenderingComponent** has to be added as "RENDERING"
+* **Colliders** need to be registered under "COLLIDER"]
+
+Finally, last thing to notice : **Components** are updated every single frame. 
+This is why, when creating you own components, you have to inherit class 
+**Component** and define method ``update(const ComponentHolder&)``. The 
+**GameObject** updates itself its components, so usually this parameter is the 
+owner of the component. 
+
+== Extending objects with Properties ==
+
+Properties are simply data held by the object. At the contrary of 
+**Components**, they are not updated each frame, and can be of any type. 
+```
+obj.addProperty("health", 100);
+obj.addProperty("name", "N.Cailloux");
+...
+if ( (int a = getProperty<int>("health")) > 200)
+{
+  obj.setProperty("health", 340);
+}
+```
+As you can see, the way **Properties** work are quite the same as 
+**Components**. 
