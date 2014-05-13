@@ -108,7 +108,7 @@ as an //enum//).
 You are probably wondering what is a **Spritesheet** ? Loading an asset is a 
 long task, so we want to load as few images as possible. This is why many games 
 group images like this :  
-![example_spritesheet.png](example_spritesheet.png)  
+[[/frog/img/example_spritesheet.png || missing image]]
 FROG needs to retrieve data associated with the spritesheet. They are loaded 
 by an **AssetManager** for **Spritesheet** via a method ``loadFromFile``.  
 A spritesheet file has the following format :  

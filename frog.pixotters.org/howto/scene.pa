@@ -57,7 +57,7 @@ at the top of the stack.
 Updating a **Scene** consists in three steps : //preupdate//, //update//, and 
 //postupdate//. //update// is already defined, all with update all 
 **GameObjects** and render them (see next part). You are free to define your 
-own implementation of //preupdate/: and //postupdate// in case you have some 
+own implementation of //preupdate// and //postupdate// in case you have some 
 code to add.  
 Another thing to notice : //enter// and //exit// functions. These functions are 
 called the first time the **StateManager** pushes a **Scene** (respectively, 

@@ -71,7 +71,7 @@ If you read the part about **LSAP**, you should remember that it need squares.
 Ther is no problem for most cases, but when you rotate a **BoxCollider**, it 
 will be converted as a square, possibly resulting in unaccurate collisions.
 
-![example_boxRotation.png](example_boxRotation.png)
+[[/frog/img/example_boxRotation.png || missing image]]
 
 == RoundCollider ==
 
