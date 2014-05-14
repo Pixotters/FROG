@@ -61,7 +61,7 @@ namespace frog{
     
     sf::Vector2f resetGrowth();
 
-    PTR create(const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
+    static PTR create(const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
                float _rotation = 0.0f,
                const sf::Vector2f& _growth = sf::Vector2f(1.0, 1.0) );
 

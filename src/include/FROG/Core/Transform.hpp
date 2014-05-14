@@ -33,7 +33,7 @@ namespace frog{
 
     virtual void update(const ComponentHolder& parent);
 
-    PTR create(int l = 0);
+    static PTR create(int l = 0);
 
   };
 
