@@ -4,7 +4,7 @@
 #include <FROG/Rendering/Sprite.hpp>
 #include <FROG/Rendering/TextSprite.hpp>
 
-#define SPLASH_TIME 2.5f
+#define SPLASH_TIME 3.0f
 #define SPLASH_NUMBER 2
 
 using namespace frog;
