@@ -2,8 +2,7 @@
 #define FROG_CONTROLCOMPONENT_HPP
 
 #include "FROG/Control/InputComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
-#include "FROG/Command.hpp"
+#include "FROG/Control/Command.hpp"
 #include "FROG/Control/Input.hpp"
 
 #include <SFML/Window/Event.hpp>

@@ -1,8 +1,8 @@
 #ifndef START_HPP
 #define START_HPP
 
-#include "FROG/AssetManager.hpp"
-#include "FROG/Scene.hpp"
+#include "FROG/Core/AssetManager.hpp"
+#include "FROG/Rendering/Scene.hpp"
 
 class Start: virtual public frog::Scene
 {

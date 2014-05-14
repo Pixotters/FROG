@@ -2,7 +2,6 @@
 #define FROG_ANIMATION_CLIP_HPP
 
 #include <SFML/Graphics/Transform.hpp>
-#include <SFML/Graphics/Rect.hpp>
 
 
 namespace frog{

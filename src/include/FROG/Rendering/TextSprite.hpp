@@ -2,7 +2,6 @@
 #define FROG_TEXTSPRITE_HPP
 
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/Text.hpp>
 

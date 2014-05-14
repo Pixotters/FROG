@@ -1,9 +1,6 @@
-#include <SFML/Graphics/Transform.hpp>
-#include "FROG/ComponentHolder.hpp"
-#include "FROG/Transform.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
-
-#include <iostream>
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
 
 namespace frog{
 
@@ -14,7 +11,7 @@ namespace frog{
   }
 
 
-  RenderingComponent::RenderingComponent(std::shared_ptr<sf::Drawable> d)
+  RenderingComponent::RenderingComponent(PTR_Drawable d)
     : Component(), sf::Drawable(), sf::Transformable(), m_drawable(d)
   {
   }
@@ -44,7 +41,7 @@ namespace frog{
     return PTR(new RenderingComponent(d) );
   }
   
-  RenderingComponent::PTR RenderingComponent::create(std::shared_ptr<sf::Drawable> d)
+  RenderingComponent::PTR RenderingComponent::create(PTR_Drawable d)
   {
     return PTR(new RenderingComponent(d) );
   }

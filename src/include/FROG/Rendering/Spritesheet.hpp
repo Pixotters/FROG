@@ -34,10 +34,11 @@ namespace frog{
 
     bool loadFromFile(const std::string& file);
 
-    const Animation& getAnimation(ID id) const;
+    const Animation& getAnimation(ID id) const
+      throw(std::logic_error);
 
-    const Clip& getClip(unsigned short) const;
-
+    const Clip& getClip(unsigned short) const
+     throw(std::logic_error);
     /*!
      * @brief Add an animation associated to the given ID. 
      * @details Animation will be accessed by "getAnimation(id)".

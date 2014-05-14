@@ -1,6 +1,5 @@
 #include <map>
 #include <climits>
-#include <iostream> // TODO remove
 #include <memory>
 
 #include "FROG/Collision/LSAP.hpp"
@@ -66,7 +65,7 @@ namespace frog
     updateObject(go);
   }
 
-  void LSAP::updateObject(std::shared_ptr<GameObject> go)
+  void LSAP::updateObject(GameObject::PTR go)
   {
     auto f = m_objects.find(go);
     if (f != m_objects.end() )
@@ -77,7 +76,7 @@ namespace frog
       }
   }
   
-  void LSAP::removeObject(std::shared_ptr<GameObject> go)
+  void LSAP::removeObject(GameObject::PTR go)
   {
     auto find = m_objects.find(go);
     if (find != m_objects.end() )

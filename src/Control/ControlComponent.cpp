@@ -22,22 +22,22 @@ namespace frog{
     m_previousMouse = sf::Mouse::getPosition();
   }
 
-  bool ControlComponent::check(std::shared_ptr<Input> event, 
+  bool ControlComponent::check(Input::PTR event, 
                                const ComponentHolder&) const
   {
-    std::shared_ptr<KeyboardButton> kb;
+    KeyboardButton::PTR kb;
     if ( (kb = std::dynamic_pointer_cast<KeyboardButton>(event) )
          and kb->trigger == Trigger::CONTINUOUS)
       {
         return isKeyboardPressed(kb->code);
       }
-    std::shared_ptr<MouseButton> mb;
+    MouseButton::PTR mb;
     if ( (mb = std::dynamic_pointer_cast<MouseButton>(event) ) 
          and mb->trigger == Trigger::CONTINUOUS)
       {
         return isMousePressed(mb->code);
       }
-    std::shared_ptr<JoystickButton> jb;
+    JoystickButton::PTR jb;
     if ( (jb = std::dynamic_pointer_cast<JoystickButton>(event) ) 
          and jb->trigger == Trigger::CONTINUOUS)
       {
@@ -65,7 +65,7 @@ namespace frog{
   }
  
   bool ControlComponent::isJoystickPressed(unsigned int button,
-                                        unsigned int id)
+                                           unsigned int id)
   {
     return (sf::Joystick::isButtonPressed(button, id) );
   }

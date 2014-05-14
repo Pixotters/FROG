@@ -3,8 +3,7 @@
 #include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Collision/RoundCollider.hpp>
 #include <FROG/Collision/LSAP.hpp>
-#include <FROG/Control/Control.hpp>
-#include <FROG/Control/Function.hpp>
+#include <FROG/Control.hpp>
 
 #include "Demo_Colliders.hpp"
 
@@ -60,11 +59,7 @@ void MainState::initObj_rectangle()
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
   obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 70);
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);  
-  
-  //  addComponent( new BoxCollider(sf::Vector2f(20, 20),
-  //                                sf::Vector2f(1, 4) ),
-  auto collider = BoxCollider::create(sf::Vector2f(20, 20),
-                                      sf::Vector2f(1, 4) );
+  auto collider = BoxCollider::create(sf::Vector2f(OBJ_DIM, OBJ_DIM) );
   auto collision = [this](Collision c){
     collisions++;
     std::cout << "collisions : " << collisions << std::endl;
@@ -143,11 +138,11 @@ void MainState::preupdate()
         }
     }
   // DON'T DO THAT
-  m_renderer.removeObject(collider_object);
+  renderer.removeObject(collider_object);
   collider_object->removeComponent("RENDERING");
   collider_object->addComponent(RenderingComponent::create(rect),
                                 "RENDERING");
-  m_renderer.addObject(collider_object);
+  renderer.addObject(collider_object);
   //
 }
 

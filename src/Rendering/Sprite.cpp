@@ -1,6 +1,6 @@
 #include "FROG/Rendering/Sprite.hpp"
+#include "FROG/Core/Transform.hpp"
 
-#include "FROG/Transform.hpp"
 #include <memory>
 
 namespace frog{

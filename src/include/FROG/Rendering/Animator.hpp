@@ -1,17 +1,13 @@
 #ifndef FROG_ANIMATOR_HPP
 #define FROG_ANIMATOR_HPP
 
-#include "FROG/ComponentHolder.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Animation.hpp"
 #include "FROG/Rendering/Spritesheet.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 
-#include <exception>
-#include <map>
 #include <memory>
-#include <string>
 
 namespace frog{
 
@@ -22,7 +18,8 @@ namespace frog{
    * An animation played by default can be provided
    */
   template <typename ID>
-  class Animator : virtual public RenderingComponent{
+  class Animator : virtual public RenderingComponent
+  {
 
   public:
     typedef std::shared<Animator<ID>> PTR;

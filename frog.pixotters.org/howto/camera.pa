@@ -1,0 +1,12 @@
+= How to control the camera = 
+
+The **Renderer** holds a camera. This is simply a //sf::View//, so we invite 
+you to read the documentation of SFML to learn more.  
+You can perform each operation of //sf::View//, the only thing you have to do 
+is to call the method //updateCamera// of the **Renderer**
+```
+renderer.camera.move(30.5, 100.2);
+renderer.camera.zoom(1.10f);
+renderer.camera.rotate(45);
+renderer.updateCamera();
+```

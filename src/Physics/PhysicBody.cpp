@@ -1,5 +1,6 @@
 #include "FROG/Physics/PhysicBody.hpp"
-#include "FROG/Transform.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
 
 #include <SFML/System/Vector2.hpp>
 
@@ -86,5 +87,11 @@ namespace frog{
     tr->scale(growth);
   }
 
+  PhysicBody::PTR PhysicBody::create(const sf::Vector2f& _velocity,
+                                     float _rotation,
+                                     const sf::Vector2f& _growth )
+  {
+    return PTR(new PhysicBody(_velocity, _rotation, _growth) );
+  }
 
 }

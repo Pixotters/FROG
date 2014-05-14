@@ -1,0 +1,170 @@
+= How to give your objects an appearance =
+
+Having a scene with objects is a good thing. Is these objects are visible, it 
+is way better. FROG allow you to define appearance to your objects to help 
+them being renderer. 
+
+== The Renderer ==
+
+Each **Scene** has a **Renderer** : it holds a //sf::Texture// where it draws 
+**GameObjects**. When you add/remove a **GameObject** to a **Scene**, this one 
+automatically adds/removes the object to the **Renderer**, so you don't need to 
+take care of that.  
+Just remember that ``addObject(obj)`` and ``removeObject(obj)`` are called.  
+
+== RenderingComponent == 
+
+**RenderingComponents** are regular **Components**, and are added to 
+**GameObjects** like other components. The only constraint is the associated 
+identifier : it needs to be "RENDERING", in order for **Renderer** to find 
+it.  
+**RenderingComponents** take as parameter a //sf::Drawable//, this is what 
+will be drawn.
+```
+// creating the appearance
+std::shared_ptr<sf::RectangleShape> rect(new sf::RectangleShape(..) );
+// binding it to a RenderingComponent and adding it to the object
+obj.addComponent(RenderingComponent::create(rect), "RENDERING");
+// made automatically 
+// renderer.addObject(obj);
+```
+One little detail : when you try to add an object to the **Renderer** (either 
+via the **Scene** or directly), if the given object doesn't have a 
+**RenderingComponent**, it is added, but will not be rendered (of course).  
+This is to make automatic the fact to add objects to the **Renderer** instead 
+of calling the function explicitely (this would be very annoying).  
+[About **Transform** : when object's transformation changes, the rendering 
+changes as well. So if your objects are moving, rotating, growing... so is 
+its appearance : no need to update manually].
+
+== Built-in RenderingComponents == 
+
+=== Sprite ===
+
+**Sprite** (please do NOT mistake for //sf::Sprite//) are useful for objects 
+rendered by a single image. They are bound to a //sf::Texture//
+```
+// retrieving image
+sf::Texture& tex = defaultTextureManager.get("IMG1");
+// creating sprite
+auto sprt = Sprite::create(tex);
+// adding sprite
+obj.addComponent(sprt, "RENDERING");
+// in one line
+obj2.addComponent(Sprite::create(defaultTextureManager.get("IMG2") ), 
+"RENDERING");
+```
+
+=== TextSprite ===
+
+**TextSprite** are useful for objects representing textual graphics. They need 
+a text, of course, but also a //sf::Font//, in order to be displayed. There 
+are other optionnal arguments : font size, color and style. 
+```
+sf::Font& font = m_fontManager.get(MSG_FONT);
+gui.addComponent(TextSprite::create("a", font), "RENDERING");
+...
+auto text = TextSprite::create("b", font, 20, sf::Color::WHITE, sf::Text::Bold);
+text.setText("other text");
+text.setFont(otherfont);
+text.setSize(34);
+text.setColor(sf::Color(230, 255, 80, 120) );
+text.setStyle(sf::Text::Regular);
+gui.addComponent(text, "RENDERING");
+...
+```
+
+=== Animator ===
+
+**Animator** is useful when you want to give motion to your rendering. There 
+make the link between images and spritesheets : for flexibility motive, they 
+are not fixed, because it is sometimes needed to change the spritesheet or the 
+image. You probably wouldn't enjoy to need to remove the component and re-add 
+it. 
+```
+// getting the image
+sf::Texture& image = defaultTextureManager.get("FROG_SPRITESHEET_IMG");
+// getting the spritesheet
+sf::Spritesheet& sprt = defaultSpritesheetManager.get("FROG_SPRITESHEET_SPRT");
+// creating the animator
+auto anim = Animator<std::string>::create(image, sprt);
+// setting default animation, when played animations are over
+anim.setDefaultAnimation("stand");
+// adding to the object
+obj.addComponent(anim, "RENDERING");
+...
+auto anim = obj.getComponent<Animator<std::string>>("RENDERING");
+// playing animation, second parameter tells if the animation is looped or not
+anim.playAnimation("walk", true);
+```
+You probably noticed the template parameter of **Animator** : this is the type 
+of identifier of spritesheets. In most cases, a //string// is enough, but if 
+you want to save memory, you will probably use your own **AssetManager** 
+instead of //defaultSpritesheetManager//, and define your own identifier (such 
+as an //enum//).  
+
+==== Spritesheets ====
+
+You are probably wondering what is a **Spritesheet** ? Loading an asset is a 
+long task, so we want to load as few images as possible. This is why many games 
+group images like this :  
+[[/frog/howto/img/example_spritesheet.png || missing image]]
+FROG needs to retrieve data associated with the spritesheet. They are loaded 
+by an **AssetManager** for **Spritesheet** via a method ``loadFromFile``.  
+A spritesheet file has the following format :  
+```
+<? xml version="1.0" ?>
+<SPRITESHEET>
+
+  <SPRITES>
+    <!-- stand animation -->
+    <sprite id="0" x="0" y="0" width="48" height="48" />
+    <!-- walk animation foot -->
+    <sprite id="1" x="0" y="49" width="48" height="48" />
+    <sprite id="2" x="48" y="49" width="48" height="48" hot_x="10" hot_y="-3" />
+    <sprite id="3" x="96" y="49" width="48" height="48" />
+  </SPRITES>
+
+  <ANIMATIONS>
+
+    <ANIMATION id="stand">
+      <CLIPS>
+        <clip id="0" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="walk">
+      <CLIPS>
+        <clip id="1" duration="20" />
+        <clip id="2" duration="5" />
+        <clip id="3" duration="10" />
+        <clip id="2" duration="5" />
+      </CLIPS>
+    </ANIMATION>
+
+  </ANIMATIONS>
+
+</SPRITESHEET>
+```
+
+//SPRITES// node holds the list of sprites : 
+
+- id : Identifier used by animations
+- x, y : position of the origin (the upper-left corner)
+- width, height : dimensions
+- hot_x, hot_y : by default, a sprite is displayed at the location of its 
+origin (upper-left corner). A //hotpoint// consists in a gap between origin 
+and the point you want the sprite to be displayed
+
+//ANIMATIONS// node holds the list of animations : 
+
+- //ANIMATION// node takes an id : you will need that name to play animations
+- //CLIPS// node holds the list of **AnimationClips** of the animation
+  -- id : here, put the id given for the sprite you want to display
+  -- duration : how many frames must the animation last ?
+  -- move_x, move_y : you may want to move the image when it is played
+  -- scale_x, scale_y : in case you wanted to scale the image
+  -- rotation : in case you wanted to rotate the image
+
+Please note that //move//, //scale// and //rotation// are just for the 
+animation : associated **GameObject** won't be moved / scaled / rotated. 

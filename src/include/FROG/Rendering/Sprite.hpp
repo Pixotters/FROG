@@ -2,7 +2,8 @@
 #define FROG_SPRITE_HPP
 
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <memory>
 

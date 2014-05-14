@@ -2,7 +2,6 @@
 #define FROG_BOXCOLLIDER_HPP
 
 #include "FROG/Collision/Collider.hpp"
-#include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>

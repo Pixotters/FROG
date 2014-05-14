@@ -28,10 +28,10 @@ namespace frog{
                    Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual ~JoystickButton();
     static PTR create(unsigned int code, 
-                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS,
-                                     unsigned int id = 0);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS,
+                      unsigned int id = 0);
     static PTR create(const sf::Event::JoystickButtonEvent&,
-                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     virtual bool operator==(const sf::Event::JoystickButtonEvent&) const;

@@ -1,0 +1,119 @@
+= How to work with scenes =
+
+**Scenes** are big bricks that will build your applications. Think about 
+different moments of a game : splashscreen, main menu, level, credits menu, 
+pause, cut-scenes... All these examples can be different scenes.  
+**Scenes** inherits **State**, a class providing functions when program 
+enters, exits or updates the state. There is more : **Scenes** handle a 
+**Renderer** and several **AssetManager** to access textures, sounds, fonts...
+
+== Creating scenes ==
+
+**Scene** can be created simply by passing an **AppInfo**, this data is 
+required by several modules. See the section about **App** to learn more. 
+A **Scene** can also be created by another one.
+```
+MyScene s(appInfo);
+...
+MyScene s2(s);
+```
+The main interest of creating a **Scene** with another one is that 
+**AssetManagers** are copied. This is useful when you want to pass from a scene 
+to an other but you know the second one will reuse assets already loaded in the 
+first one. If you don't do this, the second scene will need to reload itself 
+all the assets it needs.  
+
+== StateManager : the scenario ==
+
+A game with only one scene is not the most interesting game. You will probably 
+need to navigate through scenes. FROG uses a kind of Finite State Machine, 
+called **StateManager**, that allows you to easily divert the **Scene** flow 
+(or **State**, remember that **Scenes** are **States**).  
+**StateManager** is accessible via **AppInfo**. 
+```
+// entring a state : first State
+appInfo.stateManager.push(myFirstState);
+...
+// changing the current state : second State
+appInfo.stateManager.push(mySecondState);
+...
+// quiting the current state, new current state is the first, again
+appInfo.stateManager.pop();
+...
+// changing state : quiting current state and entering another
+appInfo.stateManager.change(myThirdState);
+...
+// retrieving the top state 
+Scene s = appInfo.stateManager.top();
+...
+// it is also possible to check is the manager contains states
+if (appInfo.stateManager.isEmpty() )
+{ ... }
+```
+
+If you are familiar with famous data structures, you probably guessed that 
+**StateManager** simulates a stack. It will update only the **State** located 
+at the top of the stack.  
+Updating a **Scene** consists in three steps : //preupdate//, //update//, and 
+//postupdate//. //update// is already defined, all with update all 
+**GameObjects** and render them (see next part). You are free to define your 
+own implementation of //preupdate// and //postupdate// in case you have some 
+code to add.  
+Another thing to notice : //enter// and //exit// functions. These functions are 
+called the first time the **StateManager** pushes a **Scene** (respectively, 
+when the **Scene** is popped).  
+Last thing to consider : once again, FROG required //shared_ptrs//. You can 
+pass either a //shared_ptr//, or a raw pointer : in this second case, you need 
+to pass an object that have been allocated dynamically. 
+```
+Scene * s1 = new Scene(appInfo);
+appInfo.stateManager.push(s1); // ok if you don't delete it yourself
+Scene s2(appInfo);
+appInfo.stateManager.push(&s2); // NEVER
+StateManager::PTR_S s3(new Scene(appInfo) ); // shortcut
+appInfo.stateManager.push(s3); // ok
+```
+
+== Adding GameObjects to a scene ==
+
+Having only a **Scene** has no interest : you need to add **GameObjects** in 
+order to have some game logic.  
+Just creating **GameObjects** is not enough : you must add them to the 
+**Scene** so it can update them.  
+One more time : FROG will work with smart pointers, so the scheme is the same. 
+```
+// creating objects
+GameObject::PTR g1(new GameObject() );
+auto g2 = GameObject::create();
+// adding objects
+addObject(g1);
+addObject(g2);
+...
+removeObject(g2);
+```
+
+== Loading a scene from a file ==
+
+A **Scene** can be loaded from a XML file. After its creation, just call the 
+function ``myscene.loadFromFile("assets/scenes/scene1.xml")``.  
+It will help the scene to load its required assets in its **AssetManagers**.  
+```
+<? xml version="1.0" ?>
+<SCENE>
+  <ASSETS>
+    <TEXTURES>
+      <texture filename="assets/images/frog.png" ID="FROG_TEXTURE" />
+    </TEXTURES>
+    <SOUNDS>
+      <sound filename="assets/sounds/frog.ogg" ID="FROG_SOUND" />
+    </SOUNDS>
+    <FONTS>
+      <font filename="assets/fonts/menu_font.ttf" ID="MENU_FONT" />
+    </FONTS>
+    <SPRITESHEETS>
+      <spritesheet filename="assets/spritesheets/frog.sprt" ID="FROG_SPRT" />
+    </SPRITESHEETS>
+  </ASSETS>
+</SCENE>
+```
+Read the chapter about **AssetManagers** to learn more about files loading. 

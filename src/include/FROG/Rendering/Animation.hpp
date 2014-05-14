@@ -2,10 +2,7 @@
 #define FROG_ANIMATION_HPP
 
 #include "FROG/Rendering/AnimationClip.hpp"
-#include <SFML/Graphics/Texture.hpp>
 
-#include <exception>
-#include <sstream>
 #include <vector>
 
 namespace frog{

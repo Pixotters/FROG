@@ -1,7 +1,5 @@
 #include "FROG/Control/AnyKey.hpp"
 
-
-
 namespace frog{
 
   AnyKey::AnyKey(Trigger::ButtonTrigger tr)

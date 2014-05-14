@@ -1,5 +1,4 @@
 #include "FROG/Rendering/Animation.hpp"
-#include "FROG/Debug.hpp"
 
 namespace frog{
 

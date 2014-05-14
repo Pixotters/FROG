@@ -1,9 +1,9 @@
 #ifndef MOVEPLAYER_HPP
 #define MOVEPLAYER_HPP
 
-#include "FROG/AppInfo.hpp"
-#include "FROG/GameObject.hpp"
-#include "FROG/Command.hpp"
+#include "FROG/Core/AppInfo.hpp"
+#include "FROG/Core/GameObject.hpp"
+#include "FROG/Control/Command.hpp"
 
 using namespace frog;
 
