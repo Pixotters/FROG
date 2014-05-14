@@ -45,7 +45,7 @@ void Splash::manage()
       oss << "SPLASHSCREEN_"<< splashIndex;
       auto newsplash = defaultTextureManager.get( oss.str() );
       oss.flush();
-      splash.getComponent<Sprite>("RENDERING").changeTexture(newsplash);
+      splash.getComponent<Sprite>("RENDERING").setTexture(newsplash);
     }else
     {
       appInfo.stateManager.change(new MainMenu(appInfo) );
