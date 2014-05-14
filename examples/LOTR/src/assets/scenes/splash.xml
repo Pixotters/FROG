@@ -1,0 +1,9 @@
+<? xml version="1.0" ?>
+<SCENE>
+  <ASSETS>
+    <TEXTURES>
+      <texture filename="assets/images/pixotters_logo.png" ID="SPLASHSCREEN_1" />
+      <texture filename="assets/images/frog_logo.png" ID="SPLASHSCREEN_2" />
+    </TEXTURES>
+  </ASSETS>
+</SCENE>
