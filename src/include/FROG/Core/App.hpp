@@ -72,18 +72,6 @@ namespace frog{
     Config getConfig() const;
 
     /*!
-     * @brief Returns copy of the current state manager. 
-     * @return Copy of the current state manager. 
-     */
-    StateManager getStateManager() const;
-
-    /*!
-     * @brief Returns reference to current state manager. 
-     * @return Reference to current state manager. 
-     */
-    StateManager& getStateManager();
-
-    /*!
      * @brief Initializes the game engine at the given state. 
      * @details Processes prelude code that may be required before starting the 
      loop. The given state will be the entry state. 

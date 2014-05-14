@@ -38,16 +38,16 @@ namespace frog{
                    bool considering = false);
     virtual ~KeyboardButton();
     static PTR create(sf::Keyboard::Key code, 
-                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
-                                     bool considering = false,
-                                     bool ctrl = false, 
-                                     bool alt = false, 
-                                     bool shift = false, 
-                                     bool sys = false);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
+                      bool considering = false,
+                      bool ctrl = false, 
+                      bool alt = false, 
+                      bool shift = false, 
+                      bool sys = false);
     static PTR create(const KeyboardButton&);
     static PTR create(const sf::Event::KeyEvent&, 
-                                     Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
-                                     bool considering = false);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS, 
+                      bool considering = false);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     bool operator==(const KeyboardButton&) const;

@@ -66,10 +66,10 @@ namespace frog{
     return m_gameObjects.insert(std::make_shared<GameObject>(*go) ).second;
   }
 
-  bool GameState::addObject(const std::shared_ptr<GameObject>& go)
+  bool GameState::addObject(const GameObject::PTR& go)
   {
     std::ostringstream debug;
-    auto inserted = m_gameObjects.insert( std::shared_ptr<GameObject>(go) );
+    auto inserted = m_gameObjects.insert( GameObject::PTR(go) );
     if ( inserted.second ){
       debug << "GameState - addObject("<<go<<") : added";
       print_debug(debug);
@@ -93,7 +93,7 @@ namespace frog{
       } 
   }
 
-  void GameState::removeObject(const std::shared_ptr<GameObject>& go)
+  void GameState::removeObject(const GameObject::PTR& go)
   {  
     auto it = m_gameObjects.find(go);
     if( it != m_gameObjects.end() ) {    

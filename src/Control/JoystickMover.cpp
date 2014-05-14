@@ -55,7 +55,10 @@ namespace frog{
     parent.getComponent<Transform>("TRANSFORM")->move( getMovement() );
   }
 
-  JoystickMover::PTR JoystickMover::create(int up, int down, int left, int right, 
+  JoystickMover::PTR JoystickMover::create(int up, 
+                                           int down, 
+                                           int left, 
+                                           int right, 
                                            sf::Joystick::Axis x,
                                            sf::Joystick::Axis y,
                                            unsigned int id,

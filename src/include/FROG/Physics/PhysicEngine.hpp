@@ -29,7 +29,7 @@ namespace frog{
      */
 
     static void reaction(PhysicBody * b1, PhysicBody * b2,
-                  const sf::Vector2f & normal);
+                         const sf::Vector2f & normal);
   };
 
 }

@@ -24,8 +24,6 @@ namespace frog{
   class Scene : public GameState
   {
 
-    using GameState::GameState;
-
   public:
     typedef std::shared_ptr<Scene> PTR;
 
@@ -35,7 +33,7 @@ namespace frog{
     AssetManager<std::string, sf::Texture> defaultTextureManager;
     AssetManager<std::string, sf::Font> defaultFontManager;
     AssetManager<std::string, sf::SoundBuffer> defaultSoundManager;
-    AssetManager<std::string,Spritesheet<std::string>> defaultSpritesheetManager;
+    AssetManager<std::string, Spritesheet<std::string> > defaultSpritesheetManager;
 
     //// operations ////
   public:
@@ -69,7 +67,7 @@ namespace frog{
 
     virtual bool addObject(GameObject * go); // avoid
 
-    virtual bool addObject(const std::shared_ptr<GameObject>& go);
+    virtual bool addObject(const GameObject::PTR& go);
 
     /*!
      * \brief Removes an object from the scene's systems
@@ -78,13 +76,13 @@ namespace frog{
      */
     virtual void removeObject(GameObject * go); // avoid
 
-    virtual void removeObject(const std::shared_ptr<GameObject>& go);
+    virtual void removeObject(const GameObject::PTR& go);
 
   protected:
 
-    void addToEngines(const std::shared_ptr<GameObject>& go);
+    void addToEngines(const GameObject::PTR& go);
 
-    void removeFromEngines(const std::shared_ptr<GameObject>& go);
+    void removeFromEngines(const GameObject::PTR& go);
 
   };
 

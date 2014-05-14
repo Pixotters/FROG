@@ -1,6 +1,8 @@
 #ifndef FROG_COMPONENT_HPP
 #define FROG_COMPONENT_HPP
 
+#include <memory>
+
 namespace frog{
 
   class ComponentHolder;
@@ -11,8 +13,8 @@ namespace frog{
    */
   class Component
   {
-    //// attributes ////
-  protected:
+  public:
+    typedef std::shared_ptr<Component> PTR;
 
     //// operations ////
   public:

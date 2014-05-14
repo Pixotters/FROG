@@ -87,5 +87,11 @@ namespace frog{
     tr->scale(growth);
   }
 
+  PhysicBody::PTR PhysicBody::create(const sf::Vector2f& _velocity,
+                                     float _rotation,
+                                     const sf::Vector2f& _growth )
+  {
+    return PTR(new PhysicBody(_velocity, _rotation, _growth) );
+  }
 
 }

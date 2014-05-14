@@ -155,10 +155,10 @@ namespace frog{
     return addObject( std::make_shared<GameObject>(*go) );
   }
 
-  bool Scene::addObject(const std::shared_ptr<GameObject>& go)
+  bool Scene::addObject(const GameObject::PTR& go)
   {
     std::ostringstream debug;
-    auto inserted = m_gameObjects.insert( std::shared_ptr<GameObject>(go) );
+    auto inserted = m_gameObjects.insert( GameObject::PTR(go) );
     if ( inserted.second ){
       std::shared_ptr<GameObject> shared(go); 
       debug << "Scene - addObject("<<go<<") : added";
@@ -187,7 +187,7 @@ namespace frog{
       } 
   }
 
-  void Scene::removeObject(const std::shared_ptr<GameObject>& go)
+  void Scene::removeObject(const GameObject::PTR& go)
   {  
     auto it = m_gameObjects.find(go);
     if( it != m_gameObjects.end() ) {    
@@ -197,12 +197,12 @@ namespace frog{
     }
   }
 
-  void Scene::addToEngines(const std::shared_ptr<GameObject>& go)
+  void Scene::addToEngines(const GameObject::PTR& go)
   {
     renderer.addObject(go);
   }
 
-  void Scene::removeFromEngines(const std::shared_ptr<GameObject>& go)
+  void Scene::removeFromEngines(const GameObject::PTR& go)
   {
     // removing the object from managers
     renderer.removeObject(go);     

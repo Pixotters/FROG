@@ -11,7 +11,7 @@ namespace frog{
   }
 
 
-  RenderingComponent::RenderingComponent(std::shared_ptr<sf::Drawable> d)
+  RenderingComponent::RenderingComponent(PTR_Drawable d)
     : Component(), sf::Drawable(), sf::Transformable(), m_drawable(d)
   {
   }
@@ -41,7 +41,7 @@ namespace frog{
     return PTR(new RenderingComponent(d) );
   }
   
-  RenderingComponent::PTR RenderingComponent::create(std::shared_ptr<sf::Drawable> d)
+  RenderingComponent::PTR RenderingComponent::create(PTR_Drawable d)
   {
     return PTR(new RenderingComponent(d) );
   }

@@ -4,7 +4,7 @@
 
 namespace frog{
 
-  AABB::AABB(std::shared_ptr<Collider> c) : owner(c) 
+  AABB::AABB(Collider::PTR c) : owner(c) 
   {
     min[0] = new EndPoint(this, c->getXMin(), true);
     min[1] = new EndPoint(this, c->getYMin(), true);
@@ -38,12 +38,6 @@ namespace frog{
 
   void AABB::updateEPValues() 
   {
-    /*    std::cerr << "updating EP values " << std::endl;
-    std::cerr << min[0]->value << " -> " << owner->getXMin() << std::endl \
-              << min[1]->value << " -> " << owner->getYMin() << std::endl \
-              << max[0]->value << " -> " << owner->getXMax() << std::endl \
-              << max[1]->value << " -> " << owner->getYMax() << std::endl;
-    */
     min[0]->value = owner->getXMin();
     min[1]->value = owner->getYMin();
     max[0]->value = owner->getXMax();

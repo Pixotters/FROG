@@ -5,6 +5,8 @@
 
 #include <SFML/System/Vector2.hpp>
 
+#include <memory>
+
 namespace frog{
   /**
    * This first physic engine only deals with basic collisions
@@ -12,6 +14,9 @@ namespace frog{
    */
   class PhysicBody : virtual public Component
   {
+
+  public:
+    typedef std::shared_ptr<PhysicBody> PTR;
 
     /**
      * This class assumes that we are able to give coordinate of collision
@@ -55,6 +60,10 @@ namespace frog{
     float resetRotation();
     
     sf::Vector2f resetGrowth();
+
+    PTR create(const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
+               float _rotation = 0.0f,
+               const sf::Vector2f& _growth = sf::Vector2f(1.0, 1.0) );
 
   };
 

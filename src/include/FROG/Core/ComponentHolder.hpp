@@ -21,7 +21,7 @@ namespace frog{
   protected:
 
     /// map of components hold by the component holder
-    std::map< std::string, std::shared_ptr<Component> > m_components;
+    std::map< std::string, Component::PTR > m_components;
 
     //// operations ////
   public:
@@ -43,7 +43,7 @@ namespace frog{
      * @brief Returns the component of given ID as a std::shared_ptr<Component>.
      * @returns Pointer to Component is present, nullptr if not. 
      */
-    std::shared_ptr<Component> getComponent(const std::string&) const;
+    Component::PTR getComponent(const std::string&) const;
    
     /*!
      * @brief Tells if a component of a given id is kept. 
@@ -65,7 +65,7 @@ namespace frog{
      * be added.
      * @param c Component to add.  
      */
-    void addComponent(std::shared_ptr<Component> const c, const std::string& id);
+    void addComponent(const Component::PTR& c, const std::string& id);
 
     /*!
      * @brief Removes the component of the given id. 

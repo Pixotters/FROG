@@ -36,11 +36,11 @@ namespace frog{
       {
         // TODO combine with parent's transform
         /*        auto tr2 = sf::Transform::Identity;
-        tr2 *= transform->getTransform();
-        tr2 *= parent->getTransform();
-        transform->setPosition( tr2.getTransform().getPosition() );
-        transform->setRotation( tr2.getTransform().getRotation() );
-        transform->setScale( tr2.getTransform().getScale() );
+                  tr2 *= transform->getTransform();
+                  tr2 *= parent->getTransform();
+                  transform->setPosition( tr2.getTransform().getPosition() );
+                  transform->setRotation( tr2.getTransform().getRotation() );
+                  transform->setScale( tr2.getTransform().getScale() );
         */
       }
     auto end = m_components.end();

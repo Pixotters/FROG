@@ -81,14 +81,4 @@ namespace frog{
     exit();
   }
 
-  StateManager App::getStateManager() const
-  {
-    return m_stateManager; 
-  }
-
-  StateManager& App::getStateManager()
-  {
-    return m_stateManager; 
-  }
-  
 }

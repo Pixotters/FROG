@@ -13,8 +13,7 @@ namespace frog
   {
   }
 
-  std::shared_ptr < Component >
-  ComponentHolder::getComponent(const std::string & id) const
+  Component::PTR ComponentHolder::getComponent(const std::string & id) const
   {
     auto it = m_components.find(id);
     
@@ -53,7 +52,7 @@ namespace frog
       }
   }
 
-  void ComponentHolder::addComponent(std::shared_ptr<Component> const c, 
+  void ComponentHolder::addComponent(const Component::PTR& c, 
                                      const std::string& id)
   {
     auto inserted = m_components.emplace(id, c);

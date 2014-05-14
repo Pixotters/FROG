@@ -14,12 +14,12 @@ namespace frog
       SEPARATION
     } Trigger;
   
-    std::shared_ptr <GameObject> first;
-    std::shared_ptr <GameObject> second;
+    GameObject::PTR first;
+    GameObject::PTR second;
     Trigger trigger;
 
-    Collision(std::shared_ptr <GameObject> fst,
-              std::shared_ptr <GameObject> snd,
+    Collision(GameObject::PTR fst,
+              GameObject::PTR snd,
               Trigger = COLLISION);
 
     virtual ~Collision();

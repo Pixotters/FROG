@@ -14,11 +14,11 @@ namespace frog{
   
     virtual ~CollisionManager() {}
   
-    virtual void addObject(std::shared_ptr<GameObject>) = 0;
+    virtual void addObject(GameObject::PTR) = 0;
   
-    virtual void updateObject(std::shared_ptr<GameObject>) = 0;
+    virtual void updateObject(GameObject::PTR) = 0;
   
-    virtual void removeObject(std::shared_ptr<GameObject>) = 0;
+    virtual void removeObject(GameObject::PTR) = 0;
 
     virtual void update() = 0;
   

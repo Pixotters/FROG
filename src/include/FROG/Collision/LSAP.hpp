@@ -23,7 +23,7 @@ namespace frog {
 
   protected:
     /// objects added to the manager
-    std::map< std::shared_ptr<GameObject>, AABB *> m_objects;
+    std::map< GameObject::PTR, AABB *> m_objects;
 
   private:
 
@@ -75,7 +75,7 @@ namespace frog {
      * @param c Object (Collider) attached to the new bounding box
      *          to insert in the list
      */
-    void addObject(std::shared_ptr<GameObject> go);
+    void addObject(GameObject::PTR go);
 
     /**
      * @brief Updates Collider's EndPoints position in CollisionManger. 
@@ -83,7 +83,7 @@ namespace frog {
      * actionManager. Should be called as soon as an object moves.
      * @param c Object to update
      */
-    void updateObject(std::shared_ptr<GameObject> go);  
+    void updateObject(GameObject::PTR go);  
   
     virtual void update();
 
@@ -91,7 +91,7 @@ namespace frog {
      * @brief Remove a bounding box attached to a Collider 
      * @param c Object attached to the bounding box to remove
      */
-    void removeObject(std::shared_ptr<GameObject> go);
+    void removeObject(GameObject::PTR go);
 
     static PTR create();
 

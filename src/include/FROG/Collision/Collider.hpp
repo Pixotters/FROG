@@ -6,6 +6,8 @@
 
 #include <SFML/Graphics/Rect.hpp>
 
+#include <memory>
+
 namespace frog{
 
   /**
@@ -14,6 +16,9 @@ namespace frog{
    */
   class Collider : virtual public Component
   {
+
+  public:
+    typedef std::shared_ptr<Collider> PTR;
 
   public:
 

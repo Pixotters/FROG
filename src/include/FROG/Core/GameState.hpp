@@ -25,7 +25,7 @@ namespace frog{
     AppInfo& appInfo;
 
   protected:
-    std::set< std::shared_ptr<GameObject> > m_gameObjects;    
+    std::set< GameObject::PTR > m_gameObjects;    
 
   public:
     
@@ -75,7 +75,7 @@ namespace frog{
      */
     virtual bool addObject(GameObject * go); // avoid
 
-    virtual bool addObject(const std::shared_ptr<GameObject>& go);
+    virtual bool addObject(const GameObject::PTR& go);
 
     /*!
      * \brief Removes an object from the scene's systems
@@ -84,7 +84,7 @@ namespace frog{
      */
     virtual void removeObject(GameObject * go); // avoid
 
-    virtual void removeObject(const std::shared_ptr<GameObject>& go);
+    virtual void removeObject(const GameObject::PTR& go);
 
   };
 
