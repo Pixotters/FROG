@@ -36,9 +36,10 @@ void Splash::enter()
   addObject(splash);
   // setting up text
   auto& font = defaultFontManager.get("SPLASH_FONT");
-  text->addComponent( TextSprite::create("Pixotters  present", font), 
-                      "RENDERING");
-  text->transform->setPosition(pos.x, pos.y + orig.y * 2);
+  auto ts = TextSprite::create("Pixotters  present", font);
+  text->addComponent( ts, "RENDERING");
+  ts->centerText();
+  text->transform->setPosition(pos.x, pos.y + orig.y + 15);
   addObject(text);
 }
 
@@ -86,11 +87,12 @@ void Splash::updateText()
       break;
 
     case 1:
-      textcomp->setText("Developped with FROG : \nFor Really Outstanding Games");
+      textcomp->setText("Developped with FROG - \nFor Really Outstanding Games");
       break;
 
     default:
       textcomp->setText("");
       break;
     }
+  textcomp->centerText();
 }
