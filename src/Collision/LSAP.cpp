@@ -42,7 +42,7 @@ namespace frog
       delete yAxis;
   }
 
-  void LSAP::addObject(std::shared_ptr<GameObject> go)
+  void LSAP::addObject(const GameObject::PTR& go)
   {
     auto collider = go->getComponent<Collider>("COLLIDER");
     AABB * aabb = new AABB(collider);
@@ -65,7 +65,7 @@ namespace frog
     updateObject(go);
   }
 
-  void LSAP::updateObject(GameObject::PTR go)
+  void LSAP::updateObject(const GameObject::PTR& go)
   {
     auto f = m_objects.find(go);
     if (f != m_objects.end() )
@@ -76,7 +76,7 @@ namespace frog
       }
   }
   
-  void LSAP::removeObject(GameObject::PTR go)
+  void LSAP::removeObject(const GameObject::PTR& go)
   {
     auto find = m_objects.find(go);
     if (find != m_objects.end() )

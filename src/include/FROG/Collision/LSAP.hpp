@@ -75,26 +75,26 @@ namespace frog {
      * @param c Object (Collider) attached to the new bounding box
      *          to insert in the list
      */
-    void addObject(GameObject::PTR go);
+    void addObject(const GameObject::PTR& go);
 
-    /**
-     * @brief Updates Collider's EndPoints position in CollisionManger. 
-     * @details Detects collisions and separation and acts according to 
-     * actionManager. Should be called as soon as an object moves.
-     * @param c Object to update
-     */
-    void updateObject(GameObject::PTR go);  
-  
     virtual void update();
 
     /**
      * @brief Remove a bounding box attached to a Collider 
      * @param c Object attached to the bounding box to remove
      */
-    void removeObject(GameObject::PTR go);
-
+    void removeObject(const GameObject::PTR& go);
     static PTR create();
 
+  protected:
+    /**
+     * @brief Updates Collider's EndPoints position in CollisionManger. 
+     * @details Detects collisions and separation and acts according to 
+     * actionManager. Should be called as soon as an object moves.
+     * @param c Object to update
+     */
+    void updateObject(const GameObject::PTR& go);  
+  
   };
 }
 #endif
