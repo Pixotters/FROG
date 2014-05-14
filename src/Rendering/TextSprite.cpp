@@ -58,6 +58,12 @@ namespace frog{
     m_text->setScale( t->getScale() );
   }
 
+  void TextSprite::centerText()
+  {
+    auto bounds = m_text->getLocalBounds();
+    m_text->setOrigin( bounds.width/2, bounds.height/2 );
+  }
+
   TextSprite::PTR TextSprite::create(const std::string& text, 
                          const sf::Font& font, 
                          unsigned int size, 

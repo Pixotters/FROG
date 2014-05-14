@@ -43,6 +43,8 @@ namespace frog{
 
     void setSize(unsigned int newsize);
 
+    void centerText();
+
     static PTR create(const std::string& text, 
                       const sf::Font& font, 
                       unsigned int size = 30, 
