@@ -296,7 +296,7 @@ void Level::updateTargets()
 
 void Level::removeTarget(std::shared_ptr<GameObject> g)
 {
-    g->transform->setPosition(800, 600);
+    g->transform->setPosition(1600, 1200);
     /*for (auto& it : m_targets)
     {
       if (it == g)
