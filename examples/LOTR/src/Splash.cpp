@@ -1,4 +1,5 @@
 #include "Splash.hpp"
+#include "MainMenu.hpp"
 
 #include <FROG/Rendering/Sprite.hpp>
 
@@ -20,9 +21,9 @@ Splash::~Splash()
 
 void Splash::enter()
 {
-  appInfo.clock.reset();
+  appInfo.clock.restart();
   auto first_splash = defaultTextureManager.get("SPLASHSCREEN_1");
-  splash.addComponent( Sprite::create(first_splash) , 
+  splash->addComponent( Sprite::create(first_splash) , 
                       "RENDERING");
   addObject(splash);
 }
@@ -31,8 +32,8 @@ void Splash::postupdate()
 {
   if (appInfo.clock.getElapsedTime().asSeconds() > SPLASH_TIME)
     {
-      changeSplash();
-      appInfo.clock.reset();
+      manage();
+      appInfo.clock.restart();
     }
 }
 
@@ -45,7 +46,7 @@ void Splash::manage()
       oss << "SPLASHSCREEN_"<< splashIndex;
       auto newsplash = defaultTextureManager.get( oss.str() );
       oss.flush();
-      splash.getComponent<Sprite>("RENDERING").setTexture(newsplash);
+      splash->getComponent<Sprite>("RENDERING")->setTexture(newsplash);
     }else
     {
       appInfo.stateManager.change(new MainMenu(appInfo) );

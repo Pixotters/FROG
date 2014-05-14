@@ -1,13 +1,13 @@
 #ifndef MAINMENU_HPP
 #define MAINMENU_HPP
 
-#include <FROG/Core/Scene.hpp>
+#include <FROG/Rendering/Scene.hpp>
 
 class MainMenu : virtual public frog::Scene
 {
 
 public:
-  MainMenu(AppInfo&);
+  MainMenu(frog::AppInfo&);
   virtual ~MainMenu();
 
 };
