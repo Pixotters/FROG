@@ -26,7 +26,7 @@ namespace frog{
     Sprite(const sf::Texture&);
     virtual ~Sprite();
     void setTexture(const sf::Texture&);
-    PTR create(const sf::Texture&);
+    static PTR create(const sf::Texture&);
 
   };
 
