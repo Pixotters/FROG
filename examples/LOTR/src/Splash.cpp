@@ -25,6 +25,11 @@ void Splash::enter()
   auto& first_splash = defaultTextureManager.get("SPLASHSCREEN_0");
   splash->addComponent( Sprite::create(first_splash) , 
                       "RENDERING");
+  unsigned int two = 2;
+  auto orig = static_cast<sf::Vector2f>(first_splash.getSize() / two);
+  splash->transform->setOrigin( orig );
+  auto pos = static_cast<sf::Vector2f>(appInfo.window.getSize() / two );
+  splash->transform->setPosition( pos );
   addObject(splash);
 }
 
@@ -44,9 +49,11 @@ void Splash::manage()
     {
       std::ostringstream oss;
       oss << "SPLASHSCREEN_"<< splashIndex;
-      sf::Texture& newsplash = defaultTextureManager.get( oss.str() );
-      std::cout << "splash " << oss.str() << std::endl;
+      auto& newsplash = defaultTextureManager.get( oss.str() );
       oss.flush();
+      unsigned int two = 2;
+      auto orig = static_cast<sf::Vector2f>(newsplash.getSize() / two );
+      splash->transform->setOrigin( orig );
       splash->getComponent<Sprite>("RENDERING")->setTexture(newsplash);
     }else
     {
