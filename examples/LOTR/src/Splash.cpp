@@ -22,7 +22,7 @@ Splash::~Splash()
 void Splash::enter()
 {
   appInfo.clock.restart();
-  auto first_splash = defaultTextureManager.get("SPLASHSCREEN_1");
+  auto& first_splash = defaultTextureManager.get("SPLASHSCREEN_0");
   splash->addComponent( Sprite::create(first_splash) , 
                       "RENDERING");
   addObject(splash);
@@ -44,7 +44,8 @@ void Splash::manage()
     {
       std::ostringstream oss;
       oss << "SPLASHSCREEN_"<< splashIndex;
-      auto newsplash = defaultTextureManager.get( oss.str() );
+      sf::Texture& newsplash = defaultTextureManager.get( oss.str() );
+      std::cout << "splash " << oss.str() << std::endl;
       oss.flush();
       splash->getComponent<Sprite>("RENDERING")->setTexture(newsplash);
     }else

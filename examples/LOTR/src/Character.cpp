@@ -1,20 +1,16 @@
-Character::Character(const std::string& _nane,
-		     const unsigned short& _health, 
-		     const unsigned short& _resistance, 
-		     const unsigned short& _strength, 
-		     const unsigned short& _stamina)
+#include "Character.hpp"
+
+Character::Character(const std::string& _name,
+		     unsigned short _health, 
+		     unsigned short _resistance, 
+		     unsigned short _strength, 
+		     unsigned short _stamina)
   : name(_name), 
     health(_health),
     resistance(_resistance),
     strength(_strength),
     stamina(_stamina)
 {
-  m_name = n;
-  m_health = h;
-  m_resistance = r;
-  m_attack = a;
-  m_stamina = sta;
-  m_basename = n;
 }
 
 Character::~Character()
@@ -40,7 +36,7 @@ unsigned short Character::getResistance() const
   return resistance; 
 }
 
-unsigned short Character::getAttack() const
+unsigned short Character::getStrength() const
 {
   return strength; 
 }
@@ -49,8 +45,9 @@ unsigned short Character::getStamina() const
 { 
   return stamina; 
 }
-
+/*
 std::string Character::getBasename() const
 {
   return basename;
 }
+*/

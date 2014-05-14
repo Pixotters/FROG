@@ -14,18 +14,20 @@ CharacterPlayed::CharacterPlayed(const std::string& name,
 }
 
 CharacterPlayed::CharacterPlayed(const CharacterPlayed& c)
-  : Character(c.name, c.health, c.resistance, c.strength, c.stamina ),
-    currentHealth(c.health), 
-    currentStamina(c.stamina), 
+  : Character(c.getName(), c.getHealth(), c.getResistance(), 
+              c.getStrength(), c.getStamina() ),
+    currentHealth(health), 
+    currentStamina(stamina), 
     receivedHits(0),
     KOs(0)
 {
 }
 
 CharacterPlayed::CharacterPlayed(const Character& c)
-  : Character(c.name, c.health, c.resistance, c.strength, c.stamina),
-    currentHealth(c.health), 
-    currentStamina(c.stamina), 
+  : Character(c.getName(), c.getHealth(), c.getResistance(), 
+              c.getStrength(), c.getStamina() ),
+    currentHealth(health), 
+    currentStamina(stamina), 
     receivedHits(0),
     KOs(0)
 {

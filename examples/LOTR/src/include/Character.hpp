@@ -17,7 +17,7 @@ protected:
   std::string shortname; // basename for file searching
   unsigned short health; // maximum health
   unsigned short resistance; //amount of hits he can get before being stun
-  unsigned short strenght; // bonus for attacks
+  unsigned short strength; // bonus for attacks
   unsigned short stamina; // number of hits/dodges he can do
 
 public:
@@ -30,7 +30,7 @@ public:
   std::string getName() const;
   unsigned short getHealth() const;
   unsigned short getResistance() const;
-  unsigned short getAttack() const;
+  unsigned short getStrength() const;
   unsigned short getStamina() const;
   std::string getBasename() const;
   void loadFromFile(const std::string&);
