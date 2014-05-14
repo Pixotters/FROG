@@ -54,7 +54,7 @@ private:
 
 public:
   Button(std::vector<sf::Event>& e, 
-         const ButtonUI::PTR&, 
+         ButtonUI::PTR&, 
          const frog::Command::PTR& );
   virtual ~Button();
  

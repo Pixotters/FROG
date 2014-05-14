@@ -5,6 +5,7 @@
 #include <FROG/Control/Function.hpp>
 #include <FROG/Control/MouseButton.hpp>
 
+#include <iostream> // TODO remove
 
 using namespace frog;
 
@@ -16,11 +17,11 @@ ButtonUI::ButtonUI(const std::string& text,
     label(new sf::Text(text, font) )
 {
   canvas = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
+  canvas_texture.create(dimensions.x, dimensions.y);
   canvas->setTexture(canvas_texture.getTexture() );
   rectangle->setOutlineThickness(2);
   rectangle->setFillColor(sf::Color(0,0,0,0) );
   rectangle->setSize( dimensions );
-  canvas_texture.create(dimensions.x, dimensions.y);
 }
 
 ButtonUI::~ButtonUI()
@@ -32,11 +33,15 @@ void ButtonUI::update(const ComponentHolder& parent)
   auto t = parent.getComponent<Transform>("TRANSFORM");
   canvas->setPosition( t->getPosition() );
   canvas->setRotation( t->getRotation() );
-  canvas->setScale( t->getScale() );
+  canvas->setScale( t->getScale().x, -t->getScale().y );
   canvas_texture.draw(*rectangle, sf::RenderStates::Default );
   canvas_texture.draw(*label, sf::RenderStates::Default );
   // TODO check if this is necessary
   canvas->setTexture(canvas_texture.getTexture() );
+  std::cerr << "canvas : "<< canvas->getPosition().x \
+            << ',' << canvas->getPosition().y << std::endl;
+  std::cerr << "canvas_tex : "<< canvas_texture.getSize().x \
+            << ',' << canvas_texture.getSize().y << std::endl;
 }
 
 void ButtonUI::setString(const std::string& s)
@@ -71,7 +76,7 @@ sf::Vector2f ButtonUI::getSize() const
 
 
 Button::Button(std::vector<sf::Event>& e, 
-               const ButtonUI::PTR& bu,
+               ButtonUI::PTR& bu,
                const Command::PTR& act)
   : GameObject(),
     selected(false)
@@ -79,6 +84,7 @@ Button::Button(std::vector<sf::Event>& e,
   addComponent(bu, "RENDERING");
   auto fun = [this](Collision c)
     {
+      std::cout << "Collision" << std::endl;
       if (c.second->getProperty<std::string>("type").compare("cursor") )
         {
           if (c.trigger == Collision::COLLISION)
