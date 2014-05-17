@@ -3,6 +3,8 @@
 
 #include "FROG/Core/GameObject.hpp"
 #include "FROG/Collision/Collider.hpp"
+#include "FROG/Collision/BoxCollider.hpp"
+#include "FROG/Collision/RoundCollider.hpp"
 #include "FROG/Collision/Collision.hpp"
 #include "FROG/Collision/CollisionManager.hpp"
 
@@ -37,6 +39,10 @@ namespace frog{
                        const Collider::PTR&,
                        Collision::Trigger) const;
     bool collide(const Collider::PTR&, const Collider::PTR&) const;
+    bool collide(const BoxCollider::PTR&, const BoxCollider::PTR&) const;
+    bool collide(const RoundCollider::PTR&, const RoundCollider::PTR&) const;
+    bool collide(const BoxCollider::PTR&, const RoundCollider::PTR&) const;
+    bool collide(const RoundCollider::PTR&, const BoxCollider::PTR&) const;
   };
 
 }

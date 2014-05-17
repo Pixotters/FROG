@@ -2,6 +2,8 @@
 
 #include "FROG/Collision/Collision.hpp"
 
+#include <iostream> // TODO remove
+
 namespace frog{
 
   PairManager::PairManager()
@@ -60,25 +62,37 @@ namespace frog{
   void PairManager::update()
   {
     auto t = m_objects.size();
-    for (unsigned int i = 0; i < t/2; i++)
+    for (unsigned int i = 0; i < t; i++)
       {
         auto& o1 = m_objects.at(i);
-        for (unsigned int j = 0; j <= t/2; j++)
+        for (unsigned int j = i+1; j < t; j++)
           {
             auto& o2 = m_objects.at(j);
           
-            auto c1 = o1->getComponent<Collider>("COLLIDER");
-            auto c2 = o2->getComponent<Collider>("COLLIDER");
-            if ( collide(c1, c2) or collide(c2, c1) )
+            auto r1 = o1->getComponent<Collider>("COLLIDER");
+            auto r2 = o2->getComponent<Collider>("COLLIDER");
+            // TODO remove
+            std::cerr << "testing "<< i <<"&"<<j << std::endl;
+            std::cerr << "with    "<< r1 <<"&"<<r2 << std::endl;
+            auto bb1 = r1->getBoundingBox();
+            auto bb2 = r2->getBoundingBox();
+            std::cerr << "1 = "<< bb1.left <<"," << bb1.top \
+                      << "-" << bb1.width << "x" << bb1.height << std::endl;
+            std::cerr << "2 = "<< bb2.left <<"," << bb2.top \
+                      << "-" << bb2.width << "x" << bb2.height << std::endl;
+            std::cerr << "intersection ?" \
+                      << bb1.intersects(bb2) << std::endl;
+            if ( collide(r1, r2) or collide(r2, r1) )
               {
+                std::cerr << "COLLISION OCCURRED" << std::endl;
                 addColliding(o1, o2);
-                sendCollision(o1, o2, c1, c2, Collision::Trigger::COLLISION);
+                sendCollision(o1, o2, r1, r2, Collision::Trigger::COLLISION);
               }else
               {
                 if ( isColliding(o1, o2) )
                   {
                     removeColliding(o1, o2);
-                    sendCollision(o1, o2, c1, c2,Collision::Trigger::SEPARATION);
+                    sendCollision(o1, o2, r1, r2,Collision::Trigger::SEPARATION);
                   }
               }
           }
@@ -109,19 +123,22 @@ namespace frog{
 
   void PairManager::sendCollision(const GameObject::PTR& o1,
                                   const GameObject::PTR& o2,
-                                  const Collider::PTR& c1,
-                                  const Collider::PTR& c2,
+                                  const Collider::PTR& r1,
+                                  const Collider::PTR& r2,
                                   Collision::Trigger tr) const
   {
-    if (c1.get() != nullptr and c2.get() != nullptr)
+    std::cerr << "sending " << std::endl;
+    if (r1.get() != nullptr and r2.get() != nullptr)
       {
         Collision c(o1, o2, tr);
-        c1->onCollision(c);
+        r1->onCollision(c);
+        std::cerr << "first " << std::endl;
         
-        if (c1.get() != nullptr and c2.get() != nullptr)
+        if (r1.get() != nullptr and r2.get() != nullptr)
           {
             Collision c(o2, o1, tr);
-            c2->onCollision(c);
+            r2->onCollision(c);
+            std::cerr << "second " << std::endl;
           }
       }
 
@@ -131,7 +148,51 @@ namespace frog{
   bool PairManager::collide(const Collider::PTR& c1, 
                             const Collider::PTR& c2) const
   {
-    
+    BoxCollider::PTR b1, b2;
+    RoundCollider::PTR r1, r2;
+    b1 = std::dynamic_pointer_cast<BoxCollider>(c1);
+    b2 = std::dynamic_pointer_cast<BoxCollider>(c2);
+    r1 = std::dynamic_pointer_cast<RoundCollider>(c1);
+    r2 = std::dynamic_pointer_cast<RoundCollider>(c2);
+    if (b1 != nullptr and b2 != nullptr)
+      {
+        return collide(b1, b2);
+      }else if (r1 != nullptr and r2 != nullptr)
+      {
+        return collide(r1, r2);
+      }else if (b1 != nullptr and r2 != nullptr)
+      {
+        return collide(b1, r2);
+      }else if (r1 != nullptr and b2 != nullptr)
+      {
+        return collide(r1, b2);
+      }else
+      {
+        return false;
+      }
   }
+
+  bool PairManager::collide(const BoxCollider::PTR& b1, const BoxCollider::PTR& b2) const
+  {
+    return b1->getBoundingBox().intersects( b2->getBoundingBox() );
+  }
+
+  bool PairManager::collide(const RoundCollider::PTR& r1, const RoundCollider::PTR& r2) const
+  {
+    // TODO : real collision circle-circle
+    return r1->getBoundingBox().intersects( r2->getBoundingBox() );
+  }
+
+  bool PairManager::collide(const BoxCollider::PTR& b1, const RoundCollider::PTR& r2) const
+  {
+    return b1->getBoundingBox().intersects( r2->getBoundingBox() );
+  }
+
+  bool PairManager::collide(const RoundCollider::PTR& r1, const BoxCollider::PTR& b2) const
+  {
+    return r1->getBoundingBox().intersects( b2->getBoundingBox() );
+  }
+
+
 
 }
