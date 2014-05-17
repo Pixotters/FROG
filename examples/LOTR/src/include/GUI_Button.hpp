@@ -15,6 +15,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -49,6 +50,9 @@ public:
 class Button : virtual public frog::GameObject
 {
 
+public:
+  typedef std::shared_ptr<Button> PTR;
+
 private:
   bool selected;
 
@@ -59,6 +63,9 @@ public:
   virtual ~Button();
  
   void setAction(const frog::Command::PTR& fun);
+  PTR create(std::vector<sf::Event>&, 
+             ButtonUI::PTR&, 
+             const frog::Command::PTR& );
 };
 
 #endif

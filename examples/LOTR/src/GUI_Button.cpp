@@ -38,10 +38,10 @@ void ButtonUI::update(const ComponentHolder& parent)
   canvas_texture.draw(*label, sf::RenderStates::Default );
   // TODO check if this is necessary
   canvas->setTexture(canvas_texture.getTexture() );
-  std::cerr << "canvas : "<< canvas->getPosition().x \
-            << ',' << canvas->getPosition().y << std::endl;
-  std::cerr << "canvas_tex : "<< canvas_texture.getSize().x \
-            << ',' << canvas_texture.getSize().y << std::endl;
+  /*  std::cerr << "canvas : "<< canvas->getPosition().x        \
+      << ',' << canvas->getPosition().y << std::endl;
+      std::cerr << "canvas_tex : "<< canvas_texture.getSize().x \
+      << ',' << canvas_texture.getSize().y << std::endl; */
 }
 
 void ButtonUI::setString(const std::string& s)
@@ -84,16 +84,20 @@ Button::Button(std::vector<sf::Event>& e,
   addComponent(bu, "RENDERING");
   auto fun = [this](Collision c)
     {
-      std::cout << "Collision" << std::endl;
-      if (c.second->getProperty<std::string>("type").compare("cursor") )
+      try{
+        if (c.second->getProperty<std::string>("type").compare("cursor") == 0 )
+          {
+            if (c.trigger == Collision::COLLISION)
+              {
+                selected = true;
+              }else if (c.trigger == Collision::SEPARATION)
+              {
+                selected = false;
+              }
+          }
+      }catch(std::logic_error e)
         {
-          if (c.trigger == Collision::COLLISION)
-            {
-              selected = true;
-            }else if (c.trigger == Collision::SEPARATION)
-            {
-              selected = false;
-            }
+
         }
     };
   addComponent(BoxCollider::create(bu->getSize(), 
@@ -115,9 +119,19 @@ void Button::setAction(const Command::PTR& fun)
   ctrl->bind(MouseButton::create(sf::Mouse::Left, Trigger::PRESSED), 
              Function::create(
                               [this, fun](){ 
-                                if (selected)
-                                    fun->execute();
+                                std::cout << "clicked " << std::endl;
+                                if (selected){
+                                  std::cout << "executing ! " << std::endl;
+                                  fun->execute();
+                                }
                               })
              );
+}
+
+Button::PTR Button::create(std::vector<sf::Event>& e, 
+                           ButtonUI::PTR& u, 
+                           const frog::Command::PTR& a)
+{
+  return PTR(new Button(e, u, a) );
 }
 
