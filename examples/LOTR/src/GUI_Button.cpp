@@ -119,9 +119,7 @@ void Button::setAction(const Command::PTR& fun)
   ctrl->bind(MouseButton::create(sf::Mouse::Left, Trigger::PRESSED), 
              Function::create(
                               [this, fun](){ 
-                                std::cout << "clicked " << std::endl;
                                 if (selected){
-                                  std::cout << "executing ! " << std::endl;
                                   fun->execute();
                                 }
                               })
