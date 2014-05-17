@@ -19,7 +19,7 @@ void Options::enter()
 {
   auto& font = defaultFontManager.get("MSG_FONT");
   auto label_rounds = GameObject::create();
-  label_rounds->addComponent(TextSprite::create("Rounds", font) ,
+  label_rounds->addComponent(TextSprite::create("Rounds", font, 60) ,
                              "RENDERING");
   addObject(label_rounds);
 }
