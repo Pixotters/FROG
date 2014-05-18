@@ -18,7 +18,8 @@
       <font filename="assets/fonts/scoreboard.ttf" ID="SCORE_FONT" />
     </FONTS>
     <SPRITESHEETS>
-      <spritesheet filename="assets/spritesheets/back.xml" ID="BACK" />
+      <spritesheet filename="assets/spritesheets/back.xml"  ID="BACK" />
+      <spritesheet filename="assets/spritesheets/front.xml" ID="FRONT" />
     </SPRITESHEETS>
   </ASSETS>
 </SCENE>

@@ -2,8 +2,7 @@
 #include "CharacterPlayed.hpp"
 #include "PlayerMachine.hpp"
 #include "PlayerState.hpp"
-#include "MouseMover.hpp"
-#include "MovePlayer.hpp"
+#include "ChangeState.hpp"
 
 #include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Control.hpp>
@@ -48,7 +47,7 @@ void Match::enter()
   float y_backs = 550;
   float y_fronts = 350;
   float x_left = 150;
-  float x_right = 450;
+  float x_right = 650;
   auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
   player1->transform->setPosition( sf::Vector2f(x_left, y_backs) );
@@ -56,37 +55,50 @@ void Match::enter()
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
+  std::shared_ptr<PlayerMachine> fsm1(new PlayerMachine() );
   player1->addComponent(anim1, "RENDERING" );
-  setControls();
+  player1->addComponent(fsm1, "FSM");
   // setting up mirror1  
   auto& img1_front = defaultTextureManager.get("AVRAGE_FRONT");
+  auto& sprt_front = defaultSpritesheetManager.get("FRONT");
   mirror1->transform->setPosition( sf::Vector2f(x_right, y_fronts) );
-  mirror1->addComponent(Animator<std::string>::create(sprt_front, img1_front) );
+  mirror1->transform->layer = 2;
+  auto anim1m = Animator<std::string>::create(sprt_front, img1_front);
+  anim1m->setDefaultAnimation("stand");  
+  anim1m->playAnimation("stand", true);  
+  mirror1->addComponent(anim1m, "RENDERING");
+  mirror1->addComponent(fsm1, "FSM");
+  // controls
+  setControls();
   // adding objects
   addObject(ring);
   addObject(player1);  
   addObject(mirror1);  
-  addObject(player2);  
+  //  addObject(player2);  
 }
 
 
 void Match::setControls()
 {
+  // creating state changer factories
+ auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
+ std::shared_ptr<PlayerStateFactory> factory1(new PlayerStateFactory(player1,
+                                                                     mirror1,
+                                                                     fsm1) );
+ // setting controls
  auto ctrl = ControlComponent::create(appInfo.eventList);
-  // REMOVE
-  std::shared_ptr<Command> moveleft(new MovePlayer(player1, -32, 0, appInfo) );
-  std::shared_ptr<Command> moveright(new MovePlayer(player1, 32, 0, appInfo) );
-  std::shared_ptr<Command> moveup(new MovePlayer(player1, 0, -32, appInfo) );
-  std::shared_ptr<Command> movedown(new MovePlayer(player1, 0, 32, appInfo) );
-  auto qkey = KeyboardButton::create(sf::Keyboard::Q);
-  auto dkey = KeyboardButton::create(sf::Keyboard::D);
-  auto zkey = KeyboardButton::create(sf::Keyboard::Z);
-  auto skey = KeyboardButton::create(sf::Keyboard::S);
-  ctrl->bind(qkey, moveleft );    
-  ctrl->bind(dkey, moveright );
-  ctrl->bind(zkey, moveup );  
-  ctrl->bind(skey,  movedown );
- 
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
+            ChangeState::create(factory1, "punchL") );
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
+            ChangeState::create(factory1, "punchM") );
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
+            ChangeState::create(factory1, "punchR") );
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
+            ChangeState::create(factory1, "dodgeL") );
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
+            ChangeState::create(factory1, "dodgeM") );
+ ctrl->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
+            ChangeState::create(factory1, "dodgeR") );
   //
   player1->addComponent(ctrl, "CONTROL");
 }

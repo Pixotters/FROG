@@ -2,19 +2,23 @@
 
 using namespace frog;
 
-PlayerState::PlayerState(std::shared_ptr<PlayerMachine>& ma,
-                         GameObject::PTR o,
-                         PlayerState::FUN enter, 
+PlayerState::PlayerState(PlayerState::FUN enter, 
                          PlayerState::FUN update,
                          PlayerState::FUN exit)
   : State(),
-    machine(ma),
-    object(o),
     onEnter(enter), 
     onUpdate(update),
     onExit(exit)
 {
   
+}
+
+PlayerState::PlayerState(const PlayerState& other)
+  : State(),
+    onEnter(other.onEnter),
+    onUpdate(other.onUpdate),
+    onExit(other.onExit)
+{
 }
 
 PlayerState::~PlayerState()
@@ -23,25 +27,23 @@ PlayerState::~PlayerState()
 
 void PlayerState::enter()
 {
-  onEnter(machine, object);
+  onEnter();
 }
 
 void PlayerState::update()
 {
-  onUpdate(machine, object);
+  onUpdate();
 }
 
 void PlayerState::exit()
 {
-  onExit(machine, object);
+  onExit();
 }
 
-PlayerState::PTR PlayerState::create(PlayerMachine::PTR ma,
-                                     frog::GameObject::PTR ob,
-                                     PlayerState::FUN enter, 
+PlayerState::PTR PlayerState::create(PlayerState::FUN enter, 
                                      PlayerState::FUN update,
                                      PlayerState::FUN exit)
 {
-  return PTR( new PlayerState(ma, ob, enter, update, exit) );
+  return PTR( new PlayerState(enter, update, exit) );
 }
 

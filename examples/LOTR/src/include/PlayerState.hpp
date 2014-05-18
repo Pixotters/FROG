@@ -14,37 +14,25 @@ class PlayerState : virtual public frog::State
 
 public:
   typedef std::shared_ptr<PlayerState> PTR;
-  typedef std::function<void(PlayerMachine::PTR&, frog::GameObject::PTR)> FUN;
+  typedef std::function<void()> FUN;
 
 private:
   FUN onEnter;
   FUN onUpdate;
   FUN onExit;
-public:
-  PlayerMachine::PTR machine;
-  frog::GameObject::PTR object;
 
 public:
-  PlayerState(std::shared_ptr<PlayerMachine>& machine,
-              frog::GameObject::PTR o,
-              FUN enter
-              = [](PlayerMachine::PTR, frog::GameObject::PTR){},
-              FUN update
-              = [](PlayerMachine::PTR, frog::GameObject::PTR){},
-              FUN exit
-              = [](PlayerMachine::PTR, frog::GameObject::PTR){} );
+  PlayerState(FUN enter  = [](){},
+              FUN update = [](){},
+              FUN exit   = [](){} );
+  PlayerState(const PlayerState&);
   virtual ~PlayerState();
   virtual void enter();
   virtual void update();
   virtual void exit();
-  static PTR create(PlayerMachine::PTR machine,
-                    frog::GameObject::PTR o,
-                    FUN
-                    = [](PlayerMachine::PTR, frog::GameObject::PTR){},
-                    FUN
-                    = [](PlayerMachine::PTR, frog::GameObject::PTR){},
-                    FUN
-                    = [](PlayerMachine::PTR, frog::GameObject::PTR){} );
+  static PTR create(FUN = [](){},
+                    FUN = [](){},
+                    FUN = [](){} );
 
 };
 
