@@ -61,19 +61,19 @@ void PlayerStateFactory::createStates()
       anim1->playAnimation("dodgeL");
       anim2->playAnimation("dodgeL");
     };
-  map.emplace("dodgeL", PlayerState(punchR_enter) );
+  map.emplace("dodgeL", PlayerState(dodgeL_enter) );
   // dodgeM
   auto dodgeM_enter = [anim1, anim2]()
     {
       anim1->playAnimation("dodgeM");
       anim2->playAnimation("dodgeM");
     };
-  map.emplace("dodgeM", PlayerState(punchR_enter) );
+  map.emplace("dodgeM", PlayerState(dodgeM_enter) );
   // dodgeR
   auto dodgeR_enter = [anim1, anim2]()
     {
       anim1->playAnimation("dodgeR");
       anim2->playAnimation("dodgeR");
     };
-  map.emplace("dodgeR", PlayerState(punchR_enter) );
+  map.emplace("dodgeR", PlayerState(dodgeR_enter) );
 }
