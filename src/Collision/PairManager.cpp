@@ -2,8 +2,6 @@
 
 #include "FROG/Collision/Collision.hpp"
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   PairManager::PairManager()
@@ -72,19 +70,10 @@ namespace frog{
             auto r1 = o1->getComponent<Collider>("COLLIDER");
             auto r2 = o2->getComponent<Collider>("COLLIDER");
             // TODO remove
-            std::cerr << "testing "<< i <<"&"<<j << std::endl;
-            std::cerr << "with    "<< r1 <<"&"<<r2 << std::endl;
             auto bb1 = r1->getBoundingBox();
             auto bb2 = r2->getBoundingBox();
-            std::cerr << "1 = "<< bb1.left <<"," << bb1.top \
-                      << "-" << bb1.width << "x" << bb1.height << std::endl;
-            std::cerr << "2 = "<< bb2.left <<"," << bb2.top \
-                      << "-" << bb2.width << "x" << bb2.height << std::endl;
-            std::cerr << "intersection ?" \
-                      << bb1.intersects(bb2) << std::endl;
             if ( collide(r1, r2) or collide(r2, r1) )
               {
-                std::cerr << "COLLISION OCCURRED" << std::endl;
                 addColliding(o1, o2);
                 sendCollision(o1, o2, r1, r2, Collision::Trigger::COLLISION);
               }else
@@ -127,18 +116,14 @@ namespace frog{
                                   const Collider::PTR& r2,
                                   Collision::Trigger tr) const
   {
-    std::cerr << "sending " << std::endl;
     if (r1.get() != nullptr and r2.get() != nullptr)
       {
         Collision c(o1, o2, tr);
         r1->onCollision(c);
-        std::cerr << "first " << std::endl;
-        
         if (r1.get() != nullptr and r2.get() != nullptr)
           {
             Collision c(o2, o1, tr);
             r2->onCollision(c);
-            std::cerr << "second " << std::endl;
           }
       }
 
