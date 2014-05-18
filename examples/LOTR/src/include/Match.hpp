@@ -11,8 +11,10 @@ class Match : virtual public frog::Scene
 
 private:
   MatchInfo matchInfo;
-  frog::GameObject * player1;
+  frog::GameObject::PTR player1;
+  frog::GameObject::PTR mirror1;
   frog::GameObject::PTR player2;
+  frog::GameObject::PTR mirror2;
   frog::GameObject::PTR ring;  
 
 public:

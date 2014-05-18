@@ -17,7 +17,10 @@ Match::Match(AppInfo& a,
              const Character& ch1,
              const Character& ch2)
   : Scene(a), matchInfo(m),
+    player1(new GameObject() ),
+    mirror1(new GameObject() ),
     player2(new GameObject() ),
+    mirror2(new GameObject() ),
     ring(new GameObject() )
 {
   std::cout << "loading match " << std::endl;
@@ -37,26 +40,33 @@ Match::~Match()
 
 void Match::enter()
 {
-  player1 = new GameObject();
   // setting up ring 
   auto& ringimg = defaultTextureManager.get("RING");
   ring->addComponent(Sprite::create(ringimg), "RENDERING");
   ring->transform->layer = 1;
   // setting up player1
-  //  player1->addComponent(new MouseMover(), "MOUSE");  
-  sf::Texture& img1_back = defaultTextureManager.get("AVRAGE_BACK");
-  Spritesheet<std::string>& sprt_back = defaultSpritesheetManager.get("BACK");
-  player1->transform->setPosition( sf::Vector2f(150, 550) );
+  float y_backs = 550;
+  float y_fronts = 350;
+  float x_left = 150;
+  float x_right = 450;
+  auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
+  auto& sprt_back = defaultSpritesheetManager.get("BACK");
+  player1->transform->setPosition( sf::Vector2f(x_left, y_backs) );
   player1->transform->layer = 3;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
   player1->addComponent(anim1, "RENDERING" );
   setControls();
+  // setting up mirror1  
+  auto& img1_front = defaultTextureManager.get("AVRAGE_FRONT");
+  mirror1->transform->setPosition( sf::Vector2f(x_right, y_fronts) );
+  mirror1->addComponent(Animator<std::string>::create(sprt_front, img1_front) );
   // adding objects
   addObject(ring);
   addObject(player1);  
-  //  addObject(player2);  
+  addObject(mirror1);  
+  addObject(player2);  
 }
 
 
