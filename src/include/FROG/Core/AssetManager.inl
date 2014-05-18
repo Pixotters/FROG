@@ -15,8 +15,7 @@ namespace frog{
     for (auto& file : other.m_files)
       {
         std::unique_ptr<R> pr( new R( *(file.second) ) );
-        auto check = m_files.insert( std::make_pair(file.first, 
-                                                    std::move(pr) )  );
+        m_files.emplace( file.first, std::move(pr) );
       }
   }
 
