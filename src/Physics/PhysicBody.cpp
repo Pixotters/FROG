@@ -77,8 +77,8 @@ namespace frog{
   sf::Vector2f PhysicBody::resetGrowth()
   {
     auto old = sf::Vector2f(growth.x, growth.y);
-    growth.x = 1.0f;
-    growth.y = 1.0f;
+    growth.x = 0.0f;
+    growth.y = 0.0f;
     return old;
   }
 
@@ -88,7 +88,8 @@ namespace frog{
     float sec = deltaTime.asSeconds();
     tr->move(velocity * sec);
     tr->rotate(rotation * sec);
-    tr->scale(growth * sec);
+    auto previous_scale = tr->getScale();
+    tr->setScale( previous_scale+(growth * sec) );
   }
 
   PhysicBody::PTR PhysicBody::create(sf::Time& _dt,

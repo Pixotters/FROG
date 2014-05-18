@@ -37,7 +37,7 @@ namespace frog{
     PhysicBody(sf::Time& dt,
                const sf::Vector2f& velocity = sf::Vector2f(0, 0),
                float rotation = 0.0f,
-               const sf::Vector2f& growth = sf::Vector2f(1.0, 1.0) );
+               const sf::Vector2f& growth = sf::Vector2f(0, 0) );
 
     virtual ~PhysicBody();
 
@@ -66,7 +66,7 @@ namespace frog{
     static PTR create(sf::Time &, 
                       const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
                       float _rotation = 0.0f,
-                      const sf::Vector2f& _growth = sf::Vector2f(1.0, 1.0) );
+                      const sf::Vector2f& _growth = sf::Vector2f(0, 0) );
 
   };
 
