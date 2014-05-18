@@ -46,7 +46,7 @@ void Match::enter()
   //  player1->addComponent(new MouseMover(), "MOUSE");  
   sf::Texture& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   Spritesheet<std::string>& sprt_back = defaultSpritesheetManager.get("BACK");
-  //  player1->transform->setPosition( sf::Vector2f(100, 100) );
+  player1->transform->setPosition( sf::Vector2f(150, 550) );
   player1->transform->layer = 3;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  

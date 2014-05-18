@@ -39,7 +39,7 @@ namespace frog{
               t->move( tr.getPosition() + clip.hotpoint );
               t->setOrigine( tr.getOrigin() );
     */
-    m_sprite->move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
+    m_sprite->move( -static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
     m_timer++;
     // changing (or not) anim when it's done
     if ( m_timer >= animClip.duration )
