@@ -10,6 +10,12 @@ namespace frog{
 
   }
 
+  AnimationClip::AnimationClip(const AnimationClip& other)
+    : sprite(other.sprite), duration(other.duration), transform(other.transform)
+  {
+
+  }
+
 
   AnimationClip::~AnimationClip()
   {
