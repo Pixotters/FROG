@@ -1,0 +1,24 @@
+<? xml version="1.0" ?>
+<SCENE>
+  <ASSETS>
+    <TEXTURES>
+      <texture filename="assets/images/gui_elements.png" ID="GUI" />
+      <texture filename="assets/images/background.png" ID="RING" />
+      <texture filename="assets/images/characters/avrage_back.png"
+               ID="AVRAGE_BACK" />
+      <texture filename="assets/images/characters/avrage_front.png"
+               ID="AVRAGE_FRONT" />
+      <texture filename="assets/images/characters/sdard_back.png"
+               ID="SDARD_BACK" />
+      <texture filename="assets/images/characters/sdard_front.png"
+               ID="SDARD_FRONT" />
+    </TEXTURES>
+    <FONTS>
+      <font filename="assets/fonts/charlie_dotted.ttf" ID="MSG_FONT" />
+      <font filename="assets/fonts/scoreboard.ttf" ID="SCORE_FONT" />
+    </FONTS>
+    <SPRITESHEETS>
+      <spritesheet filename="assets/spritesheets/back.xml" ID="BACK" />
+    </SPRITESHEETS>
+  </ASSETS>
+</SCENE>

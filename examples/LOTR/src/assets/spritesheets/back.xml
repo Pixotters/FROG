@@ -1,0 +1,195 @@
+<? xml version="1.0" ?>
+<SPRITESHEET>
+
+  <SPRITES max_id="40">
+    <!-- stand -->
+    <sprite id="0" x="14" y="2" 
+            width="142" height="360" />
+    <sprite id="1" x="190" y="3" 
+            width="145" height="461" />
+    <sprite id="2" x="387" y="14" 
+            width="133" height="445" 
+            hot_x="59" hot_y="411" />
+    <!-- punch R -->
+    <sprite id="3" x="566" y="6" 
+            width="202" height="455" 
+            hot_x="61" hot_y="418" />
+    <sprite id="4" x="778" y="6" 
+            width="245" height="475" 
+            hot_x="57" hot_y="416" />
+    <sprite id="5" x="1045" y="3" 
+            width="249" height="512" 
+            hot_x="76" hot_y="466" />
+    <sprite id="6" x="1309" y="4" 
+            width="237" height="522" 
+            hot_x="167" hot_y="510" />
+    <sprite id="7" x="19" y="500" 
+            width="225" height="515" 
+            hot_x="228" hot_y="446" />
+    <sprite id="8" x="296" y="503" 
+            width="195" height="500" 
+            hot_x="163" hot_y="449" />
+    <sprite id="9" x="576" y="564" 
+            width="269" height="467" 
+            hot_x="192" hot_y="432" />
+    <sprite id="10" x="875" y="564" 
+            width="179" height="458" 
+            hot_x="107" hot_y="426" />
+    <sprite id="11" x="1080" y="550" 
+            width="280" height="468" 
+            hot_x="199" hot_y="432" />
+    <sprite id="12" x="1398" y="576" 
+            width="146" height="460" 
+            hot_x="73" hot_y="478" />
+    <sprite id="13" x="1362" y="1066" 
+            width="180" height="481" 
+            hot_x="95" hot_y="503" />
+    <sprite id="14" x="1035" y="1060" 
+            width="163" height="481" 
+            hot_x="75" hot_y="444" />
+    <sprite id="15" x="779" y="1065" 
+            width="170" height="483" 
+            hot_x="72" hot_y="446" />
+    <sprite id="16" x="593" y="1075" 
+            width="151" height="477" 
+            hot_x="65" hot_y="438" />
+    <sprite id="17" x="286" y="1061" 
+            width="225" height="479" 
+            hot_x="2" hot_y="411" />
+    <sprite id="18" x="42" y="1064" 
+            width="179" height="466" 
+            hot_x="4" hot_y="410" />
+    <sprite id="19" x="55" y="1632" 
+            width="174" height="423" 
+            hot_x="89" hot_y="341" />
+    <sprite id="20" x="323" y="1593" 
+            width="153" height="467" 
+            hot_x="74" hot_y="415" />
+    <sprite id="21" x="571" y="1586" 
+            width="267" height="485" 
+            hot_x="137" hot_y="459" />
+    <sprite id="22" x="877" y="1592" 
+            width="316" height="482" 
+            hot_x="163" hot_y="457" />
+    <sprite id="23" x="1249" y="1594" 
+            width="283" height="478" 
+            hot_x="146" hot_y="452" />
+    <sprite id="24" x="1574" y="1607" 
+            width="167" height="445" 
+            hot_x="76" hot_y="428" />
+    <sprite id="25" x="1766" y="1601" 
+            width="169" height="439" 
+            hot_x="71" hot_y="428" />
+    <sprite id="26" x="61" y="2104" 
+            width="193" height="482" 
+            hot_x="82" hot_y="449" />
+    <sprite id="27" x="302" y="2117" 
+            width="270" height="451" 
+            hot_x="126" hot_y="424" />
+    <sprite id="28" x="592" y="2161" 
+            width="341" height="424" 
+            hot_x="160" hot_y="388" />
+    <sprite id="29" x="946" y="2112" 
+            width="410" height="293" 
+            hot_x="201" hot_y="267" />
+    <sprite id="30" x="1375" y="2173" 
+            width="447" height="277" 
+            hot_x="231" hot_y="67" />
+    <sprite id="31" x="1818" y="2133" 
+            width="278" height="276" 
+            hot_x="151" hot_y="110" />
+    <sprite id="32" x="32" y="2632" 
+            width="356" height="446" 
+            hot_x="190" hot_y="411" />
+    <sprite id="33" x="444" y="2634" 
+            width="195" height="483" 
+            hot_x="96" hot_y="446" />
+    <sprite id="34" x="1613" y="2650" 
+            width="205" height="445" 
+            hot_x="109" hot_y="420" />
+    <sprite id="35" x="1348" y="2623" 
+            width="184" height="461" 
+            hot_x="94" hot_y="428" />
+    <sprite id="36" x="1041" y="2642" 
+            width="206" height="460" 
+            hot_x="109" hot_y="425" />
+    <sprite id="37" x="768" y="2634" 
+            width="219" height="471" 
+            hot_x="105" hot_y="434" />
+    <sprite id="38" x="1398" y="576" 
+            width="146" height="460" 
+            hot_x="73" hot_y="428" />
+    <sprite id="39" x="1309" y="4" 
+            width="237" height="522" 
+            hot_x="167" hot_y="460" />
+    <sprite id="40" x="1362" y="1066" 
+            width="180" height="481" 
+            hot_x="95" hot_y="453" />
+  </SPRITES>
+
+  <ANIMATIONS>
+
+    <ANIMATION id="stand">
+      <CLIPS>
+        <clip id="0" duration="2" />
+        <clip id="1" duration="1" />
+        <clip id="2" duration="2" />
+        <clip id="1" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="punchL">
+      <CLIPS>
+        <clip id="9" duration="1" />
+        <clip id="10" duration="2" />
+        <clip id="11" duration="1" />
+        <clip id="12" duration="5" />
+        <clip id="38" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="punchR">
+      <CLIPS>
+        <clip id="3" duration="1" />
+        <clip id="4" duration="2" />
+        <clip id="5" duration="1" />
+        <clip id="6" duration="5" />
+        <clip id="39" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="punchM">
+      <CLIPS>
+        <clip id="16" duration="1" />
+        <clip id="15" duration="4" />
+        <clip id="14" duration="1" />
+        <clip id="13" duration="7" />
+        <clip id="40" duration="1" />
+        <clip id="14" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="dodgeL">
+      <CLIPS>
+        <clip id="7" duration="2" />
+        <clip id="8" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="dodgeR">
+      <CLIPS>
+        <clip id="17" duration="2" />
+        <clip id="18" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+    <ANIMATION id="dodgeM">
+      <CLIPS>
+        <clip id="19" duration="2" />
+        <clip id="20" duration="1" />
+      </CLIPS>
+    </ANIMATION>
+
+  </ANIMATIONS>
+
+</SPRITESHEET>

@@ -49,10 +49,9 @@ void Match::enter()
   //  player1->transform->setPosition( sf::Vector2f(100, 100) );
   player1->transform->layer = 3;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
-  anim1->setDefaultAnimation("tap_foot");  
-  anim1->playAnimation("tap_foot", true);  
+  anim1->setDefaultAnimation("stand");  
+  anim1->playAnimation("stand", true);  
   player1->addComponent(anim1, "RENDERING" );
-  player2->addComponent(Sprite::create(img1_back), "RENDERING" );
   setControls();
   // adding objects
   addObject(ring);

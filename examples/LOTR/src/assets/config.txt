@@ -1,0 +1,19 @@
+#fullscreen
+fullscreen=0
+#sound (in percents)
+music=65
+sound=100
+#player 1 inputs
+1-attackL=0
+1-attackM=25
+1-attackR=4
+1-dodgeL=16
+1-dodgeM=18
+1-dodgeR=3
+#player 2 inputs
+2-attackL=8
+2-attackM=14
+2-attackR=15
+2-dodgeL=10
+2-dodgeM=11
+2-dodgeR=12
