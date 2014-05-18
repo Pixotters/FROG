@@ -51,7 +51,7 @@ void Match::enter()
   auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
   player1->transform->setPosition( sf::Vector2f(x_left, y_backs) );
-  player1->transform->layer = 3;
+  player1->transform->layer = 4;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
@@ -67,60 +67,97 @@ void Match::enter()
   anim1m->setDefaultAnimation("stand");  
   anim1m->playAnimation("stand", true);  
   mirror1->addComponent(anim1m, "RENDERING");
-  mirror1->addComponent(fsm1, "FSM");
+  // setting up player2
+  auto& img2_back = defaultTextureManager.get("SDARD_BACK");
+  player2->transform->setPosition( sf::Vector2f(x_right, y_backs) );
+  player2->transform->layer = 4;
+  auto anim2 = Animator<std::string>::create(sprt_back, img2_back);
+  anim2->setDefaultAnimation("stand");  
+  anim2->playAnimation("stand", true);  
+  std::shared_ptr<PlayerMachine> fsm2(new PlayerMachine() );
+  player2->addComponent(anim2, "RENDERING" );
+  player2->addComponent(fsm2, "FSM");
+  // setting up mirror2
+  mirror2->transform->setPosition( sf::Vector2f(x_left, y_fronts) );
+  mirror2->transform->layer = 2;
+  auto& img2_front = defaultTextureManager.get("SDARD_FRONT");
+  auto anim2m = Animator<std::string>::create(sprt_front, img2_front);
+  anim2m->setDefaultAnimation("stand");  
+  anim2m->playAnimation("stand", true);  
+  mirror2->addComponent(anim2m, "RENDERING");
   // controls
   setControls();
   // adding objects
   addObject(ring);
-  addObject(player1);  
   addObject(mirror1);  
-  //  addObject(player2);  
+  addObject(mirror2);  
+  addObject(player1);  
+  addObject(player2);  
 }
 
 
 void Match::setControls()
 {
   // creating state changer factories
- auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
- std::shared_ptr<PlayerStateFactory> factory1(new PlayerStateFactory(player1,
-                                                                     mirror1,
-                                                                     fsm1) );
- // setting controls
- auto ctrl = ControlComponent::create(appInfo.eventList);
- ctrl->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
-            ChangeState::create(factory1, "punchL") );
- ctrl->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
-            ChangeState::create(factory1, "punchM") );
- ctrl->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
-            ChangeState::create(factory1, "punchR") );
- ctrl->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
-            ChangeState::create(factory1, "dodgeL") );
- ctrl->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
-            ChangeState::create(factory1, "dodgeM") );
- ctrl->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
-            ChangeState::create(factory1, "dodgeR") );
-  //
-  player1->addComponent(ctrl, "CONTROL");
+  auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
+  std::shared_ptr<PlayerStateFactory> factory1(new PlayerStateFactory(player1,
+                                                                      mirror1,
+                                                                      fsm1) );
+  auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
+  std::shared_ptr<PlayerStateFactory> factory2(new PlayerStateFactory(player2,
+                                                                      mirror2,
+                                                                      fsm2) );
+  // setting controls for P1
+  auto ctrl1 = ControlComponent::create(appInfo.eventList);
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
+              ChangeState::create(factory1, "punchL") );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
+              ChangeState::create(factory1, "punchM") );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
+              ChangeState::create(factory1, "punchR") );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
+              ChangeState::create(factory1, "dodgeL") );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
+              ChangeState::create(factory1, "dodgeM") );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
+              ChangeState::create(factory1, "dodgeR") );
+  player1->addComponent(ctrl1, "CONTROL");
+  // setting controls for P2
+  auto ctrl2 = ControlComponent::create(appInfo.eventList);
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
+              ChangeState::create(factory2, "punchL") );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
+              ChangeState::create(factory2, "punchM") );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
+              ChangeState::create(factory2, "punchR") );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
+              ChangeState::create(factory2, "dodgeL") );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
+              ChangeState::create(factory2, "dodgeM") );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
+              ChangeState::create(factory2, "dodgeR") );
+  player2->addComponent(ctrl2, "CONTROL");
+
 }
 
 
 /*
-auto stand_enter = []( PlayerMachine& m, GameObject::PTR o){
+  auto stand_enter = []( PlayerMachine& m, GameObject::PTR o){
   auto anim = o->getComponent<Animator<std::string>>("RENDERING");
   anim->playAnimation("stand");
   m.resetCount();
-};
-PlayerState::PTR PlayerMachine::STAND( new PlayerState(stand_enter) );
+  };
+  PlayerState::PTR PlayerMachine::STAND( new PlayerState(stand_enter) );
 
-auto punchL_enter = []( PlayerMachine& m, GameObject::PTR o){
+  auto punchL_enter = []( PlayerMachine& m, GameObject::PTR o){
   auto anim = o->getComponent<Animator<std::string>>("RENDERING");
   anim->playAnimation("punchL", false);
   m.resetCount();
-};
-auto punchL_update = [](PlayerMachine& m, GameObject::PTR o){
+  };
+  auto punchL_update = [](PlayerMachine& m, GameObject::PTR o){
   if (m.frame == 5)
-    std::cout << "hit " << std::endl;
-};
-PlayerState::PTR PlayerMachine::PUNCH(new PlayerState(punchL_enter, punchL_update) );
+  std::cout << "hit " << std::endl;
+  };
+  PlayerState::PTR PlayerMachine::PUNCH(new PlayerState(punchL_enter, punchL_update) );
 
 */
