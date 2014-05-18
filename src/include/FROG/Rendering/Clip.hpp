@@ -21,6 +21,7 @@ namespace frog{
     Clip(int x = 0, int y = 0, 
          unsigned w = 0, unsigned h = 0,
          int hx = 0, int hy = 0);
+    Clip(const Clip&);
     virtual ~Clip();
     
   };
