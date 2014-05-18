@@ -14,7 +14,7 @@ private:
   unsigned short currentHealth; // actual health
   unsigned short currentStamina; //actual stamina
   unsigned short receivedHits; // number of consecutive hits taken
-  unsigned char KOs;
+  unsigned short KOs;
 
 public:
   CharacterPlayed(const std::string& = "Unknown",

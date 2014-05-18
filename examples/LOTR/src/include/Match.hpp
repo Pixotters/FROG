@@ -11,8 +11,9 @@ class Match : virtual public frog::Scene
 
 private:
   MatchInfo matchInfo;
-  frog::GameObject::PTR player1;
+  frog::GameObject * player1;
   frog::GameObject::PTR player2;
+  frog::GameObject::PTR ring;  
 
 public:
   Match(frog::AppInfo& appInfo, 
@@ -21,6 +22,7 @@ public:
         const Character& character2);
   virtual ~Match();
   virtual void enter();
+  void setControls();
 
 };
 

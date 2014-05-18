@@ -3,6 +3,11 @@
 #include "GUI_Button.hpp"
 #include "MouseMover.hpp"
 #include "Options.hpp"
+// REMOVE
+#include "Match.hpp"
+#include "MatchInfo.hpp"
+#include "Character.hpp"
+//
 
 #include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Control/Function.hpp>
@@ -28,8 +33,20 @@ void MainMenu::enter()
   auto& font = defaultFontManager.get("MSG_FONT");
   ButtonUI::PTR bui(new ButtonUI("test", font, sf::Vector2f(200, 100) ) );
   bui->setBackground(sf::Color::Red);
-  auto fun = Function::create([this](){
-      appInfo.stateManager.change( new Options(appInfo) );
+  // TODO : move after "Options"
+  MatchInfo ma;
+  ma.type = MatchInfo::KO;
+  ma.roundsNumber = 3;
+  ma.strengthModifier = 0;
+  ma.fatigueModifier = 0;
+  ma.timePerRound = 90;
+  ma.TKO = true;
+  Character c1("a");
+  Character c2("b");
+  //
+  auto fun = Function::create([this, ma, c1, c2](){
+      //      appInfo.stateManager.change( new Options(appInfo) );
+      appInfo.stateManager.change( new Match(appInfo, ma, c1, c2) );
     });
   GameObject::PTR button( new Button(appInfo.eventList, bui, fun) );
   button->transform->setPosition(400, 300);

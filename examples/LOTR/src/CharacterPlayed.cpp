@@ -1,5 +1,7 @@
 #include "CharacterPlayed.hpp"
 
+#include <iostream> //TODO remove
+
 CharacterPlayed::CharacterPlayed(const std::string& name,
 				 unsigned short health, 
 				 unsigned short resistance, 
@@ -21,6 +23,7 @@ CharacterPlayed::CharacterPlayed(const CharacterPlayed& c)
     receivedHits(0),
     KOs(0)
 {
+  std::cout << "copying played " << std::endl;
 }
 
 CharacterPlayed::CharacterPlayed(const Character& c)
@@ -31,4 +34,6 @@ CharacterPlayed::CharacterPlayed(const Character& c)
     receivedHits(0),
     KOs(0)
 {
+  std::cout << "creating player played " << std::endl;
+  std::cout << name << "-"<<health << "-" << resistance << "-" << KOs << std::endl;
 }

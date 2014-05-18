@@ -2,9 +2,13 @@
 #include "CharacterPlayed.hpp"
 #include "PlayerMachine.hpp"
 #include "PlayerState.hpp"
+#include "MouseMover.hpp"
+#include "MovePlayer.hpp"
 
+#include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Control.hpp>
 #include <FROG/Rendering/Animator.hpp>
+#include <FROG/Rendering/Sprite.hpp>
 
 using namespace frog;
 
@@ -12,12 +16,18 @@ Match::Match(AppInfo& a,
              const MatchInfo& m,
              const Character& ch1,
              const Character& ch2)
-  : Scene(a), matchInfo(m)
+  : Scene(a), matchInfo(m),
+    player2(new GameObject() ),
+    ring(new GameObject() )
 {
-  player1->addProperty<CharacterPlayed>("character", 
-                                        new CharacterPlayed(ch1) );
-  player2->addProperty<CharacterPlayed>("character", 
-                                        new CharacterPlayed(ch2) );
+  std::cout << "loading match " << std::endl;
+  loadFromFile("assets/scenes/match.xml");
+  std::cout << "loaded match " << std::endl;
+  //  player1->addComponent(new MouseMover(), "MOUSE");  
+  //player1->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch1) );
+  //player2->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch2) );
+
+  std::cout << "match created " << std::endl;
 
 }
 
@@ -28,29 +38,51 @@ Match::~Match()
 
 void Match::enter()
 {
+  player1 = new GameObject();
+  // setting up ring 
+  auto& ringimg = defaultTextureManager.get("RING");
+  ring->addComponent(Sprite::create(ringimg), "RENDERING");
+  addObject(ring);
   // setting up player1
-  PlayerMachine::PTR fsm1(new PlayerMachine() );
-  auto& img1_front = defaultTextureManager.get("AVRAGE_FRONT");
-  auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
-  auto& sprt_front = defaultSpritesheetManager.get("FRONT");
-  auto& sprt_back = defaultSpritesheetManager.get("BACK");
-  player1->addComponent(Animator<std::string>::create(sprt_front, img1_front),
-                        "RENDERING");
-  auto stand_enter = []( PlayerMachine::PTR m, GameObject::PTR o){
-    auto anim = o->getComponent<Animator<std::string>>("RENDERING");
-    anim->playAnimation("stand");
-    m->resetCount();
-  };
-  fsm1->push(new PlayerState(fsm1, player1, stand_enter) );
-  player1->addComponent(fsm1, "FSM");
-  auto ctrl = ControlComponent::create(appInfo.eventList);
-  ctrl->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
-             Function::create( [fsm1](){
-                 //                 fsm1->change(); 
-               } ) 
-             );
+  sf::Texture& img1_back = defaultTextureManager.get("AVRAGE_BACK");
+  Spritesheet<std::string>& sprt_back = defaultSpritesheetManager.get("BACK");
+  player1->transform->layer = 2;
+  player1->transform->scale(3.0f, 3.0f);
+  player1->transform->setPosition( sf::Vector2f(100, 100) );
+  player1->transform->scale(10.0f, 10.0f);
+  player1->transform->layer = 3;
+
+  player1->addComponent(new Animator<std::string>(sprt_back, img1_back), 
+                         "RENDERING" );
+  player1->getComponent<Animator<std::string> >("RENDERING")->setDefaultAnimation("stand");
+  player1->addComponent(BoxCollider::create(sf::Vector2f(10,10)), "COLLIDER");
+  setControls();
+  addObject(player1);
+}
+
+
+void Match::setControls()
+{
+ auto ctrl = ControlComponent::create(appInfo.eventList);
+  // REMOVE
+  std::shared_ptr<Command> moveleft(new MovePlayer(player1, -32, 0, appInfo) );
+  std::shared_ptr<Command> moveright(new MovePlayer(player1, 32, 0, appInfo) );
+  std::shared_ptr<Command> moveup(new MovePlayer(player1, 0, -32, appInfo) );
+  std::shared_ptr<Command> movedown(new MovePlayer(player1, 0, 32, appInfo) );
+  auto qkey = KeyboardButton::create(sf::Keyboard::Q);
+  auto dkey = KeyboardButton::create(sf::Keyboard::D);
+  auto zkey = KeyboardButton::create(sf::Keyboard::Z);
+  auto skey = KeyboardButton::create(sf::Keyboard::S);
+  ctrl->bind(qkey, moveleft );    
+  ctrl->bind(dkey, moveright );
+  ctrl->bind(zkey, moveup );  
+  ctrl->bind(skey,  movedown );
+ 
+  //
   player1->addComponent(ctrl, "CONTROL");
 }
+
+
 /*
 auto stand_enter = []( PlayerMachine& m, GameObject::PTR o){
   auto anim = o->getComponent<Animator<std::string>>("RENDERING");
