@@ -3,7 +3,6 @@
   <ASSETS>
     <TEXTURES>
       <texture filename="assets/images/gui_elements.png" ID="GUI" />
-      <texture filename="assets/images/characters/avrage_back.png" ID="CURSOR" />
     </TEXTURES>
     <FONTS>
       <font filename="assets/fonts/EHSMB.ttf" ID="TITLE_FONT" />

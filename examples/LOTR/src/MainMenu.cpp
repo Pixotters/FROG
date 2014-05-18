@@ -20,6 +20,7 @@ using namespace frog;
 MainMenu::MainMenu(AppInfo& appinfo)
   : Scene(appinfo)
 {
+  appInfo.window.setMouseCursorVisible(false);
   // TODO do this properly
   loadFromFile("assets/scenes/menu.xml");
 }
@@ -56,8 +57,8 @@ void MainMenu::enter()
   collisionMngr.addObject(button);
   // setting up cursor
   auto cursor = GameObject::create();
-  auto& cursor_tex = defaultTextureManager.get("CURSOR");
-  cursor->addComponent(new Sprite(cursor_tex), "RENDERING" );
+  auto& cursor_tex = defaultTextureManager.get("GUI");
+  cursor->addComponent(new Sprite(cursor_tex, sf::IntRect(224,0,32,32) ), "RENDERING" );
   cursor->addComponent(new MouseMover(), "CONTROL");
   cursor->addComponent(BoxCollider::create(sf::Vector2f(20, 20) ), 
                        "COLLIDER");
