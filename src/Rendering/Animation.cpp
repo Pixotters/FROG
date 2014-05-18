@@ -9,11 +9,9 @@ namespace frog{
 
   Animation::Animation(const Animation& other)
   {
-    auto end = other.m_clips.size();
-    m_clips.resize(end);
-    for(unsigned int it = 0; it < end; it++)
+    for(AnimationClip it: other.m_clips)
       {
-        m_clips.at(it)= AnimationClip( other.m_clips.at(it) );
+        m_clips.push_back(it);
       }
   }
 

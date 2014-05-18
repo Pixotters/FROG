@@ -15,15 +15,13 @@ namespace frog{
   Spritesheet<ID>::Spritesheet(const Spritesheet& other)
   {
     auto sizeclip = other.m_clips.size();
-    m_clips.resize(sizeclip);
-    for(auto itclip = 0; itclip < sizeclip; itclip++)
+    for(auto itclip = other.m_clips)
       {
-        m_clips.at(itclip) = Clip(other.m_clips.at(itclip) );
+        m_clips.push_back( itclip );
       }
-    auto endanim = other.m_animations.end();
-    for(auto itanim = other.m_animations.begin(); itanim != endanim; itanim++)
+    for(auto itanim = other.m_animations)
       {
-        m_animations.insert( std::make_pair(itanim->first, Animation(itanim->second) )  );
+        m_animations.emplace( itanim->first, itanim->second );
       }
     
   }
