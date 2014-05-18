@@ -6,10 +6,13 @@
 
 namespace frog{
 
-  PhysicBody::PhysicBody(const sf::Vector2f& _velocity,
+  PhysicBody::PhysicBody(sf::Time& dt,
+                         const sf::Vector2f& _velocity,
                          float _rotation,
                          const sf::Vector2f& _growth )
-    : Component(), velocity(_velocity), rotation(_rotation), growth(_growth) 
+    : Component(), 
+      deltaTime(dt),
+      velocity(_velocity), rotation(_rotation), growth(_growth) 
   {
   }
 
@@ -82,16 +85,18 @@ namespace frog{
   void PhysicBody::update(const ComponentHolder& parent)
   {
     auto tr = parent.getComponent<Transform>("TRANSFORM");
-    tr->move(velocity);
-    tr->rotate(rotation);
-    tr->scale(growth);
+    float sec = deltaTime.asSeconds();
+    tr->move(velocity * sec);
+    tr->rotate(rotation * sec);
+    tr->scale(growth * sec);
   }
 
-  PhysicBody::PTR PhysicBody::create(const sf::Vector2f& _velocity,
+  PhysicBody::PTR PhysicBody::create(sf::Time& _dt,
+                                     const sf::Vector2f& _velocity,
                                      float _rotation,
                                      const sf::Vector2f& _growth )
   {
-    return PTR(new PhysicBody(_velocity, _rotation, _growth) );
+    return PTR(new PhysicBody(_dt, _velocity, _rotation, _growth) );
   }
 
 }

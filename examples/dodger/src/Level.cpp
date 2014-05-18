@@ -191,7 +191,7 @@ void Level::spawnEnemy()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   e->addComponent(new RenderingComponent( r ), "RENDERING" );
-  e->addComponent(new PhysicBody(), "PHYSICS");
+  e->addComponent(new PhysicBody(appInfo.deltaTime), "PHYSICS");
   e->transform->layer = ENEMY_LAYER;
   e->transform->setPosition(Random::get(100, 700), 50);
   e->transform->setOrigin(12, 12);
@@ -216,7 +216,7 @@ void Level::spawnTarget()
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
   e->transform->setOrigin(32, 32);
-  e->addComponent(new PhysicBody(), "PHYSICS");
+  e->addComponent(new PhysicBody(appInfo.deltaTime), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
   phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
                                 Random::get(-10, 10) / 10.f ) );  

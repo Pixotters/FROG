@@ -3,6 +3,7 @@
 
 #include "FROG/Core/Component.hpp"
 
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <memory>
@@ -26,14 +27,15 @@ namespace frog{
     friend class PhysicEngine;
 
   protected:
-
+    sf::Time& deltaTime;
     sf::Vector2f velocity;
     float rotation;
     sf::Vector2f growth;
 
   public:
 
-    PhysicBody(const sf::Vector2f& velocity = sf::Vector2f(0, 0),
+    PhysicBody(sf::Time& dt,
+               const sf::Vector2f& velocity = sf::Vector2f(0, 0),
                float rotation = 0.0f,
                const sf::Vector2f& growth = sf::Vector2f(1.0, 1.0) );
 
@@ -61,9 +63,10 @@ namespace frog{
     
     sf::Vector2f resetGrowth();
 
-    static PTR create(const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
-               float _rotation = 0.0f,
-               const sf::Vector2f& _growth = sf::Vector2f(1.0, 1.0) );
+    static PTR create(sf::Time &, 
+                      const sf::Vector2f& _velocity = sf::Vector2f(0, 0),
+                      float _rotation = 0.0f,
+                      const sf::Vector2f& _growth = sf::Vector2f(1.0, 1.0) );
 
   };
 
