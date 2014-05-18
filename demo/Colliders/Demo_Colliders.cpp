@@ -1,10 +1,9 @@
-#include <FROG/App.hpp>
-#include <FROG/GameObject.hpp>
+#include <FROG/Core/App.hpp>
+#include <FROG/Core/GameObject.hpp>
 #include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Collision/RoundCollider.hpp>
 #include <FROG/Collision/LSAP.hpp>
 #include <FROG/Control.hpp>
-#include <FROG/Function.hpp>
 
 #include "Demo_Colliders.hpp"
 
@@ -60,7 +59,6 @@ void MainState::initObj_rectangle()
   obj->addComponent( RenderingComponent::create( r ), "RENDERING" );
   obj->getComponent<Transform>("TRANSFORM")->setPosition(100, 70);
   obj->getComponent<Transform>("TRANSFORM")->setOrigin(OBJ_DIM/2, OBJ_DIM/2);  
-  
   auto collider = BoxCollider::create(sf::Vector2f(OBJ_DIM, OBJ_DIM) );
   auto collision = [this](Collision c){
     collisions++;
