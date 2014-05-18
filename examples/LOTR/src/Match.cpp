@@ -51,10 +51,11 @@ void Match::enter()
   player1->transform->setPosition( sf::Vector2f(100, 100) );
   player1->transform->scale(10.0f, 10.0f);
   player1->transform->layer = 3;
-
-  player1->addComponent(new Animator<std::string>(sprt_back, img1_back), 
+  auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
+  anim1->setDefaultAnimation("stand");  
+  anim1->playAnimation("stand", true);  
+  player1->addComponent(anim1, 
                          "RENDERING" );
-  player1->getComponent<Animator<std::string> >("RENDERING")->setDefaultAnimation("stand");
   player1->addComponent(BoxCollider::create(sf::Vector2f(10,10)), "COLLIDER");
   setControls();
   addObject(player1);

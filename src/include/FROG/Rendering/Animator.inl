@@ -6,7 +6,6 @@ namespace frog{
       m_spritesheet(sprt),
       m_frameKey(0), 
       m_timer(0),
-      m_played(m_defaultAnimation),
       m_loop(true)
   {
     m_sprite = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
@@ -20,20 +19,25 @@ namespace frog{
   template <typename ID>
   void Animator<ID>::update(const ComponentHolder& parent)
   {
-    if (m_played == nullptr)
+    /* if (playedAnim == nullptr)
       {
-        m_played = m_defaultAnimation;
+        playedAnim = m_defaultAnimation;
         m_loop = true;
       }
-    if (m_played != nullptr)
-      {
+    if (playedAnim != nullptr)
+    {*/
         // placing drawable where GameObject is
+    std::cerr << "------\nAnimator: playing "<< m_played << std::endl;
+    auto playedAnim = m_spritesheet.getAnimation(m_played);
         auto t = parent.getComponent<Transform>("TRANSFORM");
         m_sprite->setPosition( t->getPosition() );
         m_sprite->setRotation( t->getRotation() );
         m_sprite->setScale( t->getScale() );
         // getting the clip to display
-        auto animClip = m_played->getClipAt( m_frameKey );
+        std::cerr << "Animator: playedAnim = "<< m_played << "-"<<&playedAnim <<std::endl;
+        std::cerr << "Animator: playedAnim.clips = "<< &(playedAnim.m_clips) <<std::endl; 
+        std::cerr << "Animator: playedAnim.clips.size = "<< playedAnim.m_clips.size() <<std::endl;
+        auto animClip = playedAnim.getClipAt( m_frameKey );
         auto clip = m_spritesheet.getClip( animClip.sprite );
         m_sprite->setTextureRect( clip.rectangle );
         /*        auto tr = animClip.transform;
@@ -50,26 +54,25 @@ namespace frog{
             m_timer = 0;
             // duration of the current sprite is elapsed, passing to next sprite
             m_frameKey++;
-            if (m_frameKey >= m_played->getClipCount() )
+            if (m_frameKey >= playedAnim.getClipCount() )
               {
+                m_frameKey = 0;
                 // if anim is finished, not in loop, and no default : freeze anim
-                if ( m_loop )
+                if ( not m_loop )
                   {
-                    m_frameKey = 0;
-                  } else if (m_defaultAnimation != nullptr)
-                  {
-                    playAnimation(*m_defaultAnimation, true);
+                    playAnimation(m_defaultAnimation, true);
                   }
               }
           }
-      }
+        //}
   }
 
   template <typename ID>
   void Animator<ID>::playAnimation(ID id, bool loop) 
   {
     m_frameKey = 0;
-    m_played = &m_spritesheet.getAnimation(id);
+    //    m_played = m_spritesheet.getAnimation(id);
+    m_played = id;
     m_loop = loop;
   }
 
@@ -77,16 +80,16 @@ namespace frog{
   void Animator<ID>::playAnimation(const Animation& a, bool loop)
   {
     m_frameKey = 0;
-    m_played = &a;
+    std::cerr << "bad call" << std::endl;
+    //    playedAnim = a;
     m_loop = loop;
   }
 
   template <typename ID>
-  const Animation& Animator<ID>::setDefaultAnimation(ID id) 
+  void Animator<ID>::setDefaultAnimation(ID id) 
   {
-    auto old = m_defaultAnimation;
-    m_defaultAnimation = &m_spritesheet.getAnimation(id);
-    return *old;
+    std::cerr << "setting "<<id<< " as default" << std::endl;
+    m_defaultAnimation = id;
   }
 
   template <typename ID>

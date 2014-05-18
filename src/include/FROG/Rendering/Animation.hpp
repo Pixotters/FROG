@@ -14,7 +14,7 @@ namespace frog{
   class Animation
   {
 
-  protected:
+  public: //TODO protected
     std::vector<AnimationClip> m_clips;
   
   public:

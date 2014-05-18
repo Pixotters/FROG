@@ -1,5 +1,7 @@
 #include "FROG/Rendering/AnimationClip.hpp"
 
+#include <iostream> //TODO remove
+
 namespace frog{
 
   AnimationClip::AnimationClip(unsigned short _id,
@@ -13,7 +15,7 @@ namespace frog{
   AnimationClip::AnimationClip(const AnimationClip& other)
     : sprite(other.sprite), duration(other.duration), transform(other.transform)
   {
-
+    std::cerr << "copying AnimClip" << std::endl;
   }
 
 

@@ -11,6 +11,9 @@
 
 namespace frog{
 
+
+  static Animation noAnim;
+
   /*!
    * Animator<ID> is the component handling Animation. The template indicates 
    * the type of identifiers of Animations. 
@@ -29,8 +32,8 @@ namespace frog{
     Spritesheet<ID>& m_spritesheet;
     unsigned short m_frameKey;
     unsigned short m_timer;
-    const Animation * m_defaultAnimation;
-    const Animation * m_played;
+    ID m_defaultAnimation;
+    ID m_played;
     bool m_loop;
 
   public:
@@ -75,7 +78,7 @@ namespace frog{
      * @param id ID associated with the animation.
      * @return Previous default animation. 
      */
-    const Animation& setDefaultAnimation(ID id);
+    void setDefaultAnimation(ID id);
 
     /*!
      * @brief Sets the texture associated to the spritesheet.
