@@ -3,8 +3,6 @@
 
 #include <sstream>
 
-#include <iostream> // TODO remove
-
 namespace frog{
 
   template <typename ID>
@@ -16,16 +14,12 @@ namespace frog{
   template <typename ID>
   Spritesheet<ID>::Spritesheet(const Spritesheet& other)
   {
-    std::cerr << "other clips : "<<other.m_clips.size() << std::endl;
     for(auto itclip : other.m_clips)
       {
-        std::cerr << "copying clips" << std::endl;
         m_clips.push_back( itclip );
       }    
-    std::cerr << "other anims : "<<other.m_clips.size() << std::endl;
     for(auto itanim : other.m_animations)
       {
-        std::cerr << "copying animation "<< itanim.first << std::endl;
         m_animations.emplace( itanim.first, itanim.second );
       }
     
