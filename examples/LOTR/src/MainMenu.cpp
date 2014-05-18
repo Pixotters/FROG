@@ -46,7 +46,9 @@ void MainMenu::enter()
   //
   auto fun = Function::create([this, ma, c1, c2](){
       //      appInfo.stateManager.change( new Options(appInfo) );
-      appInfo.stateManager.change( new Match(appInfo, ma, c1, c2) );
+      auto m = new Match(appInfo, ma, c1, c2);
+      m->loadFromFile("assets/scenes/match.xml");
+      appInfo.stateManager.change( m );
     });
   GameObject::PTR button( new Button(appInfo.eventList, bui, fun) );
   button->transform->setPosition(400, 300);

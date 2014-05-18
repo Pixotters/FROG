@@ -9,6 +9,7 @@ namespace frog{
       m_loop(true)
   {
     m_sprite = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
+    m_sprite->setTexture(tex);
   }
 
   template <typename ID>
@@ -40,13 +41,18 @@ namespace frog{
         auto animClip = playedAnim.getClipAt( m_frameKey );
         auto clip = m_spritesheet.getClip( animClip.sprite );
         m_sprite->setTextureRect( clip.rectangle );
+        std::cerr << "Clip is " <<clip.rectangle.left<<","<<clip.rectangle.top \
+                  << " - " << clip.rectangle.width<<"x"<<clip.rectangle.height<<std::endl;
+        auto rect = m_sprite->getGlobalBounds();
+        std::cerr << "Displayed at " <<rect.left<<","<<rect.top \
+                  << " - " << rect.width<<"x"<<rect.height<<std::endl;
         /*        auto tr = animClip.transform;
                   m_sprite->rotate( tr.getRotation() );
                   m_sprite->scale( tr.getScale() );
                   m_sprite->move( tr.getPosition() + clip.hotpoint );
                   m_sprite->setOrigine( tr.getOrigin() );
         */
-        m_sprite->move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
+        //        m_sprite->move( static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
         m_timer++;
         // changing (or not) anim when it's done
         if ( m_timer >= animClip.duration )

@@ -23,7 +23,6 @@ Match::Match(AppInfo& a,
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
   std::cout << "loaded match " << std::endl;
-  //  player1->addComponent(new MouseMover(), "MOUSE");  
   //player1->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch1) );
   //player2->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch2) );
 
@@ -42,23 +41,23 @@ void Match::enter()
   // setting up ring 
   auto& ringimg = defaultTextureManager.get("RING");
   ring->addComponent(Sprite::create(ringimg), "RENDERING");
-  addObject(ring);
+  ring->transform->layer = 1;
   // setting up player1
+  //  player1->addComponent(new MouseMover(), "MOUSE");  
   sf::Texture& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   Spritesheet<std::string>& sprt_back = defaultSpritesheetManager.get("BACK");
-  player1->transform->layer = 2;
-  player1->transform->scale(3.0f, 3.0f);
-  player1->transform->setPosition( sf::Vector2f(100, 100) );
-  player1->transform->scale(10.0f, 10.0f);
+  //  player1->transform->setPosition( sf::Vector2f(100, 100) );
   player1->transform->layer = 3;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
-  anim1->setDefaultAnimation("stand");  
-  anim1->playAnimation("stand", true);  
-  player1->addComponent(anim1, 
-                         "RENDERING" );
-  player1->addComponent(BoxCollider::create(sf::Vector2f(10,10)), "COLLIDER");
+  anim1->setDefaultAnimation("tap_foot");  
+  anim1->playAnimation("tap_foot", true);  
+  player1->addComponent(anim1, "RENDERING" );
+  player2->addComponent(Sprite::create(img1_back), "RENDERING" );
   setControls();
-  addObject(player1);
+  // adding objects
+  addObject(ring);
+  addObject(player1);  
+  //  addObject(player2);  
 }
 
 

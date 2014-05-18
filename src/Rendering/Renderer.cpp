@@ -65,6 +65,7 @@ namespace frog{
             where = it;
           }
       }
+    
     if ( (where == m_objects.begin() ) 
          or ( where == m_objects.end() and m_objects.empty() ) )
       {
@@ -79,6 +80,7 @@ namespace frog{
       {
         m_objects.insert_after(where, insert);
       }
+    
     return true;
   }
   
