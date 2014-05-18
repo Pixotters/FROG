@@ -184,53 +184,53 @@
 
     <ANIMATION id="punchL">
       <CLIPS>
-        <clip id="9" duration="1" />
-        <clip id="10" duration="2" />
-        <clip id="11" duration="1" />
-        <clip id="12" duration="5" />
-        <clip id="39" duration="1" />
+        <clip id="9" duration="6" />
+        <clip id="10" duration="12" />
+        <clip id="11" duration="6" />
+        <clip id="12" duration="30" />
+        <clip id="39" duration="6" />
       </CLIPS>
     </ANIMATION>
 
     <ANIMATION id="punchR">
       <CLIPS>
-        <clip id="3" duration="1" />
-        <clip id="4" duration="2" />
-        <clip id="5" duration="1" />
-        <clip id="6" duration="5" />
-        <clip id="40" duration="1" />
+        <clip id="3" duration="6" />
+        <clip id="4" duration="12" />
+        <clip id="5" duration="6" />
+        <clip id="6" duration="30" />
+        <clip id="40" duration="6" />
       </CLIPS>
     </ANIMATION>
 
     <ANIMATION id="punchM">
       <CLIPS>
-        <clip id="15" duration="1" />
-        <clip id="16" duration="3" />
-        <clip id="17" duration="1" />
-        <clip id="18" duration="7" />
-        <clip id="41" duration="1" />
-        <clip id="17" duration="1" />
+        <clip id="15" duration="6" />
+        <clip id="16" duration="18" />
+        <clip id="17" duration="6" />
+        <clip id="18" duration="42" />
+        <clip id="41" duration="6" />
+        <clip id="17" duration="6" />
       </CLIPS>
     </ANIMATION>
 
     <ANIMATION id="dodgeL">
       <CLIPS>
-        <clip id="7" duration="2" />
-        <clip id="8" duration="1" />
+        <clip id="7" duration="12" />
+        <clip id="8" duration="6" />
       </CLIPS>
     </ANIMATION>
 
     <ANIMATION id="dodgeR">
       <CLIPS>
-        <clip id="13" duration="2" />
-        <clip id="14" duration="1" />
+        <clip id="13" duration="12" />
+        <clip id="14" duration="6" />
       </CLIPS>
     </ANIMATION>
 
     <ANIMATION id="dodgeM">
       <CLIPS>
-        <clip id="19" duration="2" />
-        <clip id="20" duration="1" />
+        <clip id="19" duration="12" />
+        <clip id="20" duration="6" />
       </CLIPS>
     </ANIMATION>
 
