@@ -15,7 +15,7 @@ namespace frog{
   {
 
   protected:
-    std::list<AnimationClip> m_clips;
+    std::vector<AnimationClip> m_clips;
   
   public:
 

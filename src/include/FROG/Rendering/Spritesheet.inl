@@ -14,14 +14,13 @@ namespace frog{
   template <typename ID>
   Spritesheet<ID>::Spritesheet(const Spritesheet& other)
   {
-    auto sizeclip = other.m_clips.size();
-    for(auto itclip = other.m_clips)
+    for(auto itclip : other.m_clips)
       {
         m_clips.push_back( itclip );
       }
-    for(auto itanim = other.m_animations)
+    for(auto itanim : other.m_animations)
       {
-        m_animations.emplace( itanim->first, itanim->second );
+        m_animations.emplace( itanim.first, itanim.second );
       }
     
   }
@@ -49,6 +48,14 @@ namespace frog{
       {
         return false;
       }
+    unsigned max_id=0;
+    if (sprites->QueryUnsignedAttribute("max_id", &max_id) 
+        != tinyxml2::XML_NO_ERROR)
+      {
+        print_debug("Need to know the max id of clips");
+        return false;
+      }
+    m_clips.resize(max_id+1);
     for(tinyxml2::XMLElement * sprite = sprites->FirstChildElement(); 
         sprite != nullptr; 
         sprite = sprite->NextSiblingElement() )
@@ -169,19 +176,15 @@ namespace frog{
   template <typename ID>
   void Spritesheet<ID>::addAnimation(const Animation& a, ID id)
   {
-    m_animations.insert( std::make_pair(id, a) );
+    m_animations.emplace( id, Animation(a) );
   }
 
   template <typename ID>
   void Spritesheet<ID>::addClip(const Clip& c, unsigned short id)
   {
-    try{
-      m_clips.at(id) = c;
-    }catch(std::out_of_range e){
-      m_clips.resize(id+1); // TODO : allocate good size at the beginning ?
-      m_clips.at(id) = c;      
-    }
+    m_clips.at(id) = Clip(c);
   }
+
 
   template <typename ID>
   void Spritesheet<ID>::deleteAnimations()

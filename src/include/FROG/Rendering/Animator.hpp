@@ -22,7 +22,7 @@ namespace frog{
   {
 
   public:
-    typedef std::shared<Animator<ID>> PTR;
+    typedef std::shared_ptr<Animator<ID>> PTR;
 
   protected:
     std::shared_ptr<sf::Sprite> m_sprite;

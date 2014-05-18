@@ -22,7 +22,7 @@ namespace frog{
 
   void Animation::addClip(const AnimationClip& c)
   {
-    m_clips.push_back(c);
+    m_clips.push_back( AnimationClip(c) );
   }
 
   std::vector<AnimationClip> Animation::getClips() const

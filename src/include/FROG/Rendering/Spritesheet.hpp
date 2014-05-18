@@ -49,7 +49,8 @@ namespace frog{
 
     /*
      * @brief Add a clip at the given index. 
-     * @details The index will be used by Animations's AnimationClip
+     * @details The index will be used by Animations's AnimationClip. 
+     * The index is supposed to be valid. 
      * @param c Clip to add.
      * @param i index at which Clip should be added.
      */
