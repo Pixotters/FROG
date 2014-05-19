@@ -21,6 +21,8 @@ namespace frog{
     : m_target(rt)  
   {
     m_texture.create(w, h);
+    camera.reset(sf::FloatRect(0, 0, w, h) );
+    updateCamera();
   }
 
   Renderer::~Renderer()
@@ -117,6 +119,11 @@ struct comparator
     
   }
 
+  void Renderer::resizeCamera(const sf::FloatRect& zone)
+  {
+    camera.reset(zone);
+    updateCamera();
+  }
 
   Renderer::PTR Renderer::create(sf::RenderTarget& rt,
                                  unsigned int w, 

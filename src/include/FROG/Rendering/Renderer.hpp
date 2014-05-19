@@ -94,6 +94,12 @@ namespace frog{
      */
     void updateCamera();
 
+    /*!
+     * \brief Modifies the are capture by the camera
+     * \param zone FloatRect containing the zone to keep
+     */
+    void resizeCamera(const sf::FloatRect& zone);
+
   protected:
 
     /*!

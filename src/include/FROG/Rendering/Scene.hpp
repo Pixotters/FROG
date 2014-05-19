@@ -28,7 +28,7 @@ namespace frog{
     typedef std::shared_ptr<Scene> PTR;
 
     //// attributes ////
-  Renderer renderer;
+    Renderer renderer;
   protected:
     AssetManager<std::string, sf::Texture> defaultTextureManager;
     AssetManager<std::string, sf::Font> defaultFontManager;
