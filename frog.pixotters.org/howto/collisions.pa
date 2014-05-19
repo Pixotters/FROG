@@ -1,0 +1,97 @@
+= How to define collisions =
+
+Collisions are one of the most important features of a game. FROG handles 
+that via **CollisionManager**. 
+
+== CollisionManager - LSAP == 
+
+**CollisionManager** is just an interface defining method to add, remove and 
+update objects. FROG provides a default implementation : **LSAP** (List Sweep 
+And Prune).  
+Sweep And Prune is an algorithm based on position of object's bounding boxes. 
+
+```
+LSAP collisionManager;
+collisionManager.addObject(obj1);
+collisionManager.addObject(obj2);
+...
+collisionManager.removeObject(obj1);
+```
+
+== Colliders == 
+
+In order for **LSAP** to work correctly, added **GameObjects** need a 
+**Collider** component, registred as "COLLIDER".  
+A **Collider** is an abstract class and thus has to be extended. You will have 
+to define 5 functions : //getXMin, getYMin, getXMax, getYMax, 
+getBoundingBox//. These functions are required by LSAP : colliders are 
+converted in squares, this is how the algorithm works.  
+**Colliders** can also define a function called when a collision it is implied 
+in occurs. 
+
+```
+auto collider = obj.getComponent<BoxCollider>("COLLIDER");
+collider->setScript( [this](Collision c){ ... } );
+```
+
+=== Collision ===
+
+A **Collision** is created everytime a collision occurs. It contains three 
+informations : 
+
+- first : pointer to the first object (basically, the owner of the collider)
+- second : pointer to the second object (the owner of the collider it collided 
+with)
+- trigger : //COLLISION// or //SEPARATION//
+
+This structure is created when collision occurs, and is sent to both objects 
+(swapping first and second in order to make //first// always the parent 
+object). This is the function ``onCollision(Collision c)``. By default, it 
+calls the collision function (or "script"). You can freely overload this, but 
+this is enough for most cases. 
+
+[About the collision function : this argument is always optionnal, by default 
+the **Collider** get a function that does nothing. ]
+
+== BoxCollider ==
+
+**BoxCollider** is a default implementation of **Collider** for rectangles. It 
+takes 3 arguments : dimensions of the collider, the gap between origin of the 
+owner and origin of the collider, and the collision function.  
+By default, **BoxCollider** is centered at the same point than its parent. 
+```
+// creating a rectangle collider of 20x20 pixels
+auto bc = BoxCollider::create(sf::Vector2f(20, 20) );
+// defining a script
+bc.setScript(myfunction);
+// adjusting the position
+bc.setGap(sf::Vector2f(-1, -2) );
+```
+If you read the part about **LSAP**, you should remember that it need squares. 
+Ther is no problem for most cases, but when you rotate a **BoxCollider**, it 
+will be converted as a square, possibly resulting in unaccurate collisions.
+
+[[/frog/howto/img/example_boxRotation.png || missing image]]
+
+== RoundCollider ==
+
+**RoundCollider** is a default implementation of **Collider** for circles. It 
+takes 3 arguments : the radius of the round, the gap between origin of the 
+owner and center of the circle, and the collision function.  
+By default, **RoundCollider** is centered at the same point than its parent. 
+```
+// creating a round collider with a radius of 3.5 pixels
+auto rc = RoundCollider::create(3.5f);
+// defining a script
+bc.setScript(myfunction);
+// adjusting the position
+bc.setGap(sf::Vector2f(1, 7) );
+```
+If you read the part about **LSAP**, you should remember that it need squares. 
+This is why **RoundCollider** are not particularly adapted to this algorithm. 
+Sweep And Prune will take the bounding box of the circle, resulting in 
+possibly unaccurate collisions.  
+You can also define elipses with **RoundCollider** : if you scale the object 
+with different values for horizontal and vertical scaling, the circle will 
+be flatten, giving an elipse. The precedent point still applies : **LSAP** 
+collisions are unaccurate when using elipses.
