@@ -46,8 +46,7 @@ struct comparator
     inline bool operator() (const std::pair<GameObject::PTR, RenderingComponent *>& a,
                             const std::pair<GameObject::PTR, RenderingComponent *>& b)
     { 
-      //      return (a.first->transform->layer) < (b.first->transform->layer);
-      return 0 < 1;
+      return (a.first->transform->layer) < (b.first->transform->layer);
     }
   };
 

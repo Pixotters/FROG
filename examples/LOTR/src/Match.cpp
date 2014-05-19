@@ -59,8 +59,8 @@ void Match::enter()
   time->addComponent( TextSprite::create("0 0 0", time_font, 40),
                       "RENDERING");
   time->getComponent<TextSprite>("RENDERING")->centerText( );
-  time->transform->setPosition(400, 40);
-  time_frame->transform->layer = 5;
+  time->transform->setPosition(400, 30);
+  time->transform->layer = 5;
   addObject(time);
   //
   setPlayers();
@@ -78,7 +78,7 @@ void Match::setPlayers()
   auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
   player1->transform->setPosition( sf::Vector2f(x_left-10, y_backs) );
-  player1->transform->layer = 4;
+  player1->transform->layer = 3;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
@@ -97,7 +97,7 @@ void Match::setPlayers()
   // setting up player2
   auto& img2_back = defaultTextureManager.get("SDARD_BACK");
   player2->transform->setPosition( sf::Vector2f(x_right, y_backs) );
-  player2->transform->layer = 4;
+  player2->transform->layer = 3;
   auto anim2 = Animator<std::string>::create(sprt_back, img2_back);
   anim2->setDefaultAnimation("stand");  
   anim2->playAnimation("stand", true);  
