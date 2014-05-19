@@ -1,0 +1,50 @@
+= Coding style =
+
+Here are few notes about style that coders who wants to contribute to FROG 
+must follow.
+
+//Italic still need to debate.//
+
+== Line width ==
+
+Length should be kept shorter than 80 characters. Being around 70-75 
+characters is even better but not mandatory.
+
+== Whitespace ==
+
+Use whitespaces around ``if`` /  ``for`` /  ...
+
+Use whitespaces around binary operators
+
+Use whitespace after the comma (``,``)
+
+//Use whitespaces around nested parenthesis//
+
+Basically, do not be affraid of using whitespaces.
+
+== Brackets ==
+
+Brackets **MUST** be (alone) own their own line
+
+== Includes ==
+
+First include standard library headers, then any external library header, 
+and finally headers from FROG library.
+
+Inside these 3 groups, sort them by alphabetical order.
+
+== Variable scope ==
+
+Use variables as local as possible.
+
+== Indentation ==
+
+Identation is 2 spaces.
+
+Braces are not idented.
+
+**NEVER** use tabs.
+
+== nullptr ==
+
+Use ``nullptr`` instead of ``NULL``.
