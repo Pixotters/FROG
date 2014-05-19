@@ -10,7 +10,7 @@
 #include "FROG/Rendering/RenderingComponent.hpp"
 
 #include <memory>
-#include <forward_list>
+#include <vector>
 
 namespace frog{
 
@@ -34,8 +34,8 @@ namespace frog{
   protected:
     sf::RenderTexture m_texture;
     sf::RenderTarget& m_target;
-    std::forward_list< std::pair<
-                         std::shared_ptr<GameObject>, 
+    std::vector< std::pair<
+                         GameObject::PTR, 
                          RenderingComponent *>
     > m_objects;
   public:
@@ -80,15 +80,14 @@ namespace frog{
      * \param go GameObject to add
      * \return True if go has been successfully added
      */
-    bool addObject(const std::shared_ptr<GameObject>& go);
+    bool addObject(const GameObject::PTR& go);
 
     /*!
      * \brief Removes an object from the rendering pipe
      * \details If the given object isn't here, nothing happens
      * \param go GameObject to remove
      */
-    void removeObject(const std::shared_ptr<GameObject>& go);
-    void removeObject(GameObject * go);
+    void removeObject(const GameObject::PTR& go);
 
     /*!
      * \brief Synchronizes texture camera and target's camera
@@ -102,7 +101,7 @@ namespace frog{
      * still valid. If not, it is updated with the new component. 
      * \param go GameObject whose RenderingComponent has to be updated.
      */
-    void updateObject(const std::shared_ptr<GameObject>& go);
+    void updateObject(const GameObject::PTR& go);
 
     /*!
      * \brief Draws a GameObject on the renderer's texture
