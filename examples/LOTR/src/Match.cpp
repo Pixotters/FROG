@@ -51,14 +51,6 @@ void Match::enter()
   ring->transform->layer = 1;
   addObject(ring);
   // setting up clock
-  auto& gui_img = defaultTextureManager.get("GUI");
-  auto time_frame = GameObject::create();
-  time_frame->addComponent(Sprite::create(gui_img, sf::IntRect(0,46,128,64) ),
-                           "RENDERING");
-  time_frame->transform->setOrigin(64, 32);
-  time_frame->transform->setPosition(400, 40);
-  time_frame->transform->layer = 4;
-  addObject(time_frame);
   auto& time_font = defaultFontManager.get("SCORE_FONT");
   time->addComponent( TextSprite::create("0 0 0", time_font, 40),
                       "RENDERING");
@@ -66,7 +58,24 @@ void Match::enter()
   time->transform->setPosition(400, 30);
   time->transform->layer = 5;
   addObject(time);
-  // setting up back of bars
+  //
+  setFrames();
+  setPlayers();
+  setControls();
+  timer.restart();
+}
+
+void Match::setFrames()
+{
+  auto& gui_img = defaultTextureManager.get("GUI");
+  // setting up frame of gauges
+  auto time_frame = GameObject::create();
+  time_frame->addComponent(Sprite::create(gui_img, sf::IntRect(0,46,128,64) ),
+                           "RENDERING");
+  time_frame->transform->setOrigin(64, 32);
+  time_frame->transform->setPosition(400, 40);
+  time_frame->transform->layer = 4;
+  addObject(time_frame);
   auto hl = GameObject::create();
   auto health_frame1 = Sprite::create(gui_img, sf::IntRect(0, 0, 155, 15) );
   auto health_frame2 = Sprite::create(gui_img, sf::IntRect(0, 0, 155, 15) );
@@ -90,10 +99,7 @@ void Match::enter()
   addObject(hr);
   addObject(sl);
   addObject(sr);
-  //
-  setPlayers();
-  setControls();
-  timer.restart();
+ 
 }
 
 void Match::setPlayers()

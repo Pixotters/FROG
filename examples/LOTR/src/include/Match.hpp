@@ -31,6 +31,7 @@ public:
         const Character& character2);
   virtual ~Match();
   virtual void enter();
+  void setFrames();
   void setPlayers();
   void setControls();
   virtual void postupdate();
