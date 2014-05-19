@@ -2,7 +2,7 @@
 #define FROG_ANIMATION_CLIP_HPP
 
 #include <SFML/Graphics/Transform.hpp>
-
+#include <SFML/System/Time.hpp>
 
 namespace frog{
 
@@ -14,10 +14,10 @@ namespace frog{
   struct AnimationClip{
     
     unsigned short sprite;
-    unsigned short duration;
+    sf::Time duration;
     sf::Transform transform;
     AnimationClip(unsigned short id = 0,
-                  unsigned short duration = 1,
+                  sf::Time duration = sf::seconds(1.0f/60.0f),
                   const sf::Transform& transform = sf::Transform::Identity);
     AnimationClip(const AnimationClip& other);
     virtual ~AnimationClip();    

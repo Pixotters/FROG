@@ -117,8 +117,9 @@ namespace frog{
                     print_debug("Could not create Animation Clip without ID");
                     continue;                    
                   }
-                unsigned duration = 1;
-                clip->QueryUnsignedAttribute("duration", &duration);
+                float float_dur = 1.0f/60.0f;
+                clip->QueryFloatAttribute("duration", &float_dur);
+                sf::Time duration = sf::seconds(float_dur);
                 float move_x, move_y; 
                 clip->QueryFloatAttribute("move_x", &move_x);
                 clip->QueryFloatAttribute("move_y", &move_y);

@@ -1,11 +1,12 @@
 namespace frog{
 
   template <typename ID>
-  Animator<ID>::Animator(Spritesheet<ID>& sprt, sf::Texture& tex)
+  Animator<ID>::Animator(sf::Time& dt, Spritesheet<ID>& sprt, sf::Texture& tex)
     : RenderingComponent(new sf::Sprite), 
+      deltaTime(dt),
       m_spritesheet(sprt),
       m_frameKey(0), 
-      m_timer(0),
+      m_timer(sf::Time::Zero),
       m_loop(true)
   {
     m_sprite = std::dynamic_pointer_cast<sf::Sprite>(m_drawable);
@@ -20,7 +21,6 @@ namespace frog{
   template <typename ID>
   void Animator<ID>::update(const ComponentHolder& parent)
   {
-
     // placing drawable where GameObject is
     auto playedAnim = m_spritesheet.getAnimation(m_played);
     auto t = parent.getComponent<Transform>("TRANSFORM");
@@ -40,11 +40,11 @@ namespace frog{
               t->setOrigine( tr.getOrigin() );
     */
     m_sprite->move( -static_cast<sf::Vector2f>(clip.hotpoint) ); // TODO delete this when previous lines are restored
-    m_timer++;
+    m_timer += deltaTime;
     // changing (or not) anim when it's done
     if ( m_timer >= animClip.duration )
       {
-        m_timer = 0;
+        m_timer -= animClip.duration;
         // duration of the current sprite is elapsed, passing to next sprite
         m_frameKey++;
         if (m_frameKey >= playedAnim.getClipCount() )
@@ -63,6 +63,7 @@ namespace frog{
   void Animator<ID>::playAnimation(ID id, bool loop) 
   {
     m_frameKey = 0;
+    m_timer = sf::Time::Zero;
     //    m_played = m_spritesheet.getAnimation(id);
     m_played = id;
     m_loop = loop;
@@ -72,6 +73,7 @@ namespace frog{
   void Animator<ID>::playAnimation(const Animation& a, bool loop)
   {
     m_frameKey = 0;
+    m_timer = sf::Time::Zero;
     //    playedAnim = a;
     m_loop = loop;
   }
@@ -95,10 +97,11 @@ namespace frog{
   }  
 
   template <typename ID>
-  typename Animator<ID>::PTR Animator<ID>::create(Spritesheet<ID>& sprt, 
+  typename Animator<ID>::PTR Animator<ID>::create(sf::Time& dt,
+                                                  Spritesheet<ID>& sprt, 
                                                   sf::Texture& tex)
   {
-    return PTR(new Animator(sprt, tex) );
+    return PTR(new Animator(dt, sprt, tex) );
   }
 
 }

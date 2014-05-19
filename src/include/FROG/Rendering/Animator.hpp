@@ -6,6 +6,7 @@
 #include "FROG/Rendering/Spritesheet.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 
 #include <memory>
 
@@ -26,19 +27,20 @@ namespace frog{
 
   public:
     typedef std::shared_ptr<Animator<ID>> PTR;
+    sf::Time& deltaTime;
 
   protected:
     std::shared_ptr<sf::Sprite> m_sprite;
     Spritesheet<ID>& m_spritesheet;
     unsigned short m_frameKey;
-    unsigned short m_timer;
+    sf::Time m_timer;
     ID m_defaultAnimation;
     ID m_played;
     bool m_loop;
 
   public:
 
-    Animator(Spritesheet<ID>& , sf::Texture&);
+    Animator(sf::Time&, Spritesheet<ID>& , sf::Texture&);
 
     virtual ~Animator();
 
@@ -92,7 +94,7 @@ namespace frog{
      */
     void changeSpritesheet(Spritesheet<ID>& sprt);
 
-    static PTR create(Spritesheet<ID>& , sf::Texture&);
+    static PTR create(sf::Time&, Spritesheet<ID>& , sf::Texture&);
 
   };
 

@@ -79,7 +79,9 @@ void Match::setPlayers()
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
   player1->transform->setPosition( sf::Vector2f(x_left-10, y_backs) );
   player1->transform->layer = 3;
-  auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
+  auto anim1 = Animator<std::string>::create(appInfo.deltaTime, 
+                                             sprt_back, 
+                                             img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
   std::shared_ptr<PlayerMachine> fsm1(new PlayerMachine() );
@@ -90,7 +92,9 @@ void Match::setPlayers()
   auto& sprt_front = defaultSpritesheetManager.get("FRONT");
   mirror1->transform->setPosition( sf::Vector2f(x_right+10, y_fronts) );
   mirror1->transform->layer = 2;
-  auto anim1m = Animator<std::string>::create(sprt_front, img1_front);
+  auto anim1m = Animator<std::string>::create(appInfo.deltaTime,
+                                              sprt_front, 
+                                              img1_front);
   anim1m->setDefaultAnimation("stand");  
   anim1m->playAnimation("stand", true);  
   mirror1->addComponent(anim1m, "RENDERING");
@@ -98,7 +102,9 @@ void Match::setPlayers()
   auto& img2_back = defaultTextureManager.get("SDARD_BACK");
   player2->transform->setPosition( sf::Vector2f(x_right, y_backs) );
   player2->transform->layer = 3;
-  auto anim2 = Animator<std::string>::create(sprt_back, img2_back);
+  auto anim2 = Animator<std::string>::create(appInfo.deltaTime,
+                                             sprt_back, 
+                                             img2_back);
   anim2->setDefaultAnimation("stand");  
   anim2->playAnimation("stand", true);  
   std::shared_ptr<PlayerMachine> fsm2(new PlayerMachine() );
@@ -108,7 +114,9 @@ void Match::setPlayers()
   mirror2->transform->setPosition( sf::Vector2f(x_left, y_fronts) );
   mirror2->transform->layer = 2;
   auto& img2_front = defaultTextureManager.get("SDARD_FRONT");
-  auto anim2m = Animator<std::string>::create(sprt_front, img2_front);
+  auto anim2m = Animator<std::string>::create(appInfo.deltaTime,
+                                              sprt_front, 
+                                              img2_front);
   anim2m->setDefaultAnimation("stand");  
   anim2m->playAnimation("stand", true);  
   mirror2->addComponent(anim2m, "RENDERING");
