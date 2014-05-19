@@ -10,7 +10,7 @@
 class CharacterPlayed : virtual public Character
 {
 
-private:
+public:
   unsigned short currentHealth; // actual health
   unsigned short currentStamina; //actual stamina
   unsigned short receivedHits; // number of consecutive hits taken

@@ -31,8 +31,8 @@ Match::Match(AppInfo& a,
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
   std::cout << "loaded match " << std::endl;
-  //player1->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch1) );
-  //player2->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch2) );
+  player1->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch1) );
+  player2->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch2) );
 
   std::cout << "match created " << std::endl;
 
@@ -211,6 +211,7 @@ void Match::postupdate()
   time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
   time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
   time_string.flush();
+  auto stamina = player1->getProperty<CharacterPlayed>("character").currentStamina;
   if (time_left <= 0)
     {
       // TODO next round

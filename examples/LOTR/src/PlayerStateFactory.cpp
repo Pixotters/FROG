@@ -1,4 +1,5 @@
 #include "PlayerStateFactory.hpp"
+#include "CharacterPlayed.hpp"
 
 #include <FROG/Rendering/Animator.hpp>
 
@@ -35,22 +36,26 @@ void PlayerStateFactory::createStates()
     };
   map.emplace("stand", PlayerState(stand_enter) );
   // punchL
-  auto punchL_enter = [anim1, anim2]()
+  auto punchL_enter = [this, anim1, anim2]()
     {
+      // TODO : compute stamina
+      object1->getProperty<CharacterPlayed>("character").currentStamina -= 10;
       anim1->playAnimation("punchL");
       anim2->playAnimation("punchL");
     };
   map.emplace("punchL", PlayerState(punchL_enter) );
   // punchM
-  auto punchM_enter = [anim1, anim2]()
+  auto punchM_enter = [this, anim1, anim2]()
     {
+      object1->getProperty<CharacterPlayed>("character").currentStamina -= 15;
       anim1->playAnimation("punchM");
       anim2->playAnimation("punchM");
     };
   map.emplace("punchM", PlayerState(punchM_enter) );
   // punchR
-  auto punchR_enter = [anim1, anim2]()
-    {
+  auto punchR_enter = [this, anim1, anim2]()
+    {      
+      object1->getProperty<CharacterPlayed>("character").currentStamina -= 10;
       anim1->playAnimation("punchR");
       anim2->playAnimation("punchR");
     };
