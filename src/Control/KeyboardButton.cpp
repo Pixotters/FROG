@@ -53,21 +53,21 @@ namespace frog{
   }
 
   KeyboardButton::PTR KeyboardButton::create(const sf::Event::KeyEvent& ke, 
-                                                            Trigger::ButtonTrigger _trigger, 
-                                                            bool _considering)
+                                             Trigger::ButtonTrigger _trigger, 
+                                             bool _considering)
   {
     return PTR( new KeyboardButton(ke, _trigger, _considering) );
   }
 
   bool KeyboardButton::operator==(const sf::Event& event) const
   {
-    if (event.type != sf::Event::KeyPressed)
+    if (event.type == sf::Event::KeyPressed)
       {
         return operator==( KeyboardButton(event.key, 
                                           Trigger::PRESSED, 
                                           considering) );
       }
-    if (event.type != sf::Event::KeyReleased)
+    if (event.type == sf::Event::KeyReleased)
       {
         return operator==( KeyboardButton(event.key, 
                                           Trigger::RELEASED, 
@@ -85,15 +85,6 @@ namespace frog{
 
   bool KeyboardButton::operator==(const KeyboardButton& other) const
   {
-    /*
-      std::cerr << "code : " << code << "-" << other.code \
-      << "trigger : " << trigger << "-" << other.trigger \
-      << "considering : "<< considering <<"-"<<other.considering \
-      << "ctrl : " << ctrl << "-" << other.ctrl \
-      << "alt : " << alt <<"-"<< other.alt \
-      << "shift : " << shift << "-" << other.shift \
-      << "sys : "<< sys << "-" << other.sys << std::endl;
-    */
     return ( code == other.code 
              and trigger == other.trigger
              and (not considering 

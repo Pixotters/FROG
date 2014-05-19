@@ -30,11 +30,10 @@ namespace frog{
 
   void Renderer::update()
   {
-    auto end = m_objects.end();
-    for(auto it = m_objects.begin(); it != end; it++)
+    for(auto& it : m_objects)
       {
-        updateObject( it->first );         
-        draw( it->second );
+        updateObject( it.first );         
+        draw( it.second );
       }      
     m_texture.display();
     m_target.draw( sf::Sprite(m_texture.getTexture() ) );
@@ -81,9 +80,12 @@ struct comparator
     auto end = m_objects.end();
     for (auto it = m_objects.begin(); it != end; it++)
       {
-        m_objects.erase(it);
-        // objects are, by construction, unique in the vector
-        break;
+        if (it->first == go)
+          {
+            m_objects.erase(it);
+            // objects are, by construction, unique in the vector
+            break;
+          }
       }
   }
 
