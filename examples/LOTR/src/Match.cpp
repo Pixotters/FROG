@@ -22,6 +22,10 @@ Match::Match(AppInfo& a,
     player2(new GameObject() ),
     mirror2(new GameObject() ),
     ring(new GameObject() ),
+    health1(new GameObject() ),
+    stamina1(new GameObject() ),
+    health2(new GameObject() ),
+    stamina2(new GameObject() ),
     time(new GameObject() )
 {
   std::cout << "loading match " << std::endl;
@@ -62,6 +66,30 @@ void Match::enter()
   time->transform->setPosition(400, 30);
   time->transform->layer = 5;
   addObject(time);
+  // setting up back of bars
+  auto hl = GameObject::create();
+  auto health_frame1 = Sprite::create(gui_img, sf::IntRect(0, 0, 155, 15) );
+  auto health_frame2 = Sprite::create(gui_img, sf::IntRect(0, 0, 155, 15) );
+  hl->addComponent(health_frame1, "RENDERING");
+  hl->transform->layer = 4;
+  auto hr = GameObject::create();
+  hr->addComponent(health_frame2, "RENDERING");
+  hr->transform->setPosition(800-155, 0);
+  hr->transform->layer = 4;
+  auto stamina_frame1 = Sprite::create(gui_img, sf::IntRect(0, 32, 104, 8) );
+  auto stamina_frame2 = Sprite::create(gui_img, sf::IntRect(0, 32, 104, 8) );
+  auto sl = GameObject::create();
+  sl->addComponent(stamina_frame1, "RENDERING");
+  sl->transform->setPosition(0, 25);
+  sl->transform->layer = 4;
+  auto sr = GameObject::create();
+  sr->addComponent(stamina_frame2, "RENDERING");
+  sr->transform->setPosition(800-104, 25);
+  sr->transform->layer = 4;
+  addObject(hl);
+  addObject(hr);
+  addObject(sl);
+  addObject(sr);
   //
   setPlayers();
   setControls();
