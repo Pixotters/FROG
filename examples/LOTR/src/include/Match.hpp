@@ -16,6 +16,13 @@ private:
   frog::GameObject::PTR player2;
   frog::GameObject::PTR mirror2;
   frog::GameObject::PTR ring;  
+  frog::GameObject::PTR health1;
+  frog::GameObject::PTR stamina1;
+  frog::GameObject::PTR health2;
+  frog::GameObject::PTR stamina2;
+  frog::GameObject::PTR time;
+  sf::Clock timer;
+  
 
 public:
   Match(frog::AppInfo& appInfo, 
@@ -24,7 +31,10 @@ public:
         const Character& character2);
   virtual ~Match();
   virtual void enter();
+  void setPlayers();
   void setControls();
+  virtual void postupdate();
+  void updateGUI();
 
 };
 

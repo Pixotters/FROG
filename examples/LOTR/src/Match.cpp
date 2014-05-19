@@ -8,6 +8,7 @@
 #include <FROG/Control.hpp>
 #include <FROG/Rendering/Animator.hpp>
 #include <FROG/Rendering/Sprite.hpp>
+#include <FROG/Rendering/TextSprite.hpp>
 
 using namespace frog;
 
@@ -20,7 +21,8 @@ Match::Match(AppInfo& a,
     mirror1(new GameObject() ),
     player2(new GameObject() ),
     mirror2(new GameObject() ),
-    ring(new GameObject() )
+    ring(new GameObject() ),
+    time(new GameObject() )
 {
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
@@ -43,6 +45,31 @@ void Match::enter()
   auto& ringimg = defaultTextureManager.get("RING");
   ring->addComponent(Sprite::create(ringimg), "RENDERING");
   ring->transform->layer = 1;
+  addObject(ring);
+  // setting up clock
+  auto& gui_img = defaultTextureManager.get("GUI");
+  auto time_frame = GameObject::create();
+  time_frame->addComponent(Sprite::create(gui_img, sf::IntRect(0,46,128,64) ),
+                           "RENDERING");
+  time_frame->transform->setOrigin(64, 32);
+  time_frame->transform->setPosition(400, 40);
+  time_frame->transform->layer = 4;
+  addObject(time_frame);
+  auto& time_font = defaultFontManager.get("SCORE_FONT");
+  time->addComponent( TextSprite::create("0 0 0", time_font, 40),
+                      "RENDERING");
+  time->getComponent<TextSprite>("RENDERING")->centerText( );
+  time->transform->setPosition(400, 40);
+  time_frame->transform->layer = 5;
+  addObject(time);
+  //
+  setPlayers();
+  setControls();
+  timer.restart();
+}
+
+void Match::setPlayers()
+{  
   // setting up player1
   float y_backs = 550;
   float y_fronts = 350;
@@ -50,7 +77,7 @@ void Match::enter()
   float x_right = 650;
   auto& img1_back = defaultTextureManager.get("AVRAGE_BACK");
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
-  player1->transform->setPosition( sf::Vector2f(x_left, y_backs) );
+  player1->transform->setPosition( sf::Vector2f(x_left-10, y_backs) );
   player1->transform->layer = 4;
   auto anim1 = Animator<std::string>::create(sprt_back, img1_back);
   anim1->setDefaultAnimation("stand");  
@@ -61,7 +88,7 @@ void Match::enter()
   // setting up mirror1  
   auto& img1_front = defaultTextureManager.get("AVRAGE_FRONT");
   auto& sprt_front = defaultSpritesheetManager.get("FRONT");
-  mirror1->transform->setPosition( sf::Vector2f(x_right, y_fronts) );
+  mirror1->transform->setPosition( sf::Vector2f(x_right+10, y_fronts) );
   mirror1->transform->layer = 2;
   auto anim1m = Animator<std::string>::create(sprt_front, img1_front);
   anim1m->setDefaultAnimation("stand");  
@@ -85,16 +112,11 @@ void Match::enter()
   anim2m->setDefaultAnimation("stand");  
   anim2m->playAnimation("stand", true);  
   mirror2->addComponent(anim2m, "RENDERING");
-  // controls
-  setControls();
-  // adding objects
-  addObject(ring);
   addObject(mirror1);  
   addObject(mirror2);  
   addObject(player1);  
-  addObject(player2);  
+  addObject(player2); 
 }
-
 
 void Match::setControls()
 {
@@ -137,27 +159,27 @@ void Match::setControls()
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
               ChangeState::create(factory2, "dodgeR") );
   player2->addComponent(ctrl2, "CONTROL");
-
+  
 }
 
+void Match::postupdate()
+{
+  unsigned time_left = matchInfo.timePerRound-timer.getElapsedTime().asSeconds();
+  std::ostringstream time_string;
+  time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
+  time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
+  time_string.flush();
+  if (time_left <= 0)
+    {
+      // TODO next round
+    }
+  else
+    {
 
-/*
-  auto stand_enter = []( PlayerMachine& m, GameObject::PTR o){
-  auto anim = o->getComponent<Animator<std::string>>("RENDERING");
-  anim->playAnimation("stand");
-  m.resetCount();
-  };
-  PlayerState::PTR PlayerMachine::STAND( new PlayerState(stand_enter) );
+    }
+}
 
-  auto punchL_enter = []( PlayerMachine& m, GameObject::PTR o){
-  auto anim = o->getComponent<Animator<std::string>>("RENDERING");
-  anim->playAnimation("punchL", false);
-  m.resetCount();
-  };
-  auto punchL_update = [](PlayerMachine& m, GameObject::PTR o){
-  if (m.frame == 5)
-  std::cout << "hit " << std::endl;
-  };
-  PlayerState::PTR PlayerMachine::PUNCH(new PlayerState(punchL_enter, punchL_update) );
-
-*/
+void Match::updateGUI()
+{
+  
+}
