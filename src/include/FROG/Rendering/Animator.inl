@@ -1,3 +1,6 @@
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
+
 namespace frog{
 
   template <typename ID>

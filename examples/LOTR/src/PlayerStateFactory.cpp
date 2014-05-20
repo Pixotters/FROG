@@ -1,84 +1,113 @@
 #include "PlayerStateFactory.hpp"
-#include "CharacterPlayed.hpp"
 
-#include <FROG/Rendering/Animator.hpp>
+#include <FROG/Control/Function.hpp>
 
 using namespace frog;
 
-
-
-PlayerStateFactory::PlayerStateFactory(const frog::GameObject::PTR& o1,
-                                       const frog::GameObject::PTR& o2,
-                                       const PlayerMachine::PTR& m)
-  : object1(o1), object2(o2), machine(m)
+PlayerStateFactory::PlayerStateFactory(const frog::GameObject::PTR& p1, 
+                                       const frog::GameObject::PTR& mirror1,
+                                       const frog::GameObject::PTR& p2)
+  : anim( p1->getComponent<Animator<std::string>>("RENDERING") ),
+    anim_mirror( mirror1->getComponent<Animator<std::string>>("RENDERING") ),
+    current( p1->getProperty<CharacterPlayed>("character") ),
+    other( p2->getProperty<CharacterPlayed>("character") )
 {
-  createStates();
+
 }
 
 PlayerStateFactory::~PlayerStateFactory()
 {
 }
 
-PlayerState PlayerStateFactory::get(const std::string& id) const
+PlayerState::PTR PlayerStateFactory::get(PlayerState::ID id)
 {
-  return map.at(id);
+  auto find = states.find(id);
+  if (find != states.end() )
+    {
+      return find->second;
+    }else
+    {
+      return createState(id);
+    }
 }
 
-void PlayerStateFactory::createStates()
+
+PlayerStateFactory::PTR PlayerStateFactory::create(const GameObject::PTR& p1, 
+                                                   const GameObject::PTR& m1, 
+                                                   const GameObject::PTR& p2)
 {
-  auto anim1 = object1->getComponent<Animator<std::string>>("RENDERING");
-  auto anim2 = object2->getComponent<Animator<std::string>>("RENDERING");
-  // stand state
-  auto stand_enter = [anim1, anim2]()
-    {
-      anim1->playAnimation("stand", true);
-      anim2->playAnimation("stand", true);
-    };
-  map.emplace("stand", PlayerState(stand_enter) );
-  // punchL
-  auto punchL_enter = [this, anim1, anim2]()
-    {
-      // TODO : compute stamina
-      object1->getProperty<CharacterPlayed>("character").currentStamina -= 10;
-      anim1->playAnimation("punchL");
-      anim2->playAnimation("punchL");
-    };
-  map.emplace("punchL", PlayerState(punchL_enter) );
-  // punchM
-  auto punchM_enter = [this, anim1, anim2]()
-    {
-      object1->getProperty<CharacterPlayed>("character").currentStamina -= 15;
-      anim1->playAnimation("punchM");
-      anim2->playAnimation("punchM");
-    };
-  map.emplace("punchM", PlayerState(punchM_enter) );
-  // punchR
-  auto punchR_enter = [this, anim1, anim2]()
-    {      
-      object1->getProperty<CharacterPlayed>("character").currentStamina -= 10;
-      anim1->playAnimation("punchR");
-      anim2->playAnimation("punchR");
-    };
-  map.emplace("punchR", PlayerState(punchR_enter) );
-  // dodgeL
-  auto dodgeL_enter = [anim1, anim2]()
-    {
-      anim1->playAnimation("dodgeL");
-      anim2->playAnimation("dodgeL");
-    };
-  map.emplace("dodgeL", PlayerState(dodgeL_enter) );
-  // dodgeM
-  auto dodgeM_enter = [anim1, anim2]()
-    {
-      anim1->playAnimation("dodgeM");
-      anim2->playAnimation("dodgeM");
-    };
-  map.emplace("dodgeM", PlayerState(dodgeM_enter) );
-  // dodgeR
-  auto dodgeR_enter = [anim1, anim2]()
-    {
-      anim1->playAnimation("dodgeR");
-      anim2->playAnimation("dodgeR");
-    };
-  map.emplace("dodgeR", PlayerState(dodgeR_enter) );
+  return PTR( new PlayerStateFactory(p1, m1, p2) );
 }
+
+PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
+{
+  switch(id)
+    {
+    case PlayerState::STAND:
+      return createStand();
+      break;
+    case PlayerState::PUNCH_L:
+      return createPunchL();
+      break;
+    case PlayerState::PUNCH_M:
+      return createPunchM();
+      break;
+    case PlayerState::PUNCH_R:
+      return createPunchR();
+      break;
+    default:
+      return createStand();
+      break;
+    }
+}
+
+PlayerState::PTR PlayerStateFactory::createStand()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("stand");
+      anim_mirror->playAnimation("stand");
+    });
+  auto none = Function::create([](){});
+  auto standState = PlayerState::create(sf::seconds(0.6f), enter, none, none);
+  standState->changeNext( standState.get() );
+  states.emplace(PlayerState::STAND, standState);
+}
+
+PlayerState::PTR PlayerStateFactory::createPunchL()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("punchL");
+      anim_mirror->playAnimation("punchL");
+    });
+  auto none = Function::create([](){});
+  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::PUNCH_L, punchState);
+
+}
+
+PlayerState::PTR PlayerStateFactory::createPunchM()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("punchM");
+      anim_mirror->playAnimation("punchM");
+    });
+  auto none = Function::create([](){});
+  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::PUNCH_M, punchState);
+}
+
+PlayerState::PTR PlayerStateFactory::createPunchR()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("punchR");
+      anim_mirror->playAnimation("punchR");
+    });
+  auto none = Function::create([](){});
+  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::PUNCH_R, punchState);
+}
+
+

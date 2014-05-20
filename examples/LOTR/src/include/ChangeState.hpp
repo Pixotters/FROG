@@ -1,25 +1,32 @@
 #ifndef CHANGESTATE_HPP
 #define CHANGESTATE_HPP
 
-#include <FROG/Control/Command.hpp>
-#include <FROG/Core/GameObject.hpp>
-
+#include "PlayerMachine.hpp"
+#include "PlayerState.hpp"
 #include "PlayerStateFactory.hpp"
+
+#include <FROG/Control/Command.hpp>
+
+#include <memory>
 
 class ChangeState : virtual public frog::Command
 {
 
+public:
+  typedef std::shared_ptr<ChangeState> PTR;
+
 private:
-  std::string what;
-  std::shared_ptr<PlayerStateFactory> factory;
+  PlayerMachine::PTR machine;
+  PlayerStateFactory::PTR factory;
+  PlayerState::ID id;
 
 public:
-  ChangeState(const PlayerStateFactory::PTR&, const std::string&);
-  ChangeState(const ChangeState&);
+  ChangeState(PlayerMachine::PTR, PlayerStateFactory::PTR, PlayerState::ID);
   virtual ~ChangeState();
   virtual void execute();
-  static std::shared_ptr<ChangeState> create(const PlayerStateFactory::PTR&, 
-                                             const std::string&);
+  static PTR create(PlayerMachine::PTR, 
+                    PlayerStateFactory::PTR, 
+                    PlayerState::ID);
 };
 
 #endif

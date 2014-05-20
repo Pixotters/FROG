@@ -2,6 +2,9 @@
 #define CHARACTERPLAYED_HPP
 
 #include "Character.hpp"
+
+#include <memory>
+
 /*!
  * Here we define a played character : they are like characters, but gets 
  * additional attributes, necessary for in-game treatment
@@ -9,6 +12,9 @@
 
 class CharacterPlayed : virtual public Character
 {
+
+public:
+  typedef std::shared_ptr<CharacterPlayed> PTR;
 
 public:
   unsigned short currentHealth; // actual health

@@ -1,8 +1,9 @@
 #include "Match.hpp"
+#include "ChangeState.hpp"
 #include "CharacterPlayed.hpp"
 #include "PlayerMachine.hpp"
 #include "PlayerState.hpp"
-#include "ChangeState.hpp"
+#include "PlayerStateFactory.hpp"
 
 #include <FROG/Collision/BoxCollider.hpp>
 #include <FROG/Control.hpp>
@@ -33,7 +34,6 @@ Match::Match(AppInfo& a,
   std::cout << "loaded match " << std::endl;
   player1->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch1) );
   player2->addProperty<CharacterPlayed>("character", new CharacterPlayed(ch2) );
-
   std::cout << "match created " << std::endl;
 
 }
@@ -118,9 +118,7 @@ void Match::setPlayers()
                                              img1_back);
   anim1->setDefaultAnimation("stand");  
   anim1->playAnimation("stand", true);  
-  std::shared_ptr<PlayerMachine> fsm1(new PlayerMachine() );
   player1->addComponent(anim1, "RENDERING" );
-  player1->addComponent(fsm1, "FSM");
   // setting up mirror1  
   auto& img1_front = defaultTextureManager.get("AVRAGE_FRONT");
   auto& sprt_front = defaultSpritesheetManager.get("FRONT");
@@ -132,6 +130,12 @@ void Match::setPlayers()
   anim1m->setDefaultAnimation("stand");  
   anim1m->playAnimation("stand", true);  
   mirror1->addComponent(anim1m, "RENDERING");
+  // machine
+  std::shared_ptr<PlayerMachine> fsm1(new PlayerMachine() );
+  auto psf1 = PlayerStateFactory::create(player1, mirror1, player2);
+  fsm1->setDefaultState( psf1->get(PlayerState::STAND).get() );
+  player1->addComponent(fsm1, "FSM");
+
   // setting up player2
   auto& img2_back = defaultTextureManager.get("SDARD_BACK");
   player2->transform->setPosition( sf::Vector2f(x_right, y_backs) );
@@ -141,9 +145,7 @@ void Match::setPlayers()
                                              img2_back);
   anim2->setDefaultAnimation("stand");  
   anim2->playAnimation("stand", true);  
-  std::shared_ptr<PlayerMachine> fsm2(new PlayerMachine() );
   player2->addComponent(anim2, "RENDERING" );
-  player2->addComponent(fsm2, "FSM");
   // setting up mirror2
   mirror2->transform->setPosition( sf::Vector2f(x_left, y_fronts) );
   mirror2->transform->layer = 2;
@@ -154,6 +156,10 @@ void Match::setPlayers()
   anim2m->setDefaultAnimation("stand");  
   anim2m->playAnimation("stand", true);  
   mirror2->addComponent(anim2m, "RENDERING");
+  //  
+  //  std::shared_ptr<PlayerMachine> fsm2(new PlayerMachine() );
+  //  player2->addComponent(fsm2, "FSM");
+  //
   addObject(mirror1);  
   addObject(mirror2);  
   addObject(player1);  
@@ -166,28 +172,28 @@ void Match::setControls()
   auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
   std::shared_ptr<PlayerStateFactory> factory1(new PlayerStateFactory(player1,
                                                                       mirror1,
-                                                                      fsm1) );
+                                                                      player2) );
   auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
   std::shared_ptr<PlayerStateFactory> factory2(new PlayerStateFactory(player2,
                                                                       mirror2,
-                                                                      fsm2) );
+                                                                      player1) );
   // setting controls for P1
   auto ctrl1 = ControlComponent::create(appInfo.eventList);
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
-              ChangeState::create(factory1, "punchL") );
+              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_L) );
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
-              ChangeState::create(factory1, "punchM") );
+              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_M) );
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
-              ChangeState::create(factory1, "punchR") );
+              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_R) );
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
-              ChangeState::create(factory1, "dodgeL") );
+              ChangeState::create(fsm1, factory1, PlayerState::DODGE_L) );
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
-              ChangeState::create(factory1, "dodgeM") );
+              ChangeState::create(fsm1, factory1, PlayerState::DODGE_M) );
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
-              ChangeState::create(factory1, "dodgeR") );
+              ChangeState::create(fsm1, factory1, PlayerState::DODGE_R) );
   player1->addComponent(ctrl1, "CONTROL");
   // setting controls for P2
-  auto ctrl2 = ControlComponent::create(appInfo.eventList);
+  /*  auto ctrl2 = ControlComponent::create(appInfo.eventList);
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
               ChangeState::create(factory2, "punchL") );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
@@ -200,7 +206,7 @@ void Match::setControls()
               ChangeState::create(factory2, "dodgeM") );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
               ChangeState::create(factory2, "dodgeR") );
-  player2->addComponent(ctrl2, "CONTROL");
+              player2->addComponent(ctrl2, "CONTROL");*/
   
 }
 
