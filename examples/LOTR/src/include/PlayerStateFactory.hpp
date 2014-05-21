@@ -19,19 +19,17 @@ public:
 private:
   frog::Animator<std::string>::PTR anim;
   frog::Animator<std::string>::PTR anim_mirror;
-  CharacterPlayed& current;
-  CharacterPlayed& other;
-  std::map< PlayerState::ID, PlayerState::PTR > states;
+  frog::GameObject::PTR& current;
+  CharacterPlayed& currentCharacter;
 
 public:
-  PlayerStateFactory(const frog::GameObject::PTR& p1, 
-                     const frog::GameObject::PTR& mirror1, 
-                     const frog::GameObject::PTR& p2);
+  PlayerStateFactory(frog::GameObject::PTR& p1, 
+                     frog::GameObject::PTR& mirror1, 
+                     frog::GameObject::PTR& p2);
   virtual ~PlayerStateFactory();
-  PlayerState::PTR get(PlayerState::ID);
-  static PTR create(const frog::GameObject::PTR& p1, 
-                    const frog::GameObject::PTR& mirror1, 
-                    const frog::GameObject::PTR& p2);
+  static PTR create(frog::GameObject::PTR& p1, 
+                    frog::GameObject::PTR& mirror1, 
+                    frog::GameObject::PTR& p2);
   PlayerState::PTR createState(PlayerState::ID);
   PlayerState::PTR createStand();
   PlayerState::PTR createPunchL();

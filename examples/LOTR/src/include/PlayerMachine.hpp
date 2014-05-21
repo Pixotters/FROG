@@ -2,6 +2,7 @@
 #define PLAYERMACHINE_HPP
 
 #include "PlayerState.hpp"
+#include "PlayerStateFactory.hpp"
 
 #include <FROG/Core/Component.hpp>
 #include <FROG/Core/ComponentHolder.hpp>
@@ -22,16 +23,22 @@ public:
 private:
   sf::Clock clock;
   PlayerState * defaultState;
+  PlayerStateFactory factory;
+  std::map< PlayerState::ID, PlayerState::PTR > states;
 
 public:
-  PlayerMachine(PlayerState * defaultState = nullptr);
-  PlayerMachine(const PlayerState::PTR&);
+  PlayerMachine(PlayerStateFactory _factory,
+                PlayerState * defaultState = nullptr);
+  PlayerMachine(PlayerStateFactory _factory, const PlayerState::PTR&);
   virtual ~PlayerMachine();
   void setDefaultState(PlayerState * defaultState);
   void setDefaultState(const PlayerState::PTR& defaultState);
   virtual void update(const frog::ComponentHolder&);
-  static PTR create(PlayerState * defaultState = nullptr);
-  static PTR create(const PlayerState::PTR&);
+  static PTR create(PlayerStateFactory _factory,
+                    PlayerState * defaultState = nullptr);
+  static PTR create(PlayerStateFactory _factory,
+                    const PlayerState::PTR&);
+  PlayerState::PTR get(PlayerState::ID);
   void restartClock();
 
 };

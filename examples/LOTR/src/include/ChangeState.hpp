@@ -3,7 +3,6 @@
 
 #include "PlayerMachine.hpp"
 #include "PlayerState.hpp"
-#include "PlayerStateFactory.hpp"
 
 #include <FROG/Control/Command.hpp>
 
@@ -17,15 +16,13 @@ public:
 
 private:
   PlayerMachine::PTR machine;
-  PlayerStateFactory::PTR factory;
   PlayerState::ID id;
 
 public:
-  ChangeState(PlayerMachine::PTR, PlayerStateFactory::PTR, PlayerState::ID);
+  ChangeState(PlayerMachine::PTR, PlayerState::ID);
   virtual ~ChangeState();
   virtual void execute();
   static PTR create(PlayerMachine::PTR, 
-                    PlayerStateFactory::PTR, 
                     PlayerState::ID);
 };
 

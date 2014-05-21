@@ -2,19 +2,23 @@
 
 using namespace frog;
 
-PlayerMachine::PlayerMachine(PlayerState * _default)
+PlayerMachine::PlayerMachine(PlayerStateFactory _factory, 
+                             PlayerState * _default)
   : Component(),
     FSM<PlayerState>(),
-    defaultState(_default)
+    defaultState(_default),
+    factory(_factory)
 {
   if (_default != nullptr)
     push(defaultState);
 }
 
-PlayerMachine::PlayerMachine(const PlayerState::PTR& _default)
+PlayerMachine::PlayerMachine(PlayerStateFactory _factory, 
+                             const PlayerState::PTR& _default)
   : Component(),
     FSM<PlayerState>(),
-    defaultState( _default.get() )
+    defaultState( _default.get() ),
+    factory(_factory)
 {
   push( _default.get() );
 }
@@ -86,17 +90,33 @@ void PlayerMachine::update(const ComponentHolder&)
   
 }
 
+PlayerState::PTR PlayerMachine::get(PlayerState::ID id)
+{
+  auto find = states.find(id);
+  if (find != states.end() )
+    {
+      return find->second;
+    }else
+    {
+      auto st = factory.createState(id);
+      states.emplace(id, st);
+      return st;
+    }
+}
+
 void PlayerMachine::restartClock()
 {
   clock.restart();
 }
 
-PlayerMachine::PTR PlayerMachine::create(PlayerState * defaultState)
+PlayerMachine::PTR PlayerMachine::create(PlayerStateFactory factory, 
+                                         PlayerState * defaultState)
 {
-  return PTR( new PlayerMachine(defaultState) );
+  return PTR( new PlayerMachine(factory, defaultState) );
 }
 
-PlayerMachine::PTR PlayerMachine::create(const PlayerState::PTR& defaultState)
+PlayerMachine::PTR PlayerMachine::create(PlayerStateFactory factory, 
+                                         const PlayerState::PTR& defaultState)
 {
-  return PTR( new PlayerMachine(defaultState) );
+  return PTR( new PlayerMachine(factory, defaultState) );
 }

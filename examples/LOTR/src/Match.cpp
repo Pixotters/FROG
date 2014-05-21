@@ -1,8 +1,7 @@
 #include "Match.hpp"
+
 #include "ChangeState.hpp"
 #include "CharacterPlayed.hpp"
-#include "PlayerMachine.hpp"
-#include "PlayerState.hpp"
 #include "PlayerStateFactory.hpp"
 
 #include <FROG/Collision/BoxCollider.hpp>
@@ -10,8 +9,6 @@
 #include <FROG/Rendering/Animator.hpp>
 #include <FROG/Rendering/Sprite.hpp>
 #include <FROG/Rendering/TextSprite.hpp>
-
-#define STAMINA_GAIN 10.0f
 
 using namespace frog;
 
@@ -29,7 +26,10 @@ Match::Match(AppInfo& a,
     stamina1(new GameObject() ),
     health2(new GameObject() ),
     stamina2(new GameObject() ),
-    time(new GameObject() )
+    time(new GameObject() ),
+    stamina_loss(20.0f),
+    health_loss(15.0f),
+    stamina_gain(1.0f/6.0f)
 {
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
@@ -179,56 +179,13 @@ void Match::setPlayers()
   addObject(player2); 
 }
 
-void Match::setControls()
-{
-  // creating state changer factories
-  auto fsm1 = PlayerMachine::create();
-  player1->addComponent(fsm1, "FSM");
-  auto fsm2 = PlayerMachine::create();
-  player2->addComponent(fsm2, "FSM");
-  auto factory1 = PlayerStateFactory::create(player1,
-                                             mirror1,
-                                             player2);
-  auto factory2 = PlayerStateFactory::create(player2,
-                                             mirror2,
-                                             player1);
-  // setting controls for P1
-  ChangeState::create(fsm1, factory1, PlayerState::STAND)->execute();
-  auto ctrl1 = ControlComponent::create(appInfo.eventList);
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_L) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_M) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::PUNCH_R) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::DODGE_L) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::DODGE_M) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
-              ChangeState::create(fsm1, factory1, PlayerState::DODGE_R) );
-  player1->addComponent(ctrl1, "CONTROL");
-  // setting controls for P2
-  ChangeState::create(fsm2, factory2, PlayerState::STAND)->execute();
-  auto ctrl2 = ControlComponent::create(appInfo.eventList);
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_L) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_M) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_R) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::DODGE_L) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::DODGE_M) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
-              ChangeState::create(fsm2, factory2, PlayerState::DODGE_R) );
-  player2->addComponent(ctrl2, "CONTROL");
-  
-}
 
 void Match::postupdate()
 {
+  static auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
+  static auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
+  static auto& char1 = player1->getProperty<CharacterPlayed>("character");
+  static auto& char2 = player1->getProperty<CharacterPlayed>("character");  
   unsigned time_left = matchInfo.timePerRound-timer.getElapsedTime().asSeconds();
   if (time_left <= 0)
     {
@@ -236,17 +193,19 @@ void Match::postupdate()
     }
   else
     {
-      auto sta_gain = STAMINA_GAIN * appInfo.deltaTime.asSeconds();
-      player1->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);  
-      player2->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);
+      if (checkHit(fsm1, fsm2, char2) )
+        hit(fsm2);
+      else if (checkHit(fsm2, fsm1, char1) )
+        hit(fsm1);
+      gainStamina();
     }
-  updateGUI(time_left);
+  updateGUI(time_left, char1, char2);
 }
 
-void Match::updateGUI(unsigned time_left)
+void Match::updateGUI(unsigned time_left, 
+                      CharacterPlayed& char1,
+                      CharacterPlayed& char2)
 {
-  auto& char1 = player1->getProperty<CharacterPlayed>("character");
-  auto& char2 = player2->getProperty<CharacterPlayed>("character");
   // stamina
   auto st1_pcent = ( char1.currentStamina / (float)char1.getStamina() ) * 100;
   stamina1->getComponent<Sprite>("RENDERING")
@@ -273,3 +232,82 @@ void Match::updateGUI(unsigned time_left)
   time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
   time_string.flush();
 }
+
+void Match::gainStamina()
+{
+  auto sta_gain = stamina_gain * appInfo.deltaTime.asSeconds();
+  player1->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);  
+  player2->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);
+}
+
+void Match::loseStamina()
+{
+
+}
+
+void Match::setControls()
+{
+  auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
+  auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
+  // creating state changer factories
+  // setting controls for P1
+  ChangeState::create(fsm1, PlayerState::STAND)->execute();
+  auto ctrl1 = ControlComponent::create(appInfo.eventList);
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::PUNCH_L) );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::PUNCH_M) );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::PUNCH_R) );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::DODGE_L) );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::DODGE_M) );
+  ctrl1->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
+              ChangeState::create(fsm1, PlayerState::DODGE_R) );
+  player1->addComponent(ctrl1, "CONTROL");
+  // setting controls for P2
+  ChangeState::create(fsm2, PlayerState::STAND)->execute();
+  auto ctrl2 = ControlComponent::create(appInfo.eventList);
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::PUNCH_L) );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::PUNCH_M) );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::PUNCH_R) );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::DODGE_L) );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::DODGE_M) );
+  ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
+              ChangeState::create(fsm2, PlayerState::DODGE_R) );
+  player2->addComponent(ctrl2, "CONTROL");
+}
+
+bool Match::checkHit(PlayerMachine::PTR _fsm1,
+                     PlayerMachine::PTR _fsm2,
+                     CharacterPlayed& _char2)
+{
+  if (not _char2.vulnerable)
+    return false;
+  auto id1 = _fsm1->top().getID();
+  auto id2 = _fsm2->top().getID();
+  if ( id1 == PlayerState::PUNCH_L 
+       and id2 != PlayerState::DODGE_L )
+    return true;
+  if ( id1 == PlayerState::PUNCH_M 
+       and id2 != PlayerState::DODGE_M )
+    return true;
+  if ( id1 == PlayerState::PUNCH_R 
+       and id2 != PlayerState::DODGE_R )
+    return true;
+  // if id1 is not a punch, there is not strike
+  return false;
+}
+
+void Match::hit(PlayerMachine::PTR fsm)
+{
+  fsm->change( fsm->get(PlayerState::STROKE) );
+}
+
+

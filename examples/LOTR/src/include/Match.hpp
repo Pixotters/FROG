@@ -5,6 +5,8 @@
 
 #include "MatchInfo.hpp"
 #include "Character.hpp"
+#include "CharacterPlayed.hpp"
+#include "PlayerMachine.hpp"
 
 class Match : virtual public frog::Scene
 {
@@ -22,7 +24,9 @@ private:
   frog::GameObject::PTR stamina2;
   frog::GameObject::PTR time;
   sf::Clock timer;
-  
+  float stamina_loss;
+  float health_loss;
+  float stamina_gain;
 
 public:
   Match(frog::AppInfo& appInfo, 
@@ -32,10 +36,19 @@ public:
   virtual ~Match();
   virtual void enter();
   void setGUI();
-  void setPlayers();
   void setControls();
+  void setPlayers();
   virtual void postupdate();
-  void updateGUI(unsigned time_left);
+  void updateGUI(unsigned time_left,
+                 CharacterPlayed& char1,
+                 CharacterPlayed& char2);
+  void gainStamina();
+  void loseStamina();
+  bool checkHit(PlayerMachine::PTR fsm1,
+                PlayerMachine::PTR fsm2,
+                CharacterPlayed& char2);
+  void hit(PlayerMachine::PTR);
+
 
 };
 
