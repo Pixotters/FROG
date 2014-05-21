@@ -46,10 +46,15 @@ public:
   void checkStamina(CharacterPlayed& _char, frog::GameObject::PTR& player);
   void gainStamina(CharacterPlayed& char1, CharacterPlayed& char2);
   void loseStamina(CharacterPlayed& _char);
+  bool isKO(CharacterPlayed& _char);
+  void loseHealth(CharacterPlayed& _char);
   bool checkHit(PlayerState::ID id1,
                 PlayerState::ID id2);
   void tryHit(PlayerState::ID id1,
               frog::GameObject::PTR& o2);
+  void makeHappy(frog::GameObject::PTR);
+  bool isTKO(CharacterPlayed& _char);
+  void checkEnd();
 
 
 };

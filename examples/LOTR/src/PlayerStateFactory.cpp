@@ -244,6 +244,7 @@ PlayerState::PTR PlayerStateFactory::createKO()
       currentCharacter.gainsStamina = true;      
       currentCharacter.vulnerable = false;
       anim->playAnimation("KO");
+      match->makeHappy(other);
     });
   auto state = PlayerState::create(PlayerState::KO,
                                    sf::seconds(1.5f), 

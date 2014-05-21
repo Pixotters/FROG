@@ -251,9 +251,9 @@ void Match::checkStamina(CharacterPlayed& _char, GameObject::PTR& player)
   std::cerr << "checking stamina : " << _char.currentStamina << "-" \
             <<  stamina_gain * appInfo.deltaTime.asSeconds() \
             << (_char.currentStamina <= 2 * stamina_gain * appInfo.deltaTime.asSeconds() ) << std::endl;
-  auto fsm = player->getComponent<PlayerMachine>("FSM");
   if (_char.currentStamina <= stamina_gain*0.5f)
     {
+      auto fsm = player->getComponent<PlayerMachine>("FSM");
       std::cerr << "exhausted" << std::endl;
       fsm->restartClock();
       fsm->change( fsm->get(PlayerState::BREATHING) );
@@ -272,6 +272,21 @@ void Match::gainStamina(CharacterPlayed& char1, CharacterPlayed& char2)
 void Match::loseStamina(CharacterPlayed& _char)
 {
   _char.loseStamina(stamina_loss);
+}
+
+bool Match::isKO(CharacterPlayed& _char)
+{
+  if (_char.currentHealth <= 0)
+    {
+      _char.KOs++;
+      return true;
+    }
+  return false;
+}
+
+void Match::loseHealth(CharacterPlayed& _char)
+{
+  _char.loseHealth(health_loss);
 }
 
 void Match::setControls()
@@ -352,18 +367,33 @@ void Match::tryHit(PlayerState::ID id1,
       if (checkHit(id1, fsm->top().getID() ) )
         {
           char2.receivedHits++;
-          char2.loseHealth(40);
+          loseHealth(char2);
           fsm->restartClock();
-          if (char2.receivedHits >= hitsToStun)
-            {              
+          if ( isKO(char2) )
+            {
               char2.receivedHits = 0;
-              fsm->change( fsm->get(PlayerState::STUN) );
+              fsm->change( fsm->get(PlayerState::KO) );
+            }else
+            {
+              if (char2.receivedHits >= hitsToStun)
+                {              
+                  char2.receivedHits = 0;
+                  fsm->change( fsm->get(PlayerState::STUN) );
+                }
+              else
+                fsm->change( fsm->get(PlayerState::STROKE) );
             }
-          else
-            fsm->change( fsm->get(PlayerState::STROKE) );
         }else
         {
           char2.receivedHits = 0;
         }
     }
+}
+
+
+void Match::makeHappy(frog::GameObject::PTR pl)
+{
+  auto fsm = pl->getComponent<PlayerMachine>("FSM");
+  fsm->restartClock();
+  fsm->change( fsm->get(PlayerState::HAPPY) );
 }
