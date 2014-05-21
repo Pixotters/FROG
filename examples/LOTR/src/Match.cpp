@@ -57,7 +57,7 @@ void Match::enter()
   time->addComponent( TextSprite::create("0 0 0", time_font, 40),
                       "RENDERING");
   time->getComponent<TextSprite>("RENDERING")->centerText( );
-  time->transform->setPosition(400, 30);
+  time->transform->setPosition(400, 22);
   time->transform->layer = 5;
   addObject(time);
   //
@@ -75,7 +75,7 @@ void Match::setGUI()
   time_frame->addComponent(Sprite::create(gui_img, sf::IntRect(0,46,128,64) ),
                            "RENDERING");
   time_frame->transform->setOrigin(64, 32);
-  time_frame->transform->setPosition(400, 40);
+  time_frame->transform->setPosition(400, 32);
   time_frame->transform->layer = 4;
   addObject(time_frame);
   auto hl = GameObject::create();
