@@ -32,6 +32,7 @@ public:
   typedef std::shared_ptr<PlayerState> PTR;
 
 private:
+  ID id;
   sf::Time lifetime;
   frog::Command::PTR onEnter;
   frog::Command::PTR onUpdate;
@@ -41,7 +42,8 @@ private:
                           bool > > commands;
 
 public:
-  PlayerState(const sf::Time& lifetime,
+  PlayerState(ID id,
+              const sf::Time& lifetime,
               frog::Command::PTR enter, 
               frog::Command::PTR update,
               frog::Command::PTR exit,
@@ -55,10 +57,12 @@ public:
   virtual void exit();
   void changeNext(PlayerState * next);
   sf::Time getLifetime() const;
-  PlayerState * getNext() const;
+  PlayerState * getNext() const; 
+  ID getID() const;
   std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
                           bool > > getCommands() const;
-  static PTR create(const sf::Time& lifetime,
+  static PTR create(ID id,
+                    const sf::Time& lifetime,
                     frog::Command::PTR enter, 
                     frog::Command::PTR update,
                     frog::Command::PTR exit,

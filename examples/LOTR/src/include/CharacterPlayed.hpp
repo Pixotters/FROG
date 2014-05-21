@@ -21,6 +21,7 @@ public:
   float currentStamina; //actual stamina
   unsigned short receivedHits; // number of consecutive hits taken
   unsigned short KOs;
+  bool vulnerable; // if he can be stroke
 
 public:
   CharacterPlayed(const std::string& = "Unknown",
@@ -34,7 +35,7 @@ public:
   void loseStamina(float amount);
   void gainHealth(float amount);
   void loseHealth(float amount);
-  
+  void strike();
 
 };
 

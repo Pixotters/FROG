@@ -2,12 +2,14 @@
 
 using namespace frog;
 
-PlayerState::PlayerState(const sf::Time& lt,
+PlayerState::PlayerState(ID _id,
+                         const sf::Time& lt,
                          Command::PTR _onEnter, 
                          Command::PTR _onUpdate,
                          Command::PTR _onExit,
                          PlayerState * nextState)
   : State(),
+    id(_id),
     lifetime(lt), 
     onEnter(_onEnter),
     onUpdate(_onUpdate),
@@ -19,6 +21,7 @@ PlayerState::PlayerState(const sf::Time& lt,
 
 PlayerState::PlayerState(const PlayerState& other)
   : State(), 
+    id(other.id),
     lifetime(other.lifetime),
     onEnter(other.onEnter),
     onUpdate(other.onUpdate),
@@ -79,19 +82,25 @@ PlayerState * PlayerState::getNext() const
   return next;
 }
 
+PlayerState::ID PlayerState::getID() const
+{
+  return id;
+}
+
 std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
                           bool > > PlayerState::getCommands() const
 {
   return commands;
 }
 
-PlayerState::PTR PlayerState::create(const sf::Time& lifetime,
+PlayerState::PTR PlayerState::create(ID id,
+                                     const sf::Time& lifetime,
                                      Command::PTR enter, 
                                      Command::PTR update,
                                      Command::PTR exit,
                                      PlayerState * next)
 {
-  return PTR( new PlayerState(lifetime, enter, update, exit, next) );
+  return PTR( new PlayerState(id, lifetime, enter, update, exit, next) );
 }
 
 PlayerState::PTR PlayerState::create(const PlayerState& other)

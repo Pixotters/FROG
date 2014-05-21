@@ -81,7 +81,9 @@ PlayerState::PTR PlayerStateFactory::createStand()
       anim->playAnimation("stand");
       anim_mirror->playAnimation("stand");
     });
-  auto standState = PlayerState::create(sf::seconds(0.6f), enter, none, none);
+  auto standState = PlayerState::create(PlayerState::STAND,
+                                        sf::seconds(0.6f), 
+                                        enter, none, none);
   standState->changeNext( standState.get() );
   states.emplace(PlayerState::STAND, standState);
   return standState;
@@ -94,8 +96,18 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
       anim_mirror->playAnimation("punchL");
       current.loseStamina(20.0f);
     });
-  auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
+  auto punchState = PlayerState::create(PlayerState::PUNCH_L, sf::seconds(1.0f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
+  auto strike = Function::create([this](){
+      if (other.vulnerable)
+        {
+          other.vulnerable = false;
+          other.receivedHits++;
+          other.loseHealth(40);
+        }
+    });
+  punchState->addCommand(sf::seconds(0.4f), strike);
   states.emplace(PlayerState::PUNCH_L, punchState);
   return punchState;
 }
@@ -107,7 +119,9 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
       anim_mirror->playAnimation("punchM");
       current.loseStamina(20.0f);
     });
-  auto punchState = PlayerState::create(sf::seconds(1.4f), enter, none, none, 
+  auto punchState = PlayerState::create(PlayerState::PUNCH_M,
+                                        sf::seconds(1.4f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_M, punchState);
   return punchState;
@@ -120,7 +134,9 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
       anim_mirror->playAnimation("punchR");
       current.loseStamina(20.0f);
     });
-  auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
+  auto punchState = PlayerState::create(PlayerState::PUNCH_R,
+                                        sf::seconds(1.0f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_R, punchState);
   return punchState;
@@ -133,7 +149,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeL()
       anim->playAnimation("dodgeL");
       anim_mirror->playAnimation("dodgeL");
     });
-  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+  auto dodgeState = PlayerState::create(PlayerState::DODGE_L,
+                                        sf::seconds(0.3f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::DODGE_L, dodgeState);
   return dodgeState;
@@ -145,7 +163,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeM()
       anim->playAnimation("dodgeM");
       anim_mirror->playAnimation("dodgeM");
     });
-  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+  auto dodgeState = PlayerState::create(PlayerState::DODGE_M,
+                                        sf::seconds(0.3f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::DODGE_M, dodgeState);
   return dodgeState;
@@ -157,7 +177,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeR()
       anim->playAnimation("dodgeR");
       anim_mirror->playAnimation("dodgeR");
     });
-  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+  auto dodgeState = PlayerState::create(PlayerState::DODGE_R, 
+                                        sf::seconds(0.3f), 
+                                        enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::DODGE_R, dodgeState);
   return dodgeState;
@@ -169,8 +191,10 @@ PlayerState::PTR PlayerStateFactory::createStroke()
       anim->playAnimation("stroke");
       anim_mirror->playAnimation("stroke");
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::STROKE).get() );
+  auto state = PlayerState::create(PlayerState::STROKE,
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::STAND).get() );
   states.emplace(PlayerState::STROKE, state);
   return state;
 }
@@ -181,8 +205,10 @@ PlayerState::PTR PlayerStateFactory::createKO()
       anim->playAnimation("KO");
       anim_mirror->playAnimation("KO");
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::KO).get() );
+ auto state = PlayerState::create(PlayerState::KO,
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::RAISING).get() );
   states.emplace(PlayerState::KO, state);
   return state;
 }
@@ -193,8 +219,10 @@ PlayerState::PTR PlayerStateFactory::createRaising()
       anim->playAnimation("raising");
       anim_mirror->playAnimation("raising");
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::RAISING).get() );
+ auto state = PlayerState::create(PlayerState::RAISING, 
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::STAND).get() );
   states.emplace(PlayerState::RAISING, state);
   return state;
 }
@@ -205,8 +233,10 @@ PlayerState::PTR PlayerStateFactory::createHappy()
      anim->playAnimation("happy", true);
      anim_mirror->playAnimation("happy", true);
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::HAPPY).get() );
+ auto state = PlayerState::create(PlayerState::HAPPY,
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::STAND).get() );
   states.emplace(PlayerState::HAPPY, state);
   return state;
 }
@@ -217,8 +247,10 @@ PlayerState::PTR PlayerStateFactory::createStun()
      anim->playAnimation("stun", true);
      anim_mirror->playAnimation("stun", true);
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::STUN).get() );
+ auto state = PlayerState::create(PlayerState::STUN,
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::STAND).get() );
   states.emplace(PlayerState::STUN, state);
   return state;
 }
@@ -229,8 +261,10 @@ PlayerState::PTR PlayerStateFactory::createBreathing()
      anim->playAnimation("breathing", true);
      anim_mirror->playAnimation("breathing", true);
     });
-  auto state = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
-                                   get(PlayerState::BREATHING).get() );
+ auto state = PlayerState::create(PlayerState::BREATHING,
+                                   sf::seconds(0.3f), 
+                                   enter, none, none, 
+                                   get(PlayerState::STAND).get() );
   states.emplace(PlayerState::BREATHING, state);
   return state;
 }

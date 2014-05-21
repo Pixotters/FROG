@@ -11,7 +11,8 @@ CharacterPlayed::CharacterPlayed(const std::string& name,
     currentHealth( (float) health),
     currentStamina( (float) stamina),
     receivedHits(0),
-    KOs(0)
+    KOs(0),
+    vulnerable(true)
 {
 }
 
@@ -21,7 +22,8 @@ CharacterPlayed::CharacterPlayed(const CharacterPlayed& c)
     currentHealth(health), 
     currentStamina(stamina), 
     receivedHits(0),
-    KOs(0)
+    KOs(0),
+    vulnerable(true)
 {
 }
 
@@ -31,7 +33,8 @@ CharacterPlayed::CharacterPlayed(const Character& c)
     currentHealth((float)health), 
     currentStamina((float)stamina), 
     receivedHits(0),
-    KOs(0)
+    KOs(0),
+    vulnerable(true)
 {
 }
 
@@ -54,4 +57,13 @@ void CharacterPlayed::gainHealth(float amount)
 void CharacterPlayed::loseHealth(float amount)
 {
   currentHealth = std::max(currentHealth-amount, 0.0f);
+}
+
+void CharacterPlayed::strike()
+{
+  if (not vulnerable)
+    {
+      vulnerable = false;
+      loseHealth(40);
+    }
 }
