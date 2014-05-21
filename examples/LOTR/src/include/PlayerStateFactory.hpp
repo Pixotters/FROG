@@ -37,6 +37,9 @@ public:
   PlayerState::PTR createPunchL();
   PlayerState::PTR createPunchM();
   PlayerState::PTR createPunchR();
+  PlayerState::PTR createDodgeL();
+  PlayerState::PTR createDodgeM();
+  PlayerState::PTR createDodgeR();
 };
 
 #endif

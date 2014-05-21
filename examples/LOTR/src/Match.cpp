@@ -190,20 +190,20 @@ void Match::setControls()
               ChangeState::create(fsm1, factory1, PlayerState::DODGE_R) );
   player1->addComponent(ctrl1, "CONTROL");
   // setting controls for P2
-  /*  auto ctrl2 = ControlComponent::create(appInfo.eventList);
+  auto ctrl2 = ControlComponent::create(appInfo.eventList);
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
-              ChangeState::create(factory2, "punchL") );
+              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_L) );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
-              ChangeState::create(factory2, "punchM") );
+              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_M) );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
-              ChangeState::create(factory2, "punchR") );
+              ChangeState::create(fsm2, factory2, PlayerState::PUNCH_R) );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
-              ChangeState::create(factory2, "dodgeL") );
+              ChangeState::create(fsm2, factory2, PlayerState::DODGE_L) );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
-              ChangeState::create(factory2, "dodgeM") );
+              ChangeState::create(fsm2, factory2, PlayerState::DODGE_M) );
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
-              ChangeState::create(factory2, "dodgeR") );
-              player2->addComponent(ctrl2, "CONTROL");*/
+              ChangeState::create(fsm2, factory2, PlayerState::DODGE_R) );
+  player2->addComponent(ctrl2, "CONTROL");
   
 }
 

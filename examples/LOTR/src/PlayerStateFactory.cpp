@@ -57,6 +57,15 @@ PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
     case PlayerState::PUNCH_R:
       return createPunchR();
       break;
+    case PlayerState::DODGE_L:
+      return createDodgeL();
+      break;
+    case PlayerState::DODGE_M:
+      return createDodgeM();
+      break;
+    case PlayerState::DODGE_R:
+      return createDodgeR();
+      break;
     default:
       return createStand();
       break;
@@ -66,7 +75,6 @@ PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
 PlayerState::PTR PlayerStateFactory::createStand()
 {
   auto enter = Function::create([this](){
-      std::cerr << "entering Stand" << std::endl;
       anim->playAnimation("stand");
       anim_mirror->playAnimation("stand");
     });
@@ -80,7 +88,6 @@ PlayerState::PTR PlayerStateFactory::createStand()
 PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
-      std::cerr << "entering PunchL" << std::endl;
       anim->playAnimation("punchL");
       anim_mirror->playAnimation("punchL");
     });
@@ -115,6 +122,46 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_R, punchState);
   return punchState;
+}
+
+
+PlayerState::PTR PlayerStateFactory::createDodgeL()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("dodgeL");
+      anim_mirror->playAnimation("dodgeL");
+    });
+  auto none = Function::create([](){});
+  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::DODGE_L, dodgeState);
+  return dodgeState;
+}
+
+PlayerState::PTR PlayerStateFactory::createDodgeM()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("dodgeM");
+      anim_mirror->playAnimation("dodgeM");
+    });
+  auto none = Function::create([](){});
+  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::DODGE_M, dodgeState);
+  return dodgeState;
+}
+
+PlayerState::PTR PlayerStateFactory::createDodgeR()
+{
+  auto enter = Function::create([this](){
+      anim->playAnimation("dodgeR");
+      anim_mirror->playAnimation("dodgeR");
+    });
+  auto none = Function::create([](){});
+  auto dodgeState = PlayerState::create(sf::seconds(0.3f), enter, none, none, 
+                                        get(PlayerState::STAND).get() );
+  states.emplace(PlayerState::DODGE_R, dodgeState);
+  return dodgeState;
 }
 
 
