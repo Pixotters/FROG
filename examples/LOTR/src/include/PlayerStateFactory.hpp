@@ -2,6 +2,7 @@
 #define PLAYERSTATEFACTORY_HPP
 
 #include "CharacterPlayed.hpp"
+//#include "Match.hpp"
 #include "PlayerState.hpp"
 
 #include <FROG/Core/GameObject.hpp>
@@ -10,6 +11,8 @@
 #include <map>
 #include <memory>
 
+class Match;
+
 class PlayerStateFactory
 {
 
@@ -17,18 +20,19 @@ public:
   typedef std::shared_ptr<PlayerStateFactory> PTR;
 
 private:
+  Match * match;
   frog::Animator<std::string>::PTR anim;
-  frog::Animator<std::string>::PTR anim_mirror;
   frog::GameObject::PTR& current;
+  frog::GameObject::PTR& other;
   CharacterPlayed& currentCharacter;
 
 public:
-  PlayerStateFactory(frog::GameObject::PTR& p1, 
-                     frog::GameObject::PTR& mirror1, 
+  PlayerStateFactory(Match * match,
+                     frog::GameObject::PTR& p1, 
                      frog::GameObject::PTR& p2);
   virtual ~PlayerStateFactory();
-  static PTR create(frog::GameObject::PTR& p1, 
-                    frog::GameObject::PTR& mirror1, 
+  static PTR create(Match * match,
+                    frog::GameObject::PTR& p1, 
                     frog::GameObject::PTR& p2);
   PlayerState::PTR createState(PlayerState::ID);
   PlayerState::PTR createStand();

@@ -63,6 +63,12 @@ void Match::enter()
   //
   setGUI();
   setPlayers();
+  std::cout << "creating factories" << std::endl;
+  PlayerStateFactory factory1(this, player1, player2);
+  PlayerStateFactory factory2(this, player2, player1);
+  player1->addComponent(PlayerMachine::create(factory1), "FSM");
+  player2->addComponent(PlayerMachine::create(factory2), "FSM");
+  std::cout << "ok ?" << std::endl;
   setControls();
   timer.restart();
 }
@@ -135,6 +141,7 @@ void Match::setPlayers()
   auto& sprt_back = defaultSpritesheetManager.get("BACK");
   player1->transform->setPosition( sf::Vector2f(x_left-10, y_backs) );
   player1->transform->layer = 3;
+  std::cout << "animator" << std::endl;
   auto anim1 = Animator<std::string>::create(appInfo.deltaTime, 
                                              sprt_back, 
                                              img1_back);

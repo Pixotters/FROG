@@ -10,26 +10,27 @@ using namespace frog;
 
 static auto none = Function::create([](){});
 
-PlayerStateFactory::PlayerStateFactory(frog::GameObject::PTR& p1, 
-                                       frog::GameObject::PTR& mirror1,
+PlayerStateFactory::PlayerStateFactory(Match * _match,
+                                       frog::GameObject::PTR& p1, 
                                        frog::GameObject::PTR& p2)
-  : anim( p1->getComponent<Animator<std::string>>("RENDERING") ),
-    anim_mirror( mirror1->getComponent<Animator<std::string>>("RENDERING") ),
+  : match(_match),
     current(p1),
+    other(p2),
+    anim(p1->getComponent<Animator<std::string>>("RENDERING") ),
     currentCharacter( p1->getProperty<CharacterPlayed>("character") )
 {
-
+  std::cout << "factory" << std::endl;
 }
 
 PlayerStateFactory::~PlayerStateFactory()
 {
 }
 
-PlayerStateFactory::PTR PlayerStateFactory::create(GameObject::PTR& p1, 
-                                                   GameObject::PTR& m1, 
+PlayerStateFactory::PTR PlayerStateFactory::create(Match * _match, 
+                                                   GameObject::PTR& p1, 
                                                    GameObject::PTR& p2)
 {
-  return PTR( new PlayerStateFactory(p1, m1, p2) );
+  return PTR( new PlayerStateFactory(_match, p1, p2) );
 }
 
 PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
@@ -85,7 +86,6 @@ PlayerState::PTR PlayerStateFactory::createStand()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("stand");
-      anim_mirror->playAnimation("stand");
     });
   auto standState = PlayerState::create(PlayerState::STAND,
                                         sf::seconds(0.6f), 
@@ -98,7 +98,6 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchL");
-      anim_mirror->playAnimation("punchL");
       currentCharacter.loseStamina(20.0f);
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_L, sf::seconds(1.0f), 
@@ -110,7 +109,6 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchM");
-      anim_mirror->playAnimation("punchM");
       currentCharacter.loseStamina(20.0f);
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_M,
@@ -123,7 +121,6 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchR");
-      anim_mirror->playAnimation("punchR");
       currentCharacter.loseStamina(20.0f);
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_R,
@@ -137,7 +134,6 @@ PlayerState::PTR PlayerStateFactory::createDodgeL()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeL");
-      anim_mirror->playAnimation("dodgeL");
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_L,
                                         sf::seconds(0.3f), 
@@ -149,7 +145,6 @@ PlayerState::PTR PlayerStateFactory::createDodgeM()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeM");
-      anim_mirror->playAnimation("dodgeM");
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_M,
                                         sf::seconds(0.3f), 
@@ -161,7 +156,6 @@ PlayerState::PTR PlayerStateFactory::createDodgeR()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeR");
-      anim_mirror->playAnimation("dodgeR");
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_R, 
                                         sf::seconds(0.3f), 
@@ -177,7 +171,6 @@ PlayerState::PTR PlayerStateFactory::createStroke()
       currentCharacter.receivedHits++;
       currentCharacter.loseHealth(40);
       anim->playAnimation("stroke");
-      anim_mirror->playAnimation("stroke");
     });
   auto exit = Function::create([this](){
       currentCharacter.vulnerable = true;
@@ -192,7 +185,6 @@ PlayerState::PTR PlayerStateFactory::createKO()
 {
  auto enter = Function::create([this](){
       anim->playAnimation("KO");
-      anim_mirror->playAnimation("KO");
     });
  auto state = PlayerState::create(PlayerState::KO,
                                    sf::seconds(1.5f), 
@@ -204,7 +196,6 @@ PlayerState::PTR PlayerStateFactory::createRaising()
 {
  auto enter = Function::create([this](){
       anim->playAnimation("raising");
-      anim_mirror->playAnimation("raising");
     });
  auto state = PlayerState::create(PlayerState::RAISING, 
                                    sf::seconds(1.6f), 
@@ -216,7 +207,6 @@ PlayerState::PTR PlayerStateFactory::createHappy()
 {
  auto enter = Function::create([this](){
      anim->playAnimation("happy", true);
-     anim_mirror->playAnimation("happy", true);
     });
  auto state = PlayerState::create(PlayerState::HAPPY,
                                    sf::seconds(3.1f), 
@@ -228,7 +218,6 @@ PlayerState::PTR PlayerStateFactory::createStun()
 {
  auto enter = Function::create([this](){
      anim->playAnimation("stun", true);
-     anim_mirror->playAnimation("stun", true);
     });
  auto state = PlayerState::create(PlayerState::STUN,
                                    sf::seconds(1.6f), 
@@ -240,7 +229,6 @@ PlayerState::PTR PlayerStateFactory::createBreathing()
 {
  auto enter = Function::create([this](){
      anim->playAnimation("breathing", true);
-     anim_mirror->playAnimation("breathing", true);
     });
  auto state = PlayerState::create(PlayerState::BREATHING,
                                    sf::seconds(1.6f), 

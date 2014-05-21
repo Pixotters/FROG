@@ -1,5 +1,7 @@
 #include "PlayerMachine.hpp"
 
+#include <iostream> // TODO remove
+
 using namespace frog;
 
 PlayerMachine::PlayerMachine(PlayerStateFactory _factory, 
@@ -9,6 +11,7 @@ PlayerMachine::PlayerMachine(PlayerStateFactory _factory,
     defaultState(_default),
     factory(_factory)
 {
+  std::cout << "machine" << std::endl;
   if (_default != nullptr)
     push(defaultState);
 }
