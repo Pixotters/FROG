@@ -10,6 +10,8 @@
 #include <FROG/Rendering/Sprite.hpp>
 #include <FROG/Rendering/TextSprite.hpp>
 
+#include <iostream> // TODO remove
+
 using namespace frog;
 
 Match::Match(AppInfo& a, 
@@ -66,8 +68,10 @@ void Match::enter()
   std::cout << "creating factories" << std::endl;
   PlayerStateFactory factory1(this, player1, player2);
   PlayerStateFactory factory2(this, player2, player1);
-  player1->addComponent(PlayerMachine::create(factory1), "FSM");
-  player2->addComponent(PlayerMachine::create(factory2), "FSM");
+  auto fsm1 = PlayerMachine::create(factory1);
+  auto fsm2 = PlayerMachine::create(factory2);
+  player1->addComponent(fsm1, "FSM");
+  player2->addComponent(fsm2, "FSM");
   std::cout << "ok ?" << std::endl;
   setControls();
   timer.restart();
@@ -200,10 +204,6 @@ void Match::postupdate()
     }
   else
     {
-      if (checkHit(fsm1, fsm2, char2) )
-        hit(fsm2);
-      else if (checkHit(fsm2, fsm1, char1) )
-        hit(fsm1);
       gainStamina();
     }
   updateGUI(time_left, char1, char2);
@@ -258,7 +258,7 @@ void Match::setControls()
   auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
   // creating state changer factories
   // setting controls for P1
-  ChangeState::create(fsm1, PlayerState::STAND)->execute();
+  //  ChangeState::create(fsm1, PlayerState::STAND)->execute();
   auto ctrl1 = ControlComponent::create(appInfo.eventList);
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::PUNCH_L) );
@@ -274,7 +274,7 @@ void Match::setControls()
               ChangeState::create(fsm1, PlayerState::DODGE_R) );
   player1->addComponent(ctrl1, "CONTROL");
   // setting controls for P2
-  ChangeState::create(fsm2, PlayerState::STAND)->execute();
+  //  ChangeState::create(fsm2, PlayerState::STAND)->execute();
   auto ctrl2 = ControlComponent::create(appInfo.eventList);
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::PUNCH_L) );
@@ -291,14 +291,10 @@ void Match::setControls()
   player2->addComponent(ctrl2, "CONTROL");
 }
 
-bool Match::checkHit(PlayerMachine::PTR _fsm1,
-                     PlayerMachine::PTR _fsm2,
-                     CharacterPlayed& _char2)
+bool Match::checkHit(PlayerState::ID id1,
+                     PlayerState::ID id2)
 {
-  if (not _char2.vulnerable)
-    return false;
-  auto id1 = _fsm1->top().getID();
-  auto id2 = _fsm2->top().getID();
+
   if ( id1 == PlayerState::PUNCH_L 
        and id2 != PlayerState::DODGE_L )
     return true;
@@ -312,9 +308,16 @@ bool Match::checkHit(PlayerMachine::PTR _fsm1,
   return false;
 }
 
-void Match::hit(PlayerMachine::PTR fsm)
+void Match::tryHit(PlayerState::ID id1,
+                   GameObject::PTR o2)
 {
-  fsm->change( fsm->get(PlayerState::STROKE) );
+  auto char2 = o2->getProperty<CharacterPlayed>("character");
+  auto fsm = o2->getComponent<PlayerMachine>("FSM");
+  if (char2.vulnerable and checkHit(id1, fsm->top().getID() ) )
+    {
+      std::cout << "HIT "<< char2.vulnerable << std::endl;
+      char2.receivedHits++;
+      char2.loseHealth(40);
+      fsm->change( fsm->get(PlayerState::STROKE) );
+    }
 }
-
-

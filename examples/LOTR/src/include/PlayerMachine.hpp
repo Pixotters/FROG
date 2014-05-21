@@ -22,22 +22,16 @@ public:
 
 private:
   sf::Clock clock;
-  PlayerState * defaultState;
+  PlayerState::PTR defaultState;
   PlayerStateFactory factory;
-  std::map< PlayerState::ID, PlayerState::PTR > states;
 
 public:
-  PlayerMachine(PlayerStateFactory _factory,
-                PlayerState * defaultState = nullptr);
-  PlayerMachine(PlayerStateFactory _factory, const PlayerState::PTR&);
+  PlayerMachine(PlayerStateFactory _factory);
   virtual ~PlayerMachine();
   void setDefaultState(PlayerState * defaultState);
   void setDefaultState(const PlayerState::PTR& defaultState);
   virtual void update(const frog::ComponentHolder&);
-  static PTR create(PlayerStateFactory _factory,
-                    PlayerState * defaultState = nullptr);
-  static PTR create(PlayerStateFactory _factory,
-                    const PlayerState::PTR&);
+  static PTR create(PlayerStateFactory _factory);
   PlayerState::PTR get(PlayerState::ID);
   void restartClock();
 

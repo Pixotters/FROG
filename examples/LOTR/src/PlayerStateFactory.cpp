@@ -1,5 +1,8 @@
 #include "PlayerStateFactory.hpp"
+
+#include "Match.hpp"
 #include "PlayerMachine.hpp"
+
 
 #include <FROG/Control/Function.hpp>
 
@@ -33,53 +36,72 @@ PlayerStateFactory::PTR PlayerStateFactory::create(Match * _match,
   return PTR( new PlayerStateFactory(_match, p1, p2) );
 }
 
+
+PlayerState::PTR PlayerStateFactory::get(PlayerState::ID id)
+{
+  auto find = states.find(id);
+  if (find != states.end() )
+    {
+      return find->second;
+    }else
+    {
+      auto st = createState(id);
+      states.emplace(id, st);
+      return st;
+    }
+}
+
 PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
 {
+  std::cout << "creating state "<< id << std::endl;
+  PlayerState::PTR ptr;
   switch(id)
     {
     case PlayerState::STAND:
-      return createStand();
+      ptr = createStand();
       break;
     case PlayerState::PUNCH_L:
-      return createPunchL();
+      ptr = createPunchL();
       break;
     case PlayerState::PUNCH_M:
-      return createPunchM();
+      ptr = createPunchM();
       break;
     case PlayerState::PUNCH_R:
-      return createPunchR();
+      ptr = createPunchR();
       break;
     case PlayerState::DODGE_L:
-      return createDodgeL();
+      ptr = createDodgeL();
       break;
     case PlayerState::DODGE_M:
-      return createDodgeM();
+      ptr = createDodgeM();
       break;
     case PlayerState::DODGE_R:
-      return createDodgeR();
+      ptr = createDodgeR();
       break;
     case PlayerState::STROKE:
-      return createStroke();
+      ptr = createStroke();
       break;
     case PlayerState::KO:
-      return createKO();
+      ptr = createKO();
       break;
     case PlayerState::RAISING:
-      return createRaising();
+      ptr = createRaising();
       break;
     case PlayerState::HAPPY:
-      return createHappy();
+      ptr = createHappy();
       break;
     case PlayerState::STUN:
-      return createStun();
+      ptr = createStun();
       break;
     case PlayerState::BREATHING:
-      return createBreathing();
+      ptr = createBreathing();
       break;
     default:
-      return createStand();
+      ptr = createStand();
       break;
     }
+  states.emplace(id, ptr);
+  return ptr;
 }
 
 PlayerState::PTR PlayerStateFactory::createStand()
@@ -100,8 +122,13 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
       anim->playAnimation("punchL");
       currentCharacter.loseStamina(20.0f);
     });
+  auto strike = Function::create([this](){
+      match->tryHit(PlayerState::PUNCH_L, other);
+    });
   auto punchState = PlayerState::create(PlayerState::PUNCH_L, sf::seconds(1.0f), 
-                                        enter, none, none );
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get() );
+  punchState->addCommand(sf::seconds(0.4f), strike);
   return punchState;
 }
 
@@ -113,7 +140,8 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_M,
                                         sf::seconds(1.4f), 
-                                        enter, none, none );
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get() );
   return punchState;
 }
 
@@ -125,7 +153,8 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_R,
                                         sf::seconds(1.0f), 
-                                        enter, none, none);
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get() );
   return punchState;
 }
 
@@ -137,7 +166,8 @@ PlayerState::PTR PlayerStateFactory::createDodgeL()
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_L,
                                         sf::seconds(0.3f), 
-                                        enter, none, none );
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get() );
   return dodgeState;
 }
 
@@ -148,7 +178,8 @@ PlayerState::PTR PlayerStateFactory::createDodgeM()
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_M,
                                         sf::seconds(0.3f), 
-                                        enter, none, none);
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get());
   return dodgeState;
 }
 
@@ -159,80 +190,87 @@ PlayerState::PTR PlayerStateFactory::createDodgeR()
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_R, 
                                         sf::seconds(0.3f), 
-                                        enter, none, none);
+                                        enter, none, none,
+                                        get(PlayerState::STAND).get() );
   return dodgeState;
 }
 
 PlayerState::PTR PlayerStateFactory::createStroke()
 {
   auto enter = Function::create([this](){
-      std::cout << "entering STROKE" << std::endl;
+      std::cout << "entering STROKE -"<<currentCharacter.vulnerable << std::endl;
       currentCharacter.vulnerable = false;
-      currentCharacter.receivedHits++;
-      currentCharacter.loseHealth(40);
+      std::cout << "after STROKE -"<<currentCharacter.vulnerable << std::endl;
       anim->playAnimation("stroke");
     });
   auto exit = Function::create([this](){
+      std::cout << "Leaving STROKE -"<<currentCharacter.vulnerable << std::endl;
       currentCharacter.vulnerable = true;
     });
   auto state = PlayerState::create(PlayerState::STROKE,
                                    sf::seconds(0.3f), 
-                                   enter, none, exit);
+                                   enter, none, exit, 
+                                   get(PlayerState::STAND).get() );
   return state;
 }
 
 PlayerState::PTR PlayerStateFactory::createKO()
 {
- auto enter = Function::create([this](){
+  auto enter = Function::create([this](){
       anim->playAnimation("KO");
     });
- auto state = PlayerState::create(PlayerState::KO,
+  auto state = PlayerState::create(PlayerState::KO,
                                    sf::seconds(1.5f), 
-                                   enter, none, none);
+                                   enter, none, none,
+                                   get(PlayerState::RAISING).get() );
   return state;
 }
 
 PlayerState::PTR PlayerStateFactory::createRaising()
 {
- auto enter = Function::create([this](){
+  auto enter = Function::create([this](){
       anim->playAnimation("raising");
     });
- auto state = PlayerState::create(PlayerState::RAISING, 
+  auto state = PlayerState::create(PlayerState::RAISING, 
                                    sf::seconds(1.6f), 
-                                   enter, none, none);
+                                   enter, none, none,
+                                   get(PlayerState::STAND).get() );
   return state;
 }
 
 PlayerState::PTR PlayerStateFactory::createHappy()
 {
- auto enter = Function::create([this](){
-     anim->playAnimation("happy", true);
+  auto enter = Function::create([this](){
+      anim->playAnimation("happy", true);
     });
- auto state = PlayerState::create(PlayerState::HAPPY,
+  auto state = PlayerState::create(PlayerState::HAPPY,
                                    sf::seconds(3.1f), 
-                                   enter, none, none);
+                                   enter, none, none,
+                                   get(PlayerState::STAND).get() );
   return state;
 }
 
 PlayerState::PTR PlayerStateFactory::createStun()
 {
- auto enter = Function::create([this](){
-     anim->playAnimation("stun", true);
+  auto enter = Function::create([this](){
+      anim->playAnimation("stun", true);
     });
- auto state = PlayerState::create(PlayerState::STUN,
+  auto state = PlayerState::create(PlayerState::STUN,
                                    sf::seconds(1.6f), 
-                                   enter, none, none );
+                                   enter, none, none,
+                                   get(PlayerState::STAND).get()  );
   return state;
 }
 
 PlayerState::PTR PlayerStateFactory::createBreathing()
 {
- auto enter = Function::create([this](){
-     anim->playAnimation("breathing", true);
+  auto enter = Function::create([this](){
+      anim->playAnimation("breathing", true);
     });
- auto state = PlayerState::create(PlayerState::BREATHING,
+  auto state = PlayerState::create(PlayerState::BREATHING,
                                    sf::seconds(1.6f), 
-                                   enter, none, none);
+                                   enter, none, none,
+                                   get(PlayerState::STAND).get() );
   return state;
 }
 

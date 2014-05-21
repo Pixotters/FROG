@@ -4,44 +4,17 @@
 
 using namespace frog;
 
-PlayerMachine::PlayerMachine(PlayerStateFactory _factory, 
-                             PlayerState * _default)
+PlayerMachine::PlayerMachine(PlayerStateFactory _factory)
   : Component(),
     FSM<PlayerState>(),
-    defaultState(_default),
     factory(_factory)
 {
-  std::cout << "machine" << std::endl;
-  if (_default != nullptr)
-    push(defaultState);
-}
-
-PlayerMachine::PlayerMachine(PlayerStateFactory _factory, 
-                             const PlayerState::PTR& _default)
-  : Component(),
-    FSM<PlayerState>(),
-    defaultState( _default.get() ),
-    factory(_factory)
-{
-  push( _default.get() );
+  defaultState = factory.get(PlayerState::STAND);
+  push( defaultState );
 }
 
 PlayerMachine::~PlayerMachine()
 {
-}
-
-void PlayerMachine::setDefaultState(PlayerState * _default)
-{
-  defaultState = _default;
-  if ( isEmpty() )
-    {
-      push(_default);
-    }
-}
-
-void PlayerMachine::setDefaultState(const PlayerState::PTR& _default)
-{
-  setDefaultState( _default.get() );
 }
 
 void PlayerMachine::update(const ComponentHolder&)
@@ -59,10 +32,13 @@ void PlayerMachine::update(const ComponentHolder&)
             {
               next->resetCommands();
               auto nextPTR = PlayerState::create(*next);
+              std::cout << "changing for pointed " << next << std::endl;
               change( nextPTR );
+              std::cout << "changed" << std::endl;
             }else
             {
               defaultState->resetCommands();
+              std::cout << "changing for default " << defaultState->getID() << std::endl;
               change(defaultState);
             }
         }
@@ -95,16 +71,7 @@ void PlayerMachine::update(const ComponentHolder&)
 
 PlayerState::PTR PlayerMachine::get(PlayerState::ID id)
 {
-  auto find = states.find(id);
-  if (find != states.end() )
-    {
-      return find->second;
-    }else
-    {
-      auto st = factory.createState(id);
-      states.emplace(id, st);
-      return st;
-    }
+  return factory.get(id);
 }
 
 void PlayerMachine::restartClock()
@@ -112,14 +79,7 @@ void PlayerMachine::restartClock()
   clock.restart();
 }
 
-PlayerMachine::PTR PlayerMachine::create(PlayerStateFactory factory, 
-                                         PlayerState * defaultState)
+PlayerMachine::PTR PlayerMachine::create(PlayerStateFactory factory)
 {
-  return PTR( new PlayerMachine(factory, defaultState) );
-}
-
-PlayerMachine::PTR PlayerMachine::create(PlayerStateFactory factory, 
-                                         const PlayerState::PTR& defaultState)
-{
-  return PTR( new PlayerMachine(factory, defaultState) );
+  return PTR( new PlayerMachine(factory) );
 }

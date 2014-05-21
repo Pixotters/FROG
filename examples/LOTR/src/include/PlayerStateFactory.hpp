@@ -25,12 +25,14 @@ private:
   frog::GameObject::PTR& current;
   frog::GameObject::PTR& other;
   CharacterPlayed& currentCharacter;
+  std::map< PlayerState::ID, PlayerState::PTR > states;
 
 public:
   PlayerStateFactory(Match * match,
                      frog::GameObject::PTR& p1, 
                      frog::GameObject::PTR& p2);
   virtual ~PlayerStateFactory();
+  PlayerState::PTR get(PlayerState::ID);
   static PTR create(Match * match,
                     frog::GameObject::PTR& p1, 
                     frog::GameObject::PTR& p2);

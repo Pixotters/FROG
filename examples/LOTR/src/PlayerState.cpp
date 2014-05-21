@@ -26,10 +26,13 @@ PlayerState::PlayerState(const PlayerState& other)
     onEnter(other.onEnter),
     onUpdate(other.onUpdate),
     onExit(other.onExit),
-    next(other.next),
-    commands(other.commands)
+    next(other.next)
 {
 
+  for (auto cmd : other.commands)
+    {
+      commands.push_back(std::make_pair(cmd.first, false) );
+    }
 }
 
 

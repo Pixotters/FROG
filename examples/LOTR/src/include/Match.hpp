@@ -44,10 +44,10 @@ public:
                  CharacterPlayed& char2);
   void gainStamina();
   void loseStamina();
-  bool checkHit(PlayerMachine::PTR fsm1,
-                PlayerMachine::PTR fsm2,
-                CharacterPlayed& char2);
-  void hit(PlayerMachine::PTR);
+  bool checkHit(PlayerState::ID id1,
+                PlayerState::ID id2);
+  void tryHit(PlayerState::ID id1,
+              frog::GameObject::PTR o2);
 
 
 };
