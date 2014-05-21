@@ -17,19 +17,24 @@ public:
   typedef std::shared_ptr<CharacterPlayed> PTR;
 
 public:
-  unsigned short currentHealth; // actual health
-  unsigned short currentStamina; //actual stamina
+  float currentHealth; // actual health
+  float currentStamina; //actual stamina
   unsigned short receivedHits; // number of consecutive hits taken
   unsigned short KOs;
 
 public:
   CharacterPlayed(const std::string& = "Unknown",
-		  unsigned short currentHealth= 100, 
-		  unsigned short = 25, 
-		  unsigned short = 3, 
-		  unsigned short = 70);
+		  unsigned short health= 100, 
+		  unsigned short resistance = 25, 
+		  unsigned short strength = 3, 
+		  unsigned short stamina = 70);
   CharacterPlayed(const CharacterPlayed& c);
   CharacterPlayed(const Character& c);
+  void gainStamina(float amount);
+  void loseStamina(float amount);
+  void gainHealth(float amount);
+  void loseHealth(float amount);
+  
 
 };
 

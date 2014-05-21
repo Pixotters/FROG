@@ -1,6 +1,6 @@
 #include "CharacterPlayed.hpp"
 
-#include <iostream> //TODO remove
+#include <algorithm>
 
 CharacterPlayed::CharacterPlayed(const std::string& name,
 				 unsigned short health, 
@@ -8,8 +8,8 @@ CharacterPlayed::CharacterPlayed(const std::string& name,
 				 unsigned short strenght, 
 				 unsigned short stamina)
   : Character(name, health, resistance, strength, stamina), 
-    currentHealth(health),
-    currentStamina(stamina),
+    currentHealth( (float) health),
+    currentStamina( (float) stamina),
     receivedHits(0),
     KOs(0)
 {
@@ -23,17 +23,35 @@ CharacterPlayed::CharacterPlayed(const CharacterPlayed& c)
     receivedHits(0),
     KOs(0)
 {
-  std::cout << "copying played " << std::endl;
 }
 
 CharacterPlayed::CharacterPlayed(const Character& c)
   : Character(c.getName(), c.getHealth(), c.getResistance(), 
               c.getStrength(), c.getStamina() ),
-    currentHealth(health), 
-    currentStamina(stamina), 
+    currentHealth((float)health), 
+    currentStamina((float)stamina), 
     receivedHits(0),
     KOs(0)
 {
-  std::cout << "creating player played " << std::endl;
-  std::cout << name << "-"<<health << "-" << resistance << "-" << KOs << std::endl;
+}
+
+
+void CharacterPlayed::gainStamina(float amount)
+{
+  currentStamina = std::min(currentStamina+amount, (float)stamina);
+}
+
+void CharacterPlayed::loseStamina(float amount)
+{
+  currentStamina = std::max(currentStamina-amount, 0.0f);
+}
+
+void CharacterPlayed::gainHealth(float amount)
+{
+  currentHealth = std::min(currentStamina+amount, (float)health);
+}
+
+void CharacterPlayed::loseHealth(float amount)
+{
+  currentHealth = std::max(currentHealth-amount, 0.0f);
 }

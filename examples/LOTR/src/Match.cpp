@@ -11,6 +11,8 @@
 #include <FROG/Rendering/Sprite.hpp>
 #include <FROG/Rendering/TextSprite.hpp>
 
+#define STAMINA_GAIN 10.0f
+
 using namespace frog;
 
 Match::Match(AppInfo& a, 
@@ -221,7 +223,8 @@ void Match::postupdate()
     }
   else
     {
-
+      player1->getProperty<CharacterPlayed>("character").gainStamina(STAMINA_GAIN*appInfo.deltaTime.asSeconds() );      
+      player2->getProperty<CharacterPlayed>("character").gainStamina(STAMINA_GAIN*appInfo.deltaTime.asSeconds() );
     }
 }
 

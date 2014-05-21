@@ -90,6 +90,7 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
   auto enter = Function::create([this](){
       anim->playAnimation("punchL");
       anim_mirror->playAnimation("punchL");
+      current.loseStamina(10.0f);
     });
   auto none = Function::create([](){});
   auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
@@ -103,6 +104,7 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
   auto enter = Function::create([this](){
       anim->playAnimation("punchM");
       anim_mirror->playAnimation("punchM");
+      current.loseStamina(20.0f);
     });
   auto none = Function::create([](){});
   auto punchState = PlayerState::create(sf::seconds(1.4f), enter, none, none, 
@@ -116,6 +118,7 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
   auto enter = Function::create([this](){
       anim->playAnimation("punchR");
       anim_mirror->playAnimation("punchR");
+      current.loseStamina(10.0f);
     });
   auto none = Function::create([](){});
   auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
