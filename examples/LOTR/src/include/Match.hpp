@@ -35,7 +35,7 @@ public:
   void setPlayers();
   void setControls();
   virtual void postupdate();
-  void updateGUI();
+  void updateGUI(unsigned time_left);
 
 };
 

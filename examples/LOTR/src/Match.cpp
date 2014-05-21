@@ -230,11 +230,6 @@ void Match::setControls()
 void Match::postupdate()
 {
   unsigned time_left = matchInfo.timePerRound-timer.getElapsedTime().asSeconds();
-  std::ostringstream time_string;
-  time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
-  time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
-  time_string.flush();
-  auto stamina = player1->getProperty<CharacterPlayed>("character").currentStamina;
   if (time_left <= 0)
     {
       // TODO next round
@@ -245,10 +240,10 @@ void Match::postupdate()
       player1->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);  
       player2->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);
     }
-  updateGUI();
+  updateGUI(time_left);
 }
 
-void Match::updateGUI()
+void Match::updateGUI(unsigned time_left)
 {
   auto& char1 = player1->getProperty<CharacterPlayed>("character");
   auto& char2 = player2->getProperty<CharacterPlayed>("character");
@@ -272,4 +267,9 @@ void Match::updateGUI()
   h2_sprite->setClip(sf::IntRect(0, 16, 3+h2_pcent, 16) );
   auto decH = (int)150-(int)h2_pcent;
   h2_sprite->setPosition(800-155+decH, 0);
+  // timer
+  std::ostringstream time_string;
+  time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
+  time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
+  time_string.flush();
 }

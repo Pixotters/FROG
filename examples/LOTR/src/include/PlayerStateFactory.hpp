@@ -40,6 +40,12 @@ public:
   PlayerState::PTR createDodgeL();
   PlayerState::PTR createDodgeM();
   PlayerState::PTR createDodgeR();
+  PlayerState::PTR createStroke();
+  PlayerState::PTR createKO();
+  PlayerState::PTR createRaising();
+  PlayerState::PTR createHappy();
+  PlayerState::PTR createStun();
+  PlayerState::PTR createBreathing();
 };
 
 #endif
