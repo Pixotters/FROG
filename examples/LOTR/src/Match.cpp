@@ -252,13 +252,24 @@ void Match::updateGUI()
 {
   auto& char1 = player1->getProperty<CharacterPlayed>("character");
   auto& char2 = player2->getProperty<CharacterPlayed>("character");
+  // stamina
   auto st1_pcent = ( char1.currentStamina / (float)char1.getStamina() ) * 100;
   stamina1->getComponent<Sprite>("RENDERING")
     ->setClip(sf::IntRect(2, 40, st1_pcent, 6) );
+  //
   auto st2_pcent = ( char2.currentStamina / (float)char2.getStamina() ) * 100;
   auto st2_sprite = stamina2->getComponent<Sprite>("RENDERING");
   st2_sprite->setClip(sf::IntRect(2, 40, st2_pcent, 6) );
-  auto dec = (int)100-(int)st2_pcent;
-  st2_sprite->setPosition(800-102+dec, 25);
-  
+  auto decS = (int)100-(int)st2_pcent;
+  st2_sprite->setPosition(800-102+decS, 25);
+  // health
+  auto h1_pcent = ( char1.currentHealth / (float)char1.getHealth() ) * 150;
+  health1->getComponent<Sprite>("RENDERING")
+    ->setClip(sf::IntRect(0, 16, 3+h1_pcent, 16) );
+  //
+  auto h2_pcent = ( char2.currentHealth / (float)char2.getHealth() ) * 150;
+  auto h2_sprite = health2->getComponent<Sprite>("RENDERING");
+  h2_sprite->setClip(sf::IntRect(0, 16, 3+h2_pcent, 16) );
+  auto decH = (int)150-(int)h2_pcent;
+  h2_sprite->setPosition(800-155+decH, 0);
 }
