@@ -237,7 +237,6 @@ void Match::updateGUI(unsigned time_left,
   h2_sprite->setClip(sf::IntRect(0, 16, 3+h2_pcent, 16) );
   auto decH = (int)150-(int)h2_pcent;
   h2_sprite->setPosition(800-155+decH, 0);
-  std::cout << "health : "<<h1_pcent << "-"<<h2_pcent<< std::endl;
   // timer
   std::ostringstream time_string;
   time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
@@ -254,7 +253,6 @@ void Match::checkStamina(CharacterPlayed& _char, GameObject::PTR& player)
   if (_char.currentStamina <= stamina_gain*0.5f)
     {
       auto fsm = player->getComponent<PlayerMachine>("FSM");
-      std::cerr << "exhausted" << std::endl;
       fsm->restartClock();
       fsm->change( fsm->get(PlayerState::BREATHING) );
     }

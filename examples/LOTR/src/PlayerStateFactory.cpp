@@ -108,9 +108,12 @@ PlayerState::PTR PlayerStateFactory::createStand()
       currentCharacter.gainsStamina = true;
       anim->playAnimation("stand");
     });
+  auto update = Function::create([this](){      
+      match->checkStamina(currentCharacter, current);
+    });
   auto standState = PlayerState::create(PlayerState::STAND,
                                         sf::seconds(0.6f), 
-                                        enter, none, none);
+                                        enter, update, none);
   standState->changeNext( standState.get() );
   return standState;
 }
@@ -123,7 +126,7 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
       match->loseStamina(currentCharacter);
     });
   auto exit = Function::create([this](){
-      match->checkStamina(currentCharacter, current);
+      //      match->checkStamina(current, other);
       //      currentCharacter.gainsStamina = true;
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_L, sf::seconds(1.0f), 
@@ -144,7 +147,6 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
       match->loseStamina(currentCharacter);
     });
   auto exit = Function::create([this](){
-      match->checkStamina(currentCharacter, current);
       //      currentCharacter.gainsStamina = true;
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_M,
@@ -167,7 +169,7 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
       match->loseStamina(currentCharacter);
     });
   auto exit = Function::create([this](){
-      match->checkStamina(currentCharacter, current);
+      //      match->checkStamina(current, other);
       //      currentCharacter.gainsStamina = true;
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_R,
