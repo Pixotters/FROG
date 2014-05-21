@@ -226,7 +226,7 @@ void Match::updateGUI(unsigned time_left,
   st2_sprite->setClip(sf::IntRect(2, 40, st2_pcent, 6) );
   auto decS = (int)100-(int)st2_pcent;
   st2_sprite->setPosition(800-102+decS, 25);
-  std::cout << "staminas : "<<st1_pcent << "-"<<st2_pcent<< std::endl;
+  //  std::cout << "staminas : "<<st1_pcent << "-"<<st2_pcent<< std::endl;
   // health
   auto h1_pcent = ( char1.currentHealth / (float)char1.getHealth() ) * 150;
   health1->getComponent<Sprite>("RENDERING")
@@ -265,6 +265,12 @@ void Match::gainStamina(CharacterPlayed& char1, CharacterPlayed& char2)
     char1.gainStamina(sta_gain);  
   if (char2.gainsStamina)
     char2.gainStamina(sta_gain);
+}
+
+void Match::gainHealth(CharacterPlayed& char1, float amount)
+{
+  auto h_gain = amount * appInfo.deltaTime.asSeconds();
+  char1.currentHealth += h_gain;  
 }
 
 void Match::loseStamina(CharacterPlayed& _char)

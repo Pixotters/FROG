@@ -4,6 +4,7 @@
 
 #include <FROG/Control/Function.hpp>
 
+#include <algorithm>
 #include <iostream> // TODO remove
 
 using namespace frog;
@@ -260,12 +261,24 @@ PlayerState::PTR PlayerStateFactory::createRaising()
   auto enter = Function::create([this](){
       anim->playAnimation("raising");
     });
+  auto update = Function::create([this](){
+      float amount = 1.0f - (0.2f * (float)(currentCharacter.KOs) );
+      if (amount <= 0.2f)
+        amount = 2.0f;
+      float targetHealth = ((float)currentCharacter.getHealth() ) * amount;
+      std::cout << "target amount : "<<targetHealth<<"("<<amount << std::endl;
+      std::cout << "B gaining health : " << currentCharacter.currentHealth << std::endl;
+      float step = targetHealth / 1.6f;
+      std::cout << "step = " << step << std::endl;
+      match->gainHealth(currentCharacter, std::min(targetHealth, step ) );
+      std::cout << "A gaining health : " << currentCharacter.currentHealth << std::endl;
+    });
   auto exit = Function::create([this](){
       currentCharacter.vulnerable = true;
     });
   auto state = PlayerState::create(PlayerState::RAISING, 
                                    sf::seconds(1.6f), 
-                                   enter, none, exit,
+                                   enter, update, exit,
                                    get(PlayerState::STAND).get() );
   return state;
 }

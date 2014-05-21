@@ -45,6 +45,7 @@ public:
                  CharacterPlayed& char2);
   void checkStamina(CharacterPlayed& _char, frog::GameObject::PTR& player);
   void gainStamina(CharacterPlayed& char1, CharacterPlayed& char2);
+  void gainHealth(CharacterPlayed& char1, float amount);
   void loseStamina(CharacterPlayed& _char);
   bool isKO(CharacterPlayed& _char);
   void loseHealth(CharacterPlayed& _char);
