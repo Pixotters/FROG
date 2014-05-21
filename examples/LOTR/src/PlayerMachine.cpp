@@ -7,16 +7,34 @@ PlayerMachine::PlayerMachine(PlayerState * _default)
     FSM<PlayerState>(),
     defaultState(_default)
 {
+  if (_default != nullptr)
+    push(defaultState);
+}
 
+PlayerMachine::PlayerMachine(const PlayerState::PTR& _default)
+  : Component(),
+    FSM<PlayerState>(),
+    defaultState( _default.get() )
+{
+  push( _default.get() );
 }
 
 PlayerMachine::~PlayerMachine()
 {
 }
 
-void PlayerMachine::setDefaultState(PlayerState * _defaultState)
+void PlayerMachine::setDefaultState(PlayerState * _default)
 {
-  defaultState = _defaultState;
+  defaultState = _default;
+  if ( isEmpty() )
+    {
+      push(_default);
+    }
+}
+
+void PlayerMachine::setDefaultState(const PlayerState::PTR& _default)
+{
+  setDefaultState( _default.get() );
 }
 
 void PlayerMachine::update(const ComponentHolder&)
@@ -24,15 +42,19 @@ void PlayerMachine::update(const ComponentHolder&)
   if (not isEmpty() )
     {
       auto time = clock.getElapsedTime();
+      std::cerr << "PlayerMachine's clock : "<< time.asSeconds() << std::endl; 
       auto topState = top();
       // if lifetime of the state 
       if (time >= topState.getLifetime() )
         {
+          restartClock();
+          std::cerr << "current state is over" << std::endl;
           PlayerState * next = topState.getNext();
           if (next != nullptr)
             {
               next->resetCommands();
-              change( next );
+              auto nextPTR = PlayerState::create(*next);
+              change( nextPTR );
             }else
             {
               defaultState->resetCommands();
@@ -66,8 +88,17 @@ void PlayerMachine::update(const ComponentHolder&)
   
 }
 
+void PlayerMachine::restartClock()
+{
+  clock.restart();
+}
 
 PlayerMachine::PTR PlayerMachine::create(PlayerState * defaultState)
+{
+  return PTR( new PlayerMachine(defaultState) );
+}
+
+PlayerMachine::PTR PlayerMachine::create(const PlayerState::PTR& defaultState)
 {
   return PTR( new PlayerMachine(defaultState) );
 }

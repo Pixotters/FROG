@@ -42,12 +42,13 @@ private:
 
 public:
   PlayerState(const sf::Time& lifetime,
-              const frog::Command::PTR& enter, 
-              const frog::Command::PTR& update,
-              const frog::Command::PTR& exit,
+              frog::Command::PTR enter, 
+              frog::Command::PTR update,
+              frog::Command::PTR exit,
               PlayerState * next = nullptr);
+  PlayerState(const PlayerState&);
   virtual ~PlayerState();
-  void addCommand(const sf::Time&, const frog::Command::PTR&);
+  void addCommand(const sf::Time&, frog::Command::PTR);
   void resetCommands();
   virtual void enter();
   virtual void update();  
@@ -58,10 +59,11 @@ public:
   std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
                           bool > > getCommands() const;
   static PTR create(const sf::Time& lifetime,
-                    const frog::Command::PTR& enter, 
-                    const frog::Command::PTR& update,
-                    const frog::Command::PTR& exit,
+                    frog::Command::PTR enter, 
+                    frog::Command::PTR update,
+                    frog::Command::PTR exit,
                     PlayerState * next = nullptr);
+  static PTR create(const PlayerState&);
 };
 
 #endif

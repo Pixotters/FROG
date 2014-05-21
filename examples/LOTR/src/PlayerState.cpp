@@ -3,9 +3,9 @@
 using namespace frog;
 
 PlayerState::PlayerState(const sf::Time& lt,
-                         const Command::PTR& _onEnter, 
-                         const Command::PTR& _onUpdate,
-                         const Command::PTR& _onExit,
+                         Command::PTR _onEnter, 
+                         Command::PTR _onUpdate,
+                         Command::PTR _onExit,
                          PlayerState * nextState)
   : State(),
     lifetime(lt), 
@@ -17,12 +17,25 @@ PlayerState::PlayerState(const sf::Time& lt,
 
 }
 
+PlayerState::PlayerState(const PlayerState& other)
+  : State(), 
+    lifetime(other.lifetime),
+    onEnter(other.onEnter),
+    onUpdate(other.onUpdate),
+    onExit(other.onExit),
+    next(other.next),
+    commands(other.commands)
+{
+
+}
+
+
 PlayerState::~PlayerState()
 {
 }
 
 void PlayerState::addCommand(const sf::Time& time, 
-                             const Command::PTR& command)
+                             Command::PTR command)
 {
   auto insert = std::make_pair(time, command);
   commands.push_back( std::make_pair(insert, false) );
@@ -73,10 +86,15 @@ std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
 }
 
 PlayerState::PTR PlayerState::create(const sf::Time& lifetime,
-                                     const Command::PTR& enter, 
-                                     const Command::PTR& update,
-                                     const Command::PTR& exit,
+                                     Command::PTR enter, 
+                                     Command::PTR update,
+                                     Command::PTR exit,
                                      PlayerState * next)
 {
   return PTR( new PlayerState(lifetime, enter, update, exit, next) );
+}
+
+PlayerState::PTR PlayerState::create(const PlayerState& other)
+{
+  return PTR(new PlayerState(other) );
 }

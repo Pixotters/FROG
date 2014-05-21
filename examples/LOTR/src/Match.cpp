@@ -130,12 +130,6 @@ void Match::setPlayers()
   anim1m->setDefaultAnimation("stand");  
   anim1m->playAnimation("stand", true);  
   mirror1->addComponent(anim1m, "RENDERING");
-  // machine
-  std::shared_ptr<PlayerMachine> fsm1(new PlayerMachine() );
-  auto psf1 = PlayerStateFactory::create(player1, mirror1, player2);
-  fsm1->setDefaultState( psf1->get(PlayerState::STAND).get() );
-  player1->addComponent(fsm1, "FSM");
-
   // setting up player2
   auto& img2_back = defaultTextureManager.get("SDARD_BACK");
   player2->transform->setPosition( sf::Vector2f(x_right, y_backs) );
@@ -157,9 +151,6 @@ void Match::setPlayers()
   anim2m->playAnimation("stand", true);  
   mirror2->addComponent(anim2m, "RENDERING");
   //  
-  //  std::shared_ptr<PlayerMachine> fsm2(new PlayerMachine() );
-  //  player2->addComponent(fsm2, "FSM");
-  //
   addObject(mirror1);  
   addObject(mirror2);  
   addObject(player1);  
@@ -169,14 +160,20 @@ void Match::setPlayers()
 void Match::setControls()
 {
   // creating state changer factories
-  auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
-  std::shared_ptr<PlayerStateFactory> factory1(new PlayerStateFactory(player1,
-                                                                      mirror1,
-                                                                      player2) );
-  auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
-  std::shared_ptr<PlayerStateFactory> factory2(new PlayerStateFactory(player2,
-                                                                      mirror2,
-                                                                      player1) );
+  auto fsm1 = PlayerMachine::create();
+  player1->addComponent(fsm1, "FSM");
+  auto fsm2 = PlayerMachine::create();
+  player2->addComponent(fsm2, "FSM");
+
+  auto factory1 = PlayerStateFactory::create(player1,
+                                             mirror1,
+                                             player2);
+  //  fsm1->setDefaultState( factory1->get(PlayerState::STAND) );
+
+  auto factory2 = PlayerStateFactory::create(player2,
+                                             mirror2,
+                                             player1);
+  //fsm2->setDefaultState( factory2->get(PlayerState::STAND) );
   // setting controls for P1
   auto ctrl1 = ControlComponent::create(appInfo.eventList);
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),

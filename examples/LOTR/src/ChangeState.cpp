@@ -1,5 +1,6 @@
 #include "ChangeState.hpp"
 
+#include <iostream> //TODO remove
 
 ChangeState::ChangeState(PlayerMachine::PTR _machine, 
                          PlayerStateFactory::PTR _factory, 
@@ -17,7 +18,17 @@ ChangeState::~ChangeState()
 
 void ChangeState::execute()
 {
-  machine->change( factory->get(id).get() );
+  machine->restartClock();
+  std::cerr << "changing state to " << id << std::endl;
+  std::cerr << "factory " << factory.get() << std::endl;
+  auto state = factory->get(id);
+  if (machine->isEmpty() )
+    {
+      machine->push(state);
+    }else
+    {
+      machine->change(state);
+    }
 }
 
 ChangeState::PTR ChangeState::create(PlayerMachine::PTR _machine, 

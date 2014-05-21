@@ -2,6 +2,8 @@
 
 #include <FROG/Control/Function.hpp>
 
+#include <iostream> // TODO remove
+
 using namespace frog;
 
 PlayerStateFactory::PlayerStateFactory(const frog::GameObject::PTR& p1, 
@@ -64,6 +66,7 @@ PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
 PlayerState::PTR PlayerStateFactory::createStand()
 {
   auto enter = Function::create([this](){
+      std::cerr << "entering Stand" << std::endl;
       anim->playAnimation("stand");
       anim_mirror->playAnimation("stand");
     });
@@ -71,19 +74,21 @@ PlayerState::PTR PlayerStateFactory::createStand()
   auto standState = PlayerState::create(sf::seconds(0.6f), enter, none, none);
   standState->changeNext( standState.get() );
   states.emplace(PlayerState::STAND, standState);
+  return standState;
 }
 
 PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
+      std::cerr << "entering PunchL" << std::endl;
       anim->playAnimation("punchL");
       anim_mirror->playAnimation("punchL");
     });
   auto none = Function::create([](){});
-  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+  auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_L, punchState);
-
+  return punchState;
 }
 
 PlayerState::PTR PlayerStateFactory::createPunchM()
@@ -93,9 +98,10 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
       anim_mirror->playAnimation("punchM");
     });
   auto none = Function::create([](){});
-  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+  auto punchState = PlayerState::create(sf::seconds(1.4f), enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_M, punchState);
+  return punchState;
 }
 
 PlayerState::PTR PlayerStateFactory::createPunchR()
@@ -105,9 +111,10 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
       anim_mirror->playAnimation("punchR");
     });
   auto none = Function::create([](){});
-  auto punchState = PlayerState::create(sf::seconds(0.6f), enter, none, none, 
+  auto punchState = PlayerState::create(sf::seconds(1.0f), enter, none, none, 
                                         get(PlayerState::STAND).get() );
   states.emplace(PlayerState::PUNCH_R, punchState);
+  return punchState;
 }
 
 

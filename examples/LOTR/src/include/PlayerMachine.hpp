@@ -25,10 +25,14 @@ private:
 
 public:
   PlayerMachine(PlayerState * defaultState = nullptr);
+  PlayerMachine(const PlayerState::PTR&);
   virtual ~PlayerMachine();
   void setDefaultState(PlayerState * defaultState);
+  void setDefaultState(const PlayerState::PTR& defaultState);
   virtual void update(const frog::ComponentHolder&);
   static PTR create(PlayerState * defaultState = nullptr);
+  static PTR create(const PlayerState::PTR&);
+  void restartClock();
 
 };
 
