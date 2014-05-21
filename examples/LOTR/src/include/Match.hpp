@@ -27,6 +27,7 @@ private:
   float stamina_loss;
   float health_loss;
   float stamina_gain;
+  unsigned short hitsToKo;
 
 public:
   Match(frog::AppInfo& appInfo, 
@@ -42,12 +43,12 @@ public:
   void updateGUI(unsigned time_left,
                  CharacterPlayed& char1,
                  CharacterPlayed& char2);
-  void gainStamina();
+  void gainStamina(CharacterPlayed& char1, CharacterPlayed& char2);
   void loseStamina();
   bool checkHit(PlayerState::ID id1,
                 PlayerState::ID id2);
   void tryHit(PlayerState::ID id1,
-              frog::GameObject::PTR o2);
+              frog::GameObject::PTR& o2);
 
 
 };

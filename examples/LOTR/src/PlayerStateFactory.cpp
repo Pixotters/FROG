@@ -120,14 +120,15 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchL");
-      currentCharacter.loseStamina(20.0f);
-    });
-  auto strike = Function::create([this](){
-      match->tryHit(PlayerState::PUNCH_L, other);
+      current->getProperty<CharacterPlayed>("character").loseStamina(20.0f);
     });
   auto punchState = PlayerState::create(PlayerState::PUNCH_L, sf::seconds(1.0f), 
                                         enter, none, none,
                                         get(PlayerState::STAND).get() );
+  auto strike = Function::create([this](){
+      std::cerr << "striking " << other << "(" << other.get() << ")" <<std::endl;
+      match->tryHit(PlayerState::PUNCH_L, other);
+    });
   punchState->addCommand(sf::seconds(0.4f), strike);
   return punchState;
 }
@@ -142,6 +143,11 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
                                         sf::seconds(1.4f), 
                                         enter, none, none,
                                         get(PlayerState::STAND).get() );
+  auto strike = Function::create([this](){
+      match->tryHit(PlayerState::PUNCH_M, other);
+    });
+  punchState->addCommand(sf::seconds(0.5f), strike);
+
   return punchState;
 }
 
@@ -155,6 +161,10 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
                                         sf::seconds(1.0f), 
                                         enter, none, none,
                                         get(PlayerState::STAND).get() );
+  auto strike = Function::create([this](){
+      match->tryHit(PlayerState::PUNCH_R, other);
+    });
+  punchState->addCommand(sf::seconds(0.4f), strike);
   return punchState;
 }
 

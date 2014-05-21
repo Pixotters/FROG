@@ -31,7 +31,8 @@ Match::Match(AppInfo& a,
     time(new GameObject() ),
     stamina_loss(20.0f),
     health_loss(15.0f),
-    stamina_gain(1.0f/6.0f)
+    stamina_gain(5.0f),
+    hitsToKo(5)
 {
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
@@ -196,7 +197,7 @@ void Match::postupdate()
   static auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
   static auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
   static auto& char1 = player1->getProperty<CharacterPlayed>("character");
-  static auto& char2 = player1->getProperty<CharacterPlayed>("character");  
+  static auto& char2 = player2->getProperty<CharacterPlayed>("character");  
   unsigned time_left = matchInfo.timePerRound-timer.getElapsedTime().asSeconds();
   if (time_left <= 0)
     {
@@ -204,7 +205,7 @@ void Match::postupdate()
     }
   else
     {
-      gainStamina();
+      gainStamina(char1, char2);
     }
   updateGUI(time_left, char1, char2);
 }
@@ -223,6 +224,7 @@ void Match::updateGUI(unsigned time_left,
   st2_sprite->setClip(sf::IntRect(2, 40, st2_pcent, 6) );
   auto decS = (int)100-(int)st2_pcent;
   st2_sprite->setPosition(800-102+decS, 25);
+  std::cout << "staminas : "<<st1_pcent << "-"<<st2_pcent<< std::endl;
   // health
   auto h1_pcent = ( char1.currentHealth / (float)char1.getHealth() ) * 150;
   health1->getComponent<Sprite>("RENDERING")
@@ -233,6 +235,7 @@ void Match::updateGUI(unsigned time_left,
   h2_sprite->setClip(sf::IntRect(0, 16, 3+h2_pcent, 16) );
   auto decH = (int)150-(int)h2_pcent;
   h2_sprite->setPosition(800-155+decH, 0);
+  std::cout << "health : "<<h1_pcent << "-"<<h2_pcent<< std::endl;
   // timer
   std::ostringstream time_string;
   time_string << time_left/100 << " " << time_left%100/10 << " " << time_left%10;
@@ -240,11 +243,11 @@ void Match::updateGUI(unsigned time_left,
   time_string.flush();
 }
 
-void Match::gainStamina()
+void Match::gainStamina(CharacterPlayed& char1, CharacterPlayed& char2)
 {
   auto sta_gain = stamina_gain * appInfo.deltaTime.asSeconds();
-  player1->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);  
-  player2->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);
+  char1.gainStamina(sta_gain);  
+  char2.gainStamina(sta_gain);
 }
 
 void Match::loseStamina()
@@ -309,15 +312,28 @@ bool Match::checkHit(PlayerState::ID id1,
 }
 
 void Match::tryHit(PlayerState::ID id1,
-                   GameObject::PTR o2)
+                   GameObject::PTR& o2)
 {
-  auto char2 = o2->getProperty<CharacterPlayed>("character");
+  std::cerr << "hitting " << o2 << "(" << o2.get() << ")" << std::endl;
+  auto& char2 = o2->getProperty<CharacterPlayed>("character");
   auto fsm = o2->getComponent<PlayerMachine>("FSM");
-  if (char2.vulnerable and checkHit(id1, fsm->top().getID() ) )
+  std::cout << "HIT "<< char2.vulnerable  << std::endl;
+  if (char2.vulnerable)
     {
-      std::cout << "HIT "<< char2.vulnerable << std::endl;
-      char2.receivedHits++;
-      char2.loseHealth(40);
-      fsm->change( fsm->get(PlayerState::STROKE) );
+      if (checkHit(id1, fsm->top().getID() ) )
+        {
+          char2.receivedHits++;
+          std::cout << "nb : "<<char2.receivedHits<< std::endl;
+          char2.loseHealth(40);
+          std::cout << "health : "<<char2.currentHealth<< std::endl;
+          fsm->restartClock();
+          if (char2.receivedHits >= hitsToKo)
+            fsm->change( fsm->get(PlayerState::KO) );
+          else
+            fsm->change( fsm->get(PlayerState::STROKE) );
+        }else
+        {
+          char2.receivedHits = 0;
+        }
     }
 }
