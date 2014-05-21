@@ -12,7 +12,8 @@ CharacterPlayed::CharacterPlayed(const std::string& name,
     currentStamina( (float) stamina),
     receivedHits(0),
     KOs(0),
-    vulnerable(true)
+    vulnerable(true),
+    gainsStamina(true)
 {
 }
 
@@ -23,7 +24,8 @@ CharacterPlayed::CharacterPlayed(const CharacterPlayed& c)
     currentStamina(stamina), 
     receivedHits(0),
     KOs(0),
-    vulnerable(true)
+    vulnerable(true),
+    gainsStamina(true)
 {
 }
 
@@ -34,7 +36,8 @@ CharacterPlayed::CharacterPlayed(const Character& c)
     currentStamina((float)stamina), 
     receivedHits(0),
     KOs(0),
-    vulnerable(true)
+    vulnerable(true),
+    gainsStamina(true)
 {
 }
 

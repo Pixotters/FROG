@@ -32,7 +32,7 @@ Match::Match(AppInfo& a,
     stamina_loss(20.0f),
     health_loss(15.0f),
     stamina_gain(5.0f),
-    hitsToKo(5)
+    hitsToStun(5)
 {
   std::cout << "loading match " << std::endl;
   loadFromFile("assets/scenes/match.xml");
@@ -205,6 +205,8 @@ void Match::postupdate()
     }
   else
     {
+      //      checkStamina(char1, player1);
+      //      checkStamina(char2, player2);
       gainStamina(char1, char2);
     }
   updateGUI(time_left, char1, char2);
@@ -243,25 +245,40 @@ void Match::updateGUI(unsigned time_left,
   time_string.flush();
 }
 
+
+void Match::checkStamina(CharacterPlayed& _char, GameObject::PTR& player)
+{
+  std::cerr << "checking stamina : " << _char.currentStamina << "-" \
+            <<  stamina_gain * appInfo.deltaTime.asSeconds() \
+            << (_char.currentStamina <= 2 * stamina_gain * appInfo.deltaTime.asSeconds() ) << std::endl;
+  auto fsm = player->getComponent<PlayerMachine>("FSM");
+  if (_char.currentStamina <= stamina_gain*0.5f)
+    {
+      std::cerr << "exhausted" << std::endl;
+      fsm->restartClock();
+      fsm->change( fsm->get(PlayerState::BREATHING) );
+    }
+}
+
 void Match::gainStamina(CharacterPlayed& char1, CharacterPlayed& char2)
 {
   auto sta_gain = stamina_gain * appInfo.deltaTime.asSeconds();
-  char1.gainStamina(sta_gain);  
-  char2.gainStamina(sta_gain);
+  if (char1.gainsStamina)
+    char1.gainStamina(sta_gain);  
+  if (char2.gainsStamina)
+    char2.gainStamina(sta_gain);
 }
 
-void Match::loseStamina()
+void Match::loseStamina(CharacterPlayed& _char)
 {
-
+  _char.loseStamina(stamina_loss);
 }
 
 void Match::setControls()
 {
   auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
   auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
-  // creating state changer factories
   // setting controls for P1
-  //  ChangeState::create(fsm1, PlayerState::STAND)->execute();
   auto ctrl1 = ControlComponent::create(appInfo.eventList);
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::PUNCH_L) );
@@ -277,7 +294,6 @@ void Match::setControls()
               ChangeState::create(fsm1, PlayerState::DODGE_R) );
   player1->addComponent(ctrl1, "CONTROL");
   // setting controls for P2
-  //  ChangeState::create(fsm2, PlayerState::STAND)->execute();
   auto ctrl2 = ControlComponent::create(appInfo.eventList);
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::PUNCH_L) );
@@ -299,13 +315,28 @@ bool Match::checkHit(PlayerState::ID id1,
 {
 
   if ( id1 == PlayerState::PUNCH_L 
-       and id2 != PlayerState::DODGE_L )
+       and (id2 == PlayerState::STAND
+            or id2 == PlayerState::DODGE_R
+            or id2 == PlayerState::DODGE_M
+            or id2 == PlayerState::STUN
+            or id2 == PlayerState::BREATHING)
+       )
     return true;
   if ( id1 == PlayerState::PUNCH_M 
-       and id2 != PlayerState::DODGE_M )
+       and (id2 == PlayerState::STAND
+            or id2 == PlayerState::DODGE_L
+            or id2 == PlayerState::DODGE_R
+            or id2 == PlayerState::STUN
+            or id2 == PlayerState::BREATHING) 
+       )
     return true;
   if ( id1 == PlayerState::PUNCH_R 
-       and id2 != PlayerState::DODGE_R )
+       and (id2 == PlayerState::STAND
+            or id2 == PlayerState::DODGE_R
+            or id2 == PlayerState::DODGE_M
+            or id2 == PlayerState::STUN
+            or id2 == PlayerState::BREATHING) 
+       )
     return true;
   // if id1 is not a punch, there is not strike
   return false;
@@ -314,21 +345,20 @@ bool Match::checkHit(PlayerState::ID id1,
 void Match::tryHit(PlayerState::ID id1,
                    GameObject::PTR& o2)
 {
-  std::cerr << "hitting " << o2 << "(" << o2.get() << ")" << std::endl;
   auto& char2 = o2->getProperty<CharacterPlayed>("character");
   auto fsm = o2->getComponent<PlayerMachine>("FSM");
-  std::cout << "HIT "<< char2.vulnerable  << std::endl;
   if (char2.vulnerable)
     {
       if (checkHit(id1, fsm->top().getID() ) )
         {
           char2.receivedHits++;
-          std::cout << "nb : "<<char2.receivedHits<< std::endl;
           char2.loseHealth(40);
-          std::cout << "health : "<<char2.currentHealth<< std::endl;
           fsm->restartClock();
-          if (char2.receivedHits >= hitsToKo)
-            fsm->change( fsm->get(PlayerState::KO) );
+          if (char2.receivedHits >= hitsToStun)
+            {              
+              char2.receivedHits = 0;
+              fsm->change( fsm->get(PlayerState::STUN) );
+            }
           else
             fsm->change( fsm->get(PlayerState::STROKE) );
         }else

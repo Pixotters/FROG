@@ -22,6 +22,7 @@ public:
   unsigned short receivedHits; // number of consecutive hits taken
   unsigned short KOs;
   bool vulnerable; // if he can be stroke
+  bool gainsStamina; // if he retrieves stamina
 
 public:
   CharacterPlayed(const std::string& = "Unknown",

@@ -21,10 +21,10 @@ public:
 
 private:
   Match * match;
-  frog::Animator<std::string>::PTR anim;
   frog::GameObject::PTR& current;
   frog::GameObject::PTR& other;
   CharacterPlayed& currentCharacter;
+  frog::Animator<std::string>::PTR anim;
   std::map< PlayerState::ID, PlayerState::PTR > states;
 
 public:
