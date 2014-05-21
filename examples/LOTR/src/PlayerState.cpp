@@ -96,6 +96,12 @@ std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
   return commands;
 }
 
+std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
+                          bool > >& PlayerState::getCommands()
+{
+  return commands;
+}
+
 PlayerState::PTR PlayerState::create(ID id,
                                      const sf::Time& lifetime,
                                      Command::PTR enter, 

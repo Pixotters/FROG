@@ -22,10 +22,11 @@ void PlayerMachine::update(const ComponentHolder&)
   if (not isEmpty() )
     {
       auto time = clock.getElapsedTime();
-      auto topState = top();
+      auto& topState = top();
       // if lifetime of the state 
       if (time >= topState.getLifetime() )
         {
+          topState.resetCommands();
           restartClock();
           PlayerState * next = topState.getNext();
           if (next != nullptr)
@@ -47,13 +48,16 @@ void PlayerMachine::update(const ComponentHolder&)
         {
           topState.update();
           // checking for commands
-          auto commands = topState.getCommands();
+          auto& commands = topState.getCommands();
           for (auto& pair : commands)
             {
+              std::cout << "command : "<< pair.second << std::endl;
               // the command has not been executed yet
               if (not pair.second)
                 {
                   auto& subpair = pair.first;
+                  std::cout << "command : "<< subpair.first.asSeconds()\
+                            << " - " << subpair.second << std::endl;
                   // it is time to execute the command
                   if (time >= subpair.first)
                     {

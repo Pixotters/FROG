@@ -61,6 +61,8 @@ public:
   ID getID() const;
   std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
                           bool > > getCommands() const;
+  std::vector< std::pair< std::pair<sf::Time, frog::Command::PTR>,
+                          bool > >& getCommands();
   static PTR create(ID id,
                     const sf::Time& lifetime,
                     frog::Command::PTR enter, 
