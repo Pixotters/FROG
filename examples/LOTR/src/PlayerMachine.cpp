@@ -42,13 +42,11 @@ void PlayerMachine::update(const ComponentHolder&)
   if (not isEmpty() )
     {
       auto time = clock.getElapsedTime();
-      std::cerr << "PlayerMachine's clock : "<< time.asSeconds() << std::endl; 
       auto topState = top();
       // if lifetime of the state 
       if (time >= topState.getLifetime() )
         {
           restartClock();
-          std::cerr << "current state is over" << std::endl;
           PlayerState * next = topState.getNext();
           if (next != nullptr)
             {

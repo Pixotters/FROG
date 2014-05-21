@@ -166,17 +166,14 @@ void Match::setControls()
   player1->addComponent(fsm1, "FSM");
   auto fsm2 = PlayerMachine::create();
   player2->addComponent(fsm2, "FSM");
-
   auto factory1 = PlayerStateFactory::create(player1,
                                              mirror1,
                                              player2);
-  //  fsm1->setDefaultState( factory1->get(PlayerState::STAND) );
-
   auto factory2 = PlayerStateFactory::create(player2,
                                              mirror2,
                                              player1);
-  //fsm2->setDefaultState( factory2->get(PlayerState::STAND) );
   // setting controls for P1
+  ChangeState::create(fsm1, factory1, PlayerState::STAND)->execute();
   auto ctrl1 = ControlComponent::create(appInfo.eventList);
   ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
               ChangeState::create(fsm1, factory1, PlayerState::PUNCH_L) );
@@ -192,6 +189,7 @@ void Match::setControls()
               ChangeState::create(fsm1, factory1, PlayerState::DODGE_R) );
   player1->addComponent(ctrl1, "CONTROL");
   // setting controls for P2
+  ChangeState::create(fsm2, factory2, PlayerState::STAND)->execute();
   auto ctrl2 = ControlComponent::create(appInfo.eventList);
   ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
               ChangeState::create(fsm2, factory2, PlayerState::PUNCH_L) );
