@@ -1,4 +1,3 @@
-
 namespace frog{
 
   template <class S>
@@ -21,7 +20,7 @@ namespace frog{
   }
 
   template <class S>
-  void FSM<S>::push(PTR_S& s)
+  void FSM<S>::push(PTR_S s)
   {
     m_stack.push( PTR_S(s) );
     s->enter();
@@ -30,14 +29,16 @@ namespace frog{
   template <class S>
   void FSM<S>::change(S * s)
   {
-    pop();
+    if (not isEmpty() )
+      pop();
     push(s);
   }
 
   template <class S>
-  void FSM<S>::change(PTR_S& s)
+  void FSM<S>::change(PTR_S s)
   {
-    pop();
+    if (not isEmpty() )
+      pop();
     push(s);
   }
 

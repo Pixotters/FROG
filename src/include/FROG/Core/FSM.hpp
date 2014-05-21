@@ -23,14 +23,14 @@ namespace frog{
 
     virtual ~FSM();
 
-    void push(PTR_S& s);
+    void push(PTR_S s);
     void push(S * s); // avoid this one if not dynamically allocated
 
     void pop() throw(std::logic_error);
 
     S& top();
 
-    void change(PTR_S& s);
+    void change(PTR_S s);
     void change(S * s); // avoid this one if not dynamically allocated
   
     bool isEmpty() const;
