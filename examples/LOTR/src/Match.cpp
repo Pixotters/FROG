@@ -61,13 +61,13 @@ void Match::enter()
   time->transform->layer = 5;
   addObject(time);
   //
-  setFrames();
+  setGUI();
   setPlayers();
   setControls();
   timer.restart();
 }
 
-void Match::setFrames()
+void Match::setGUI()
 {
   auto& gui_img = defaultTextureManager.get("GUI");
   // setting up frame of gauges
@@ -101,6 +101,26 @@ void Match::setFrames()
   addObject(hr);
   addObject(sl);
   addObject(sr);
+  /// 
+  health1->transform->layer = 5;
+  health1->addComponent(Sprite::create(gui_img, sf::IntRect(0, 16, 155, 16) ), 
+                        "RENDERING");
+  health2->transform->layer = 5;
+  health2->addComponent(Sprite::create(gui_img, sf::IntRect(0, 16, 155, 16) ), 
+                        "RENDERING");
+  health2->transform->setPosition(800-155, 0);
+  addObject(health1);
+  addObject(health2);
+  stamina1->transform->layer = 5;
+  stamina1->addComponent(Sprite::create(gui_img, sf::IntRect(2, 40, 100, 6) ), 
+                        "RENDERING");
+  stamina1->transform->setPosition(2, 25);
+  stamina2->transform->layer = 5;
+  stamina2->addComponent(Sprite::create(gui_img, sf::IntRect(2, 40, 100, 6) ), 
+                        "RENDERING");
+  stamina2->transform->setPosition(800-102, 25);
+  addObject(stamina1);
+  addObject(stamina2);
  
 }
 
@@ -221,12 +241,24 @@ void Match::postupdate()
     }
   else
     {
-      player1->getProperty<CharacterPlayed>("character").gainStamina(STAMINA_GAIN*appInfo.deltaTime.asSeconds() );      
-      player2->getProperty<CharacterPlayed>("character").gainStamina(STAMINA_GAIN*appInfo.deltaTime.asSeconds() );
+      auto sta_gain = STAMINA_GAIN * appInfo.deltaTime.asSeconds();
+      player1->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);  
+      player2->getProperty<CharacterPlayed>("character").gainStamina(sta_gain);
     }
+  updateGUI();
 }
 
 void Match::updateGUI()
 {
+  auto& char1 = player1->getProperty<CharacterPlayed>("character");
+  auto& char2 = player2->getProperty<CharacterPlayed>("character");
+  auto st1_pcent = ( char1.currentStamina / (float)char1.getStamina() ) * 100;
+  stamina1->getComponent<Sprite>("RENDERING")
+    ->setClip(sf::IntRect(2, 40, st1_pcent, 6) );
+  auto st2_pcent = ( char2.currentStamina / (float)char2.getStamina() ) * 100;
+  auto st2_sprite = stamina2->getComponent<Sprite>("RENDERING");
+  st2_sprite->setClip(sf::IntRect(2, 40, st2_pcent, 6) );
+  auto dec = (int)100-(int)st2_pcent;
+  st2_sprite->setPosition(800-102+dec, 25);
   
 }
