@@ -278,6 +278,8 @@ PlayerState::PTR PlayerStateFactory::createRaising()
       float targetHealth = ((float)currentCharacter.getHealth() ) * amount;
       float step = targetHealth / 1.6f;
       match->gainHealth(currentCharacter, std::min(targetHealth, step ) );
+      if (currentCharacter.currentHealth > targetHealth)
+        currentCharacter.currentHealth = targetHealth;
     });
   auto exit = Function::create([this](){
       currentCharacter.vulnerable = true;

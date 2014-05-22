@@ -269,7 +269,7 @@ void Match::gainStamina(CharacterPlayed& char1, CharacterPlayed& char2)
 void Match::gainHealth(CharacterPlayed& char1, float amount)
 {
   auto h_gain = amount * appInfo.deltaTime.asSeconds();
-  char1.currentHealth += h_gain;  
+  char1.gainHealth(h_gain);  
 }
 
 void Match::loseStamina(CharacterPlayed& _char)

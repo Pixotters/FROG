@@ -54,7 +54,10 @@ void CharacterPlayed::loseStamina(float amount)
 
 void CharacterPlayed::gainHealth(float amount)
 {
-  currentHealth = std::min(currentStamina+amount, (float)health);
+  float maxhealth = health - 0.2f * KOs;
+  if (maxhealth <= 0)
+    maxhealth = 0.2f * health;
+  currentHealth = std::min(currentHealth+amount, maxhealth);
 }
 
 void CharacterPlayed::loseHealth(float amount)
