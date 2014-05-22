@@ -13,15 +13,16 @@ using namespace frog;
 static auto none = Function::create([](){});
 
 PlayerStateFactory::PlayerStateFactory(Match * _match,
-                                       frog::GameObject::PTR& p1, 
-                                       frog::GameObject::PTR& p2)
+                                       GameObject::PTR& p1, 
+                                       GameObject::PTR& p2, 
+                                       GameObject::PTR& m1)
   : match(_match),
     current(p1),
     other(p2),
     currentCharacter( p1->getProperty<CharacterPlayed>("character") ),
-    anim(p1->getComponent<Animator<std::string>>("RENDERING") )
+    anim(p1->getComponent<Animator<std::string>>("RENDERING") ),
+    mirror(m1->getComponent<Animator<std::string>>("RENDERING") )
 {
-  std::cout << "factory" << std::endl;
 }
 
 PlayerStateFactory::~PlayerStateFactory()
@@ -30,11 +31,11 @@ PlayerStateFactory::~PlayerStateFactory()
 
 PlayerStateFactory::PTR PlayerStateFactory::create(Match * _match, 
                                                    GameObject::PTR& p1, 
-                                                   GameObject::PTR& p2)
+                                                   GameObject::PTR& p2,
+                                                   GameObject::PTR& m1)
 {
-  return PTR( new PlayerStateFactory(_match, p1, p2) );
+  return PTR( new PlayerStateFactory(_match, p1, p2, m1) );
 }
-
 
 PlayerState::PTR PlayerStateFactory::get(PlayerState::ID id)
 {
@@ -52,7 +53,6 @@ PlayerState::PTR PlayerStateFactory::get(PlayerState::ID id)
 
 PlayerState::PTR PlayerStateFactory::createState(PlayerState::ID id)
 {
-  std::cout << "creating state "<< id << std::endl;
   PlayerState::PTR ptr;
   switch(id)
     {
@@ -108,6 +108,7 @@ PlayerState::PTR PlayerStateFactory::createStand()
   auto enter = Function::create([this](){
       currentCharacter.gainsStamina = true;
       anim->playAnimation("stand");
+      mirror->playAnimation("stand");
     });
   auto update = Function::create([this](){      
       match->checkStamina(currentCharacter, current);
@@ -123,6 +124,7 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchL");
+      mirror->playAnimation("punchL");
       currentCharacter.gainsStamina = false;
       match->loseStamina(currentCharacter);
     });
@@ -144,6 +146,7 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchM");
+      mirror->playAnimation("punchM");
       currentCharacter.gainsStamina = false;
       match->loseStamina(currentCharacter);
     });
@@ -166,6 +169,7 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("punchR");
+      mirror->playAnimation("punchR");
       currentCharacter.gainsStamina = false;
       match->loseStamina(currentCharacter);
     });
@@ -189,6 +193,7 @@ PlayerState::PTR PlayerStateFactory::createDodgeL()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeL");      
+      mirror->playAnimation("dodgeL");      
       currentCharacter.gainsStamina = false;
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_L,
@@ -202,6 +207,7 @@ PlayerState::PTR PlayerStateFactory::createDodgeM()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeM");
+      mirror->playAnimation("dodgeM");
       currentCharacter.gainsStamina = false;
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_M,
@@ -215,6 +221,7 @@ PlayerState::PTR PlayerStateFactory::createDodgeR()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("dodgeR");
+      mirror->playAnimation("dodgeR");
       currentCharacter.gainsStamina = false;
     });
   auto dodgeState = PlayerState::create(PlayerState::DODGE_R, 
@@ -230,6 +237,7 @@ PlayerState::PTR PlayerStateFactory::createStroke()
       currentCharacter.gainsStamina = true;
       currentCharacter.vulnerable = false;
       anim->playAnimation("stroke");
+      mirror->playAnimation("stroke");
     });
   auto exit = Function::create([this](){
       currentCharacter.vulnerable = true;
@@ -247,6 +255,7 @@ PlayerState::PTR PlayerStateFactory::createKO()
       currentCharacter.gainsStamina = true;      
       currentCharacter.vulnerable = false;
       anim->playAnimation("KO");
+      mirror->playAnimation("KO");
       match->makeHappy(other);
     });
   auto state = PlayerState::create(PlayerState::KO,
@@ -260,18 +269,15 @@ PlayerState::PTR PlayerStateFactory::createRaising()
 {
   auto enter = Function::create([this](){
       anim->playAnimation("raising");
+      mirror->playAnimation("raising");
     });
   auto update = Function::create([this](){
       float amount = 1.0f - (0.2f * (float)(currentCharacter.KOs) );
       if (amount <= 0.2f)
         amount = 2.0f;
       float targetHealth = ((float)currentCharacter.getHealth() ) * amount;
-      std::cout << "target amount : "<<targetHealth<<"("<<amount << std::endl;
-      std::cout << "B gaining health : " << currentCharacter.currentHealth << std::endl;
       float step = targetHealth / 1.6f;
-      std::cout << "step = " << step << std::endl;
       match->gainHealth(currentCharacter, std::min(targetHealth, step ) );
-      std::cout << "A gaining health : " << currentCharacter.currentHealth << std::endl;
     });
   auto exit = Function::create([this](){
       currentCharacter.vulnerable = true;
@@ -288,6 +294,7 @@ PlayerState::PTR PlayerStateFactory::createHappy()
   auto enter = Function::create([this](){
       currentCharacter.gainsStamina = true;
       anim->playAnimation("happy", true);
+      mirror->playAnimation("happy", true);
     });
   auto state = PlayerState::create(PlayerState::HAPPY,
                                    sf::seconds(3.1f), 
@@ -301,6 +308,7 @@ PlayerState::PTR PlayerStateFactory::createStun()
   auto enter = Function::create([this](){      
       currentCharacter.gainsStamina = true;
       anim->playAnimation("stun", true);
+      mirror->playAnimation("stun", true);
     });
   auto state = PlayerState::create(PlayerState::STUN,
                                    sf::seconds(1.6f), 
@@ -312,8 +320,8 @@ PlayerState::PTR PlayerStateFactory::createStun()
 PlayerState::PTR PlayerStateFactory::createBreathing()
 {
   auto enter = Function::create([this](){
-      std::cerr << "breathing" << std::endl;
       anim->playAnimation("breathing", true);
+      mirror->playAnimation("breathing", true);
       currentCharacter.gainsStamina = true;
     });
   auto state = PlayerState::create(PlayerState::BREATHING,

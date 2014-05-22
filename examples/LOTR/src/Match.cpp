@@ -67,8 +67,8 @@ void Match::enter()
   setGUI();
   setPlayers();
   std::cout << "creating factories" << std::endl;
-  PlayerStateFactory factory1(this, player1, player2);
-  PlayerStateFactory factory2(this, player2, player1);
+  PlayerStateFactory factory1(this, player1, player2, mirror1);
+  PlayerStateFactory factory2(this, player2, player1, mirror2);
   auto fsm1 = PlayerMachine::create(factory1);
   auto fsm2 = PlayerMachine::create(factory2);
   player1->addComponent(fsm1, "FSM");
@@ -243,7 +243,6 @@ void Match::updateGUI(unsigned time_left,
   time->getComponent<TextSprite>("RENDERING")->setText( time_string.str() );
   time_string.flush();
 }
-
 
 void Match::checkStamina(CharacterPlayed& _char, GameObject::PTR& player)
 {

@@ -25,17 +25,20 @@ private:
   frog::GameObject::PTR& other;
   CharacterPlayed& currentCharacter;
   frog::Animator<std::string>::PTR anim;
+  frog::Animator<std::string>::PTR mirror;
   std::map< PlayerState::ID, PlayerState::PTR > states;
 
 public:
   PlayerStateFactory(Match * match,
                      frog::GameObject::PTR& p1, 
-                     frog::GameObject::PTR& p2);
+                     frog::GameObject::PTR& p2,
+                     frog::GameObject::PTR& m1);
   virtual ~PlayerStateFactory();
   PlayerState::PTR get(PlayerState::ID);
   static PTR create(Match * match,
                     frog::GameObject::PTR& p1, 
-                    frog::GameObject::PTR& p2);
+                    frog::GameObject::PTR& p2, 
+                    frog::GameObject::PTR& m1);
   PlayerState::PTR createState(PlayerState::ID);
   PlayerState::PTR createStand();
   PlayerState::PTR createPunchL();
