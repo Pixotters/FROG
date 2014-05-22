@@ -1,0 +1,84 @@
+@startuml
+
+package Core{
+  class Component
+  class GameObject
+  class GameState
+}
+
+package Audio{
+  class AudioSource
+}
+
+package Control{
+  abstract class InputComponent<IN, CMD>
+  class ControlComponent
+  abstract class Command
+  class Function
+  abstract class Input
+  class KeyboardButton
+  class MouseButton
+  class JoystickButton
+  class JoystickMover
+  class MouseMover
+  class AnyKey
+  class AnyJoystickButton
+  class AnyMouseButton
+}
+
+package Collision{
+  abstract class Collider
+  abstract class CollisionManager
+  class BoxCollider
+  class RoundCollider
+  class LSAP
+  class PairManager
+}
+
+package Physics{
+  class PhysicBody
+}
+
+package Rendering{
+  class Animator<ID>
+  class RenderingComponent
+  class Sprite
+  class TextSprite
+  class Spritesheet<ID>
+  class Renderer
+  class Scene
+}
+
+AudioSource --|> Component
+
+InputComponent -up-|> Component
+ControlComponent .up.|> InputComponent : <In -> Input, CMD ->Command>
+InputComponent *-- Input
+InputComponent *-- Command                 
+Function --|> Command
+KeyboardButton -up-|> Input
+MouseButton -up-|> Input
+JoystickButton -up-|> Input
+AnyKey -up-|> Input
+AnyJoystickButton -up-|> Input
+AnyMouseButton -up-|> Input
+
+Collider -down-|> Component
+BoxCollider --|> Collider
+RoundCollider --|> Collider
+LSAP --|> CollisionManager
+PairManager --|> CollisionManager
+CollisionManager *-- GameObject
+
+PhysicBody -down-|> Component
+
+Scene --|> GameState
+RenderingComponent -down-|> Component
+Animator --|> RenderingComponent
+Animator *-- Spritesheet
+Animator *-- SFML.Texture
+Sprite --|> RenderingComponent
+TextSprite --|> RenderingComponent
+
+
+@enduml
