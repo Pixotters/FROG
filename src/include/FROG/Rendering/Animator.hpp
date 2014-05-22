@@ -46,6 +46,8 @@ namespace frog{
 
     virtual void update(const ComponentHolder& parent);
 
+    ID playedID() const;
+
     /*!
      * @brief Plays the animation identified by the given id.
      * @details If loop is set to "true", animation will be played until 

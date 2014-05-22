@@ -63,6 +63,12 @@ namespace frog{
   }
 
   template <typename ID>
+  ID Animator<ID>::playedID() const
+  {
+    return m_played;
+  }
+
+  template <typename ID>
   void Animator<ID>::playAnimation(ID id, bool loop) 
   {
     m_frameKey = 0;
