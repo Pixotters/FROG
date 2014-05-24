@@ -1,0 +1,13 @@
+<? xml version="1.0" ?>
+<SCENE>
+  <ASSETS>
+    <TEXTURES>
+      <texture filename="assets/images/gui_elements.png" ID="GUI" />
+    </TEXTURES>
+    <FONTS>
+      <font filename="assets/fonts/EHSMB.ttf" ID="TITLE_FONT" />
+      <font filename="assets/fonts/charlie_dotted.ttf" ID="MSG_FONT" />
+      <font filename="assets/fonts/scoreboard.ttf" ID="SCORE_FONT" />
+    </FONTS>
+  </ASSETS>
+</SCENE>

@@ -1,8 +1,8 @@
 #include "Player.hpp"
 
 #include "FROG/Rendering/Sprite.hpp"
-#include "FROG/Transform.hpp"
-#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Core/Transform.hpp"
+#include "FROG/Audio/AudioSource.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 
 using namespace frog;
@@ -13,7 +13,8 @@ Player::Player(const unsigned short& l)
   transform->setPosition( 400, 400 );
   transform->setOrigin( 32, 32 );
   addComponent( new AudioSource(), "AUDIO");
-  addComponent( new BoxCollider(sf::Vector2f(64, 64) ),
+  addComponent( new BoxCollider(sf::Vector2f(20, 20),
+                                sf::Vector2f(1, 4) ),
                 "COLLIDER");
 }
 

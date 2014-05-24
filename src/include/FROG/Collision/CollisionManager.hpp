@@ -1,8 +1,8 @@
-#ifndef FROG_COLLISION_MANAGER_HPP
-#define FROG_COLLISION_MANAGER_HPP 1
+#ifndef FROG_COLLISIONMANAGER_HPP
+#define FROG_COLLISIONMANAGER_HPP 1
 
 /** Interface for collision managers */
-#include "FROG/GameObject.hpp"
+#include "FROG/Core/GameObject.hpp"
 
 namespace frog{
 
@@ -14,14 +14,15 @@ namespace frog{
   
     virtual ~CollisionManager() {}
   
-    virtual void addObject(std::shared_ptr<GameObject>) = 0;
-  
-    virtual void updateObject(std::shared_ptr<GameObject>) = 0;
-  
-    virtual void removeObject(std::shared_ptr<GameObject>) = 0;
+    virtual void addObject(const GameObject::PTR&) = 0;
+    
+    virtual void removeObject(const GameObject::PTR&) = 0;
 
     virtual void update() = 0;
   
+  protected:
+    virtual void updateObject(const GameObject::PTR&) = 0;
+
   };
 
 }

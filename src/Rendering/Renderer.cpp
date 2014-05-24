@@ -1,6 +1,7 @@
 #include "FROG/Rendering/Renderer.hpp"
+#include "FROG/Core/Transform.hpp"
 
-#include "FROG/Transform.hpp"
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace frog{
 
@@ -19,9 +20,9 @@ namespace frog{
                      unsigned int h)
     : m_target(rt)  
   {
-    // TODO : get the windows size with a service locator
     m_texture.create(w, h);
-    //      m_texture.initialize();
+    camera.reset(sf::FloatRect(0, 0, w, h) );
+    updateCamera();
   }
 
   Renderer::~Renderer()
@@ -31,89 +32,67 @@ namespace frog{
 
   void Renderer::update()
   {
-    auto end = m_objects.end();
-    for(auto it = m_objects.begin(); it != end; it++)
+    for(auto& it : m_objects)
       {
-        updateObject( it->first );         
-        draw( it->second );
+        updateObject( it.first );         
+        draw( it.second );
       }      
     m_texture.display();
     m_target.draw( sf::Sprite(m_texture.getTexture() ) );
     m_texture.clear();
   }
-
-  bool Renderer::addObject(const std::shared_ptr<GameObject>& go)
-  {
-    auto insert = std::pair< std::shared_ptr<GameObject>,
-                             RenderingComponent *>(go, 
-                                                   go->getComponent<RenderingComponent>("RENDERING").get() );    
-  auto end = m_objects.end();
-  auto where = m_objects.end(); // where go should be inserted
-  bool found = false;
-  for (auto it = m_objects.begin(); it != end; it++)
-    {
-      if ( it->first == go )
-        {
-          return false;
-        }
-        
-      if ( not found && ( it->first->transform->layer > go->transform->layer ))
-        {
-          /* if we found an object whose layer is higher,
-             go should be inserted before. If there is no before,
-             then go should be the first element of the list */
-          found = true;
-          where = it;
-        }
-    }
-  if ( (where == m_objects.begin() ) 
-       or ( where == m_objects.end() and m_objects.empty() ) )
-    {
-      m_objects.push_front( insert );
-    }else if (where == m_objects.end() )
-    {
-      auto before_end = m_objects.before_begin();
-      for (auto& _ : m_objects)
-        ++ before_end;
-      m_objects.insert_after(before_end, insert);
-    }else
-    {
-      m_objects.insert_after(where, insert);
-    }
-  return true;
-}
   
-  void Renderer::removeObject(const std::shared_ptr<GameObject>& go)
+struct comparator
+  {
+    inline bool operator() (const std::pair<GameObject::PTR, RenderingComponent *>& a,
+                            const std::pair<GameObject::PTR, RenderingComponent *>& b)
+    { 
+      return (a.first->transform->layer) < (b.first->transform->layer);
+    }
+  };
+
+  bool Renderer::addObject(const GameObject::PTR& go)
+  {
+    try
+      {
+        auto insert = std::pair< GameObject::PTR, RenderingComponent *> \
+          (go, go->getComponent<RenderingComponent>("RENDERING").get() ); 
+        // checking that element is not already present
+        auto end = m_objects.end();
+        for (auto it = m_objects.begin(); it != end; it++)
+          {
+            if ( it->first == go )
+              {
+                return false;
+              }     
+          }
+        m_objects.push_back(insert);
+        // sort by layer : lower layer displayed first
+        std::sort (m_objects.begin(), m_objects.end(), comparator() );
+        return true;
+      }catch(std::logic_error e)
+      {
+        return false;
+      }
+  
+  }
+  
+  void Renderer::removeObject(const GameObject::PTR& go)
   {
     auto end = m_objects.end();
     for (auto it = m_objects.begin(); it != end; it++)
       {
         if (it->first == go)
           {
-            m_objects.remove(*it);
+            m_objects.erase(it);
+            // objects are, by construction, unique in the vector
             break;
           }
-
       }
-
   }
 
   
-  void Renderer::removeObject(GameObject * go)
-  {
-    auto end = m_objects.end();
-    for (auto it = m_objects.begin(); it != end; it++)
-      {
-        if (it->first.get() == go)
-          {
-            m_objects.remove(*it);
-            break;
-          }
-
-      }
-  }
-
-  void Renderer::updateObject(const std::shared_ptr<GameObject>& go)
+  void Renderer::updateObject(const GameObject::PTR& go)
   {
     /* TODO : check if RenderingComponent or layer changed. 
        see the best -> pointer comparison, dirty flag, observer, notifying ?
@@ -140,6 +119,11 @@ namespace frog{
     
   }
 
+  void Renderer::resizeCamera(const sf::FloatRect& zone)
+  {
+    camera.reset(zone);
+    updateCamera();
+  }
 
   Renderer::PTR Renderer::create(sf::RenderTarget& rt,
                                  unsigned int w, 

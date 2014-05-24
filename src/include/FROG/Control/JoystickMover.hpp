@@ -1,8 +1,7 @@
 #ifndef FROG_JOYSTICKMOVER_HPP
 #define FROG_JOYSTICKMOVER_HPP
 
-#include "FROG/Component.hpp"
-#include "FROG/ComponentHolder.hpp"
+#include "FROG/Core/Component.hpp"
 #include <SFML/Window/Joystick.hpp>
 #include <SFML/System/Vector2.hpp>
 

@@ -25,9 +25,9 @@ namespace frog{
                 Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual ~MouseButton();
     static PTR create(sf::Mouse::Button code,
-                                  Trigger::ButtonTrigger trigger);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     static PTR create(const sf::Event::MouseButtonEvent& e, 
-                                  Trigger::ButtonTrigger trigger);
+                      Trigger::ButtonTrigger trigger = Trigger::CONTINUOUS);
     virtual bool operator==(const sf::Event&) const;
     virtual bool operator!=(const sf::Event&) const;
     virtual bool operator==(const sf::Event::MouseButtonEvent&) const;

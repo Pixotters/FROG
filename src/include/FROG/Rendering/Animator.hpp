@@ -1,19 +1,19 @@
 #ifndef FROG_ANIMATOR_HPP
 #define FROG_ANIMATOR_HPP
 
-#include "FROG/ComponentHolder.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Animation.hpp"
 #include "FROG/Rendering/Spritesheet.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 
-#include <exception>
-#include <map>
 #include <memory>
-#include <string>
 
 namespace frog{
+
+
+  static Animation noAnim;
 
   /*!
    * Animator<ID> is the component handling Animation. The template indicates 
@@ -22,23 +22,25 @@ namespace frog{
    * An animation played by default can be provided
    */
   template <typename ID>
-  class Animator : virtual public RenderingComponent{
+  class Animator : virtual public RenderingComponent
+  {
 
   public:
-    typedef std::shared<Animator<ID>> PTR;
+    typedef std::shared_ptr<Animator<ID>> PTR;
+    sf::Time& deltaTime;
 
   protected:
     std::shared_ptr<sf::Sprite> m_sprite;
     Spritesheet<ID>& m_spritesheet;
     unsigned short m_frameKey;
-    unsigned short m_timer;
-    const Animation * m_defaultAnimation;
-    const Animation * m_played;
+    sf::Time m_timer;
+    ID m_defaultAnimation;
+    ID m_played;
     bool m_loop;
 
   public:
 
-    Animator(Spritesheet<ID>& , sf::Texture&);
+    Animator(sf::Time&, Spritesheet<ID>& , sf::Texture&);
 
     virtual ~Animator();
 
@@ -78,7 +80,7 @@ namespace frog{
      * @param id ID associated with the animation.
      * @return Previous default animation. 
      */
-    const Animation& setDefaultAnimation(ID id);
+    void setDefaultAnimation(ID id);
 
     /*!
      * @brief Sets the texture associated to the spritesheet.
@@ -92,7 +94,7 @@ namespace frog{
      */
     void changeSpritesheet(Spritesheet<ID>& sprt);
 
-    static PTR create(Spritesheet<ID>& , sf::Texture&);
+    static PTR create(sf::Time&, Spritesheet<ID>& , sf::Texture&);
 
   };
 

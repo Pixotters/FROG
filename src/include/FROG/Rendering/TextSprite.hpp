@@ -2,7 +2,6 @@
 #define FROG_TEXTSPRITE_HPP
 
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
 
 #include <SFML/Graphics/Text.hpp>
 
@@ -43,6 +42,8 @@ namespace frog{
     void setColor(const sf::Color& newcolor);
 
     void setSize(unsigned int newsize);
+
+    void centerText();
 
     static PTR create(const std::string& text, 
                       const sf::Font& font, 

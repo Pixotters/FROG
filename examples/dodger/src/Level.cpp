@@ -4,12 +4,10 @@
 #include "MovePlayer.hpp"
 
 #include "FROG/Control.hpp"
-#include "FROG/Control/JoystickMover.hpp"
-#include "FROG/Function.hpp"
-#include "FROG/Random.hpp"
+#include "FROG/Core/Random.hpp"
 #include "FROG/Collision/BoxCollider.hpp"
 #include "FROG/Collision/LSAP.hpp"
-#include "FROG/Component/AudioSource.hpp"
+#include "FROG/Audio/AudioSource.hpp"
 #include "FROG/Rendering/RenderingComponent.hpp"
 #include "FROG/Rendering/Sprite.hpp"
 #include "FROG/Physics/PhysicBody.hpp"
@@ -21,7 +19,7 @@
 using namespace frog;
 
 #define PLAYER_SPEED 512
-
+#define MAX_TARGETS 5
 
 const unsigned short TERRAIN_LAYER = 0;
 const unsigned short TARGET_LAYER = 1;
@@ -128,7 +126,7 @@ void Level::postupdate()
   updateEnemies();
   updateTargets();
   sf::Time t = appInfo.clock.getElapsedTime();
-  if( t.asSeconds() > 0.2f && m_targets.size() < 4 ){
+  if( t.asSeconds() > 0.2f && m_targets.size() < MAX_TARGETS ){
     spawnTarget();
   }
   if(t.asSeconds() > 0.4f ){
@@ -154,20 +152,20 @@ void Level::setControls(std::shared_ptr<GameObject> go, const AppInfo& appinfo)
   auto skey = KeyboardButton::create(sf::Keyboard::S);
   std::shared_ptr<ControlComponent> ctrl(new ControlComponent(appinfo.eventList));
   std::shared_ptr<Command> zoomin(new Function([this](){
-        this->m_renderer.camera.zoom(0.99f);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.zoom(0.99f);
+        this->renderer.updateCamera();
       }) ); 
   std::shared_ptr<Command> zoomout(new Function([this](){
-        this->m_renderer.camera.zoom(1.01f);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.zoom(1.01f);
+        this->renderer.updateCamera();
       }));
   std::shared_ptr<Command> rotleft(new Function([this](){
-        this->m_renderer.camera.rotate(1);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.rotate(1);
+        this->renderer.updateCamera();
       }) ); 
   std::shared_ptr<Command> rotright(new Function([this](){
-        this->m_renderer.camera.rotate(-1);
-        this->m_renderer.updateCamera();
+        this->renderer.camera.rotate(-1);
+        this->renderer.updateCamera();
       }));
   ctrl->bind(qkey, moveleft );    
   ctrl->bind(dkey, moveright );
@@ -193,13 +191,13 @@ void Level::spawnEnemy()
   r->setOutlineThickness(2);
   r->setOutlineColor(sf::Color::Black);
   e->addComponent(new RenderingComponent( r ), "RENDERING" );
-  e->addComponent(new PhysicBody(), "PHYSICS");
+  e->addComponent(new PhysicBody(appInfo.deltaTime), "PHYSICS");
   e->transform->layer = ENEMY_LAYER;
   e->transform->setPosition(Random::get(100, 700), 50);
   e->transform->setOrigin(12, 12);
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
-  phi->addVelocity(sf::Vector2f(Random::get(-2,2), Random::get(4, 5.5) ) );
-  phi->addRotation( Random::get(-20, 20) );
+  phi->addVelocity(sf::Vector2f(Random::get(-120,120), Random::get(240, 330) ) );
+  phi->addRotation( Random::get(-120, 120) );
   auto x_center = r->getLocalBounds().left + (r->getLocalBounds().width/2.0);
   auto y_center = r->getLocalBounds().top + (r->getLocalBounds().height/2.0);
   e->transform->setOrigin( sf::Vector2f(x_center, y_center) );
@@ -218,12 +216,12 @@ void Level::spawnTarget()
   e->transform->setPosition(Random::get(100, 700), Random::get(50, 550) );
   e->transform->layer = TARGET_LAYER;
   e->transform->setOrigin(32, 32);
-  e->addComponent(new PhysicBody(), "PHYSICS");
+  e->addComponent(new PhysicBody(appInfo.deltaTime), "PHYSICS");
   auto phi = e->getComponent<PhysicBody>("PHYSICS");
-  phi->addVelocity(sf::Vector2f(Random::get(-10, 10) / 10.f, 
-                                Random::get(-10, 10) / 10.f ) );  
-  phi->addGrowth( sf::Vector2f(-0.005f, -0.005f) );
-  phi->addRotation( Random::get(-20, 20) );  
+  phi->addVelocity(sf::Vector2f(Random::get(-10, 10), 
+                                Random::get(-10, 10)) );  
+  phi->addGrowth( sf::Vector2f(-0.25f, -0.25f) );
+  phi->addRotation( Random::get(-1000, 1000) );  
   e->addComponent(new BoxCollider(sf::Vector2f(64,64) ), "COLLIDER");
   e->addProperty("type", TARGET_TYPE);
   m_targets.push_back(e);
@@ -298,7 +296,7 @@ void Level::updateTargets()
 
 void Level::removeTarget(std::shared_ptr<GameObject> g)
 {
-    g->transform->setPosition(800, 600);
+    g->transform->setPosition(1600, 1200);
     /*for (auto& it : m_targets)
     {
       if (it == g)

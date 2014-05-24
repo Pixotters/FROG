@@ -1,11 +1,11 @@
 #ifndef FROG_DEMO_COLLIDERS
 #define FROG_DEMO_COLLIDERS
 
-#include <FROG/Scene.hpp>
-#include <FROG/AppInfo.hpp>
-#include <FROG/GameObject.hpp>
-#include <FROG/Command.hpp>
-#include <FROG/Transform.hpp>
+#include <FROG/Rendering/Scene.hpp>
+#include <FROG/Core/AppInfo.hpp>
+#include <FROG/Core/GameObject.hpp>
+#include <FROG/Control/Command.hpp>
+#include <FROG/Core/Transform.hpp>
 #include <FROG/Control/ControlComponent.hpp>
 #include <SFML/System/Vector2.hpp>
 

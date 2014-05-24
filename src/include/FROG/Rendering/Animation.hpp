@@ -2,10 +2,7 @@
 #define FROG_ANIMATION_HPP
 
 #include "FROG/Rendering/AnimationClip.hpp"
-#include <SFML/Graphics/Texture.hpp>
 
-#include <exception>
-#include <sstream>
 #include <vector>
 
 namespace frog{
@@ -17,7 +14,7 @@ namespace frog{
   class Animation
   {
 
-  protected:
+  public: //TODO protected
     std::vector<AnimationClip> m_clips;
   
   public:

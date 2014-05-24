@@ -1,6 +1,6 @@
 #include "FROG/Rendering/TextSprite.hpp"
-
-#include "FROG/Transform.hpp"
+#include "FROG/Core/ComponentHolder.hpp"
+#include "FROG/Core/Transform.hpp"
 
 namespace frog{
 
@@ -56,6 +56,12 @@ namespace frog{
     m_text->setPosition( t->getPosition() );
     m_text->setRotation( t->getRotation() );
     m_text->setScale( t->getScale() );
+  }
+
+  void TextSprite::centerText()
+  {
+    auto bounds = m_text->getLocalBounds();
+    m_text->setOrigin( bounds.width/2, bounds.height/2 );
   }
 
   TextSprite::PTR TextSprite::create(const std::string& text, 

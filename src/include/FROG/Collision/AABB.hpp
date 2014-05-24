@@ -4,8 +4,6 @@
 #include "FROG/Collision/Collider.hpp"
 #include "FROG/Collision/EndPoint.hpp"
 
-#include <SFML/Graphics/Rect.hpp>
-
 #include <memory>
 
 namespace frog{
@@ -21,13 +19,13 @@ namespace frog{
     EndPoint * max[2];
 
     /** Object the box is attached to */
-    std::shared_ptr<Collider> owner;
+    Collider::PTR owner;
 
     /**
      * Create the AABB corresponding to a collisionable object
      * @param c the object used to create the corresponding AABB
      */
-    AABB(std::shared_ptr<Collider> c);
+    AABB(Collider::PTR c);
 
     virtual ~AABB ();
 

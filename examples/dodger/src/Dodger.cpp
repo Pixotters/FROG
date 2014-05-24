@@ -1,7 +1,6 @@
-#include "FROG/App.hpp"
+#include "FROG/Core/App.hpp"
 
-#include "Level.hpp"
-#include "Start.hpp"
+#include "Splash.hpp"
 
 #include <iostream>
 
@@ -9,7 +8,8 @@ int main()
 {
   frog::App d("Dodger - A Sample game developed with FROG");
   std::cout << "Starting game" << std::endl;
-  Start * s = new Start(d.appInfo);
-  d.start( s );
+  Splash * s = new Splash(d.appInfo);
+  if( s->loadFromFile("assets/scenes/splash.xml") )
+    d.start( s );
   std::cout << "Game Exited without any problem" << std::endl;
 }

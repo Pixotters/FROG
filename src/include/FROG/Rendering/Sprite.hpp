@@ -2,7 +2,8 @@
 #define FROG_SPRITE_HPP
 
 #include "FROG/Rendering/RenderingComponent.hpp"
-#include "FROG/ComponentHolder.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <memory>
 
@@ -23,9 +24,12 @@ namespace frog{
   public:
 
     Sprite(const sf::Texture&);
+    Sprite(const sf::Texture&, const sf::IntRect&);
     virtual ~Sprite();
     void setTexture(const sf::Texture&);
-    PTR create(const sf::Texture&);
+    void setClip(const sf::IntRect&);
+    static PTR create(const sf::Texture&);
+    static PTR create(const sf::Texture&, const sf::IntRect&);
 
   };
 

@@ -1,7 +1,5 @@
 #include "FROG/Collision/BoxCollider.hpp"
-#include "FROG/Transform.hpp"
-
-#include <iostream> // TODO remove
+#include "FROG/Core/Transform.hpp"
 
 namespace frog{
 

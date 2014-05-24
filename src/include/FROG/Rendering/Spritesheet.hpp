@@ -34,10 +34,11 @@ namespace frog{
 
     bool loadFromFile(const std::string& file);
 
-    const Animation& getAnimation(ID id) const;
+    const Animation& getAnimation(ID id) const
+      throw(std::logic_error);
 
-    const Clip& getClip(unsigned short) const;
-
+    const Clip& getClip(unsigned short) const
+     throw(std::logic_error);
     /*!
      * @brief Add an animation associated to the given ID. 
      * @details Animation will be accessed by "getAnimation(id)".
@@ -48,7 +49,8 @@ namespace frog{
 
     /*
      * @brief Add a clip at the given index. 
-     * @details The index will be used by Animations's AnimationClip
+     * @details The index will be used by Animations's AnimationClip. 
+     * The index is supposed to be valid. 
      * @param c Clip to add.
      * @param i index at which Clip should be added.
      */
