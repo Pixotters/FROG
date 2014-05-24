@@ -2,6 +2,7 @@
 
 #include "Match.hpp"
 
+#include <FROG/Control/ControlComponent.hpp>
 #include <FROG/Control/Function.hpp>
 
 #include <algorithm>
@@ -109,9 +110,17 @@ PlayerState::PTR PlayerStateFactory::createStand()
       currentCharacter.gainsStamina = true;
       anim->playAnimation("stand");
       mirror->playAnimation("stand");
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      auto& map = current->getProperty<ControlComponent::INPUT_MAP>("input_map");
+      ctrl->changeMap(map, 0);
     });
   auto update = Function::create([this](){      
       match->checkStamina(currentCharacter, current);
+    });
+  auto exit = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
     });
   auto standState = PlayerState::create(PlayerState::STAND,
                                         sf::seconds(0.6f), 
@@ -123,6 +132,9 @@ PlayerState::PTR PlayerStateFactory::createStand()
 PlayerState::PTR PlayerStateFactory::createPunchL()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("punchL");
       mirror->playAnimation("punchL");
       currentCharacter.gainsStamina = false;
@@ -145,6 +157,9 @@ PlayerState::PTR PlayerStateFactory::createPunchL()
 PlayerState::PTR PlayerStateFactory::createPunchM()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("punchM");
       mirror->playAnimation("punchM");
       currentCharacter.gainsStamina = false;
@@ -168,6 +183,9 @@ PlayerState::PTR PlayerStateFactory::createPunchM()
 PlayerState::PTR PlayerStateFactory::createPunchR()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("punchR");
       mirror->playAnimation("punchR");
       currentCharacter.gainsStamina = false;
@@ -192,6 +210,9 @@ PlayerState::PTR PlayerStateFactory::createPunchR()
 PlayerState::PTR PlayerStateFactory::createDodgeL()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("dodgeL");      
       mirror->playAnimation("dodgeL");      
       currentCharacter.gainsStamina = false;
@@ -206,6 +227,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeL()
 PlayerState::PTR PlayerStateFactory::createDodgeM()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("dodgeM");
       mirror->playAnimation("dodgeM");
       currentCharacter.gainsStamina = false;
@@ -220,6 +244,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeM()
 PlayerState::PTR PlayerStateFactory::createDodgeR()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("dodgeR");
       mirror->playAnimation("dodgeR");
       currentCharacter.gainsStamina = false;
@@ -234,6 +261,9 @@ PlayerState::PTR PlayerStateFactory::createDodgeR()
 PlayerState::PTR PlayerStateFactory::createStroke()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       currentCharacter.gainsStamina = true;
       currentCharacter.vulnerable = false;
       anim->playAnimation("stroke");
@@ -252,6 +282,9 @@ PlayerState::PTR PlayerStateFactory::createStroke()
 PlayerState::PTR PlayerStateFactory::createKO()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       currentCharacter.gainsStamina = true;      
       currentCharacter.vulnerable = false;
       anim->playAnimation("KO");
@@ -268,6 +301,9 @@ PlayerState::PTR PlayerStateFactory::createKO()
 PlayerState::PTR PlayerStateFactory::createRaising()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("raising");
       mirror->playAnimation("raising");
     });
@@ -294,6 +330,9 @@ PlayerState::PTR PlayerStateFactory::createRaising()
 PlayerState::PTR PlayerStateFactory::createHappy()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       currentCharacter.gainsStamina = true;
       anim->playAnimation("happy", true);
       mirror->playAnimation("happy", true);
@@ -308,6 +347,9 @@ PlayerState::PTR PlayerStateFactory::createHappy()
 PlayerState::PTR PlayerStateFactory::createStun()
 {
   auto enter = Function::create([this](){      
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       currentCharacter.gainsStamina = true;
       anim->playAnimation("stun", true);
       mirror->playAnimation("stun", true);
@@ -322,6 +364,9 @@ PlayerState::PTR PlayerStateFactory::createStun()
 PlayerState::PTR PlayerStateFactory::createBreathing()
 {
   auto enter = Function::create([this](){
+      auto ctrl = current->getComponent<ControlComponent>("CONTROL");
+      ControlComponent::INPUT_MAP map;
+      ctrl->changeMap(map, 0);
       anim->playAnimation("breathing", true);
       mirror->playAnimation("breathing", true);
       currentCharacter.gainsStamina = true;

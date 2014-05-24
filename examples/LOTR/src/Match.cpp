@@ -66,6 +66,14 @@ void Match::enter()
   //
   setGUI();
   setPlayers();
+  auto ctrl1 = ControlComponent::create(appInfo.eventList);
+  auto ctrl2 = ControlComponent::create(appInfo.eventList);
+  player1->addComponent(ctrl1, "CONTROL");
+  player2->addComponent(ctrl2, "CONTROL");
+  ControlComponent::INPUT_MAP map1;
+  ControlComponent::INPUT_MAP map2;
+  player1->addProperty("input_map", map1);
+  player2->addProperty("input_map", map2);
   std::cout << "creating factories" << std::endl;
   PlayerStateFactory factory1(this, player1, player2, mirror1);
   PlayerStateFactory factory2(this, player2, player1, mirror2);
@@ -246,9 +254,6 @@ void Match::updateGUI(unsigned time_left,
 
 void Match::checkStamina(CharacterPlayed& _char, GameObject::PTR& player)
 {
-  std::cerr << "checking stamina : " << _char.currentStamina << "-" \
-            <<  stamina_gain * appInfo.deltaTime.asSeconds() \
-            << (_char.currentStamina <= 2 * stamina_gain * appInfo.deltaTime.asSeconds() ) << std::endl;
   if (_char.currentStamina <= stamina_gain*0.5f)
     {
       auto fsm = player->getComponent<PlayerMachine>("FSM");
@@ -296,36 +301,38 @@ void Match::setControls()
 {
   auto fsm1 = player1->getComponent<PlayerMachine>("FSM");
   auto fsm2 = player2->getComponent<PlayerMachine>("FSM");
+  auto& map1 = player1->getProperty<ControlComponent::INPUT_MAP>("input_map");
+  auto& map2 = player2->getProperty<ControlComponent::INPUT_MAP>("input_map");
   // setting controls for P1
-  auto ctrl1 = ControlComponent::create(appInfo.eventList);
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
+  auto ctrl1 = player1->getComponent<ControlComponent>("CONTROL");
+  map1.emplace(KeyboardButton::create(sf::Keyboard::A, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::PUNCH_L) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
+  map1.emplace(KeyboardButton::create(sf::Keyboard::Z, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::PUNCH_M) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
+  map1.emplace(KeyboardButton::create(sf::Keyboard::E, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::PUNCH_R) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
+  map1.emplace(KeyboardButton::create(sf::Keyboard::Q, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::DODGE_L) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
+  map1.emplace(KeyboardButton::create(sf::Keyboard::S, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::DODGE_M) );
-  ctrl1->bind(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
+  map1.emplace(KeyboardButton::create(sf::Keyboard::D, Trigger::PRESSED),
               ChangeState::create(fsm1, PlayerState::DODGE_R) );
-  player1->addComponent(ctrl1, "CONTROL");
+  ctrl1->changeMap(map1, 0);
   // setting controls for P2
-  auto ctrl2 = ControlComponent::create(appInfo.eventList);
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
+  auto ctrl2 = player2->getComponent<ControlComponent>("CONTROL");
+  map2.emplace(KeyboardButton::create(sf::Keyboard::I, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::PUNCH_L) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
+  map2.emplace(KeyboardButton::create(sf::Keyboard::O, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::PUNCH_M) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
+  map2.emplace(KeyboardButton::create(sf::Keyboard::P, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::PUNCH_R) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
+  map2.emplace(KeyboardButton::create(sf::Keyboard::K, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::DODGE_L) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
+  map2.emplace(KeyboardButton::create(sf::Keyboard::L, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::DODGE_M) );
-  ctrl2->bind(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
+  map2.emplace(KeyboardButton::create(sf::Keyboard::M, Trigger::PRESSED),
               ChangeState::create(fsm2, PlayerState::DODGE_R) );
-  player2->addComponent(ctrl2, "CONTROL");
+  ctrl2->changeMap(map2, 0);
 }
 
 bool Match::checkHit(PlayerState::ID id1,
