@@ -29,9 +29,9 @@ Match::Match(AppInfo& a,
     health2(new GameObject() ),
     stamina2(new GameObject() ),
     time(new GameObject() ),
-    stamina_loss(20.0f),
-    health_loss(15.0f),
-    stamina_gain(5.0f),
+    stamina_loss(10.0f),
+    health_loss(10.0f),
+    stamina_gain(7.0f),
     hitsToStun(5)
 {
   std::cout << "loading match " << std::endl;
@@ -207,9 +207,10 @@ void Match::postupdate()
   static auto& char1 = player1->getProperty<CharacterPlayed>("character");
   static auto& char2 = player2->getProperty<CharacterPlayed>("character");  
   unsigned time_left = matchInfo.timePerRound-timer.getElapsedTime().asSeconds();
-  if (time_left <= 0)
+  if (time_left <= 0 or char1.KOs >= 5 or char2.KOs >= 5)
     {
       // TODO next round
+      endRound();
     }
   else
     {
@@ -378,6 +379,8 @@ void Match::tryHit(PlayerState::ID id1,
         {
           char2.receivedHits++;
           loseHealth(char2);
+          if (id1 == PlayerState::PUNCH_M)
+            loseHealth(char2);
           fsm->restartClock();
           if ( isKO(char2) )
             {
@@ -406,4 +409,9 @@ void Match::makeHappy(frog::GameObject::PTR pl)
   auto fsm = pl->getComponent<PlayerMachine>("FSM");
   fsm->restartClock();
   fsm->change( fsm->get(PlayerState::HAPPY) );
+}
+
+void Match::endRound()
+{
+  appInfo.stateManager.pop();
 }

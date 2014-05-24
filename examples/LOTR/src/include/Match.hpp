@@ -54,9 +54,7 @@ public:
   void tryHit(PlayerState::ID id1,
               frog::GameObject::PTR& o2);
   void makeHappy(frog::GameObject::PTR);
-  bool isTKO(CharacterPlayed& _char);
-  void checkEnd();
-
+  void endRound();
 
 };
 
