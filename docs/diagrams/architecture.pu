@@ -1,27 +1,27 @@
 @startuml
 
-App *-- StateManager
-StateManager o-- State
-State <|-- Scene
-Scene *-- SceneGraph
-SceneGraph o-- GameObject
-GameObject o-- Component
+package Core <<Rect>> {
+}
 
-Scene *-- Renderer
-Scene *-- PhysicEngine
-Scene *-- CollisionEngine
+package Control <<Rect>> {
+}
 
-App *-- Config
-Action .. State
-Controller --* State
-Controller o-- Action
+package Collision <<Rect>> {
+}
 
-Component <|-- RenderingComponent
-RenderingComponent .. Renderer
-Component <|-- PhysicsComponent
-PhysicsComponent .. PhysicEngine
-Component <|-- ColliderComponent
-ColliderComponent .. CollisionEngine
+package Audio <<Rect>> {
+}
 
+package Rendering <<Rect>> {
+}
+
+package Physics <<Rect>> {
+}
+
+Core <.up. Control
+Collision .left.> Core
+Core <.. Audio
+Core <.right. Rendering
+Core <.down. Physics 
 
 @enduml

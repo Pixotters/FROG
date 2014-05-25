@@ -1,0 +1,34 @@
+@startuml
+
+package Core <<Rect>> {
+class App
+class AppInfo
+abstract class Component
+class ComponentHolder<Type>
+class Config
+class FSM<State>
+class GameObject
+class GameState
+class PropertiesHolder<Type>
+abstract class State
+class StateManager
+class Transform
+App *-- AppInfo
+App *-- Config
+App *-left- StateManager
+ComponentHolder *-- Component
+Component *-- ComponentHolder
+StateManager -up-|> FSM
+StateManager *-- State
+GameState -up-|> State
+GameState *-- GameObject
+GameObject -up-|> ComponentHolder
+GameObject -up-|> PropertiesHolder
+GameObject *-- Transform
+class AssetManager<ID, Asset>
+class Debug
+class Random
+
+}
+
+@enduml
