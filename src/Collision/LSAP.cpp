@@ -1,3 +1,25 @@
+/**
+   Copyright (C) 2014 Nicolas Cailloux, Julien Sagot
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+   THE SOFTWARE.
+**/
+
 #include <map>
 #include <climits>
 #include <memory>
@@ -8,7 +30,7 @@ namespace frog
 {
 
   LSAP::LSAP () 
-  : CollisionManager() 
+    : CollisionManager() 
   {
     /* not sure about the true/false values */
     xAxis = new EndPoint(NULL, INT_MIN, true, NULL, NULL);
@@ -24,9 +46,9 @@ namespace frog
     for (auto& couple : m_objects)
       {
         if (couple.second != nullptr)
-        {
-          delete couple.second;
-        }
+          {
+            delete couple.second;
+          }
       }
 
     m_objects.clear();
@@ -106,21 +128,21 @@ namespace frog
   bool LSAP::collisionCheck(const AABB & b1, const AABB & b2)
   {
     return partialCollisionCheck (b1, b2, 0)
-            and partialCollisionCheck (b1, b2, 1);
+      and partialCollisionCheck (b1, b2, 1);
   }
 
   void LSAP::updateAxis(EndPoint * min, EndPoint * max)
   {
 
-  /*
-   * succ: function for getting the next EndPoint form another one
-   * loop_cond: condition for loop break testing
-   * swap_fun: function to swap two EndPoints with necessary operations
-   * doCollide: function to tell if two objects which were not colliding
-   *            are colliding now.
-   * doSeparate: function to tell if two objects which were colliding
-   *             are not colliding anymore.
-   */
+    /*
+     * succ: function for getting the next EndPoint form another one
+     * loop_cond: condition for loop break testing
+     * swap_fun: function to swap two EndPoints with necessary operations
+     * doCollide: function to tell if two objects which were not colliding
+     *            are colliding now.
+     * doSeparate: function to tell if two objects which were colliding
+     *             are not colliding anymore.
+     */
 
     auto update =
       [this]
@@ -135,30 +157,30 @@ namespace frog
         EndPoint * tmp = succ(pt);
 
         if (!loop_cond(pt, tmp))
-        {
-          return false;
-        }
+          {
+            return false;
+          }
 
         do
-        {
-          swap_fun(pt, tmp);
-          if (doCollide(pt, tmp))
           {
-            if (this->collisionCheck(*(pt->owner), *(tmp->owner)))
-            {
-              sendCollision(pt->owner, tmp->owner, Collision::COLLISION);
-            }
+            swap_fun(pt, tmp);
+            if (doCollide(pt, tmp))
+              {
+                if (this->collisionCheck(*(pt->owner), *(tmp->owner)))
+                  {
+                    sendCollision(pt->owner, tmp->owner, Collision::COLLISION);
+                  }
+              }
+            else if (doSeparate(pt, tmp))
+              {
+                sendCollision(pt->owner, tmp->owner, Collision::SEPARATION);
+              }
+            tmp = succ(pt);
           }
-          else if (doSeparate(pt, tmp))
-          {
-            sendCollision(pt->owner, tmp->owner, Collision::SEPARATION);
-          }
-          tmp = succ(pt);
-        }
         while (loop_cond(pt, tmp));
 
-      return true;
-    };
+        return true;
+      };
 
     /* No collision detected on equality (<=/>=). */
 
@@ -172,13 +194,13 @@ namespace frog
     auto prev_cond = [](EndPoint * pt, EndPoint * succ)
       { 
         if (pt != nullptr and succ != nullptr)
-        {
-          return pt->value < succ->value;
-        }
+          {
+            return pt->value < succ->value;
+          }
         else
-        {
-          return false;
-        } 
+          {
+            return false;
+          } 
       };
 
     auto prev_swap = [this](EndPoint * pt, EndPoint * succ)
@@ -206,13 +228,13 @@ namespace frog
     auto next_cond = [](EndPoint * pt, EndPoint * succ)
       {
         if (pt != nullptr and succ != nullptr)
-        {
-          return pt->value > succ->value;
-        }
+          {
+            return pt->value > succ->value;
+          }
         else
-        {
-          return false;
-        }
+          {
+            return false;
+          }
       };
 
     auto next_swap = [this](EndPoint * pt, EndPoint * succ)
@@ -255,16 +277,16 @@ namespace frog
   {
     std::shared_ptr<GameObject> g1, g2;
     for (auto it: m_objects)
-    {
-      if (it.second == a1)
       {
-        g1 = it.first;
-      }        
-      if (it.second == a2)
-      {
-        g2 = it.first;
+        if (it.second == a1)
+          {
+            g1 = it.first;
+          }        
+        if (it.second == a2)
+          {
+            g2 = it.first;
+          }
       }
-    }
     if (g1.get() != nullptr and g2.get() != nullptr
         and a1 != nullptr)
       {
