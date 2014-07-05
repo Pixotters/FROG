@@ -4,13 +4,13 @@
     <TEXTURES>
       <texture filename="assets/images/frog.png" ID="FROG_TEXTURE" />
       <texture filename="assets/images/donut.png" ID="BONUS_TEXTURE" />
-      <texture filename="assets/images/kitchen.png" ID="TERRAIN_TEXTURE" />
+      <texture filename="assets/images/background.png" ID="TERRAIN_TEXTURE" />
     </TEXTURES>
     <SOUNDS>
       <sound filename="assets/sounds/bite1.ogg" ID="BITE_1" />
       <sound filename="assets/sounds/bite2.ogg" ID="BITE_2" />
       <sound filename="assets/sounds/punch.wav" ID="PUNCH" />
-      <sound filename="assets/musics/Canal_Street_Blues.ogg" ID="MUSIC" />
+      <sound filename="assets/musics/Maple_Leaf.ogg" ID="MUSIC" />
     </SOUNDS>
     <FONTS>
       <font filename="assets/fonts/Hyperspace_Bold.ttf" ID="GUI_FONT" />
@@ -21,3 +21,4 @@
     <object filename="enemy.xml" x="random[0,800]" y="-60" initscript="enemyspawner.script" />
   </OBJECTS>
 </SCENE>
+
