@@ -20,7 +20,7 @@
    THE SOFTWARE.
 **/
 
-#include "FROG/XML/tinyxml2.hpp"
+#include "FROG/XML.hpp"
 #include "FROG/Core/Debug.hpp"
 
 #include <sstream>
