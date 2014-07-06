@@ -44,8 +44,8 @@ $ make install
 FROG is based on Scenes. A Scene is composed by GameObjects that can be 
 customised by adding Component. Several components are already provided, 
 such as graphics, physics... 
-You can learn more thanks to the [ http://www.pixotters.org/frog/ | tutorials] 
-and the [ http://pixotters.org/frog/api/html/ | online API ].
+You can learn more thanks to the [tutorials](http://www.pixotters.org/frog/) 
+and the [online API](http://pixotters.org/frog/api/html/).
 
 ## MIT License 
 
