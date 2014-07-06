@@ -1,6 +1,7 @@
 # FROG
 
-For Really Outstanding Games, a C++ framework for game development.  
+For Really Outstanding Games, a C++ framework for game development, based on 
+Laurent Gomila's [SFML](http://www.sfml-dev.org).  
 FROG is **free**, open-source, and **easy to use**. 
 
 ## Overview
